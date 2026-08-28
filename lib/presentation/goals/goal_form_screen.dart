@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
@@ -91,13 +92,13 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
   @override
   Widget build(BuildContext context) {
     final currency = ref.watch(currencyProvider);
-    final deadlineText = _deadline == null
-        ? 'Без дедлайна'
-        : DateFormat('d MMMM yyyy', 'ru_RU').format(_deadline!);
+    final l10n = context.l10n;
+    final deadlineText =
+        _deadline == null ? l10n.goalFormNoDeadline : formatFullDate(_deadline!, context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Изменить цель' : 'Новая цель'),
+        title: Text(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
@@ -111,11 +112,11 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               controller: _titleController,
               autofocus: !_isEditing,
               style: context.text.title.copyWith(color: context.colors.textPrimary),
-              decoration: const InputDecoration(hintText: 'Название цели, например «ПК»'),
+              decoration: InputDecoration(hintText: l10n.goalFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 24),
-            Text('Целевая сумма', style: context.text.label),
+            Text(l10n.goalFormTargetLabel, style: context.text.label),
             const SizedBox(height: 8),
             TextField(
               controller: _targetController,
@@ -126,7 +127,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             const SizedBox(height: 24),
-            Text('Дедлайн', style: context.text.label),
+            Text(l10n.goalFormDeadlineLabel, style: context.text.label),
             const SizedBox(height: 8),
             InkWell(
               onTap: _pickDeadline,
@@ -154,7 +155,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            Text('Цвет', style: context.text.label),
+            Text(l10n.commonColor, style: context.text.label),
             const SizedBox(height: 8),
             Wrap(
               spacing: 12,
@@ -185,7 +186,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? 'Сохранить' : 'Создать'),
+                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
               ),
             ),
           ],

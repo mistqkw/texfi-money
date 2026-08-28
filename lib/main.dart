@@ -5,14 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_motion.dart';
 import 'core/theme/app_theme.dart';
+import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
 import 'presentation/settings/font_provider.dart';
+import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/root_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ru_RU');
+  await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   runApp(
     ProviderScope(
@@ -29,12 +31,16 @@ class TexFiMoneyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final variant = ref.watch(themeVariantProvider);
     final font = ref.watch(fontProvider);
+    final locale = ref.watch(localeProvider);
 
     return MaterialApp(
       title: 'TexFi m0ney',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.build(variant: variant, font: font),
       themeAnimationDuration: AppMotion.normal,
+      locale: locale,
+      supportedLocales: supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       home: const RootShell(),
     );
   }

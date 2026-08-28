@@ -27,7 +27,7 @@ class AnimatedAmount extends ConsumerWidget {
       duration: AppMotion.slow,
       curve: AppMotion.standard,
       builder: (context, animatedValue, child) {
-        return Text(formatAmount(animatedValue, currency), style: style, textAlign: textAlign);
+        return Text(formatAmount(animatedValue, currency, context), style: style, textAlign: textAlign);
       },
     );
   }

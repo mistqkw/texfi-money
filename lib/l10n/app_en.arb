@@ -1,0 +1,162 @@
+{
+  "@@locale": "en",
+
+  "navHome": "Home",
+  "navHistory": "History",
+  "navBudgets": "Budgets",
+  "navGoals": "Goals",
+  "navStatistics": "Statistics",
+
+  "dateToday": "Today",
+  "dateYesterday": "Yesterday",
+
+  "commonCancel": "Cancel",
+  "commonDelete": "Delete",
+  "commonSave": "Save",
+  "commonCreate": "Create",
+  "commonAdd": "Add",
+  "commonExpense": "Expense",
+  "commonIncome": "Income",
+  "commonCategory": "Category",
+  "commonColor": "Color",
+
+  "categoryGroceries": "Groceries",
+  "categoryTransport": "Transport",
+  "categoryHome": "Housing",
+  "categoryRestaurant": "Cafes & restaurants",
+  "categoryEntertainment": "Entertainment",
+  "categoryHealth": "Health",
+  "categoryClothes": "Clothes",
+  "categoryBills": "Bills",
+  "categoryOtherExpense": "Other",
+  "categorySalary": "Salary",
+  "categoryFreelance": "Freelance",
+  "categoryGifts": "Gifts",
+  "categoryInvestments": "Investments",
+  "categoryOtherIncome": "Other",
+
+  "categoryDeleteHasTransactionsError": "Can't delete a category that has transactions",
+
+  "currencyRub": "Russian ruble",
+  "currencyUsd": "US dollar",
+  "currencyEur": "Euro",
+  "currencyUah": "Ukrainian hryvnia",
+  "currencyPln": "Polish zloty",
+  "currencyByn": "Belarusian ruble",
+  "currencyKzt": "Kazakhstani tenge",
+  "currencyGbp": "British pound",
+  "currencyCny": "Chinese yuan",
+  "currencyTry": "Turkish lira",
+
+  "appTitle": "TexFi m0ney",
+  "homeCurrencyTooltip": "Currency: {name}",
+  "@homeCurrencyTooltip": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "homeCategoriesTooltip": "Categories",
+  "homeSettingsTooltip": "Settings",
+  "homeIncomeThisMonth": "Income this month",
+  "homeExpenseThisMonth": "Expense this month",
+  "homeRecentTransactions": "Recent transactions",
+  "homeEmptyTransactions": "No transactions yet — add your first with the “+” button",
+  "homeLoadTransactionsError": "Couldn't load transactions",
+  "homeBalance": "Balance",
+
+  "addTxTitle": "New transaction",
+  "addTxLoadCategoriesError": "Couldn't load categories",
+  "addTxNoteHint": "Note (optional)",
+  "addTxAddCategory": "Custom category",
+
+  "budgetsTitle": "Budgets",
+  "budgetsEmpty": "No budgets yet — set a monthly limit for a category with the “+” button",
+  "budgetsLoadError": "Couldn't load budgets",
+  "budgetsOverBy": "Over by {amount}",
+  "@budgetsOverBy": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "budgetsNearLimit": "Approaching the limit",
+
+  "setBudgetTitleEdit": "Edit budget",
+  "setBudgetTitleNew": "New budget",
+  "setBudgetLimitLabel": "Monthly limit",
+  "setBudgetNoCategoriesLeft": "All expense categories already have a budget",
+  "setBudgetLoadCategoriesError": "Couldn't load categories",
+
+  "categoriesDeleteTitle": "Delete category?",
+  "categoriesDeleteConfirm": "Category “{name}” will be deleted permanently.",
+  "@categoriesDeleteConfirm": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "categoriesTitle": "Categories",
+  "categoriesExpenseSection": "Expenses",
+  "categoriesIncomeSection": "Income",
+  "categoriesLoadError": "Couldn't load categories",
+
+  "categoryFormTitleNew": "New category",
+  "categoryFormTitleEdit": "Edit category",
+  "categoryFormNameHint": "Category name",
+  "categoryFormIconLabel": "Icon",
+
+  "goalFormNoDeadline": "No deadline",
+  "goalFormTitleEdit": "Edit goal",
+  "goalFormTitleNew": "New goal",
+  "goalFormNameHint": "Goal name, e.g. “New PC”",
+  "goalFormTargetLabel": "Target amount",
+  "goalFormDeadlineLabel": "Deadline",
+
+  "goalsAddFundsTitle": "Add to “{title}”",
+  "@goalsAddFundsTitle": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "goalsDeleteTitle": "Delete goal?",
+  "goalsDeleteConfirm": "Goal “{title}” and its saved progress will be deleted.",
+  "@goalsDeleteConfirm": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "goalsTitle": "Savings goals",
+  "goalsEmpty": "No goals yet — create your first with the “+” button",
+  "goalsLoadError": "Couldn't load goals",
+  "goalsProgressOf": "{current} of {target}",
+  "@goalsProgressOf": {
+    "placeholders": {
+      "current": { "type": "String" },
+      "target": { "type": "String" }
+    }
+  },
+  "goalsAchieved": "Goal achieved!",
+  "goalsDeadlinePassed": "Deadline passed",
+  "goalsDaysLeft": "{days, plural, one {{days} day left} other {{days} days left}}",
+  "@goalsDaysLeft": {
+    "placeholders": { "days": { "type": "num" } }
+  },
+
+  "historyAllTypes": "All types",
+  "historyAllCategories": "All categories",
+  "historyTitle": "History",
+  "historyTypeFilterLabel": "Type",
+  "historyCategoryFilterLabel": "Category",
+  "historyPeriodFilterLabel": "Period",
+  "historyReset": "Reset",
+  "historyEmpty": "Nothing found",
+  "historyLoadError": "Couldn't load history",
+
+  "settingsTitle": "Settings",
+  "settingsThemeSection": "Theme",
+  "settingsFontSection": "Font",
+  "settingsCurrencySection": "Currency",
+  "settingsLanguageSection": "Language",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "themeOled": "Black (OLED)",
+  "fontSystem": "System",
+  "languageSystem": "System",
+
+  "currencyPickerTitle": "Currency",
+  "languagePickerTitle": "Language",
+
+  "statisticsTitle": "Statistics",
+  "statisticsMonthlyChartTitle": "Income and expense by month",
+  "statisticsLoadError": "Couldn't load data",
+  "statisticsCategoryChartTitle": "Expenses by category this month",
+  "statisticsNoExpenses": "No expenses this month"
+}

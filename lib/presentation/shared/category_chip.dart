@@ -6,6 +6,7 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../domain/entities/category_entity.dart';
 import 'category_avatar.dart';
+import 'l10n_helpers.dart';
 
 /// Выбираемый чип категории: иконка + название, подсвечивается цветом категории.
 class CategorySelectChip extends StatelessWidget {
@@ -40,7 +41,7 @@ class CategorySelectChip extends StatelessWidget {
           children: [
             CategoryAvatar(category: category, size: 28),
             const SizedBox(width: 8),
-            Text(category.name, style: context.text.title),
+            Text(categoryDisplayName(context, category), style: context.text.title),
           ],
         ),
       ),

@@ -1,6 +1,9 @@
 import '../entities/category_entity.dart';
 import '../entities/transaction_type.dart';
 
+/// Категорию нельзя удалить, пока на неё ссылаются транзакции.
+class CategoryInUseException implements Exception {}
+
 abstract class CategoryRepository {
   Stream<List<CategoryEntity>> watchAll();
   Stream<List<CategoryEntity>> watchByType(TransactionType type);

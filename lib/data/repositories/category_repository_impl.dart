@@ -82,7 +82,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
           ..limit(1))
         .getSingleOrNull();
     if (inUse != null) {
-      throw StateError('Нельзя удалить категорию, у которой есть транзакции');
+      throw CategoryInUseException();
     }
 
     await (_db.delete(_db.budgets)..where((t) => t.categoryId.equals(id))).go();

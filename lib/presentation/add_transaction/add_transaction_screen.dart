@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
@@ -93,9 +94,11 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoriesByTypeProvider(_type));
 
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Новая транзакция'),
+        title: Text(l10n.addTxTitle),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(false),
@@ -109,7 +112,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             const SizedBox(height: 24),
             _AmountField(controller: _amountController, onChanged: () => setState(() {})),
             const SizedBox(height: 24),
-            Text('Категория', style: context.text.label),
+            Text(l10n.commonCategory, style: context.text.label),
             const SizedBox(height: 8),
             categoriesAsync.when(
               data: (categories) => _CategoryGrid(
@@ -122,7 +125,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, st) => Text('Не удалось загрузить категории', style: context.text.body),
+              error: (e, st) => Text(l10n.addTxLoadCategoriesError, style: context.text.body),
             ),
             const SizedBox(height: 24),
             _DateRow(date: _date, onTap: _pickDate),
@@ -130,7 +133,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             TextField(
               controller: _noteController,
               style: context.text.body.copyWith(color: context.colors.textPrimary),
-              decoration: const InputDecoration(hintText: 'Заметка (необязательно)'),
+              decoration: InputDecoration(hintText: l10n.addTxNoteHint),
             ),
             const SizedBox(height: 32),
             SizedBox(
@@ -143,7 +146,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                         width: 20,
                         child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                       )
-                    : const Text('Сохранить'),
+                    : Text(l10n.commonSave),
               )
                   .animate(key: ValueKey(_bounceTrigger))
                   .scaleXY(end: 1.06, duration: 80.ms, curve: Curves.easeOut)
@@ -173,8 +176,8 @@ class _TypeToggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _segment(context, TransactionType.expense, 'Расход'),
-          _segment(context, TransactionType.income, 'Доход'),
+          _segment(context, TransactionType.expense, context.l10n.commonExpense),
+          _segment(context, TransactionType.income, context.l10n.commonIncome),
         ],
       ),
     );
@@ -275,7 +278,7 @@ class _CategoryGrid extends StatelessWidget {
               children: [
                 Icon(Icons.add, size: 20, color: context.colors.textSecondary),
                 const SizedBox(width: 6),
-                Text('Своя категория', style: context.text.title),
+                Text(context.l10n.addTxAddCategory, style: context.text.title),
               ],
             ),
           ),
@@ -306,7 +309,7 @@ class _DateRow extends StatelessWidget {
           children: [
             Icon(Icons.calendar_today_outlined, size: 20, color: context.colors.textSecondary),
             const SizedBox(width: 12),
-            Expanded(child: Text(formatDate(date), style: context.text.title)),
+            Expanded(child: Text(formatDate(date, context), style: context.text.title)),
             Icon(Icons.chevron_right, color: context.colors.textTertiary),
           ],
         ),
