@@ -45,6 +45,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonAdd => 'Добавить';
 
   @override
+  String get commonOk => 'ОК';
+
+  @override
   String get commonExpense => 'Расход';
 
   @override
@@ -434,6 +437,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsManageSection => 'Управление';
+
+  @override
+  String get settingsBackupSection => 'Резервная копия';
+
+  @override
+  String get backupExport => 'Экспортировать данные';
+
+  @override
+  String get backupImport => 'Импортировать данные';
+
+  @override
+  String get backupImportConfirmTitle => 'Заменить все данные?';
+
+  @override
+  String get backupImportConfirmBody =>
+      'Импорт бэкапа заменит всё, что сейчас есть на устройстве — транзакции, категории, счета, профили, бюджеты и цели. Это нельзя отменить.';
+
+  @override
+  String get backupImportConfirmAction => 'Заменить';
+
+  @override
+  String get backupImportSuccess => 'Данные восстановлены из бэкапа';
+
+  @override
+  String get backupImportError =>
+      'Этот файл не является корректным бэкапом TexFi m0ney';
 
   @override
   String get themeDark => 'Тёмная';

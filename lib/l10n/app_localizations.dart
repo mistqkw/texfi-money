@@ -174,6 +174,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get commonAdd;
 
+  /// No description provided for @commonOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get commonOk;
+
   /// No description provided for @commonExpense.
   ///
   /// In en, this message translates to:
@@ -881,6 +887,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage'**
   String get settingsManageSection;
+
+  /// No description provided for @settingsBackupSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get settingsBackupSection;
+
+  /// No description provided for @backupExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get backupExport;
+
+  /// No description provided for @backupImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data'**
+  String get backupImport;
+
+  /// No description provided for @backupImportConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all data?'**
+  String get backupImportConfirmTitle;
+
+  /// No description provided for @backupImportConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing a backup replaces everything currently on this device — transactions, categories, accounts, profiles, budgets and goals. This can\'t be undone.'**
+  String get backupImportConfirmBody;
+
+  /// No description provided for @backupImportConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get backupImportConfirmAction;
+
+  /// No description provided for @backupImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restored from backup'**
+  String get backupImportSuccess;
+
+  /// No description provided for @backupImportError.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t a valid TexFi m0ney backup'**
+  String get backupImportError;
 
   /// No description provided for @themeDark.
   ///

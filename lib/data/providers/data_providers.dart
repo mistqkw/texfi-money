@@ -6,6 +6,7 @@ import '../../domain/repositories/category_repository.dart';
 import '../../domain/repositories/debt_profile_repository.dart';
 import '../../domain/repositories/savings_goal_repository.dart';
 import '../../domain/repositories/transaction_repository.dart';
+import '../local/backup_service.dart';
 import '../local/database.dart';
 import '../repositories/account_repository_impl.dart';
 import '../repositories/budget_repository_impl.dart';
@@ -52,4 +53,8 @@ final accountRepositoryProvider = Provider<AccountRepository>((ref) {
 
 final debtProfileRepositoryProvider = Provider<DebtProfileRepository>((ref) {
   return DebtProfileRepositoryImpl(ref.watch(databaseProvider));
+});
+
+final backupServiceProvider = Provider<BackupService>((ref) {
+  return BackupService(ref.watch(databaseProvider));
 });

@@ -45,6 +45,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get commonAdd => 'Dodaj';
 
   @override
+  String get commonOk => 'OK';
+
+  @override
   String get commonExpense => 'Wydatek';
 
   @override
@@ -434,6 +437,32 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get settingsManageSection => 'Zarządzanie';
+
+  @override
+  String get settingsBackupSection => 'Kopia zapasowa';
+
+  @override
+  String get backupExport => 'Eksportuj dane';
+
+  @override
+  String get backupImport => 'Importuj dane';
+
+  @override
+  String get backupImportConfirmTitle => 'Zastąpić wszystkie dane?';
+
+  @override
+  String get backupImportConfirmBody =>
+      'Import kopii zapasowej zastąpi wszystko, co jest obecnie na urządzeniu — transakcje, kategorie, konta, profile, budżety i cele. Tego nie można cofnąć.';
+
+  @override
+  String get backupImportConfirmAction => 'Zastąp';
+
+  @override
+  String get backupImportSuccess => 'Dane przywrócone z kopii zapasowej';
+
+  @override
+  String get backupImportError =>
+      'Ten plik nie jest prawidłową kopią zapasową TexFi m0ney';
 
   @override
   String get themeDark => 'Ciemny';

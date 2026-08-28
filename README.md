@@ -37,6 +37,7 @@
 - 📈 **Statistics** — income/expense by month, expense breakdown by category (pie chart)
 - 🔎 **History** — full transaction list, filterable by type, category and date range
 - 💱 **Multi-currency display** — RUB, USD, EUR, UAH, PLN and more, switch anytime
+- 💾 **Backup & restore** — export everything to a JSON file (share it anywhere) and import it back on any device — the only safety net for an offline-only app
 - 🌍 **Languages** — English, Русский, Polski, Українська, follows the system by default
 - 🎨 **Themes & fonts** — Dark, Light, pure-black OLED; Inter, Roboto, Manrope or system font
 - 👋 **Guided first run** — animated onboarding walks through the app, then lets you pick your currency and theme with a live preview
