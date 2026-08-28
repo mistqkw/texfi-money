@@ -12,6 +12,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
+import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
 
@@ -156,79 +157,73 @@ class _GoalCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
-    return InkWell(
-      borderRadius: AppRadius.mediumAll,
+    return TerminalBox(
+      label: goal.title.toLowerCase(),
+      labelColor: goal.isCompleted ? context.colors.income : goal.color,
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.colors.surface,
-          borderRadius: AppRadius.mediumAll,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: goal.color.withValues(alpha: 0.16),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    goal.isCompleted ? Icons.check_circle_outline : Icons.savings_outlined,
-                    color: goal.color,
-                    size: 18,
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: goal.color.withValues(alpha: 0.16),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(width: 12),
-                Expanded(child: Text(goal.title, style: context.text.title)),
-                IconButton(
-                  icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
-                  onPressed: onAddFunds,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              l10n.goalsProgressOf(
-                formatAmount(goal.currentAmount, currency, context),
-                formatAmount(goal.targetAmount, currency, context),
-              ),
-              style: context.text.caption,
-            ),
-            const SizedBox(height: 12),
-            AnimatedProgressBar(
-              progress: goal.progress,
-              color: goal.isCompleted ? context.colors.income : goal.color,
-            ),
-            if (goal.deadline != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                goal.isCompleted
-                    ? l10n.goalsAchieved
-                    : (goal.daysLeft != null && goal.daysLeft! < 0)
-                        ? l10n.goalsDeadlinePassed
-                        : l10n.goalsDaysLeft(goal.daysLeft ?? 0),
-                style: context.text.caption.copyWith(
-                  color: goal.isCompleted
-                      ? context.colors.income
-                      : (goal.daysLeft != null && goal.daysLeft! < 0)
-                          ? context.colors.expense
-                          : context.colors.textTertiary,
+                child: Icon(
+                  goal.isCompleted ? Icons.check_circle_outline : Icons.savings_outlined,
+                  color: goal.color,
+                  size: 18,
                 ),
               ),
-            ] else if (goal.isCompleted) ...[
-              const SizedBox(height: 8),
-              Text(
-                l10n.goalsAchieved,
-                style: context.text.caption.copyWith(color: context.colors.income),
+              const SizedBox(width: 12),
+              Expanded(child: Text(goal.title, style: context.text.title)),
+              IconButton(
+                icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
+                onPressed: onAddFunds,
               ),
             ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            l10n.goalsProgressOf(
+              formatAmount(goal.currentAmount, currency, context),
+              formatAmount(goal.targetAmount, currency, context),
+            ),
+            style: context.text.caption,
+          ),
+          const SizedBox(height: 12),
+          AnimatedProgressBar(
+            progress: goal.progress,
+            color: goal.isCompleted ? context.colors.income : goal.color,
+          ),
+          if (goal.deadline != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              goal.isCompleted
+                  ? l10n.goalsAchieved
+                  : (goal.daysLeft != null && goal.daysLeft! < 0)
+                      ? l10n.goalsDeadlinePassed
+                      : l10n.goalsDaysLeft(goal.daysLeft ?? 0),
+              style: context.text.caption.copyWith(
+                color: goal.isCompleted
+                    ? context.colors.income
+                    : (goal.daysLeft != null && goal.daysLeft! < 0)
+                        ? context.colors.expense
+                        : context.colors.textTertiary,
+              ),
+            ),
+          ] else if (goal.isCompleted) ...[
+            const SizedBox(height: 8),
+            Text(
+              l10n.goalsAchieved,
+              style: context.text.caption.copyWith(color: context.colors.income),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

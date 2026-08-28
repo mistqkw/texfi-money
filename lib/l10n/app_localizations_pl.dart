@@ -45,6 +45,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get commonAdd => 'Dodaj';
 
   @override
+  String get commonUndo => 'Cofnij';
+
+  @override
   String get commonExpense => 'Wydatek';
 
   @override
@@ -385,4 +388,23 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get statisticsNoExpenses => 'Brak wydatków w tym miesiącu';
+
+  @override
+  String get quickEntryLabel => 'szybkie dodawanie';
+
+  @override
+  String get quickEntryHint => '-50 zakupy obiad';
+
+  @override
+  String get quickEntryHelp =>
+      'Znak, kwota, kategoria, notatka — np. „-50 zakupy obiad” lub „+3000 wynagrodzenie”';
+
+  @override
+  String get quickEntryParseError =>
+      'Nie rozpoznano. Zacznij od + lub -, potem kwota.';
+
+  @override
+  String quickEntryAdded(String details) {
+    return 'Dodano: $details';
+  }
 }

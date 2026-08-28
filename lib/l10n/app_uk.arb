@@ -15,6 +15,7 @@
   "commonSave": "Зберегти",
   "commonCreate": "Створити",
   "commonAdd": "Додати",
+  "commonUndo": "Скасувати",
   "commonExpense": "Витрата",
   "commonIncome": "Дохід",
   "commonCategory": "Категорія",
@@ -134,5 +135,11 @@
   "statisticsMonthlyChartTitle": "Доходи та витрати за місяцями",
   "statisticsLoadError": "Не вдалося завантажити дані",
   "statisticsCategoryChartTitle": "Витрати за категоріями цього місяця",
-  "statisticsNoExpenses": "Немає витрат цього місяця"
+  "statisticsNoExpenses": "Немає витрат цього місяця",
+
+  "quickEntryLabel": "швидке додавання",
+  "quickEntryHint": "-350 продукти обід",
+  "quickEntryHelp": "Знак, сума, категорія, нотатка — наприклад «-350 продукти обід» або «+5000 зарплата»",
+  "quickEntryParseError": "Не розпізнано. Почніть з + або -, потім сума.",
+  "quickEntryAdded": "Додано: {details}"
 }

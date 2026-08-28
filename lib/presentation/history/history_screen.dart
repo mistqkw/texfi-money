@@ -9,11 +9,13 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/terminal_divider.dart';
 import '../shared/transaction_tile.dart';
 import 'history_providers.dart';
 
@@ -195,22 +197,31 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     child: Text(l10n.historyEmpty, style: context.text.body),
                   );
                 }
-                return ListView.separated(
+                final grouped = _groupByDay(transactions);
+                return ListView.builder(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-                  itemCount: transactions.length,
-                  separatorBuilder: (context, i) => const Divider(height: 1),
-                  itemBuilder: (context, i) => Dismissible(
-                    key: ValueKey(transactions[i].id),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(Icons.delete_outline, color: context.colors.expense),
-                    ),
-                    onDismissed: (_) =>
-                        ref.read(transactionRepositoryProvider).delete(transactions[i].id),
-                    child: TransactionTile(transaction: transactions[i]),
-                  ),
+                  itemCount: grouped.length,
+                  itemBuilder: (context, i) {
+                    final item = grouped[i];
+                    if (item is DateTime) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: i == 0 ? 0 : 16, bottom: 8),
+                        child: TerminalDivider(label: formatDate(item, context)),
+                      );
+                    }
+                    final tx = item as TransactionEntity;
+                    return Dismissible(
+                      key: ValueKey(tx.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Icon(Icons.delete_outline, color: context.colors.expense),
+                      ),
+                      onDismissed: (_) => ref.read(transactionRepositoryProvider).delete(tx.id),
+                      child: TransactionTile(transaction: tx),
+                    );
+                  },
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -282,4 +293,20 @@ class _SheetOption extends StatelessWidget {
       onTap: onTap,
     );
   }
+}
+
+/// Список отсортирован по дате убывания (см. `TransactionRepository.watchAll`).
+/// Разбивает его на плоский список [DateTime] (маркер дня) / [TransactionEntity].
+List<Object> _groupByDay(List<TransactionEntity> transactions) {
+  final result = <Object>[];
+  DateTime? lastDay;
+  for (final tx in transactions) {
+    final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
+    if (lastDay == null || day != lastDay) {
+      result.add(day);
+      lastDay = day;
+    }
+    result.add(tx);
+  }
+  return result;
 }

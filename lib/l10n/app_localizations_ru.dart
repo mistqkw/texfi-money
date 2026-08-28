@@ -45,6 +45,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonAdd => 'Добавить';
 
   @override
+  String get commonUndo => 'Отменить';
+
+  @override
   String get commonExpense => 'Расход';
 
   @override
@@ -385,4 +388,23 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get statisticsNoExpenses => 'Нет расходов в этом месяце';
+
+  @override
+  String get quickEntryLabel => 'быстрый ввод';
+
+  @override
+  String get quickEntryHint => '-350 продукты обед';
+
+  @override
+  String get quickEntryHelp =>
+      'Знак, сумма, категория, заметка — например «-350 продукты обед» или «+5000 зарплата»';
+
+  @override
+  String get quickEntryParseError =>
+      'Не распознано. Начните с + или -, затем сумма.';
+
+  @override
+  String quickEntryAdded(String details) {
+    return 'Добавлено: $details';
+  }
 }

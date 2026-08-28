@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
-import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
@@ -13,8 +12,11 @@ import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/terminal_box.dart';
+import '../shared/terminal_divider.dart';
 import '../shared/transaction_tile.dart';
 import 'home_providers.dart';
+import 'quick_entry_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -63,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 96),
           children: [
             _BalanceCard(balance: balanceAsync.valueOrNull ?? 0),
             const SizedBox(height: 16),
@@ -74,7 +76,6 @@ class HomeScreen extends ConsumerWidget {
                     child: _StatTile(
                       label: l10n.homeIncomeThisMonth,
                       value: summary.income,
-                      icon: Icons.arrow_downward_rounded,
                       color: context.colors.income,
                     ),
                   ),
@@ -83,7 +84,6 @@ class HomeScreen extends ConsumerWidget {
                     child: _StatTile(
                       label: l10n.homeExpenseThisMonth,
                       value: summary.expense,
-                      icon: Icons.arrow_upward_rounded,
                       color: context.colors.expense,
                     ),
                   ),
@@ -92,9 +92,11 @@ class HomeScreen extends ConsumerWidget {
               loading: () => const SizedBox(height: 92),
               error: (e, st) => const SizedBox.shrink(),
             ),
+            const SizedBox(height: 20),
+            const QuickEntryBar(),
             const SizedBox(height: 28),
-            Text(l10n.homeRecentTransactions, style: context.text.headline),
-            const SizedBox(height: 8),
+            TerminalDivider(label: l10n.homeRecentTransactions),
+            const SizedBox(height: 12),
             recentAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
@@ -136,20 +138,12 @@ class _BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: context.colors.surface,
-        borderRadius: AppRadius.largeAll,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(context.l10n.homeBalance, style: context.text.label),
-          const SizedBox(height: 8),
-          AnimatedAmount(value: balance, style: context.text.balance),
-        ],
+    return TerminalBox(
+      label: context.l10n.homeBalance.toLowerCase(),
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 20),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: AnimatedAmount(value: balance, style: context.text.balance),
       ),
     );
   }
@@ -159,44 +153,20 @@ class _StatTile extends StatelessWidget {
   const _StatTile({
     required this.label,
     required this.value,
-    required this.icon,
     required this.color,
   });
 
   final String label;
   final double value;
-  final IconData icon;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.colors.surface,
-        borderRadius: AppRadius.mediumAll,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 16, color: color),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  label,
-                  style: context.text.caption,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          AnimatedAmount(value: value, style: context.text.amountMedium.copyWith(color: color)),
-        ],
-      ),
+    return TerminalBox(
+      label: label.toLowerCase(),
+      labelColor: color,
+      padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
+      child: AnimatedAmount(value: value, style: context.text.amountMedium.copyWith(color: color)),
     );
   }
 }

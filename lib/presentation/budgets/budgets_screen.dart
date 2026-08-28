@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
-import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/budget_entity.dart';
@@ -12,6 +11,7 @@ import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/terminal_box.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
 
@@ -73,62 +73,56 @@ class _BudgetCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
-    return InkWell(
-      borderRadius: AppRadius.mediumAll,
+    return TerminalBox(
+      label: categoryDisplayName(context, budget.category).toLowerCase(),
+      labelColor: _barColor(context),
       onTap: () => Navigator.of(context).push(
         fadeSlideRoute(SetBudgetScreen(existing: budget)),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.colors.surface,
-          borderRadius: AppRadius.mediumAll,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CategoryAvatar(category: budget.category, size: 36),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(categoryDisplayName(context, budget.category), style: context.text.title),
+              ),
+              Text(
+                '${formatAmount(budget.spent, currency, context)} / ${formatAmount(budget.monthlyLimit, currency, context)}',
+                style: context.text.caption,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          AnimatedProgressBar(progress: budget.progress, color: _barColor(context)),
+          if (budget.isOverLimit) ...[
+            const SizedBox(height: 8),
             Row(
               children: [
-                CategoryAvatar(category: budget.category, size: 36),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(categoryDisplayName(context, budget.category), style: context.text.title),
-                ),
+                Icon(Icons.error_outline, size: 14, color: context.colors.expense),
+                const SizedBox(width: 4),
                 Text(
-                  '${formatAmount(budget.spent, currency, context)} / ${formatAmount(budget.monthlyLimit, currency, context)}',
-                  style: context.text.caption,
+                  l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
+                  style: context.text.caption.copyWith(color: context.colors.expense),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            AnimatedProgressBar(progress: budget.progress, color: _barColor(context)),
-            if (budget.isOverLimit) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.error_outline, size: 14, color: context.colors.expense),
-                  const SizedBox(width: 4),
-                  Text(
-                    l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
-                    style: context.text.caption.copyWith(color: context.colors.expense),
-                  ),
-                ],
-              ),
-            ] else if (budget.isNearLimit) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
-                  const SizedBox(width: 4),
-                  Text(
-                    l10n.budgetsNearLimit,
-                    style: context.text.caption.copyWith(color: context.colors.warning),
-                  ),
-                ],
-              ),
-            ],
+          ] else if (budget.isNearLimit) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.budgetsNearLimit,
+                  style: context.text.caption.copyWith(color: context.colors.warning),
+                ),
+              ],
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
