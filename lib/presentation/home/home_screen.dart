@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -11,6 +12,7 @@ import '../settings/currency_picker_screen.dart';
 import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
+import '../shared/l10n_helpers.dart';
 import '../shared/transaction_tile.dart';
 import 'home_providers.dart';
 
@@ -23,6 +25,7 @@ class HomeScreen extends ConsumerWidget {
     final summaryAsync = ref.watch(monthlySummaryProvider);
     final recentAsync = ref.watch(recentTransactionsProvider);
     final currency = ref.watch(currencyProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,21 +33,21 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Text(currency.symbol, style: context.text.title),
-            tooltip: 'Валюта: ${currency.displayName}',
+            tooltip: l10n.homeCurrencyTooltip(currencyDisplayName(context, currency)),
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const CurrencyPickerScreen()),
             ),
           ),
           IconButton(
             icon: const Icon(Icons.category_outlined),
-            tooltip: 'Категории',
+            tooltip: l10n.homeCategoriesTooltip,
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const CategoriesScreen()),
             ),
           ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            tooltip: 'Настройки',
+            tooltip: l10n.homeSettingsTooltip,
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const SettingsScreen()),
             ),
@@ -69,7 +72,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: _StatTile(
-                      label: 'Доход за месяц',
+                      label: l10n.homeIncomeThisMonth,
                       value: summary.income,
                       icon: Icons.arrow_downward_rounded,
                       color: context.colors.income,
@@ -78,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _StatTile(
-                      label: 'Расход за месяц',
+                      label: l10n.homeExpenseThisMonth,
                       value: summary.expense,
                       icon: Icons.arrow_upward_rounded,
                       color: context.colors.expense,
@@ -90,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
               error: (e, st) => const SizedBox.shrink(),
             ),
             const SizedBox(height: 28),
-            Text('Последние транзакции', style: context.text.headline),
+            Text(l10n.homeRecentTransactions, style: context.text.headline),
             const SizedBox(height: 8),
             recentAsync.when(
               data: (transactions) {
@@ -98,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: Text(
-                      'Пока нет транзакций — добавьте первую кнопкой «+»',
+                      l10n.homeEmptyTransactions,
                       style: context.text.body,
                     ),
                   );
@@ -117,7 +120,7 @@ class HomeScreen extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, st) => Text('Не удалось загрузить транзакции', style: context.text.body),
+              error: (e, st) => Text(l10n.homeLoadTransactionsError, style: context.text.body),
             ),
           ],
         ),
@@ -143,7 +146,7 @@ class _BalanceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Баланс', style: context.text.label),
+          Text(context.l10n.homeBalance, style: context.text.label),
           const SizedBox(height: 8),
           AnimatedAmount(value: balance, style: context.text.balance),
         ],

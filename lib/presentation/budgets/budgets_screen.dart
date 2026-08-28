@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -10,6 +11,7 @@ import '../../domain/entities/budget_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
+import '../shared/l10n_helpers.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
 
@@ -19,9 +21,10 @@ class BudgetsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final budgetsAsync = ref.watch(currentMonthBudgetsProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Бюджеты')),
+      appBar: AppBar(title: Text(l10n.budgetsTitle)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen())),
         child: const Icon(Icons.add),
@@ -33,7 +36,7 @@ class BudgetsScreen extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.all(32),
                 child: Text(
-                  'Пока нет бюджетов — задайте месячный лимит по категории кнопкой «+»',
+                  l10n.budgetsEmpty,
                   style: context.text.body,
                   textAlign: TextAlign.center,
                 ),
@@ -48,7 +51,7 @@ class BudgetsScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить бюджеты', style: context.text.body)),
+        error: (e, st) => Center(child: Text(l10n.budgetsLoadError, style: context.text.body)),
       ),
     );
   }
@@ -68,6 +71,7 @@ class _BudgetCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyProvider);
+    final l10n = context.l10n;
 
     return InkWell(
       borderRadius: AppRadius.mediumAll,
@@ -87,9 +91,11 @@ class _BudgetCard extends ConsumerWidget {
               children: [
                 CategoryAvatar(category: budget.category, size: 36),
                 const SizedBox(width: 12),
-                Expanded(child: Text(budget.category.name, style: context.text.title)),
+                Expanded(
+                  child: Text(categoryDisplayName(context, budget.category), style: context.text.title),
+                ),
                 Text(
-                  '${formatAmount(budget.spent, currency)} / ${formatAmount(budget.monthlyLimit, currency)}',
+                  '${formatAmount(budget.spent, currency, context)} / ${formatAmount(budget.monthlyLimit, currency, context)}',
                   style: context.text.caption,
                 ),
               ],
@@ -103,7 +109,7 @@ class _BudgetCard extends ConsumerWidget {
                   Icon(Icons.error_outline, size: 14, color: context.colors.expense),
                   const SizedBox(width: 4),
                   Text(
-                    'Превышен на ${formatAmount(budget.spent - budget.monthlyLimit, currency)}',
+                    l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
                     style: context.text.caption.copyWith(color: context.colors.expense),
                   ),
                 ],
@@ -115,7 +121,7 @@ class _BudgetCard extends ConsumerWidget {
                   Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
                   const SizedBox(width: 4),
                   Text(
-                    'Приближается к лимиту',
+                    l10n.budgetsNearLimit,
                     style: context.text.caption.copyWith(color: context.colors.warning),
                   ),
                 ],

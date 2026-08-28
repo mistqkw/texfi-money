@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/budget_entity.dart';
@@ -10,6 +11,7 @@ import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
+import '../shared/l10n_helpers.dart';
 import 'budgets_providers.dart';
 
 /// Создание или редактирование месячного лимита по категории.
@@ -65,10 +67,11 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
   @override
   Widget build(BuildContext context) {
     final currency = ref.watch(currencyProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Изменить бюджет' : 'Новый бюджет'),
+        title: Text(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
@@ -87,11 +90,14 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
                 children: [
                   CategoryAvatar(category: widget.existing!.category),
                   const SizedBox(width: 12),
-                  Text(widget.existing!.category.name, style: context.text.headline),
+                  Text(
+                    categoryDisplayName(context, widget.existing!.category),
+                    style: context.text.headline,
+                  ),
                 ],
               ),
             ] else ...[
-              Text('Категория', style: context.text.label),
+              Text(l10n.commonCategory, style: context.text.label),
               const SizedBox(height: 8),
               _CategoryPicker(
                 selectedId: _categoryId,
@@ -99,7 +105,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               ),
             ],
             const SizedBox(height: 24),
-            Text('Лимит в месяц', style: context.text.label),
+            Text(l10n.setBudgetLimitLabel, style: context.text.label),
             const SizedBox(height: 8),
             TextField(
               controller: _amountController,
@@ -115,7 +121,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? 'Сохранить' : 'Создать'),
+                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
               ),
             ),
           ],
@@ -135,6 +141,7 @@ class _CategoryPicker extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesAsync = ref.watch(categoriesByTypeProvider(TransactionType.expense));
     final budgetsAsync = ref.watch(currentMonthBudgetsProvider);
+    final l10n = context.l10n;
 
     return categoriesAsync.when(
       data: (categories) {
@@ -143,7 +150,7 @@ class _CategoryPicker extends ConsumerWidget {
 
         if (available.isEmpty) {
           return Text(
-            'Для всех категорий расходов уже заданы бюджеты',
+            l10n.setBudgetNoCategoriesLeft,
             style: context.text.body,
           );
         }
@@ -161,7 +168,7 @@ class _CategoryPicker extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Text('Не удалось загрузить категории', style: context.text.body),
+      error: (e, st) => Text(l10n.setBudgetLoadCategoriesError, style: context.text.body),
     );
   }
 }

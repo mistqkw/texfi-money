@@ -3,14 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
+import '../shared/l10n_helpers.dart';
 import '../shared/transaction_tile.dart';
 import 'history_providers.dart';
 
@@ -36,6 +39,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   bool get _hasActiveFilters => _type != null || _categoryId != null || _period != null;
 
   Future<void> _pickType() async {
+    final l10n = context.l10n;
     final result = await showModalBottomSheet<TransactionType?>(
       context: context,
       backgroundColor: context.colors.surface,
@@ -44,14 +48,18 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _SheetOption(label: 'Все типы', selected: _type == null, onTap: () => Navigator.pop(context)),
             _SheetOption(
-              label: 'Доход',
+              label: l10n.historyAllTypes,
+              selected: _type == null,
+              onTap: () => Navigator.pop(context),
+            ),
+            _SheetOption(
+              label: l10n.commonIncome,
               selected: _type == TransactionType.income,
               onTap: () => Navigator.pop(context, TransactionType.income),
             ),
             _SheetOption(
-              label: 'Расход',
+              label: l10n.commonExpense,
               selected: _type == TransactionType.expense,
               onTap: () => Navigator.pop(context, TransactionType.expense),
             ),
@@ -65,6 +73,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Future<void> _pickCategory() async {
     final categories = await ref.read(allCategoriesProvider.future);
     if (!mounted) return;
+    final l10n = context.l10n;
 
     final result = await showModalBottomSheet<String?>(
       context: context,
@@ -75,13 +84,13 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           shrinkWrap: true,
           children: [
             _SheetOption(
-              label: 'Все категории',
+              label: l10n.historyAllCategories,
               selected: _categoryId == null,
               onTap: () => Navigator.pop(context),
             ),
             for (final CategoryEntity category in categories)
               _SheetOption(
-                label: category.name,
+                label: categoryDisplayName(context, category),
                 selected: category.id == _categoryId,
                 leading: CategoryAvatar(category: category, size: 32),
                 onTap: () => Navigator.pop(context, category.id),
@@ -122,19 +131,22 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Widget build(BuildContext context) {
     final transactionsAsync = ref.watch(filteredTransactionsProvider(_filter));
     final categoriesAsync = ref.watch(allCategoriesProvider);
+    final l10n = context.l10n;
 
     String? categoryName;
     if (_categoryId != null) {
       for (final category in categoriesAsync.valueOrNull ?? const <CategoryEntity>[]) {
         if (category.id == _categoryId) {
-          categoryName = category.name;
+          categoryName = categoryDisplayName(context, category);
           break;
         }
       }
     }
 
+    final periodFormat = DateFormat('d.MM.yy', intlLocale(context.localeCode));
+
     return Scaffold(
-      appBar: AppBar(title: const Text('История')),
+      appBar: AppBar(title: Text(l10n.historyTitle)),
       body: Column(
         children: [
           Padding(
@@ -145,27 +157,32 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               children: [
                 _FilterChip(
                   label: switch (_type) {
-                    TransactionType.income => 'Доход',
-                    TransactionType.expense => 'Расход',
-                    null => 'Тип',
+                    TransactionType.income => l10n.commonIncome,
+                    TransactionType.expense => l10n.commonExpense,
+                    null => l10n.historyTypeFilterLabel,
                   },
                   active: _type != null,
                   onTap: _pickType,
                 ),
                 _FilterChip(
-                  label: categoryName ?? 'Категория',
+                  label: categoryName ?? l10n.historyCategoryFilterLabel,
                   active: _categoryId != null,
                   onTap: _pickCategory,
                 ),
                 _FilterChip(
                   label: _period == null
-                      ? 'Период'
-                      : '${DateFormat('d.MM.yy').format(_period!.start)} – ${DateFormat('d.MM.yy').format(_period!.end)}',
+                      ? l10n.historyPeriodFilterLabel
+                      : '${periodFormat.format(_period!.start)} – ${periodFormat.format(_period!.end)}',
                   active: _period != null,
                   onTap: _pickPeriod,
                 ),
                 if (_hasActiveFilters)
-                  _FilterChip(label: 'Сбросить', active: false, onTap: _resetFilters, icon: Icons.close),
+                  _FilterChip(
+                    label: l10n.historyReset,
+                    active: false,
+                    onTap: _resetFilters,
+                    icon: Icons.close,
+                  ),
               ],
             ),
           ),
@@ -175,7 +192,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return Center(
-                    child: Text('Ничего не найдено', style: context.text.body),
+                    child: Text(l10n.historyEmpty, style: context.text.body),
                   );
                 }
                 return ListView.separated(
@@ -197,7 +214,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Center(child: Text('Не удалось загрузить историю', style: context.text.body)),
+              error: (e, st) => Center(child: Text(l10n.historyLoadError, style: context.text.body)),
             ),
           ),
         ],

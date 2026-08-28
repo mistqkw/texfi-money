@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/category_icons.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -76,9 +77,11 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Редактировать категорию' : 'Новая категория'),
+        title: Text(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
@@ -99,11 +102,11 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               controller: _nameController,
               autofocus: !_isEditing,
               style: context.text.title.copyWith(color: context.colors.textPrimary),
-              decoration: const InputDecoration(hintText: 'Название категории'),
+              decoration: InputDecoration(hintText: l10n.categoryFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 24),
-            Text('Иконка', style: context.text.label),
+            Text(l10n.categoryFormIconLabel, style: context.text.label),
             const SizedBox(height: 8),
             _IconPicker(
               selectedKey: _iconKey,
@@ -111,7 +114,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               onSelected: (key) => setState(() => _iconKey = key),
             ),
             const SizedBox(height: 24),
-            Text('Цвет', style: context.text.label),
+            Text(l10n.commonColor, style: context.text.label),
             const SizedBox(height: 8),
             _ColorPicker(
               selected: _color,
@@ -122,7 +125,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? 'Сохранить' : 'Создать'),
+                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
               ),
             ),
           ],
@@ -148,8 +151,8 @@ class _TypeToggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _segment(context, TransactionType.expense, 'Расход'),
-          _segment(context, TransactionType.income, 'Доход'),
+          _segment(context, TransactionType.expense, context.l10n.commonExpense),
+          _segment(context, TransactionType.income, context.l10n.commonIncome),
         ],
       ),
     );

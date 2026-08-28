@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../../domain/repositories/category_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
+import '../shared/l10n_helpers.dart';
 import 'category_form_screen.dart';
 
 class CategoriesScreen extends ConsumerWidget {
@@ -25,19 +28,20 @@ class CategoriesScreen extends ConsumerWidget {
     WidgetRef ref,
     CategoryEntity category,
   ) async {
+    final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Удалить категорию?'),
-        content: Text('Категория «${category.name}» будет удалена без возможности восстановления.'),
+        title: Text(l10n.categoriesDeleteTitle),
+        content: Text(l10n.categoriesDeleteConfirm(categoryDisplayName(context, category))),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Отмена'),
+            child: Text(l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Удалить'),
+            child: Text(l10n.commonDelete),
           ),
         ],
       ),
@@ -46,9 +50,11 @@ class CategoriesScreen extends ConsumerWidget {
 
     try {
       await ref.read(categoryRepositoryProvider).delete(category.id);
-    } on StateError catch (e) {
+    } on CategoryInUseException {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.categoryDeleteHasTransactionsError)),
+        );
       }
     }
   }
@@ -56,9 +62,10 @@ class CategoriesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesAsync = ref.watch(allCategoriesProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Категории')),
+      appBar: AppBar(title: Text(l10n.categoriesTitle)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openForm(context),
         child: const Icon(Icons.add),
@@ -71,14 +78,14 @@ class CategoriesScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
             children: [
-              _SectionHeader('Расходы'),
+              _SectionHeader(l10n.categoriesExpenseSection),
               ...expense.map((c) => _CategoryRow(
                     category: c,
                     onTap: c.isCustom ? () => _openForm(context, category: c) : null,
                     onDelete: c.isCustom ? () => _confirmDelete(context, ref, c) : null,
                   )),
               const SizedBox(height: 24),
-              _SectionHeader('Доходы'),
+              _SectionHeader(l10n.categoriesIncomeSection),
               ...income.map((c) => _CategoryRow(
                     category: c,
                     onTap: c.isCustom ? () => _openForm(context, category: c) : null,
@@ -88,7 +95,7 @@ class CategoriesScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить категории', style: context.text.body)),
+        error: (e, st) => Center(child: Text(l10n.categoriesLoadError, style: context.text.body)),
       ),
     );
   }
@@ -125,7 +132,9 @@ class _CategoryRow extends StatelessWidget {
           children: [
             CategoryAvatar(category: category, size: 40),
             const SizedBox(width: 12),
-            Expanded(child: Text(category.name, style: context.text.title)),
+            Expanded(
+              child: Text(categoryDisplayName(context, category), style: context.text.title),
+            ),
             if (onDelete != null)
               IconButton(
                 icon: Icon(Icons.delete_outline, color: context.colors.textTertiary),

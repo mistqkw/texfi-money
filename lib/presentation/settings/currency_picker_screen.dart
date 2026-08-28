@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/currencies.dart';
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../shared/l10n_helpers.dart';
 import 'currency_provider.dart';
 
 class CurrencyPickerScreen extends ConsumerWidget {
@@ -14,7 +16,7 @@ class CurrencyPickerScreen extends ConsumerWidget {
     final current = ref.watch(currencyProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Валюта')),
+      appBar: AppBar(title: Text(context.l10n.currencyPickerTitle)),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemCount: AppCurrency.values.length,
@@ -33,7 +35,7 @@ class CurrencyPickerScreen extends ConsumerWidget {
               ),
               child: Text(currency.symbol, style: context.text.title),
             ),
-            title: Text(currency.displayName, style: context.text.title),
+            title: Text(currencyDisplayName(context, currency), style: context.text.title),
             subtitle: Text(currency.code, style: context.text.caption),
             trailing: selected ? Icon(Icons.check, color: context.colors.accent) : null,
             onTap: () => ref.read(currencyProvider.notifier).setCurrency(currency),

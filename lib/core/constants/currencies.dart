@@ -2,22 +2,24 @@
 /// Это единица отображения, а не мультивалютный учёт с конвертацией —
 /// все суммы в БД хранятся как числа без привязки к валюте.
 enum AppCurrency {
-  rub('RUB', '₽', 'Российский рубль'),
-  usd('USD', '\$', 'Доллар США'),
-  eur('EUR', '€', 'Евро'),
-  uah('UAH', '₴', 'Украинская гривна'),
-  pln('PLN', 'zł', 'Польский злотый'),
-  byn('BYN', 'Br', 'Белорусский рубль'),
-  kzt('KZT', '₸', 'Казахстанский тенге'),
-  gbp('GBP', '£', 'Фунт стерлингов'),
-  cny('CNY', '¥', 'Китайский юань'),
-  tryLira('TRY', '₺', 'Турецкая лира');
+  rub('RUB', '₽'),
+  usd('USD', '\$'),
+  eur('EUR', '€'),
+  uah('UAH', '₴'),
+  pln('PLN', 'zł'),
+  byn('BYN', 'Br'),
+  kzt('KZT', '₸'),
+  gbp('GBP', '£'),
+  cny('CNY', '¥'),
+  tryLira('TRY', '₺');
 
-  const AppCurrency(this.code, this.symbol, this.displayName);
+  const AppCurrency(this.code, this.symbol);
 
   final String code;
   final String symbol;
-  final String displayName;
+
+  /// Локализованное название — см. `currencyDisplayName()` в
+  /// `presentation/shared/l10n_helpers.dart` (нужен BuildContext).
 
   static AppCurrency fromCode(String? code) {
     return AppCurrency.values.firstWhere(

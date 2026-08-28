@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -19,11 +20,12 @@ class GoalsScreen extends ConsumerWidget {
 
   Future<void> _addContribution(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
     final currency = ref.read(currencyProvider);
+    final l10n = context.l10n;
     final controller = TextEditingController();
     final amount = await showDialog<double>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Пополнить «${goal.title}»'),
+        title: Text(l10n.goalsAddFundsTitle(goal.title)),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -35,14 +37,14 @@ class GoalsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Отмена'),
+            child: Text(l10n.commonCancel),
           ),
           TextButton(
             onPressed: () {
               final value = double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
               Navigator.of(context).pop(value);
             },
-            child: const Text('Добавить'),
+            child: Text(l10n.commonAdd),
           ),
         ],
       ),
@@ -54,19 +56,20 @@ class GoalsScreen extends ConsumerWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
+    final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Удалить цель?'),
-        content: Text('Цель «${goal.title}» будет удалена вместе с накопленным прогрессом.'),
+        title: Text(l10n.goalsDeleteTitle),
+        content: Text(l10n.goalsDeleteConfirm(goal.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Отмена'),
+            child: Text(l10n.commonCancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Удалить'),
+            child: Text(l10n.commonDelete),
           ),
         ],
       ),
@@ -79,9 +82,10 @@ class GoalsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goalsAsync = ref.watch(savingsGoalsProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Цели накоплений')),
+      appBar: AppBar(title: Text(l10n.goalsTitle)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen())),
         child: const Icon(Icons.add),
@@ -93,7 +97,7 @@ class GoalsScreen extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.all(32),
                 child: Text(
-                  'Пока нет целей — создайте первую кнопкой «+»',
+                  l10n.goalsEmpty,
                   style: context.text.body,
                   textAlign: TextAlign.center,
                 ),
@@ -134,7 +138,7 @@ class GoalsScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить цели', style: context.text.body)),
+        error: (e, st) => Center(child: Text(l10n.goalsLoadError, style: context.text.body)),
       ),
     );
   }
@@ -150,6 +154,7 @@ class _GoalCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyProvider);
+    final l10n = context.l10n;
 
     return InkWell(
       borderRadius: AppRadius.mediumAll,
@@ -188,7 +193,10 @@ class _GoalCard extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '${formatAmount(goal.currentAmount, currency)} из ${formatAmount(goal.targetAmount, currency)}',
+              l10n.goalsProgressOf(
+                formatAmount(goal.currentAmount, currency, context),
+                formatAmount(goal.targetAmount, currency, context),
+              ),
               style: context.text.caption,
             ),
             const SizedBox(height: 12),
@@ -200,10 +208,10 @@ class _GoalCard extends ConsumerWidget {
               const SizedBox(height: 8),
               Text(
                 goal.isCompleted
-                    ? 'Цель достигнута!'
+                    ? l10n.goalsAchieved
                     : (goal.daysLeft != null && goal.daysLeft! < 0)
-                        ? 'Дедлайн прошёл'
-                        : 'Осталось ${goal.daysLeft} дн.',
+                        ? l10n.goalsDeadlinePassed
+                        : l10n.goalsDaysLeft(goal.daysLeft ?? 0),
                 style: context.text.caption.copyWith(
                   color: goal.isCompleted
                       ? context.colors.income
@@ -215,7 +223,7 @@ class _GoalCard extends ConsumerWidget {
             ] else if (goal.isCompleted) ...[
               const SizedBox(height: 8),
               Text(
-                'Цель достигнута!',
+                l10n.goalsAchieved,
                 style: context.text.caption.copyWith(color: context.colors.income),
               ),
             ],

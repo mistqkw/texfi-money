@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
@@ -11,6 +11,7 @@ import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
+import '../shared/l10n_helpers.dart';
 import 'statistics_providers.dart';
 
 class StatisticsScreen extends ConsumerWidget {
@@ -20,13 +21,14 @@ class StatisticsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final monthlyAsync = ref.watch(monthlyTotalsProvider);
     final categoryAsync = ref.watch(expenseCategoryTotalsProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Статистика')),
+      appBar: AppBar(title: Text(l10n.statisticsTitle)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
-          Text('Доходы и расходы по месяцам', style: context.text.headline),
+          Text(l10n.statisticsMonthlyChartTitle, style: context.text.headline),
           const SizedBox(height: 16),
           monthlyAsync.when(
             data: (months) => _MonthlyBarChart(months: months),
@@ -34,10 +36,10 @@ class StatisticsScreen extends ConsumerWidget {
               height: 220,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (e, st) => Text('Не удалось загрузить данные', style: context.text.body),
+            error: (e, st) => Text(l10n.statisticsLoadError, style: context.text.body),
           ),
           const SizedBox(height: 32),
-          Text('Расходы по категориям в этом месяце', style: context.text.headline),
+          Text(l10n.statisticsCategoryChartTitle, style: context.text.headline),
           const SizedBox(height: 16),
           categoryAsync.when(
             data: (categories) => _CategoryPie(categories: categories),
@@ -45,7 +47,7 @@ class StatisticsScreen extends ConsumerWidget {
               height: 220,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (e, st) => Text('Не удалось загрузить данные', style: context.text.body),
+            error: (e, st) => Text(l10n.statisticsLoadError, style: context.text.body),
           ),
         ],
       ),
@@ -88,7 +90,7 @@ class _MonthlyBarChart extends StatelessWidget {
                 getTitlesWidget: (value, meta) {
                   final index = value.toInt();
                   if (index < 0 || index >= months.length) return const SizedBox.shrink();
-                  final label = DateFormat('LLL', 'ru_RU').format(months[index].month);
+                  final label = formatMonthShort(months[index].month, context);
                   return Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(label, style: context.text.caption),
@@ -138,7 +140,7 @@ class _CategoryPie extends ConsumerWidget {
         height: 160,
         alignment: Alignment.center,
         decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
-        child: Text('Нет расходов в этом месяце', style: context.text.body),
+        child: Text(context.l10n.statisticsNoExpenses, style: context.text.body),
       );
     }
 
@@ -182,9 +184,11 @@ class _CategoryPie extends ConsumerWidget {
                   children: [
                     CategoryAvatar(category: c.category, size: 28),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(c.category.name, style: context.text.title)),
+                    Expanded(
+                      child: Text(categoryDisplayName(context, c.category), style: context.text.title),
+                    ),
                     Text(
-                      '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency)}',
+                      '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency, context)}',
                       style: context.text.caption,
                     ),
                   ],

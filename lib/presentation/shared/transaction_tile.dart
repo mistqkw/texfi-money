@@ -8,6 +8,7 @@ import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
 import 'category_avatar.dart';
+import 'l10n_helpers.dart';
 
 class TransactionTile extends ConsumerWidget {
   const TransactionTile({super.key, required this.transaction});
@@ -31,12 +32,12 @@ class TransactionTile extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(transaction.category.name, style: context.text.title),
+                Text(categoryDisplayName(context, transaction.category), style: context.text.title),
                 const SizedBox(height: 2),
                 Text(
                   transaction.note?.isNotEmpty == true
-                      ? '${formatDate(transaction.date)} · ${transaction.note}'
-                      : formatDate(transaction.date),
+                      ? '${formatDate(transaction.date, context)} · ${transaction.note}'
+                      : formatDate(transaction.date, context),
                   style: context.text.caption,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -45,7 +46,7 @@ class TransactionTile extends ConsumerWidget {
             ),
           ),
           Text(
-            '$sign${formatAmount(transaction.amount, currency)}',
+            '$sign${formatAmount(transaction.amount, currency, context)}',
             style: context.text.amountMedium.copyWith(color: amountColor),
           ),
         ],
