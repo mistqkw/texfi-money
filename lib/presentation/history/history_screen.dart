@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -38,7 +38,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Future<void> _pickType() async {
     final result = await showModalBottomSheet<TransactionType?>(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       shape: const RoundedRectangleBorder(borderRadius: AppRadius.largeAll),
       builder: (context) => SafeArea(
         child: Column(
@@ -68,7 +68,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
     final result = await showModalBottomSheet<String?>(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       shape: const RoundedRectangleBorder(borderRadius: AppRadius.largeAll),
       builder: (context) => SafeArea(
         child: ListView(
@@ -175,7 +175,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return Center(
-                    child: Text('Ничего не найдено', style: AppTypography.body),
+                    child: Text('Ничего не найдено', style: context.text.body),
                   );
                 }
                 return ListView.separated(
@@ -188,7 +188,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     background: Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: const Icon(Icons.delete_outline, color: AppColors.expense),
+                      child: Icon(Icons.delete_outline, color: context.colors.expense),
                     ),
                     onDismissed: (_) =>
                         ref.read(transactionRepositoryProvider).delete(transactions[i].id),
@@ -197,7 +197,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Center(child: Text('Не удалось загрузить историю', style: AppTypography.body)),
+              error: (e, st) => Center(child: Text('Не удалось загрузить историю', style: context.text.body)),
             ),
           ),
         ],
@@ -221,25 +221,25 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? AppColors.accent.withValues(alpha: 0.16) : AppColors.surfaceVariant,
+          color: active ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surfaceVariant,
           borderRadius: AppRadius.smallAll,
-          border: active ? Border.all(color: AppColors.accent, width: 1) : null,
+          border: active ? Border.all(color: context.colors.accent, width: 1) : null,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               label,
-              style: AppTypography.label.copyWith(
-                color: active ? AppColors.accent : AppColors.textSecondary,
+              style: context.text.label.copyWith(
+                color: active ? context.colors.accent : context.colors.textSecondary,
               ),
             ),
             if (icon != null) ...[
               const SizedBox(width: 4),
-              Icon(icon, size: 14, color: AppColors.textSecondary),
+              Icon(icon, size: 14, color: context.colors.textSecondary),
             ] else ...[
               const SizedBox(width: 4),
-              Icon(Icons.expand_more, size: 16, color: active ? AppColors.accent : AppColors.textTertiary),
+              Icon(Icons.expand_more, size: 16, color: active ? context.colors.accent : context.colors.textTertiary),
             ],
           ],
         ),
@@ -260,8 +260,8 @@ class _SheetOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: leading,
-      title: Text(label, style: AppTypography.title),
-      trailing: selected ? const Icon(Icons.check, color: AppColors.accent) : null,
+      title: Text(label, style: context.text.title),
+      trailing: selected ? Icon(Icons.check, color: context.colors.accent) : null,
       onTap: onTap,
     );
   }

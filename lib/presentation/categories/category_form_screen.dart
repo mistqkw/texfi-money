@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/category_icons.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -97,12 +98,12 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
             TextField(
               controller: _nameController,
               autofocus: !_isEditing,
-              style: AppTypography.title.copyWith(color: AppColors.textPrimary),
+              style: context.text.title.copyWith(color: context.colors.textPrimary),
               decoration: const InputDecoration(hintText: 'Название категории'),
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 24),
-            Text('Иконка', style: AppTypography.label),
+            Text('Иконка', style: context.text.label),
             const SizedBox(height: 8),
             _IconPicker(
               selectedKey: _iconKey,
@@ -110,7 +111,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               onSelected: (key) => setState(() => _iconKey = key),
             ),
             const SizedBox(height: 24),
-            Text('Цвет', style: AppTypography.label),
+            Text('Цвет', style: context.text.label),
             const SizedBox(height: 8),
             _ColorPicker(
               selected: _color,
@@ -142,19 +143,19 @@ class _TypeToggle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: context.colors.surfaceVariant,
         borderRadius: AppRadius.mediumAll,
       ),
       child: Row(
         children: [
-          _segment(TransactionType.expense, 'Расход'),
-          _segment(TransactionType.income, 'Доход'),
+          _segment(context, TransactionType.expense, 'Расход'),
+          _segment(context, TransactionType.income, 'Доход'),
         ],
       ),
     );
   }
 
-  Widget _segment(TransactionType value, String label) {
+  Widget _segment(BuildContext context, TransactionType value, String label) {
     final selected = value == type;
     return Expanded(
       child: GestureDetector(
@@ -163,14 +164,14 @@ class _TypeToggle extends StatelessWidget {
           duration: AppMotion.fast,
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: selected ? AppColors.accent : Colors.transparent,
+            color: selected ? context.colors.accent : Colors.transparent,
             borderRadius: AppRadius.smallAll,
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: AppTypography.title.copyWith(
-              color: selected ? AppColors.onAccent : AppColors.textSecondary,
+            style: context.text.title.copyWith(
+              color: selected ? context.colors.onAccent : context.colors.textSecondary,
             ),
           ),
         ),
@@ -203,14 +204,14 @@ class _IconPicker extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: selected ? color.withValues(alpha: 0.18) : AppColors.surface,
+              color: selected ? color.withValues(alpha: 0.18) : context.colors.surface,
               shape: BoxShape.circle,
               border: Border.all(
-                color: selected ? color : AppColors.divider,
+                color: selected ? color : context.colors.divider,
                 width: selected ? 1.5 : 1,
               ),
             ),
-            child: Icon(entry.value, color: selected ? color : AppColors.textSecondary),
+            child: Icon(entry.value, color: selected ? color : context.colors.textSecondary),
           ),
         );
       }).toList(),
@@ -240,7 +241,7 @@ class _ColorPicker extends StatelessWidget {
               color: color,
               shape: BoxShape.circle,
               border: isSelected
-                  ? Border.all(color: AppColors.textPrimary, width: 2)
+                  ? Border.all(color: context.colors.textPrimary, width: 2)
                   : null,
             ),
             child: isSelected

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
@@ -29,7 +29,7 @@ class GoalsScreen extends ConsumerWidget {
           autofocus: true,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-          style: AppTypography.amountLarge,
+          style: context.text.amountLarge,
           decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
         ),
         actions: [
@@ -94,7 +94,7 @@ class GoalsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(32),
                 child: Text(
                   'Пока нет целей — создайте первую кнопкой «+»',
-                  style: AppTypography.body,
+                  style: context.text.body,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -117,10 +117,10 @@ class GoalsScreen extends ConsumerWidget {
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                    color: AppColors.expense.withValues(alpha: 0.15),
+                    color: context.colors.expense.withValues(alpha: 0.15),
                     borderRadius: AppRadius.mediumAll,
                   ),
-                  child: const Icon(Icons.delete_outline, color: AppColors.expense),
+                  child: Icon(Icons.delete_outline, color: context.colors.expense),
                 ),
                 child: _GoalCard(
                   goal: goal,
@@ -134,7 +134,7 @@ class GoalsScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить цели', style: AppTypography.body)),
+        error: (e, st) => Center(child: Text('Не удалось загрузить цели', style: context.text.body)),
       ),
     );
   }
@@ -157,7 +157,7 @@ class _GoalCard extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           borderRadius: AppRadius.mediumAll,
         ),
         child: Column(
@@ -179,9 +179,9 @@ class _GoalCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Expanded(child: Text(goal.title, style: AppTypography.title)),
+                Expanded(child: Text(goal.title, style: context.text.title)),
                 IconButton(
-                  icon: const Icon(Icons.add_circle_outline, color: AppColors.accent),
+                  icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
                   onPressed: onAddFunds,
                 ),
               ],
@@ -189,12 +189,12 @@ class _GoalCard extends ConsumerWidget {
             const SizedBox(height: 4),
             Text(
               '${formatAmount(goal.currentAmount, currency)} из ${formatAmount(goal.targetAmount, currency)}',
-              style: AppTypography.caption,
+              style: context.text.caption,
             ),
             const SizedBox(height: 12),
             AnimatedProgressBar(
               progress: goal.progress,
-              color: goal.isCompleted ? AppColors.income : goal.color,
+              color: goal.isCompleted ? context.colors.income : goal.color,
             ),
             if (goal.deadline != null) ...[
               const SizedBox(height: 8),
@@ -204,17 +204,20 @@ class _GoalCard extends ConsumerWidget {
                     : (goal.daysLeft != null && goal.daysLeft! < 0)
                         ? 'Дедлайн прошёл'
                         : 'Осталось ${goal.daysLeft} дн.',
-                style: AppTypography.caption.copyWith(
+                style: context.text.caption.copyWith(
                   color: goal.isCompleted
-                      ? AppColors.income
+                      ? context.colors.income
                       : (goal.daysLeft != null && goal.daysLeft! < 0)
-                          ? AppColors.expense
-                          : AppColors.textTertiary,
+                          ? context.colors.expense
+                          : context.colors.textTertiary,
                 ),
               ),
             ] else if (goal.isCompleted) ...[
               const SizedBox(height: 8),
-              Text('Цель достигнута!', style: AppTypography.caption.copyWith(color: AppColors.income)),
+              Text(
+                'Цель достигнута!',
+                style: context.text.caption.copyWith(color: context.colors.income),
+              ),
             ],
           ],
         ),

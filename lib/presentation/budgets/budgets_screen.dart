@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../settings/currency_provider.dart';
@@ -34,7 +34,7 @@ class BudgetsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(32),
                 child: Text(
                   'Пока нет бюджетов — задайте месячный лимит по категории кнопкой «+»',
-                  style: AppTypography.body,
+                  style: context.text.body,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -48,7 +48,7 @@ class BudgetsScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить бюджеты', style: AppTypography.body)),
+        error: (e, st) => Center(child: Text('Не удалось загрузить бюджеты', style: context.text.body)),
       ),
     );
   }
@@ -59,10 +59,10 @@ class _BudgetCard extends ConsumerWidget {
 
   final BudgetEntity budget;
 
-  Color get _barColor {
-    if (budget.isOverLimit) return AppColors.expense;
-    if (budget.isNearLimit) return AppColors.warning;
-    return AppColors.accent;
+  Color _barColor(BuildContext context) {
+    if (budget.isOverLimit) return context.colors.expense;
+    if (budget.isNearLimit) return context.colors.warning;
+    return context.colors.accent;
   }
 
   @override
@@ -77,7 +77,7 @@ class _BudgetCard extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           borderRadius: AppRadius.mediumAll,
         ),
         child: Column(
@@ -87,24 +87,24 @@ class _BudgetCard extends ConsumerWidget {
               children: [
                 CategoryAvatar(category: budget.category, size: 36),
                 const SizedBox(width: 12),
-                Expanded(child: Text(budget.category.name, style: AppTypography.title)),
+                Expanded(child: Text(budget.category.name, style: context.text.title)),
                 Text(
                   '${formatAmount(budget.spent, currency)} / ${formatAmount(budget.monthlyLimit, currency)}',
-                  style: AppTypography.caption,
+                  style: context.text.caption,
                 ),
               ],
             ),
             const SizedBox(height: 12),
-            AnimatedProgressBar(progress: budget.progress, color: _barColor),
+            AnimatedProgressBar(progress: budget.progress, color: _barColor(context)),
             if (budget.isOverLimit) ...[
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(Icons.error_outline, size: 14, color: AppColors.expense),
+                  Icon(Icons.error_outline, size: 14, color: context.colors.expense),
                   const SizedBox(width: 4),
                   Text(
                     'Превышен на ${formatAmount(budget.spent - budget.monthlyLimit, currency)}',
-                    style: AppTypography.caption.copyWith(color: AppColors.expense),
+                    style: context.text.caption.copyWith(color: context.colors.expense),
                   ),
                 ],
               ),
@@ -112,11 +112,11 @@ class _BudgetCard extends ConsumerWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(Icons.warning_amber_rounded, size: 14, color: AppColors.warning),
+                  Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
                   const SizedBox(width: 4),
                   Text(
                     'Приближается к лимиту',
-                    style: AppTypography.caption.copyWith(color: AppColors.warning),
+                    style: context.text.caption.copyWith(color: context.colors.warning),
                   ),
                 ],
               ),

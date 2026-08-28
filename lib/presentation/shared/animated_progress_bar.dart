@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 
 /// Плоский анимированный прогресс-бар для бюджетов и целей накоплений.
@@ -23,7 +23,7 @@ class AnimatedProgressBar extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: height,
-        color: AppColors.surfaceVariant,
+        color: context.colors.surfaceVariant,
         child: Align(
           alignment: Alignment.centerLeft,
           child: TweenAnimationBuilder<double>(

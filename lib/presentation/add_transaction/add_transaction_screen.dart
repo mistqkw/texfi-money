@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
@@ -109,7 +109,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             const SizedBox(height: 24),
             _AmountField(controller: _amountController, onChanged: () => setState(() {})),
             const SizedBox(height: 24),
-            Text('Категория', style: AppTypography.label),
+            Text('Категория', style: context.text.label),
             const SizedBox(height: 8),
             categoriesAsync.when(
               data: (categories) => _CategoryGrid(
@@ -122,14 +122,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, st) => Text('Не удалось загрузить категории', style: AppTypography.body),
+              error: (e, st) => Text('Не удалось загрузить категории', style: context.text.body),
             ),
             const SizedBox(height: 24),
             _DateRow(date: _date, onTap: _pickDate),
             const SizedBox(height: 16),
             TextField(
               controller: _noteController,
-              style: AppTypography.body.copyWith(color: AppColors.textPrimary),
+              style: context.text.body.copyWith(color: context.colors.textPrimary),
               decoration: const InputDecoration(hintText: 'Заметка (необязательно)'),
             ),
             const SizedBox(height: 32),
@@ -168,7 +168,7 @@ class _TypeToggle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: context.colors.surfaceVariant,
         borderRadius: AppRadius.mediumAll,
       ),
       child: Row(
@@ -190,14 +190,14 @@ class _TypeToggle extends StatelessWidget {
           curve: AppMotion.standard,
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: selected ? AppColors.accent : Colors.transparent,
+            color: selected ? context.colors.accent : Colors.transparent,
             borderRadius: AppRadius.smallAll,
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: AppTypography.title.copyWith(
-              color: selected ? AppColors.onAccent : AppColors.textSecondary,
+            style: context.text.title.copyWith(
+              color: selected ? context.colors.onAccent : context.colors.textSecondary,
             ),
           ),
         ),
@@ -223,10 +223,10 @@ class _AmountField extends ConsumerWidget {
       textAlign: TextAlign.center,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-      style: AppTypography.balance,
+      style: context.text.balance,
       decoration: InputDecoration(
         hintText: '0 ${currency.symbol}',
-        hintStyle: AppTypography.balance.copyWith(color: AppColors.textTertiary),
+        hintStyle: context.text.balance.copyWith(color: context.colors.textTertiary),
         filled: false,
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
@@ -266,16 +266,16 @@ class _CategoryGrid extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.colors.surface,
               borderRadius: AppRadius.mediumAll,
-              border: Border.all(color: AppColors.divider, style: BorderStyle.solid),
+              border: Border.all(color: context.colors.divider, style: BorderStyle.solid),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.add, size: 20, color: AppColors.textSecondary),
+                Icon(Icons.add, size: 20, color: context.colors.textSecondary),
                 const SizedBox(width: 6),
-                Text('Своя категория', style: AppTypography.title),
+                Text('Своя категория', style: context.text.title),
               ],
             ),
           ),
@@ -299,15 +299,15 @@ class _DateRow extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.surfaceVariant,
+          color: context.colors.surfaceVariant,
           borderRadius: AppRadius.mediumAll,
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.textSecondary),
+            Icon(Icons.calendar_today_outlined, size: 20, color: context.colors.textSecondary),
             const SizedBox(width: 12),
-            Expanded(child: Text(formatDate(date), style: AppTypography.title)),
-            const Icon(Icons.chevron_right, color: AppColors.textTertiary),
+            Expanded(child: Text(formatDate(date), style: context.text.title)),
+            Icon(Icons.chevron_right, color: context.colors.textTertiary),
           ],
         ),
       ),

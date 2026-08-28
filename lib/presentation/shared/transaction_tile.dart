@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -18,7 +18,7 @@ class TransactionTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyProvider);
     final isIncome = transaction.type == TransactionType.income;
-    final amountColor = isIncome ? AppColors.income : AppColors.textPrimary;
+    final amountColor = isIncome ? context.colors.income : context.colors.textPrimary;
     final sign = isIncome ? '+' : '−';
 
     return Padding(
@@ -31,13 +31,13 @@ class TransactionTile extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(transaction.category.name, style: AppTypography.title),
+                Text(transaction.category.name, style: context.text.title),
                 const SizedBox(height: 2),
                 Text(
                   transaction.note?.isNotEmpty == true
                       ? '${formatDate(transaction.date)} · ${transaction.note}'
                       : formatDate(transaction.date),
-                  style: AppTypography.caption,
+                  style: context.text.caption,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -46,7 +46,7 @@ class TransactionTile extends ConsumerWidget {
           ),
           Text(
             '$sign${formatAmount(transaction.amount, currency)}',
-            style: AppTypography.amountMedium.copyWith(color: amountColor),
+            style: context.text.amountMedium.copyWith(color: amountColor),
           ),
         ],
       ),

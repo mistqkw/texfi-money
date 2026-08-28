@@ -1,68 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app_colors.dart';
+import '../constants/app_font.dart';
+import 'app_colors_ext.dart';
 
-/// Типографика: крупные плотные цифры для сумм, лёгкие подписи для текста.
-abstract final class AppTypography {
-  static TextStyle _inter({
+/// Строит [TextTheme] под выбранный шрифт и палитру. Слоты сопоставлены
+/// с именованными стилями приложения (см. `AppTextStyles`):
+/// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
+/// headline→headlineMedium, title→titleMedium, body→bodyMedium,
+/// caption→bodySmall, label→labelMedium.
+TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
+  TextStyle style({
     required double size,
     required FontWeight weight,
-    Color color = AppColors.textPrimary,
+    required Color color,
     double? letterSpacing,
     List<FontFeature>? features,
   }) {
-    return GoogleFonts.inter(
+    final resolvedFeatures = features ?? const [FontFeature.tabularFigures()];
+    final base = TextStyle(
       fontSize: size,
       fontWeight: weight,
       color: color,
       letterSpacing: letterSpacing,
-      fontFeatures: features ?? const [FontFeature.tabularFigures()],
+      fontFeatures: resolvedFeatures,
       height: 1.15,
     );
+    return switch (font) {
+      AppFont.inter => GoogleFonts.inter(textStyle: base),
+      AppFont.roboto => GoogleFonts.roboto(textStyle: base),
+      AppFont.manrope => GoogleFonts.manrope(textStyle: base),
+      AppFont.system => base,
+    };
   }
 
-  /// Баланс на главном экране.
-  static TextStyle get balance =>
-      _inter(size: 44, weight: FontWeight.w700, letterSpacing: -1);
-
-  /// Крупная сумма (карточка транзакции, цель).
-  static TextStyle get amountLarge =>
-      _inter(size: 28, weight: FontWeight.w700, letterSpacing: -0.5);
-
-  /// Сумма в строке списка.
-  static TextStyle get amountMedium =>
-      _inter(size: 17, weight: FontWeight.w600);
-
-  static TextStyle get headline =>
-      _inter(size: 20, weight: FontWeight.w600, features: const []);
-
-  static TextStyle get title => _inter(
-        size: 16,
-        weight: FontWeight.w500,
-        features: const [],
-      );
-
-  static TextStyle get body => _inter(
-        size: 14,
-        weight: FontWeight.w400,
-        color: AppColors.textSecondary,
-        features: const [],
-      );
-
-  static TextStyle get caption => _inter(
-        size: 12,
-        weight: FontWeight.w400,
-        color: AppColors.textTertiary,
-        letterSpacing: 0.2,
-        features: const [],
-      );
-
-  static TextStyle get label => _inter(
-        size: 13,
-        weight: FontWeight.w500,
-        color: AppColors.textSecondary,
-        letterSpacing: 0.1,
-        features: const [],
-      );
+  return TextTheme(
+    displayLarge: style(size: 44, weight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -1),
+    displayMedium: style(size: 28, weight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -0.5),
+    displaySmall: style(size: 17, weight: FontWeight.w600, color: colors.textPrimary),
+    headlineMedium: style(size: 20, weight: FontWeight.w600, color: colors.textPrimary, features: const []),
+    titleMedium: style(size: 16, weight: FontWeight.w500, color: colors.textPrimary, features: const []),
+    bodyMedium: style(size: 14, weight: FontWeight.w400, color: colors.textSecondary, features: const []),
+    bodySmall: style(
+      size: 12,
+      weight: FontWeight.w400,
+      color: colors.textTertiary,
+      letterSpacing: 0.2,
+      features: const [],
+    ),
+    labelMedium: style(
+      size: 13,
+      weight: FontWeight.w500,
+      color: colors.textSecondary,
+      letterSpacing: 0.1,
+      features: const [],
+    ),
+  );
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/currencies.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import 'currency_provider.dart';
 
 class CurrencyPickerScreen extends ConsumerWidget {
@@ -28,14 +28,14 @@ class CurrencyPickerScreen extends ConsumerWidget {
               height: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.surfaceVariant,
+                color: context.colors.surfaceVariant,
                 shape: BoxShape.circle,
               ),
-              child: Text(currency.symbol, style: AppTypography.title),
+              child: Text(currency.symbol, style: context.text.title),
             ),
-            title: Text(currency.displayName, style: AppTypography.title),
-            subtitle: Text(currency.code, style: AppTypography.caption),
-            trailing: selected ? const Icon(Icons.check, color: AppColors.accent) : null,
+            title: Text(currency.displayName, style: context.text.title),
+            subtitle: Text(currency.code, style: context.text.caption),
+            trailing: selected ? Icon(Icons.check, color: context.colors.accent) : null,
             onTap: () => ref.read(currencyProvider.notifier).setCurrency(currency),
           );
         },

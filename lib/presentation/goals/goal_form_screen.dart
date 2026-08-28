@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
@@ -109,23 +110,23 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
             TextField(
               controller: _titleController,
               autofocus: !_isEditing,
-              style: AppTypography.title.copyWith(color: AppColors.textPrimary),
+              style: context.text.title.copyWith(color: context.colors.textPrimary),
               decoration: const InputDecoration(hintText: 'Название цели, например «ПК»'),
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 24),
-            Text('Целевая сумма', style: AppTypography.label),
+            Text('Целевая сумма', style: context.text.label),
             const SizedBox(height: 8),
             TextField(
               controller: _targetController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-              style: AppTypography.amountLarge,
+              style: context.text.amountLarge,
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             const SizedBox(height: 24),
-            Text('Дедлайн', style: AppTypography.label),
+            Text('Дедлайн', style: context.text.label),
             const SizedBox(height: 8),
             InkWell(
               onTap: _pickDeadline,
@@ -133,27 +134,27 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: context.colors.surfaceVariant,
                   borderRadius: AppRadius.mediumAll,
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.event_outlined, size: 20, color: AppColors.textSecondary),
+                    Icon(Icons.event_outlined, size: 20, color: context.colors.textSecondary),
                     const SizedBox(width: 12),
-                    Expanded(child: Text(deadlineText, style: AppTypography.title)),
+                    Expanded(child: Text(deadlineText, style: context.text.title)),
                     if (_deadline != null)
                       IconButton(
-                        icon: const Icon(Icons.clear, size: 18, color: AppColors.textTertiary),
+                        icon: Icon(Icons.clear, size: 18, color: context.colors.textTertiary),
                         onPressed: () => setState(() => _deadline = null),
                       )
                     else
-                      const Icon(Icons.chevron_right, color: AppColors.textTertiary),
+                      Icon(Icons.chevron_right, color: context.colors.textTertiary),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            Text('Цвет', style: AppTypography.label),
+            Text('Цвет', style: context.text.label),
             const SizedBox(height: 8),
             Wrap(
               spacing: 12,
@@ -169,7 +170,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                       color: color,
                       shape: BoxShape.circle,
                       border: isSelected
-                          ? Border.all(color: AppColors.textPrimary, width: 2)
+                          ? Border.all(color: context.colors.textPrimary, width: 2)
                           : null,
                     ),
                     child: isSelected
