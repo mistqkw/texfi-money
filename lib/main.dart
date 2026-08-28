@@ -11,15 +11,18 @@ import 'presentation/settings/font_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
+import 'presentation/shared/restart_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   runApp(
-    ProviderScope(
-      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-      child: const TexFiMoneyApp(),
+    RestartWidget(
+      child: ProviderScope(
+        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+        child: const TexFiMoneyApp(),
+      ),
     ),
   );
 }

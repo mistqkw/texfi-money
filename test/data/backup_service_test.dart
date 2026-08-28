@@ -73,4 +73,32 @@ void main() {
     );
     await db.close();
   });
+
+  test('resetAllData удаляет все данные и возвращает предустановленные категории', () async {
+    final db = AppDatabase.forTesting(NativeDatabase.memory());
+    final accountRepo = AccountRepositoryImpl(db);
+    final txRepo = TransactionRepositoryImpl(db, CategoryRepositoryImpl(db));
+    final debtRepo = DebtProfileRepositoryImpl(db);
+
+    await accountRepo.create(name: 'Карта', color: const Color(0xFF4A7DFB));
+    await debtRepo.create(name: 'Андрей', color: const Color(0xFFFEBC2E));
+    await txRepo.add(
+      amount: 300,
+      type: TransactionType.expense,
+      categoryId: 'cat_groceries',
+      date: DateTime.now(),
+    );
+
+    await BackupService(db).resetAllData();
+
+    expect(await accountRepo.watchAll().first, isEmpty);
+    expect(await debtRepo.watchAll().first, isEmpty);
+    expect(await txRepo.watchAll(const TransactionFilter()).first, isEmpty);
+
+    final categories = await CategoryRepositoryImpl(db).watchAll().first;
+    expect(categories, isNotEmpty);
+    expect(categories.any((c) => c.id == 'cat_groceries'), isTrue);
+
+    await db.close();
+  });
 }

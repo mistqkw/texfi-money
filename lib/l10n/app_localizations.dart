@@ -936,6 +936,36 @@ abstract class AppLocalizations {
   /// **'This file isn\'t a valid TexFi m0ney backup'**
   String get backupImportError;
 
+  /// No description provided for @settingsDangerSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger zone'**
+  String get settingsDangerSection;
+
+  /// No description provided for @resetApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset app'**
+  String get resetApp;
+
+  /// No description provided for @resetAppConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset the app?'**
+  String get resetAppConfirmTitle;
+
+  /// No description provided for @resetAppConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything will be permanently deleted: transactions, categories, accounts, profiles, budgets, goals and all settings. The app will restart as if freshly installed. This can\'t be undone.'**
+  String get resetAppConfirmBody;
+
+  /// No description provided for @resetAppConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetAppConfirmAction;
+
   /// No description provided for @themeDark.
   ///
   /// In en, this message translates to:

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 
 import 'database.dart';
+import 'default_categories.dart';
 
 /// Полный экспорт/импорт локальной БД в JSON — единственный способ
 /// перенести или сохранить данные, так как приложение офлайн-only.
@@ -94,6 +95,23 @@ class BackupService {
               mode: InsertMode.insertOrReplace,
             );
       }
+    });
+  }
+
+  /// Полностью очищает все данные и возвращает предустановленные категории —
+  /// сброс приложения к состоянию первого запуска.
+  Future<void> resetAllData() async {
+    await _db.transaction(() async {
+      await _db.delete(_db.transactions).go();
+      await _db.delete(_db.budgets).go();
+      await _db.delete(_db.savingsGoals).go();
+      await _db.delete(_db.debtProfiles).go();
+      await _db.delete(_db.accounts).go();
+      await _db.delete(_db.categories).go();
+
+      await _db.batch((batch) {
+        batch.insertAll(_db.categories, buildDefaultCategories());
+      });
     });
   }
 }
