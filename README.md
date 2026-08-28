@@ -26,8 +26,12 @@
 ## Features
 
 - 💰 **Home** — total balance, this month's income/expense, recent transactions
-- ➕ **Add transactions** — amount, category, date, note, income or expense
+- ➕ **Add transactions** — amount, category, date, note, income or expense, optional account
+- ⌨️ **Quick add** — one line, e.g. `-15 coffee lunch` or `+2000 salary`, parsed and committed instantly
+- 🗑 **Swipe to delete** — swipe a transaction away on Home or in History; the balance pulses to confirm
 - 🏷 **Categories** — presets plus your own, with a line-style icon and color
+- 💳 **Accounts** — track cash and multiple cards separately (bank A, bank B...), each with its own balance
+- 🤝 **Profiles** — keep tabs on money you've lent to or borrowed from other people, separate from your own accounts
 - 📊 **Budgets** — monthly limit per category, animated progress bar, warning near the limit
 - 🎯 **Savings goals** — target amount, progress, optional deadline, quick top-ups
 - 📈 **Statistics** — income/expense by month, expense breakdown by category (pie chart)
@@ -35,6 +39,7 @@
 - 💱 **Multi-currency display** — RUB, USD, EUR, UAH, PLN and more, switch anytime
 - 🌍 **Languages** — English, Русский, Polski, Українська, follows the system by default
 - 🎨 **Themes & fonts** — Dark, Light, pure-black OLED; Inter, Roboto, Manrope or system font
+- 👋 **Guided first run** — animated onboarding walks through the app, then lets you pick your currency and theme with a live preview
 
 Part of the **TexFi** ecosystem, alongside [TexFi Files](https://github.com/mistqkw/texfi_files) and [TeFBlock](https://github.com/mistqkw/tefblock).
 
@@ -67,10 +72,13 @@ lib/
     home/
     add_transaction/
     categories/
+    accounts/
+    profiles/
     budgets/
     goals/
     statistics/
     history/
+    onboarding/
     settings/
     shared/
 ```
