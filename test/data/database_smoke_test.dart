@@ -90,4 +90,62 @@ void main() {
     expect(goal.progress, closeTo(0.25, 0.0001));
     expect(goal.isCompleted, isFalse);
   });
+
+  test('watchMonthlyTotals агрегирует доход/расход по месяцам', () async {
+    final txRepo = TransactionRepositoryImpl(db, CategoryRepositoryImpl(db));
+    final now = DateTime.now();
+    final lastMonth = DateTime(now.year, now.month - 1, 15);
+
+    await txRepo.add(
+      amount: 1000,
+      type: TransactionType.income,
+      categoryId: 'cat_salary',
+      date: now,
+    );
+    await txRepo.add(
+      amount: 400,
+      type: TransactionType.expense,
+      categoryId: 'cat_groceries',
+      date: lastMonth,
+    );
+
+    final totals = await txRepo.watchMonthlyTotals(3).first;
+
+    expect(totals.length, 3);
+    expect(totals.last.income, 1000);
+    expect(totals.last.expense, 0);
+    expect(totals[totals.length - 2].expense, 400);
+  });
+
+  test('watchCategoryTotals группирует расходы по категориям за месяц', () async {
+    final txRepo = TransactionRepositoryImpl(db, CategoryRepositoryImpl(db));
+    final now = DateTime.now();
+
+    await txRepo.add(
+      amount: 200,
+      type: TransactionType.expense,
+      categoryId: 'cat_groceries',
+      date: now,
+    );
+    await txRepo.add(
+      amount: 300,
+      type: TransactionType.expense,
+      categoryId: 'cat_groceries',
+      date: now,
+    );
+    await txRepo.add(
+      amount: 150,
+      type: TransactionType.expense,
+      categoryId: 'cat_transport',
+      date: now,
+    );
+
+    final totals = await txRepo
+        .watchCategoryTotals(month: now, type: TransactionType.expense)
+        .first;
+
+    expect(totals.first.category.id, 'cat_groceries');
+    expect(totals.first.total, 500);
+    expect(totals.firstWhere((t) => t.category.id == 'cat_transport').total, 150);
+  });
 }
