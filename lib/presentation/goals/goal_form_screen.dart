@@ -8,6 +8,7 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
+import '../settings/currency_provider.dart';
 
 class GoalFormScreen extends ConsumerStatefulWidget {
   const GoalFormScreen({super.key, this.existing});
@@ -88,6 +89,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currency = ref.watch(currencyProvider);
     final deadlineText = _deadline == null
         ? 'Без дедлайна'
         : DateFormat('d MMMM yyyy', 'ru_RU').format(_deadline!);
@@ -120,7 +122,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
               style: AppTypography.amountLarge,
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(hintText: '0 ₽'),
+              decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             const SizedBox(height: 24),
             Text('Дедлайн', style: AppTypography.label),

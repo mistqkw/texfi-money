@@ -1,21 +1,16 @@
 import 'package:intl/intl.dart';
 
-final _amountFormat = NumberFormat.currency(
-  locale: 'ru_RU',
-  symbol: '₽',
-  decimalDigits: 0,
-);
-
-final _amountFormatPrecise = NumberFormat.currency(
-  locale: 'ru_RU',
-  symbol: '₽',
-  decimalDigits: 2,
-);
+import '../constants/currencies.dart';
 
 /// Форматирует сумму без копеек, если они нулевые: «1 234 ₽» / «1 234,50 ₽».
-String formatAmount(double value) {
+String formatAmount(double value, AppCurrency currency) {
   final hasCents = (value - value.truncateToDouble()).abs() > 0.001;
-  return hasCents ? _amountFormatPrecise.format(value) : _amountFormat.format(value);
+  final format = NumberFormat.currency(
+    locale: 'ru_RU',
+    symbol: currency.symbol,
+    decimalDigits: hasCents ? 2 : 0,
+  );
+  return format.format(value);
 }
 
 final _dateFormat = DateFormat('d MMMM', 'ru_RU');

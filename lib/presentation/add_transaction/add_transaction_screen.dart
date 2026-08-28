@@ -13,6 +13,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../categories/category_form_screen.dart';
+import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 
@@ -205,14 +206,16 @@ class _TypeToggle extends StatelessWidget {
   }
 }
 
-class _AmountField extends StatelessWidget {
+class _AmountField extends ConsumerWidget {
   const _AmountField({required this.controller, required this.onChanged});
 
   final TextEditingController controller;
   final VoidCallback onChanged;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
+
     return TextField(
       controller: controller,
       onChanged: (_) => onChanged(),
@@ -222,7 +225,7 @@ class _AmountField extends StatelessWidget {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
       style: AppTypography.balance,
       decoration: InputDecoration(
-        hintText: '0 ₽',
+        hintText: '0 ${currency.symbol}',
         hintStyle: AppTypography.balance.copyWith(color: AppColors.textTertiary),
         filled: false,
         border: InputBorder.none,

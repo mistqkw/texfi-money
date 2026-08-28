@@ -6,6 +6,7 @@ import '../../core/theme/app_typography.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
@@ -63,6 +64,8 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currency = ref.watch(currencyProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? 'Изменить бюджет' : 'Новый бюджет'),
@@ -105,7 +108,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
               style: AppTypography.amountLarge,
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(hintText: '0 ₽'),
+              decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             const SizedBox(height: 32),
             SizedBox(

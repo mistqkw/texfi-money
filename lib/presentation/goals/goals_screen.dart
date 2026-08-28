@@ -9,6 +9,7 @@ import '../../core/theme/app_typography.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
+import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
@@ -17,6 +18,7 @@ class GoalsScreen extends ConsumerWidget {
   const GoalsScreen({super.key});
 
   Future<void> _addContribution(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
+    final currency = ref.read(currencyProvider);
     final controller = TextEditingController();
     final amount = await showDialog<double>(
       context: context,
@@ -28,7 +30,7 @@ class GoalsScreen extends ConsumerWidget {
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
           style: AppTypography.amountLarge,
-          decoration: const InputDecoration(hintText: '0 ₽'),
+          decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
         ),
         actions: [
           TextButton(
@@ -138,7 +140,7 @@ class GoalsScreen extends ConsumerWidget {
   }
 }
 
-class _GoalCard extends StatelessWidget {
+class _GoalCard extends ConsumerWidget {
   const _GoalCard({required this.goal, required this.onTap, required this.onAddFunds});
 
   final SavingsGoalEntity goal;
@@ -146,7 +148,9 @@ class _GoalCard extends StatelessWidget {
   final VoidCallback onAddFunds;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
+
     return InkWell(
       borderRadius: AppRadius.mediumAll,
       onTap: onTap,
@@ -184,7 +188,7 @@ class _GoalCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '${formatAmount(goal.currentAmount)} из ${formatAmount(goal.targetAmount)}',
+              '${formatAmount(goal.currentAmount, currency)} из ${formatAmount(goal.targetAmount, currency)}',
               style: AppTypography.caption,
             ),
             const SizedBox(height: 12),

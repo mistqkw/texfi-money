@@ -21,6 +21,7 @@ dependencies:
   drift_flutter: ^0.2.4
   path_provider: ^2.1.5
   path: ^1.9.1
+  shared_preferences: ^2.3.3
 
   # UI / UX
   google_fonts: ^6.2.1
