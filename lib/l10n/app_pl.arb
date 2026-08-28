@@ -141,5 +141,17 @@
   "quickEntryHint": "-50 zakupy obiad",
   "quickEntryHelp": "Znak, kwota, kategoria, notatka — np. „-50 zakupy obiad” lub „+3000 wynagrodzenie”",
   "quickEntryParseError": "Nie rozpoznano. Zacznij od + lub -, potem kwota.",
-  "quickEntryAdded": "Dodano: {details}"
+  "quickEntryAdded": "Dodano: {details}",
+
+  "onboardingSlide1Title": "Wszystko pod kontrolą",
+  "onboardingSlide1Body": "Saldo, przychody i wydatki w tym miesiącu — na jednym ekranie.",
+  "onboardingSlide2Title": "Budżety i cele",
+  "onboardingSlide2Body": "Ustawiaj miesięczne limity dla kategorii i oszczędzaj na to, co ważne — z paskiem postępu.",
+  "onboardingSlide3Title": "❯ Szybkie dodawanie",
+  "onboardingSlide3Body": "Jedna linia — „-50 zakupy obiad” — i transakcja gotowa. Szybciej niż przez menu.",
+  "onboardingSlide4Title": "Prywatnie i offline",
+  "onboardingSlide4Body": "Wszystko zostaje na urządzeniu. Bez konta, chmury i reklam.",
+  "onboardingNext": "Dalej",
+  "onboardingStart": "Zaczynajmy",
+  "onboardingSkip": "Pomiń"
 }

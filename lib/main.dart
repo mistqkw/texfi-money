@@ -10,7 +10,7 @@ import 'presentation/settings/currency_provider.dart';
 import 'presentation/settings/font_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
-import 'presentation/shared/root_shell.dart';
+import 'presentation/shared/app_entry.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class TexFiMoneyApp extends ConsumerWidget {
       locale: locale,
       supportedLocales: supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: const RootShell(),
+      home: const AppEntry(),
     );
   }
 }

@@ -141,5 +141,17 @@
   "quickEntryHint": "-350 продукты обед",
   "quickEntryHelp": "Знак, сумма, категория, заметка — например «-350 продукты обед» или «+5000 зарплата»",
   "quickEntryParseError": "Не распознано. Начните с + или -, затем сумма.",
-  "quickEntryAdded": "Добавлено: {details}"
+  "quickEntryAdded": "Добавлено: {details}",
+
+  "onboardingSlide1Title": "Всё под контролем",
+  "onboardingSlide1Body": "Баланс, доходы и расходы за месяц — на одном экране.",
+  "onboardingSlide2Title": "Бюджеты и цели",
+  "onboardingSlide2Body": "Ставьте месячные лимиты по категориям и копите на важное — с наглядным прогресс-баром.",
+  "onboardingSlide3Title": "❯ Быстрый ввод",
+  "onboardingSlide3Body": "Одна строка — «-350 продукты обед» — и транзакция готова. Быстрее, чем через меню.",
+  "onboardingSlide4Title": "Приватно и офлайн",
+  "onboardingSlide4Body": "Все данные остаются на устройстве. Без аккаунта, облака и рекламы.",
+  "onboardingNext": "Далее",
+  "onboardingStart": "Начать",
+  "onboardingSkip": "Пропустить"
 }

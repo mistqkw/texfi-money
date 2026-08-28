@@ -407,4 +407,41 @@ class AppLocalizationsRu extends AppLocalizations {
   String quickEntryAdded(String details) {
     return 'Добавлено: $details';
   }
+
+  @override
+  String get onboardingSlide1Title => 'Всё под контролем';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Баланс, доходы и расходы за месяц — на одном экране.';
+
+  @override
+  String get onboardingSlide2Title => 'Бюджеты и цели';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Ставьте месячные лимиты по категориям и копите на важное — с наглядным прогресс-баром.';
+
+  @override
+  String get onboardingSlide3Title => '❯ Быстрый ввод';
+
+  @override
+  String get onboardingSlide3Body =>
+      'Одна строка — «-350 продукты обед» — и транзакция готова. Быстрее, чем через меню.';
+
+  @override
+  String get onboardingSlide4Title => 'Приватно и офлайн';
+
+  @override
+  String get onboardingSlide4Body =>
+      'Все данные остаются на устройстве. Без аккаунта, облака и рекламы.';
+
+  @override
+  String get onboardingNext => 'Далее';
+
+  @override
+  String get onboardingStart => 'Начать';
+
+  @override
+  String get onboardingSkip => 'Пропустить';
 }

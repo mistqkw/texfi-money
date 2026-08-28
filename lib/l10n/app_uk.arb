@@ -141,5 +141,17 @@
   "quickEntryHint": "-350 продукти обід",
   "quickEntryHelp": "Знак, сума, категорія, нотатка — наприклад «-350 продукти обід» або «+5000 зарплата»",
   "quickEntryParseError": "Не розпізнано. Почніть з + або -, потім сума.",
-  "quickEntryAdded": "Додано: {details}"
+  "quickEntryAdded": "Додано: {details}",
+
+  "onboardingSlide1Title": "Все під контролем",
+  "onboardingSlide1Body": "Баланс, доходи та витрати за місяць — на одному екрані.",
+  "onboardingSlide2Title": "Бюджети та цілі",
+  "onboardingSlide2Body": "Встановлюйте місячні ліміти для категорій і накопичуйте на важливе — з наочним прогрес-баром.",
+  "onboardingSlide3Title": "❯ Швидке додавання",
+  "onboardingSlide3Body": "Один рядок — «-350 продукти обід» — і транзакція готова. Швидше, ніж через меню.",
+  "onboardingSlide4Title": "Приватно й офлайн",
+  "onboardingSlide4Body": "Усі дані залишаються на пристрої. Без акаунта, хмари й реклами.",
+  "onboardingNext": "Далі",
+  "onboardingStart": "Почати",
+  "onboardingSkip": "Пропустити"
 }

@@ -407,4 +407,41 @@ class AppLocalizationsPl extends AppLocalizations {
   String quickEntryAdded(String details) {
     return 'Dodano: $details';
   }
+
+  @override
+  String get onboardingSlide1Title => 'Wszystko pod kontrolą';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Saldo, przychody i wydatki w tym miesiącu — na jednym ekranie.';
+
+  @override
+  String get onboardingSlide2Title => 'Budżety i cele';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Ustawiaj miesięczne limity dla kategorii i oszczędzaj na to, co ważne — z paskiem postępu.';
+
+  @override
+  String get onboardingSlide3Title => '❯ Szybkie dodawanie';
+
+  @override
+  String get onboardingSlide3Body =>
+      'Jedna linia — „-50 zakupy obiad” — i transakcja gotowa. Szybciej niż przez menu.';
+
+  @override
+  String get onboardingSlide4Title => 'Prywatnie i offline';
+
+  @override
+  String get onboardingSlide4Body =>
+      'Wszystko zostaje na urządzeniu. Bez konta, chmury i reklam.';
+
+  @override
+  String get onboardingNext => 'Dalej';
+
+  @override
+  String get onboardingStart => 'Zaczynajmy';
+
+  @override
+  String get onboardingSkip => 'Pomiń';
 }
