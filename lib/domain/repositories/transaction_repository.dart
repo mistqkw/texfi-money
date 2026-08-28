@@ -1,3 +1,5 @@
+import '../entities/category_total.dart';
+import '../entities/monthly_total.dart';
 import '../entities/transaction_entity.dart';
 import '../entities/transaction_type.dart';
 
@@ -24,6 +26,15 @@ abstract class TransactionRepository {
 
   /// Общий баланс за всё время.
   Stream<double> watchTotalBalance();
+
+  /// Доходы/расходы по месяцам: последние [monthsCount] месяцев, включая текущий.
+  Stream<List<MonthlyTotal>> watchMonthlyTotals(int monthsCount);
+
+  /// Разбивка по категориям заданного типа за месяц, содержащий [month].
+  Stream<List<CategoryTotal>> watchCategoryTotals({
+    required DateTime month,
+    required TransactionType type,
+  });
 
   Future<String> add({
     required double amount,

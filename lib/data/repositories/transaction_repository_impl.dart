@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../domain/entities/category_total.dart';
+import '../../domain/entities/monthly_total.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
@@ -99,6 +101,72 @@ class TransactionRepositoryImpl implements TransactionRepository {
             row.type == TransactionType.income.storageKey ? row.amount : -row.amount;
       }
       return balance;
+    });
+  }
+
+  @override
+  Stream<List<MonthlyTotal>> watchMonthlyTotals(int monthsCount) {
+    final now = DateTime.now();
+    final start = DateTime(now.year, now.month - (monthsCount - 1), 1);
+    final query = _db.select(_db.transactions)
+      ..where((t) => t.date.isBiggerOrEqualValue(start));
+
+    return query.watch().map((rows) {
+      final months = List.generate(
+        monthsCount,
+        (i) => DateTime(now.year, now.month - (monthsCount - 1) + i, 1),
+      );
+      final income = List.filled(monthsCount, 0.0);
+      final expense = List.filled(monthsCount, 0.0);
+
+      for (final row in rows) {
+        final index = months.indexWhere(
+          (m) => m.year == row.date.year && m.month == row.date.month,
+        );
+        if (index == -1) continue;
+        if (row.type == TransactionType.income.storageKey) {
+          income[index] += row.amount;
+        } else {
+          expense[index] += row.amount;
+        }
+      }
+
+      return List.generate(
+        monthsCount,
+        (i) => MonthlyTotal(month: months[i], income: income[i], expense: expense[i]),
+      );
+    });
+  }
+
+  @override
+  Stream<List<CategoryTotal>> watchCategoryTotals({
+    required DateTime month,
+    required TransactionType type,
+  }) {
+    final start = DateTime(month.year, month.month, 1);
+    final end = DateTime(month.year, month.month + 1, 1);
+    final totalSum = _db.transactions.amount.sum();
+
+    final query = _db.select(_db.transactions).join([
+      innerJoin(
+        _db.categories,
+        _db.categories.id.equalsExp(_db.transactions.categoryId),
+      ),
+    ])
+      ..where(_db.transactions.type.equals(type.storageKey) &
+          _db.transactions.date.isBiggerOrEqualValue(start) &
+          _db.transactions.date.isSmallerThanValue(end))
+      ..addColumns([totalSum])
+      ..groupBy([_db.transactions.categoryId]);
+
+    return query.watch().map((rows) {
+      final list = rows.map((row) {
+        final category = row.readTable(_db.categories);
+        final total = row.read(totalSum) ?? 0;
+        return CategoryTotal(category: _categoryMapper.mapRow(category), total: total);
+      }).toList();
+      list.sort((a, b) => b.total.compareTo(a.total));
+      return list;
     });
   }
 
