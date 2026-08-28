@@ -186,7 +186,11 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: AppMotion.flourish);
+    // value: 1.0 — состояние покоя (свечение и подскок уже угасли). По
+    // умолчанию AnimationController стартует с 0.0, что совпадает с началом
+    // самой анимации (пик свечения) — из-за этого баланс светился, даже
+    // если ни разу не проигрывалась ни одна вспышка.
+    _controller = AnimationController(vsync: this, duration: AppMotion.flourish, value: 1.0);
   }
 
   @override
