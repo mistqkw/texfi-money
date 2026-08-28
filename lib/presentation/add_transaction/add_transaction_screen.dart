@@ -13,7 +13,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../categories/category_form_screen.dart';
-import '../shared/category_avatar.dart';
+import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
@@ -253,32 +253,11 @@ class _CategoryGrid extends StatelessWidget {
       spacing: 12,
       runSpacing: 12,
       children: [
-        ...categories.map((category) {
-          final selected = category.id == selectedId;
-          return GestureDetector(
-            onTap: () => onSelected(category.id),
-            child: AnimatedContainer(
-              duration: AppMotion.fast,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: selected ? category.color.withValues(alpha: 0.16) : AppColors.surface,
-                borderRadius: AppRadius.mediumAll,
-                border: Border.all(
-                  color: selected ? category.color : AppColors.divider,
-                  width: selected ? 1.5 : 1,
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CategoryAvatar(category: category, size: 28),
-                  const SizedBox(width: 8),
-                  Text(category.name, style: AppTypography.title),
-                ],
-              ),
-            ),
-          );
-        }),
+        ...categories.map((category) => CategorySelectChip(
+              category: category,
+              selected: category.id == selectedId,
+              onTap: () => onSelected(category.id),
+            )),
         GestureDetector(
           onTap: onAddCategory,
           child: Container(
