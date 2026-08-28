@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../budgets/budgets_screen.dart';
+import '../goals/goals_screen.dart';
 import '../home/home_screen.dart';
 import 'coming_soon_screen.dart';
 
@@ -18,7 +19,7 @@ class _RootShellState extends State<RootShell> {
     HomeScreen(),
     ComingSoonScreen(title: 'История', icon: Icons.receipt_long_outlined),
     BudgetsScreen(),
-    ComingSoonScreen(title: 'Цели', icon: Icons.flag_outlined),
+    GoalsScreen(),
     ComingSoonScreen(title: 'Статистика', icon: Icons.insights_outlined),
   ];
 
