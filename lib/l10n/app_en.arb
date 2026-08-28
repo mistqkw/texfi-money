@@ -15,8 +15,6 @@
   "commonSave": "Save",
   "commonCreate": "Create",
   "commonAdd": "Add",
-  "commonUndo": "Undo",
-  "commonDeleted": "Deleted",
   "commonExpense": "Expense",
   "commonIncome": "Income",
   "commonCategory": "Category",
@@ -68,6 +66,8 @@
   "addTxLoadCategoriesError": "Couldn't load categories",
   "addTxNoteHint": "Note (optional)",
   "addTxAddCategory": "Custom category",
+  "addTxAccountLabel": "Account",
+  "addTxNoAccount": "No account",
 
   "budgetsTitle": "Budgets",
   "budgetsEmpty": "No budgets yet — set a monthly limit for a category with the “+” button",
@@ -132,6 +132,45 @@
     "placeholders": { "days": { "type": "num" } }
   },
 
+  "accountsTitle": "Accounts",
+  "accountsEmpty": "No accounts yet — add your first with the “+” button",
+  "accountsLoadError": "Couldn't load accounts",
+  "accountsDeleteTitle": "Delete account?",
+  "accountsDeleteConfirm": "Account “{name}” will be deleted. Its transactions stay, just unassigned.",
+  "@accountsDeleteConfirm": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountFormTitleNew": "New account",
+  "accountFormTitleEdit": "Edit account",
+  "accountFormNameHint": "Account name, e.g. “Bank A card”",
+
+  "profilesTitle": "Profiles",
+  "profilesEmpty": "No profiles yet — track money someone owes you (or you owe them) with the “+” button",
+  "profilesLoadError": "Couldn't load profiles",
+  "profilesDeleteTitle": "Delete profile?",
+  "profilesDeleteConfirm": "Profile “{name}” and its balance will be deleted.",
+  "@profilesDeleteConfirm": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "profileFormTitleNew": "New profile",
+  "profileFormTitleEdit": "Edit profile",
+  "profileFormNameHint": "Person's name",
+  "profilesRecordTitle": "Record for “{name}”",
+  "@profilesRecordTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "profilesTheyBorrowed": "They borrowed",
+  "profilesTheyRepaid": "They repaid",
+  "profilesOwesYou": "Owes you {amount}",
+  "@profilesOwesYou": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "profilesYouOwe": "You owe {amount}",
+  "@profilesYouOwe": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "profilesSettled": "Settled up",
+
   "historyAllTypes": "All types",
   "historyAllCategories": "All categories",
   "historyTitle": "History",
@@ -147,6 +186,7 @@
   "settingsFontSection": "Font",
   "settingsCurrencySection": "Currency",
   "settingsLanguageSection": "Language",
+  "settingsManageSection": "Manage",
   "themeDark": "Dark",
   "themeLight": "Light",
   "themeOled": "Black (OLED)",
@@ -166,10 +206,6 @@
   "quickEntryHint": "-15 coffee lunch",
   "quickEntryHelp": "Sign, amount, category, note — e.g. “-15 coffee lunch” or “+2000 salary”",
   "quickEntryParseError": "Not recognized. Start with + or -, then the amount.",
-  "quickEntryAdded": "Added: {details}",
-  "@quickEntryAdded": {
-    "placeholders": { "details": { "type": "String" } }
-  },
 
   "onboardingSlide1Title": "Everything in view",
   "onboardingSlide1Body": "Balance, income and expenses for the month — all on one screen.",
@@ -179,6 +215,8 @@
   "onboardingSlide3Body": "One line — “-15 coffee lunch” — and the transaction is done. Faster than tapping through menus.",
   "onboardingSlide4Title": "Private & offline",
   "onboardingSlide4Body": "Everything stays on your device. No account, no cloud, no ads.",
+  "onboardingCurrencyStepTitle": "Pick your currency",
+  "onboardingThemeStepTitle": "Pick your look",
   "onboardingNext": "Next",
   "onboardingStart": "Get started",
   "onboardingSkip": "Skip"

@@ -45,12 +45,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonAdd => 'Add';
 
   @override
-  String get commonUndo => 'Undo';
-
-  @override
-  String get commonDeleted => 'Deleted';
-
-  @override
   String get commonExpense => 'Expense';
 
   @override
@@ -184,6 +178,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addTxAddCategory => 'Custom category';
 
   @override
+  String get addTxAccountLabel => 'Account';
+
+  @override
+  String get addTxNoAccount => 'No account';
+
+  @override
   String get budgetsTitle => 'Budgets';
 
   @override
@@ -313,6 +313,84 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get accountsTitle => 'Accounts';
+
+  @override
+  String get accountsEmpty =>
+      'No accounts yet — add your first with the “+” button';
+
+  @override
+  String get accountsLoadError => 'Couldn\'t load accounts';
+
+  @override
+  String get accountsDeleteTitle => 'Delete account?';
+
+  @override
+  String accountsDeleteConfirm(String name) {
+    return 'Account “$name” will be deleted. Its transactions stay, just unassigned.';
+  }
+
+  @override
+  String get accountFormTitleNew => 'New account';
+
+  @override
+  String get accountFormTitleEdit => 'Edit account';
+
+  @override
+  String get accountFormNameHint => 'Account name, e.g. “Bank A card”';
+
+  @override
+  String get profilesTitle => 'Profiles';
+
+  @override
+  String get profilesEmpty =>
+      'No profiles yet — track money someone owes you (or you owe them) with the “+” button';
+
+  @override
+  String get profilesLoadError => 'Couldn\'t load profiles';
+
+  @override
+  String get profilesDeleteTitle => 'Delete profile?';
+
+  @override
+  String profilesDeleteConfirm(String name) {
+    return 'Profile “$name” and its balance will be deleted.';
+  }
+
+  @override
+  String get profileFormTitleNew => 'New profile';
+
+  @override
+  String get profileFormTitleEdit => 'Edit profile';
+
+  @override
+  String get profileFormNameHint => 'Person\'s name';
+
+  @override
+  String profilesRecordTitle(String name) {
+    return 'Record for “$name”';
+  }
+
+  @override
+  String get profilesTheyBorrowed => 'They borrowed';
+
+  @override
+  String get profilesTheyRepaid => 'They repaid';
+
+  @override
+  String profilesOwesYou(String amount) {
+    return 'Owes you $amount';
+  }
+
+  @override
+  String profilesYouOwe(String amount) {
+    return 'You owe $amount';
+  }
+
+  @override
+  String get profilesSettled => 'Settled up';
+
+  @override
   String get historyAllTypes => 'All types';
 
   @override
@@ -353,6 +431,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsLanguageSection => 'Language';
+
+  @override
+  String get settingsManageSection => 'Manage';
 
   @override
   String get themeDark => 'Dark';
@@ -405,11 +486,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Not recognized. Start with + or -, then the amount.';
 
   @override
-  String quickEntryAdded(String details) {
-    return 'Added: $details';
-  }
-
-  @override
   String get onboardingSlide1Title => 'Everything in view';
 
   @override
@@ -436,6 +512,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingSlide4Body =>
       'Everything stays on your device. No account, no cloud, no ads.';
+
+  @override
+  String get onboardingCurrencyStepTitle => 'Pick your currency';
+
+  @override
+  String get onboardingThemeStepTitle => 'Pick your look';
 
   @override
   String get onboardingNext => 'Next';

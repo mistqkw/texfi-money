@@ -26,6 +26,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       category: _categoryMapper.mapRow(cat),
       date: tx.date,
       note: tx.note,
+      accountId: tx.accountId,
       createdAt: tx.createdAt,
     );
   }
@@ -177,6 +178,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required String categoryId,
     required DateTime date,
     String? note,
+    String? accountId,
   }) async {
     final id = _uuid.v4();
     await _db.into(_db.transactions).insert(TransactionsCompanion.insert(
@@ -186,6 +188,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
           categoryId: categoryId,
           date: date,
           note: Value(note),
+          accountId: Value(accountId),
         ));
     return id;
   }

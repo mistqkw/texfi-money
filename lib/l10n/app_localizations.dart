@@ -174,18 +174,6 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get commonAdd;
 
-  /// No description provided for @commonUndo.
-  ///
-  /// In en, this message translates to:
-  /// **'Undo'**
-  String get commonUndo;
-
-  /// No description provided for @commonDeleted.
-  ///
-  /// In en, this message translates to:
-  /// **'Deleted'**
-  String get commonDeleted;
-
   /// No description provided for @commonExpense.
   ///
   /// In en, this message translates to:
@@ -444,6 +432,18 @@ abstract class AppLocalizations {
   /// **'Custom category'**
   String get addTxAddCategory;
 
+  /// No description provided for @addTxAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get addTxAccountLabel;
+
+  /// No description provided for @addTxNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account'**
+  String get addTxNoAccount;
+
   /// No description provided for @budgetsTitle.
   ///
   /// In en, this message translates to:
@@ -660,6 +660,138 @@ abstract class AppLocalizations {
   /// **'{days, plural, one {{days} day left} other {{days} days left}}'**
   String goalsDaysLeft(num days);
 
+  /// No description provided for @accountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// No description provided for @accountsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet — add your first with the “+” button'**
+  String get accountsEmpty;
+
+  /// No description provided for @accountsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load accounts'**
+  String get accountsLoadError;
+
+  /// No description provided for @accountsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account?'**
+  String get accountsDeleteTitle;
+
+  /// No description provided for @accountsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Account “{name}” will be deleted. Its transactions stay, just unassigned.'**
+  String accountsDeleteConfirm(String name);
+
+  /// No description provided for @accountFormTitleNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New account'**
+  String get accountFormTitleNew;
+
+  /// No description provided for @accountFormTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get accountFormTitleEdit;
+
+  /// No description provided for @accountFormNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name, e.g. “Bank A card”'**
+  String get accountFormNameHint;
+
+  /// No description provided for @profilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profiles'**
+  String get profilesTitle;
+
+  /// No description provided for @profilesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No profiles yet — track money someone owes you (or you owe them) with the “+” button'**
+  String get profilesEmpty;
+
+  /// No description provided for @profilesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load profiles'**
+  String get profilesLoadError;
+
+  /// No description provided for @profilesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete profile?'**
+  String get profilesDeleteTitle;
+
+  /// No description provided for @profilesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile “{name}” and its balance will be deleted.'**
+  String profilesDeleteConfirm(String name);
+
+  /// No description provided for @profileFormTitleNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New profile'**
+  String get profileFormTitleNew;
+
+  /// No description provided for @profileFormTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileFormTitleEdit;
+
+  /// No description provided for @profileFormNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Person\'s name'**
+  String get profileFormNameHint;
+
+  /// No description provided for @profilesRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record for “{name}”'**
+  String profilesRecordTitle(String name);
+
+  /// No description provided for @profilesTheyBorrowed.
+  ///
+  /// In en, this message translates to:
+  /// **'They borrowed'**
+  String get profilesTheyBorrowed;
+
+  /// No description provided for @profilesTheyRepaid.
+  ///
+  /// In en, this message translates to:
+  /// **'They repaid'**
+  String get profilesTheyRepaid;
+
+  /// No description provided for @profilesOwesYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Owes you {amount}'**
+  String profilesOwesYou(String amount);
+
+  /// No description provided for @profilesYouOwe.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe {amount}'**
+  String profilesYouOwe(String amount);
+
+  /// No description provided for @profilesSettled.
+  ///
+  /// In en, this message translates to:
+  /// **'Settled up'**
+  String get profilesSettled;
+
   /// No description provided for @historyAllTypes.
   ///
   /// In en, this message translates to:
@@ -743,6 +875,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get settingsLanguageSection;
+
+  /// No description provided for @settingsManageSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get settingsManageSection;
 
   /// No description provided for @themeDark.
   ///
@@ -840,12 +978,6 @@ abstract class AppLocalizations {
   /// **'Not recognized. Start with + or -, then the amount.'**
   String get quickEntryParseError;
 
-  /// No description provided for @quickEntryAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Added: {details}'**
-  String quickEntryAdded(String details);
-
   /// No description provided for @onboardingSlide1Title.
   ///
   /// In en, this message translates to:
@@ -893,6 +1025,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Everything stays on your device. No account, no cloud, no ads.'**
   String get onboardingSlide4Body;
+
+  /// No description provided for @onboardingCurrencyStepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your currency'**
+  String get onboardingCurrencyStepTitle;
+
+  /// No description provided for @onboardingThemeStepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your look'**
+  String get onboardingThemeStepTitle;
 
   /// No description provided for @onboardingNext.
   ///

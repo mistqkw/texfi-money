@@ -54,6 +54,7 @@ abstract class TransactionRepository {
     required String categoryId,
     required DateTime date,
     String? note,
+    String? accountId,
   });
 
   Future<void> delete(String id);

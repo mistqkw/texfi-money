@@ -45,12 +45,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonAdd => 'Добавить';
 
   @override
-  String get commonUndo => 'Отменить';
-
-  @override
-  String get commonDeleted => 'Удалено';
-
-  @override
   String get commonExpense => 'Расход';
 
   @override
@@ -184,6 +178,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get addTxAddCategory => 'Своя категория';
 
   @override
+  String get addTxAccountLabel => 'Счёт';
+
+  @override
+  String get addTxNoAccount => 'Без счёта';
+
+  @override
   String get budgetsTitle => 'Бюджеты';
 
   @override
@@ -314,6 +314,83 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get accountsTitle => 'Счета';
+
+  @override
+  String get accountsEmpty => 'Пока нет счетов — добавьте первый кнопкой «+»';
+
+  @override
+  String get accountsLoadError => 'Не удалось загрузить счета';
+
+  @override
+  String get accountsDeleteTitle => 'Удалить счёт?';
+
+  @override
+  String accountsDeleteConfirm(String name) {
+    return 'Счёт «$name» будет удалён. Его транзакции останутся, просто без привязки.';
+  }
+
+  @override
+  String get accountFormTitleNew => 'Новый счёт';
+
+  @override
+  String get accountFormTitleEdit => 'Редактировать счёт';
+
+  @override
+  String get accountFormNameHint => 'Название счёта, например «Карта банка А»';
+
+  @override
+  String get profilesTitle => 'Профили';
+
+  @override
+  String get profilesEmpty =>
+      'Пока нет профилей — учитывайте чужие деньги кнопкой «+»';
+
+  @override
+  String get profilesLoadError => 'Не удалось загрузить профили';
+
+  @override
+  String get profilesDeleteTitle => 'Удалить профиль?';
+
+  @override
+  String profilesDeleteConfirm(String name) {
+    return 'Профиль «$name» и его баланс будут удалены.';
+  }
+
+  @override
+  String get profileFormTitleNew => 'Новый профиль';
+
+  @override
+  String get profileFormTitleEdit => 'Редактировать профиль';
+
+  @override
+  String get profileFormNameHint => 'Имя человека';
+
+  @override
+  String profilesRecordTitle(String name) {
+    return 'Запись для «$name»';
+  }
+
+  @override
+  String get profilesTheyBorrowed => 'Занял(а)';
+
+  @override
+  String get profilesTheyRepaid => 'Вернул(а)';
+
+  @override
+  String profilesOwesYou(String amount) {
+    return 'Должен(на) вам $amount';
+  }
+
+  @override
+  String profilesYouOwe(String amount) {
+    return 'Вы должны $amount';
+  }
+
+  @override
+  String get profilesSettled => 'В расчёте';
+
+  @override
   String get historyAllTypes => 'Все типы';
 
   @override
@@ -354,6 +431,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsLanguageSection => 'Язык';
+
+  @override
+  String get settingsManageSection => 'Управление';
 
   @override
   String get themeDark => 'Тёмная';
@@ -407,11 +487,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не распознано. Начните с + или -, затем сумма.';
 
   @override
-  String quickEntryAdded(String details) {
-    return 'Добавлено: $details';
-  }
-
-  @override
   String get onboardingSlide1Title => 'Всё под контролем';
 
   @override
@@ -438,6 +513,12 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get onboardingSlide4Body =>
       'Все данные остаются на устройстве. Без аккаунта, облака и рекламы.';
+
+  @override
+  String get onboardingCurrencyStepTitle => 'Выберите валюту';
+
+  @override
+  String get onboardingThemeStepTitle => 'Выберите оформление';
 
   @override
   String get onboardingNext => 'Далее';

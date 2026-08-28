@@ -17,9 +17,10 @@ import 'package:texfi_money/presentation/home/home_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
 import 'package:texfi_money/presentation/shared/transaction_tile.dart';
 
-/// pumpAndSettle() зависает на несколько минут, пока показан SnackBar
-/// (у него собственный таймер на несколько секунд) — шагаем вручную
-/// ограниченным числом кадров вместо ожидания полного затихания.
+/// Прямой await стрима drift внутри FakeAsync-зоны testWidgets зависает
+/// (доставка обновлений стрима зависит от таймера, который не тикает без
+/// tester.pump()) — шагаем вручную ограниченным числом кадров вместо
+/// pumpAndSettle()/ожидания стрима напрямую.
 Future<void> _pumpSteps(WidgetTester tester, {int steps = 10, int stepMs = 100}) async {
   for (var i = 0; i < steps; i++) {
     await tester.pump(Duration(milliseconds: stepMs));
@@ -27,7 +28,7 @@ Future<void> _pumpSteps(WidgetTester tester, {int steps = 10, int stepMs = 100})
 }
 
 void main() {
-  testWidgets('свайп влево на последней транзакции удаляет её и предлагает отменить', (tester) async {
+  testWidgets('свайп влево на последней транзакции удаляет её', (tester) async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final db = AppDatabase.forTesting(NativeDatabase.memory());
@@ -57,30 +58,13 @@ void main() {
     );
     await _pumpSteps(tester);
 
-    // До показа SnackBar в дереве ровно один Dismissible — это наша
-    // транзакция (сам SnackBar тоже оборачивается в Dismissible для
-    // свайпа-закрытия, поэтому после его появления find.byType(Dismissible)
-    // больше не уникален — ниже используем find.byType(TransactionTile)).
     expect(find.byType(Dismissible), findsOneWidget);
     expect(find.byType(TransactionTile), findsOneWidget);
 
     await tester.fling(find.byType(Dismissible), const Offset(-500, 0), 1000);
     await _pumpSteps(tester);
 
-    // Транзакция исчезла из списка, показан тост с отменой.
-    // Проверяем только UI: прямой await стрима drift внутри FakeAsync-зоны
-    // testWidgets зависает (доставка обновлений стрима зависит от таймера,
-    // который не тикает без tester.pump()), поэтому состояние БД здесь не
-    // опрашивается напрямую — реактивность провайдера уже доказана тем,
-    // что список в UI обновился.
     expect(find.byType(TransactionTile), findsNothing);
-    expect(find.text('Удалено'), findsOneWidget);
-    expect(find.text('Отменить'), findsOneWidget);
-
-    await tester.tap(find.text('Отменить'));
-    await _pumpSteps(tester);
-
-    expect(find.byType(TransactionTile), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await _pumpSteps(tester, steps: 3);

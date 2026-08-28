@@ -8,6 +8,8 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../l10n/app_localizations.dart';
+import '../accounts/accounts_screen.dart';
+import '../profiles/debt_profiles_screen.dart';
 import '../shared/l10n_helpers.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
@@ -97,6 +99,27 @@ class SettingsScreen extends ConsumerWidget {
             showCheckmark: false,
             onTap: () => Navigator.of(context).push(
               fadeSlideRoute(const CurrencyPickerScreen()),
+            ),
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsManageSection),
+          const SizedBox(height: 8),
+          _OptionTile(
+            icon: Icons.account_balance_wallet_outlined,
+            label: l10n.accountsTitle,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => Navigator.of(context).push(
+              fadeSlideRoute(const AccountsScreen()),
+            ),
+          ),
+          _OptionTile(
+            icon: Icons.people_outline,
+            label: l10n.profilesTitle,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => Navigator.of(context).push(
+              fadeSlideRoute(const DebtProfilesScreen()),
             ),
           ),
         ],

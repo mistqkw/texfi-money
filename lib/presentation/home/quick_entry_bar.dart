@@ -5,20 +5,16 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/quick_entry_parser.dart';
-import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/terminal_box.dart';
 
 /// Фирменная фишка приложения: добавление транзакции одной командной
-/// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу
-/// и показывает отменяемый SnackBar, чтобы ошибка распознавания не была
-/// фатальной ценой скорости ввода.
+/// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу.
 class QuickEntryBar extends ConsumerStatefulWidget {
   const QuickEntryBar({super.key});
 
@@ -79,7 +75,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
       return;
     }
 
-    final id = await ref.read(transactionRepositoryProvider).add(
+    await ref.read(transactionRepositoryProvider).add(
           amount: result.amount,
           type: result.type,
           categoryId: category.id,
@@ -89,30 +85,11 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
 
     if (!mounted) return;
 
-    final l10n = context.l10n;
-    final currency = ref.read(currencyProvider);
-    final sign = result.type == TransactionType.income ? '+' : '−';
-    final parts = [
-      '$sign${formatAmount(result.amount, currency, context)}',
-      categoryDisplayName(context, category),
-      if (result.note != null && result.note!.isNotEmpty) result.note!,
-    ];
-
     _controller.clear();
     setState(() {
       _error = false;
       _submitting = false;
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.quickEntryAdded(parts.join(' · '))),
-        action: SnackBarAction(
-          label: l10n.commonUndo,
-          onPressed: () => ref.read(transactionRepositoryProvider).delete(id),
-        ),
-      ),
-    );
   }
 
   @override

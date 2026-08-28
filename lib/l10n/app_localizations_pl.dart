@@ -45,12 +45,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get commonAdd => 'Dodaj';
 
   @override
-  String get commonUndo => 'Cofnij';
-
-  @override
-  String get commonDeleted => 'Usunięto';
-
-  @override
   String get commonExpense => 'Wydatek';
 
   @override
@@ -184,6 +178,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addTxAddCategory => 'Własna kategoria';
 
   @override
+  String get addTxAccountLabel => 'Konto';
+
+  @override
+  String get addTxNoAccount => 'Bez konta';
+
+  @override
   String get budgetsTitle => 'Budżety';
 
   @override
@@ -314,6 +314,83 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get accountsTitle => 'Konta';
+
+  @override
+  String get accountsEmpty => 'Brak kont — dodaj pierwsze przyciskiem „+”';
+
+  @override
+  String get accountsLoadError => 'Nie udało się załadować kont';
+
+  @override
+  String get accountsDeleteTitle => 'Usunąć konto?';
+
+  @override
+  String accountsDeleteConfirm(String name) {
+    return 'Konto „$name” zostanie usunięte. Jego transakcje pozostaną, tylko bez przypisania.';
+  }
+
+  @override
+  String get accountFormTitleNew => 'Nowe konto';
+
+  @override
+  String get accountFormTitleEdit => 'Edytuj konto';
+
+  @override
+  String get accountFormNameHint => 'Nazwa konta, np. „Karta banku A”';
+
+  @override
+  String get profilesTitle => 'Profile';
+
+  @override
+  String get profilesEmpty =>
+      'Brak profili — śledź cudze pieniądze przyciskiem „+”';
+
+  @override
+  String get profilesLoadError => 'Nie udało się załadować profili';
+
+  @override
+  String get profilesDeleteTitle => 'Usunąć profil?';
+
+  @override
+  String profilesDeleteConfirm(String name) {
+    return 'Profil „$name” i jego saldo zostaną usunięte.';
+  }
+
+  @override
+  String get profileFormTitleNew => 'Nowy profil';
+
+  @override
+  String get profileFormTitleEdit => 'Edytuj profil';
+
+  @override
+  String get profileFormNameHint => 'Imię osoby';
+
+  @override
+  String profilesRecordTitle(String name) {
+    return 'Zapis dla „$name”';
+  }
+
+  @override
+  String get profilesTheyBorrowed => 'Pożyczył(a)';
+
+  @override
+  String get profilesTheyRepaid => 'Oddał(a)';
+
+  @override
+  String profilesOwesYou(String amount) {
+    return 'Jest winien(na) $amount';
+  }
+
+  @override
+  String profilesYouOwe(String amount) {
+    return 'Jesteś winien(na) $amount';
+  }
+
+  @override
+  String get profilesSettled => 'Rozliczone';
+
+  @override
   String get historyAllTypes => 'Wszystkie typy';
 
   @override
@@ -354,6 +431,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get settingsLanguageSection => 'Język';
+
+  @override
+  String get settingsManageSection => 'Zarządzanie';
 
   @override
   String get themeDark => 'Ciemny';
@@ -407,11 +487,6 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nie rozpoznano. Zacznij od + lub -, potem kwota.';
 
   @override
-  String quickEntryAdded(String details) {
-    return 'Dodano: $details';
-  }
-
-  @override
   String get onboardingSlide1Title => 'Wszystko pod kontrolą';
 
   @override
@@ -438,6 +513,12 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get onboardingSlide4Body =>
       'Wszystko zostaje na urządzeniu. Bez konta, chmury i reklam.';
+
+  @override
+  String get onboardingCurrencyStepTitle => 'Wybierz walutę';
+
+  @override
+  String get onboardingThemeStepTitle => 'Wybierz wygląd';
 
   @override
   String get onboardingNext => 'Dalej';

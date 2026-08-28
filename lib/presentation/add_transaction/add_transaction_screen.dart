@@ -11,8 +11,10 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
+import '../../domain/entities/account_entity.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../accounts/account_providers.dart';
 import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
@@ -30,6 +32,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
   String? _selectedCategoryId;
+  String? _selectedAccountId;
   DateTime _date = DateTime.now();
   bool _saving = false;
   int _bounceTrigger = 0;
@@ -85,6 +88,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           categoryId: _selectedCategoryId!,
           date: _date,
           note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+          accountId: _selectedAccountId,
         );
 
     if (mounted) Navigator.of(context).pop(true);
@@ -93,6 +97,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoriesByTypeProvider(_type));
+    final accountsAsync = ref.watch(allAccountsProvider);
 
     final l10n = context.l10n;
 
@@ -126,6 +131,25 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 child: Center(child: CircularProgressIndicator()),
               ),
               error: (e, st) => Text(l10n.addTxLoadCategoriesError, style: context.text.body),
+            ),
+            accountsAsync.maybeWhen(
+              data: (accounts) {
+                if (accounts.isEmpty) return const SizedBox.shrink();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 24),
+                    Text(l10n.addTxAccountLabel, style: context.text.label),
+                    const SizedBox(height: 8),
+                    _AccountRow(
+                      accounts: accounts,
+                      selectedId: _selectedAccountId,
+                      onSelected: (id) => setState(() => _selectedAccountId = id),
+                    ),
+                  ],
+                );
+              },
+              orElse: () => const SizedBox.shrink(),
             ),
             const SizedBox(height: 24),
             _DateRow(date: _date, onTap: _pickDate),
@@ -284,6 +308,57 @@ class _CategoryGrid extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AccountRow extends StatelessWidget {
+  const _AccountRow({required this.accounts, required this.selectedId, required this.onSelected});
+
+  final List<AccountEntity> accounts;
+  final String? selectedId;
+  final ValueChanged<String?> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        _chip(context, null, context.l10n.addTxNoAccount, context.colors.textSecondary),
+        for (final account in accounts) _chip(context, account.id, account.name, account.color),
+      ],
+    );
+  }
+
+  Widget _chip(BuildContext context, String? id, String label, Color color) {
+    final selected = id == selectedId;
+    return GestureDetector(
+      onTap: () => onSelected(id),
+      child: AnimatedContainer(
+        duration: AppMotion.fast,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: selected ? color.withValues(alpha: 0.16) : context.colors.surface,
+          borderRadius: AppRadius.mediumAll,
+          border: Border.all(
+            color: selected ? color : context.colors.divider,
+            width: selected ? 1.5 : 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 8),
+            Text(label, style: context.text.title),
+          ],
+        ),
+      ),
     );
   }
 }
