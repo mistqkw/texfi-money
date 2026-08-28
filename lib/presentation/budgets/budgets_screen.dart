@@ -7,6 +7,7 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/budget_entity.dart';
+import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import 'budgets_providers.dart';
@@ -53,7 +54,7 @@ class BudgetsScreen extends ConsumerWidget {
   }
 }
 
-class _BudgetCard extends StatelessWidget {
+class _BudgetCard extends ConsumerWidget {
   const _BudgetCard({required this.budget});
 
   final BudgetEntity budget;
@@ -65,7 +66,9 @@ class _BudgetCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
+
     return InkWell(
       borderRadius: AppRadius.mediumAll,
       onTap: () => Navigator.of(context).push(
@@ -86,7 +89,7 @@ class _BudgetCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(child: Text(budget.category.name, style: AppTypography.title)),
                 Text(
-                  '${formatAmount(budget.spent)} / ${formatAmount(budget.monthlyLimit)}',
+                  '${formatAmount(budget.spent, currency)} / ${formatAmount(budget.monthlyLimit, currency)}',
                   style: AppTypography.caption,
                 ),
               ],
@@ -100,7 +103,7 @@ class _BudgetCard extends StatelessWidget {
                   const Icon(Icons.error_outline, size: 14, color: AppColors.expense),
                   const SizedBox(width: 4),
                   Text(
-                    'Превышен на ${formatAmount(budget.spent - budget.monthlyLimit)}',
+                    'Превышен на ${formatAmount(budget.spent - budget.monthlyLimit, currency)}',
                     style: AppTypography.caption.copyWith(color: AppColors.expense),
                   ),
                 ],

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_motion.dart';
 import '../../core/utils/formatters.dart';
+import '../settings/currency_provider.dart';
 
 /// Плавно анимирует изменение суммы (эффект счётчика).
-class AnimatedAmount extends StatelessWidget {
+class AnimatedAmount extends ConsumerWidget {
   const AnimatedAmount({
     super.key,
     required this.value,
@@ -17,13 +19,15 @@ class AnimatedAmount extends StatelessWidget {
   final TextAlign? textAlign;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
+
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: value, end: value),
       duration: AppMotion.slow,
       curve: AppMotion.standard,
       builder: (context, animatedValue, child) {
-        return Text(formatAmount(animatedValue), style: style, textAlign: textAlign);
+        return Text(formatAmount(animatedValue, currency), style: style, textAlign: textAlign);
       },
     );
   }

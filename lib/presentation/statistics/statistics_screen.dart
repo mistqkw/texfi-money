@@ -9,6 +9,7 @@ import '../../core/theme/app_typography.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
+import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import 'statistics_providers.dart';
 
@@ -123,13 +124,15 @@ class _MonthlyBarChart extends StatelessWidget {
   }
 }
 
-class _CategoryPie extends StatelessWidget {
+class _CategoryPie extends ConsumerWidget {
   const _CategoryPie({required this.categories});
 
   final List<CategoryTotal> categories;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
+
     if (categories.isEmpty) {
       return Container(
         height: 160,
@@ -181,7 +184,7 @@ class _CategoryPie extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(child: Text(c.category.name, style: AppTypography.title)),
                     Text(
-                      '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total)}',
+                      '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency)}',
                       style: AppTypography.caption,
                     ),
                   ],

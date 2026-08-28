@@ -7,6 +7,8 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
+import '../settings/currency_picker_screen.dart';
+import '../settings/currency_provider.dart';
 import '../shared/animated_amount.dart';
 import '../shared/transaction_tile.dart';
 import 'home_providers.dart';
@@ -19,11 +21,19 @@ class HomeScreen extends ConsumerWidget {
     final balanceAsync = ref.watch(totalBalanceProvider);
     final summaryAsync = ref.watch(monthlySummaryProvider);
     final recentAsync = ref.watch(recentTransactionsProvider);
+    final currency = ref.watch(currencyProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('TexFi m0ney'),
         actions: [
+          IconButton(
+            icon: Text(currency.symbol, style: AppTypography.title),
+            tooltip: 'Валюта: ${currency.displayName}',
+            onPressed: () => Navigator.of(context).push(
+              fadeSlideRoute(const CurrencyPickerScreen()),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.category_outlined),
             tooltip: 'Категории',

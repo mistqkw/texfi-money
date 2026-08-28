@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../settings/currency_provider.dart';
 import 'category_avatar.dart';
 
-class TransactionTile extends StatelessWidget {
+class TransactionTile extends ConsumerWidget {
   const TransactionTile({super.key, required this.transaction});
 
   final TransactionEntity transaction;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currency = ref.watch(currencyProvider);
     final isIncome = transaction.type == TransactionType.income;
     final amountColor = isIncome ? AppColors.income : AppColors.textPrimary;
     final sign = isIncome ? '+' : '−';
@@ -42,7 +45,7 @@ class TransactionTile extends StatelessWidget {
             ),
           ),
           Text(
-            '$sign${formatAmount(transaction.amount)}',
+            '$sign${formatAmount(transaction.amount, currency)}',
             style: AppTypography.amountMedium.copyWith(color: amountColor),
           ),
         ],
