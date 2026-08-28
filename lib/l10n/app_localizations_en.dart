@@ -464,6 +464,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupImportError => 'This file isn\'t a valid TexFi m0ney backup';
 
   @override
+  String get settingsDangerSection => 'Danger zone';
+
+  @override
+  String get resetApp => 'Reset app';
+
+  @override
+  String get resetAppConfirmTitle => 'Reset the app?';
+
+  @override
+  String get resetAppConfirmBody =>
+      'Everything will be permanently deleted: transactions, categories, accounts, profiles, budgets, goals and all settings. The app will restart as if freshly installed. This can\'t be undone.';
+
+  @override
+  String get resetAppConfirmAction => 'Reset';
+
+  @override
   String get themeDark => 'Dark';
 
   @override

@@ -466,6 +466,22 @@ class AppLocalizationsUk extends AppLocalizations {
       'Цей файл не є коректною резервною копією TexFi m0ney';
 
   @override
+  String get settingsDangerSection => 'Небезпечна зона';
+
+  @override
+  String get resetApp => 'Скинути застосунок';
+
+  @override
+  String get resetAppConfirmTitle => 'Скинути застосунок?';
+
+  @override
+  String get resetAppConfirmBody =>
+      'Усе буде видалено без можливості відновлення: транзакції, категорії, рахунки, профілі, бюджети, цілі та всі налаштування. Застосунок перезапуститься як після першого встановлення. Це не можна скасувати.';
+
+  @override
+  String get resetAppConfirmAction => 'Скинути';
+
+  @override
   String get themeDark => 'Темна';
 
   @override

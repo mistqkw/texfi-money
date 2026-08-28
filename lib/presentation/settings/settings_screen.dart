@@ -19,6 +19,7 @@ import '../../l10n/app_localizations.dart';
 import '../accounts/accounts_screen.dart';
 import '../profiles/debt_profiles_screen.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/restart_widget.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
 import 'font_provider.dart';
@@ -113,6 +114,37 @@ class SettingsScreen extends ConsumerWidget {
       if (!context.mounted) return;
       await _showResultDialog(context, title: l10n.backupImportError);
     }
+  }
+
+  Future<void> _resetApp(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.resetAppConfirmTitle),
+        content: Text(l10n.resetAppConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.commonCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(
+              l10n.resetAppConfirmAction,
+              style: TextStyle(color: context.colors.expense),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    await ref.read(backupServiceProvider).resetAllData();
+    await ref.read(sharedPreferencesProvider).clear();
+
+    if (!context.mounted) return;
+    RestartWidget.restartApp(context);
   }
 
   @override
@@ -211,6 +243,17 @@ class SettingsScreen extends ConsumerWidget {
             showCheckmark: false,
             onTap: () => _importBackup(context, ref),
           ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsDangerSection),
+          const SizedBox(height: 8),
+          _OptionTile(
+            icon: Icons.restart_alt,
+            label: l10n.resetApp,
+            selected: false,
+            showCheckmark: false,
+            color: context.colors.expense,
+            onTap: () => _resetApp(context, ref),
+          ),
         ],
       ),
     );
@@ -235,6 +278,7 @@ class _OptionTile extends StatelessWidget {
     required this.selected,
     required this.onTap,
     this.showCheckmark = true,
+    this.color,
   });
 
   final IconData icon;
@@ -242,13 +286,14 @@ class _OptionTile extends StatelessWidget {
   final bool selected;
   final bool showCheckmark;
   final VoidCallback onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Icon(icon, color: context.colors.textSecondary),
-      title: Text(label, style: context.text.title),
+      leading: Icon(icon, color: color ?? context.colors.textSecondary),
+      title: Text(label, style: context.text.title.copyWith(color: color)),
       trailing: showCheckmark
           ? (selected ? Icon(Icons.check, color: context.colors.accent) : null)
           : Icon(Icons.chevron_right, color: context.colors.textTertiary),

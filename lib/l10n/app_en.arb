@@ -197,6 +197,12 @@
   "backupImportConfirmAction": "Replace",
   "backupImportSuccess": "Data restored from backup",
   "backupImportError": "This file isn't a valid TexFi m0ney backup",
+
+  "settingsDangerSection": "Danger zone",
+  "resetApp": "Reset app",
+  "resetAppConfirmTitle": "Reset the app?",
+  "resetAppConfirmBody": "Everything will be permanently deleted: transactions, categories, accounts, profiles, budgets, goals and all settings. The app will restart as if freshly installed. This can't be undone.",
+  "resetAppConfirmAction": "Reset",
   "themeDark": "Dark",
   "themeLight": "Light",
   "themeOled": "Black (OLED)",

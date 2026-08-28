@@ -158,6 +158,12 @@
   "backupImportConfirmAction": "Замінити",
   "backupImportSuccess": "Дані відновлено з резервної копії",
   "backupImportError": "Цей файл не є коректною резервною копією TexFi m0ney",
+
+  "settingsDangerSection": "Небезпечна зона",
+  "resetApp": "Скинути застосунок",
+  "resetAppConfirmTitle": "Скинути застосунок?",
+  "resetAppConfirmBody": "Усе буде видалено без можливості відновлення: транзакції, категорії, рахунки, профілі, бюджети, цілі та всі налаштування. Застосунок перезапуститься як після першого встановлення. Це не можна скасувати.",
+  "resetAppConfirmAction": "Скинути",
   "themeDark": "Темна",
   "themeLight": "Світла",
   "themeOled": "Чорна (OLED)",

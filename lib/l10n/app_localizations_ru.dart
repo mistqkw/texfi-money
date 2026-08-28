@@ -465,6 +465,22 @@ class AppLocalizationsRu extends AppLocalizations {
       'Этот файл не является корректным бэкапом TexFi m0ney';
 
   @override
+  String get settingsDangerSection => 'Опасная зона';
+
+  @override
+  String get resetApp => 'Сбросить приложение';
+
+  @override
+  String get resetAppConfirmTitle => 'Сбросить приложение?';
+
+  @override
+  String get resetAppConfirmBody =>
+      'Всё будет удалено без возможности восстановления: транзакции, категории, счета, профили, бюджеты, цели и все настройки. Приложение перезапустится как после первой установки. Это нельзя отменить.';
+
+  @override
+  String get resetAppConfirmAction => 'Сбросить';
+
+  @override
   String get themeDark => 'Тёмная';
 
   @override

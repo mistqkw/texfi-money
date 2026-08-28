@@ -158,6 +158,12 @@
   "backupImportConfirmAction": "Заменить",
   "backupImportSuccess": "Данные восстановлены из бэкапа",
   "backupImportError": "Этот файл не является корректным бэкапом TexFi m0ney",
+
+  "settingsDangerSection": "Опасная зона",
+  "resetApp": "Сбросить приложение",
+  "resetAppConfirmTitle": "Сбросить приложение?",
+  "resetAppConfirmBody": "Всё будет удалено без возможности восстановления: транзакции, категории, счета, профили, бюджеты, цели и все настройки. Приложение перезапустится как после первой установки. Это нельзя отменить.",
+  "resetAppConfirmAction": "Сбросить",
   "themeDark": "Тёмная",
   "themeLight": "Светлая",
   "themeOled": "Чёрная (OLED)",

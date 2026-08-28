@@ -465,6 +465,22 @@ class AppLocalizationsPl extends AppLocalizations {
       'Ten plik nie jest prawidłową kopią zapasową TexFi m0ney';
 
   @override
+  String get settingsDangerSection => 'Strefa niebezpieczna';
+
+  @override
+  String get resetApp => 'Zresetuj aplikację';
+
+  @override
+  String get resetAppConfirmTitle => 'Zresetować aplikację?';
+
+  @override
+  String get resetAppConfirmBody =>
+      'Wszystko zostanie trwale usunięte: transakcje, kategorie, konta, profile, budżety, cele i wszystkie ustawienia. Aplikacja uruchomi się ponownie tak, jakby była świeżo zainstalowana. Tego nie można cofnąć.';
+
+  @override
+  String get resetAppConfirmAction => 'Zresetuj';
+
+  @override
   String get themeDark => 'Ciemny';
 
   @override
