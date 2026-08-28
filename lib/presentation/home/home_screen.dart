@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
 import '../settings/currency_picker_screen.dart';
 import '../settings/currency_provider.dart';
+import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
 import '../shared/transaction_tile.dart';
 import 'home_providers.dart';
@@ -28,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('TexFi m0ney'),
         actions: [
           IconButton(
-            icon: Text(currency.symbol, style: AppTypography.title),
+            icon: Text(currency.symbol, style: context.text.title),
             tooltip: 'Валюта: ${currency.displayName}',
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const CurrencyPickerScreen()),
@@ -39,6 +40,13 @@ class HomeScreen extends ConsumerWidget {
             tooltip: 'Категории',
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const CategoriesScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: 'Настройки',
+            onPressed: () => Navigator.of(context).push(
+              fadeSlideRoute(const SettingsScreen()),
             ),
           ),
         ],
@@ -64,7 +72,7 @@ class HomeScreen extends ConsumerWidget {
                       label: 'Доход за месяц',
                       value: summary.income,
                       icon: Icons.arrow_downward_rounded,
-                      color: AppColors.income,
+                      color: context.colors.income,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -73,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                       label: 'Расход за месяц',
                       value: summary.expense,
                       icon: Icons.arrow_upward_rounded,
-                      color: AppColors.expense,
+                      color: context.colors.expense,
                     ),
                   ),
                 ],
@@ -82,7 +90,7 @@ class HomeScreen extends ConsumerWidget {
               error: (e, st) => const SizedBox.shrink(),
             ),
             const SizedBox(height: 28),
-            Text('Последние транзакции', style: AppTypography.headline),
+            Text('Последние транзакции', style: context.text.headline),
             const SizedBox(height: 8),
             recentAsync.when(
               data: (transactions) {
@@ -91,7 +99,7 @@ class HomeScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: Text(
                       'Пока нет транзакций — добавьте первую кнопкой «+»',
-                      style: AppTypography.body,
+                      style: context.text.body,
                     ),
                   );
                 }
@@ -109,7 +117,7 @@ class HomeScreen extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (e, st) => Text('Не удалось загрузить транзакции', style: AppTypography.body),
+              error: (e, st) => Text('Не удалось загрузить транзакции', style: context.text.body),
             ),
           ],
         ),
@@ -129,15 +137,15 @@ class _BalanceCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: AppRadius.largeAll,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Баланс', style: AppTypography.label),
+          Text('Баланс', style: context.text.label),
           const SizedBox(height: 8),
-          AnimatedAmount(value: balance, style: AppTypography.balance),
+          AnimatedAmount(value: balance, style: context.text.balance),
         ],
       ),
     );
@@ -162,7 +170,7 @@ class _StatTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: AppRadius.mediumAll,
       ),
       child: Column(
@@ -175,7 +183,7 @@ class _StatTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  style: AppTypography.caption,
+                  style: context.text.caption,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -183,7 +191,7 @@ class _StatTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          AnimatedAmount(value: value, style: AppTypography.amountMedium.copyWith(color: color)),
+          AnimatedAmount(value: value, style: context.text.amountMedium.copyWith(color: color)),
         ],
       ),
     );

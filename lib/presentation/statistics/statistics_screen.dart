@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
@@ -26,7 +26,7 @@ class StatisticsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
-          Text('Доходы и расходы по месяцам', style: AppTypography.headline),
+          Text('Доходы и расходы по месяцам', style: context.text.headline),
           const SizedBox(height: 16),
           monthlyAsync.when(
             data: (months) => _MonthlyBarChart(months: months),
@@ -34,10 +34,10 @@ class StatisticsScreen extends ConsumerWidget {
               height: 220,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (e, st) => Text('Не удалось загрузить данные', style: AppTypography.body),
+            error: (e, st) => Text('Не удалось загрузить данные', style: context.text.body),
           ),
           const SizedBox(height: 32),
-          Text('Расходы по категориям в этом месяце', style: AppTypography.headline),
+          Text('Расходы по категориям в этом месяце', style: context.text.headline),
           const SizedBox(height: 16),
           categoryAsync.when(
             data: (categories) => _CategoryPie(categories: categories),
@@ -45,7 +45,7 @@ class StatisticsScreen extends ConsumerWidget {
               height: 220,
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (e, st) => Text('Не удалось загрузить данные', style: AppTypography.body),
+            error: (e, st) => Text('Не удалось загрузить данные', style: context.text.body),
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class _MonthlyBarChart extends StatelessWidget {
     return Container(
       height: 240,
       padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: AppRadius.largeAll),
+      decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
       child: BarChart(
         BarChartData(
           maxY: maxY,
@@ -91,7 +91,7 @@ class _MonthlyBarChart extends StatelessWidget {
                   final label = DateFormat('LLL', 'ru_RU').format(months[index].month);
                   return Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Text(label, style: AppTypography.caption),
+                    child: Text(label, style: context.text.caption),
                   );
                 },
               ),
@@ -105,13 +105,13 @@ class _MonthlyBarChart extends StatelessWidget {
                 barRods: [
                   BarChartRodData(
                     toY: months[i].income,
-                    color: AppColors.income,
+                    color: context.colors.income,
                     width: 8,
                     borderRadius: BorderRadius.circular(3),
                   ),
                   BarChartRodData(
                     toY: months[i].expense,
-                    color: AppColors.expense,
+                    color: context.colors.expense,
                     width: 8,
                     borderRadius: BorderRadius.circular(3),
                   ),
@@ -137,8 +137,8 @@ class _CategoryPie extends ConsumerWidget {
       return Container(
         height: 160,
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: AppColors.surface, borderRadius: AppRadius.largeAll),
-        child: Text('Нет расходов в этом месяце', style: AppTypography.body),
+        decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
+        child: Text('Нет расходов в этом месяце', style: context.text.body),
       );
     }
 
@@ -146,7 +146,7 @@ class _CategoryPie extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: AppRadius.largeAll),
+      decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
       child: Column(
         children: [
           SizedBox(
@@ -163,8 +163,8 @@ class _CategoryPie extends ConsumerWidget {
                     radius: 36,
                     showTitle: percent >= 8,
                     title: '${percent.toStringAsFixed(0)}%',
-                    titleStyle: AppTypography.caption.copyWith(
-                      color: AppColors.onAccent,
+                    titleStyle: context.text.caption.copyWith(
+                      color: context.colors.onAccent,
                       fontWeight: FontWeight.w600,
                     ),
                   );
@@ -182,10 +182,10 @@ class _CategoryPie extends ConsumerWidget {
                   children: [
                     CategoryAvatar(category: c.category, size: 28),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(c.category.name, style: AppTypography.title)),
+                    Expanded(child: Text(c.category.name, style: context.text.title)),
                     Text(
                       '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency)}',
-                      style: AppTypography.caption,
+                      style: context.text.caption,
                     ),
                   ],
                 ),

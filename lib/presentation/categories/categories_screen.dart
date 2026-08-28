@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_page_route.dart';
-import '../../core/theme/app_typography.dart';
+import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -88,7 +88,7 @@ class CategoriesScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Не удалось загрузить категории', style: AppTypography.body)),
+        error: (e, st) => Center(child: Text('Не удалось загрузить категории', style: context.text.body)),
       ),
     );
   }
@@ -103,7 +103,7 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Text(title, style: AppTypography.headline),
+      child: Text(title, style: context.text.headline),
     );
   }
 }
@@ -125,14 +125,14 @@ class _CategoryRow extends StatelessWidget {
           children: [
             CategoryAvatar(category: category, size: 40),
             const SizedBox(width: 12),
-            Expanded(child: Text(category.name, style: AppTypography.title)),
+            Expanded(child: Text(category.name, style: context.text.title)),
             if (onDelete != null)
               IconButton(
-                icon: const Icon(Icons.delete_outline, color: AppColors.textTertiary),
+                icon: Icon(Icons.delete_outline, color: context.colors.textTertiary),
                 onPressed: onDelete,
               )
             else
-              const Icon(Icons.lock_outline, color: AppColors.textTertiary, size: 18),
+              Icon(Icons.lock_outline, color: context.colors.textTertiary, size: 18),
           ],
         ),
       ),
