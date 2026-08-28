@@ -6,6 +6,9 @@ abstract final class AppMotion {
   static const Duration normal = Duration(milliseconds: 200);
   static const Duration slow = Duration(milliseconds: 280);
 
+  /// Разовый акцент-эффект (например, «списание» на балансе после удаления).
+  static const Duration flourish = Duration(milliseconds: 650);
+
   static const Curve standard = Curves.easeOutCubic;
   static const Curve spring = Curves.easeOutBack;
   static const Curve enter = Curves.easeOut;

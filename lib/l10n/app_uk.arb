@@ -16,6 +16,7 @@
   "commonCreate": "Створити",
   "commonAdd": "Додати",
   "commonUndo": "Скасувати",
+  "commonDeleted": "Видалено",
   "commonExpense": "Витрата",
   "commonIncome": "Дохід",
   "commonCategory": "Категорія",

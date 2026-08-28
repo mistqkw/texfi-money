@@ -48,6 +48,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonUndo => 'Отменить';
 
   @override
+  String get commonDeleted => 'Удалено';
+
+  @override
   String get commonExpense => 'Расход';
 
   @override

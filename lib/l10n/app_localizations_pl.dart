@@ -48,6 +48,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get commonUndo => 'Cofnij';
 
   @override
+  String get commonDeleted => 'Usunięto';
+
+  @override
   String get commonExpense => 'Wydatek';
 
   @override
