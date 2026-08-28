@@ -7,7 +7,6 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
-import '../../domain/entities/transaction_entity.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
 import '../settings/currency_picker_screen.dart';
@@ -23,27 +22,6 @@ import 'quick_entry_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
-
-  Future<void> _deleteWithUndo(BuildContext context, WidgetRef ref, TransactionEntity tx) async {
-    await ref.read(transactionRepositoryProvider).delete(tx.id);
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.commonDeleted),
-        action: SnackBarAction(
-          label: context.l10n.commonUndo,
-          onPressed: () => ref.read(transactionRepositoryProvider).add(
-                amount: tx.amount,
-                type: tx.type,
-                categoryId: tx.category.id,
-                date: tx.date,
-                note: tx.note,
-              ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -143,7 +121,8 @@ class HomeScreen extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(Icons.delete_outline, color: context.colors.expense),
                         ),
-                        onDismissed: (_) => _deleteWithUndo(context, ref, transactions[i]),
+                        onDismissed: (_) =>
+                            ref.read(transactionRepositoryProvider).delete(transactions[i].id),
                         child: TransactionTile(transaction: transactions[i]),
                       ),
                       if (i != transactions.length - 1)
@@ -199,6 +178,10 @@ class _PulsingBalance extends StatefulWidget {
 class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   bool _increased = true;
+  // Первое изменение — это переход из плейсхолдера (0 на время загрузки
+  // стрима) в реальный баланс, а не настоящее событие. Вспышку показываем
+  // только начиная со второго изменения.
+  bool _sawFirstChange = false;
 
   @override
   void initState() {
@@ -210,8 +193,11 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
   void didUpdateWidget(covariant _PulsingBalance oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
-      _increased = widget.value > oldWidget.value;
-      _controller.forward(from: 0);
+      if (_sawFirstChange) {
+        _increased = widget.value > oldWidget.value;
+        _controller.forward(from: 0);
+      }
+      _sawFirstChange = true;
     }
   }
 

@@ -121,27 +121,6 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     });
   }
 
-  Future<void> _deleteWithUndo(TransactionEntity tx) async {
-    await ref.read(transactionRepositoryProvider).delete(tx.id);
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.commonDeleted),
-        action: SnackBarAction(
-          label: context.l10n.commonUndo,
-          onPressed: () => ref.read(transactionRepositoryProvider).add(
-                amount: tx.amount,
-                type: tx.type,
-                categoryId: tx.category.id,
-                date: tx.date,
-                note: tx.note,
-              ),
-        ),
-      ),
-    );
-  }
-
   void _resetFilters() {
     setState(() {
       _type = null;
@@ -239,7 +218,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: Icon(Icons.delete_outline, color: context.colors.expense),
                       ),
-                      onDismissed: (_) => _deleteWithUndo(tx),
+                      onDismissed: (_) => ref.read(transactionRepositoryProvider).delete(tx.id),
                       child: TransactionTile(transaction: tx),
                     );
                   },

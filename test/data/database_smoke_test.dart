@@ -2,8 +2,10 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:texfi_money/data/local/database.dart';
+import 'package:texfi_money/data/repositories/account_repository_impl.dart';
 import 'package:texfi_money/data/repositories/budget_repository_impl.dart';
 import 'package:texfi_money/data/repositories/category_repository_impl.dart';
+import 'package:texfi_money/data/repositories/debt_profile_repository_impl.dart';
 import 'package:texfi_money/data/repositories/savings_goal_repository_impl.dart';
 import 'package:texfi_money/data/repositories/transaction_repository_impl.dart';
 import 'package:texfi_money/domain/entities/transaction_type.dart';
@@ -147,5 +149,63 @@ void main() {
     expect(totals.first.category.id, 'cat_groceries');
     expect(totals.first.total, 500);
     expect(totals.firstWhere((t) => t.category.id == 'cat_transport').total, 150);
+  });
+
+  test('баланс счёта считает только привязанные к нему транзакции', () async {
+    final accountRepo = AccountRepositoryImpl(db);
+    final txRepo = TransactionRepositoryImpl(db, CategoryRepositoryImpl(db));
+    final now = DateTime.now();
+
+    final cardId = await accountRepo.create(name: 'Карта банка А', color: const Color(0xFF4A7DFB));
+    final cashId = await accountRepo.create(name: 'Наличные', color: const Color(0xFF28C840));
+
+    await txRepo.add(
+      amount: 1000,
+      type: TransactionType.income,
+      categoryId: 'cat_salary',
+      date: now,
+      accountId: cardId,
+    );
+    await txRepo.add(
+      amount: 300,
+      type: TransactionType.expense,
+      categoryId: 'cat_groceries',
+      date: now,
+      accountId: cardId,
+    );
+    await txRepo.add(
+      amount: 100,
+      type: TransactionType.expense,
+      categoryId: 'cat_transport',
+      date: now,
+      accountId: cashId,
+    );
+    // Транзакция без счёта не должна попадать ни в один баланс.
+    await txRepo.add(
+      amount: 50,
+      type: TransactionType.expense,
+      categoryId: 'cat_transport',
+      date: now,
+    );
+
+    expect(await accountRepo.watchBalance(cardId).first, 700);
+    expect(await accountRepo.watchBalance(cashId).first, -100);
+
+    await accountRepo.delete(cardId);
+    final accounts = await accountRepo.watchAll().first;
+    expect(accounts.any((a) => a.id == cardId), isFalse);
+  });
+
+  test('профиль долга накапливает баланс по операциям', () async {
+    final debtRepo = DebtProfileRepositoryImpl(db);
+
+    final id = await debtRepo.create(name: 'Андрей', color: const Color(0xFFFEBC2E));
+    await debtRepo.adjustBalance(id: id, delta: 500);
+    await debtRepo.adjustBalance(id: id, delta: -200);
+
+    final profiles = await debtRepo.watchAll().first;
+    final profile = profiles.firstWhere((p) => p.id == id);
+
+    expect(profile.balance, 300);
   });
 }

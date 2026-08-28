@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/app_theme_variant.dart';
+import '../../core/constants/currencies.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_palettes.dart';
+import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../l10n/app_localizations.dart';
+import '../settings/currency_provider.dart';
 import '../settings/onboarding_provider.dart';
+import '../settings/theme_provider.dart';
+import '../shared/l10n_helpers.dart';
 import '../shared/root_shell.dart';
 import '../shared/terminal_box.dart';
 
@@ -66,8 +73,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  void _next(int slideCount) {
-    if (_page == slideCount - 1) {
+  void _next(int pageCount) {
+    if (_page == pageCount - 1) {
       _finish();
       return;
     }
@@ -78,6 +85,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final slides = _slides(l10n);
+    // После контентных слайдов — два интерактивных шага настройки.
+    final pageCount = slides.length + 2;
+    final currencyPage = slides.length;
+    final themePage = slides.length + 1;
 
     return Scaffold(
       body: SafeArea(
@@ -93,20 +104,24 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
-                itemCount: slides.length,
+                itemCount: pageCount,
                 onPageChanged: (i) => setState(() => _page = i),
-                itemBuilder: (context, i) => _SlideView(slide: slides[i], active: i == _page),
+                itemBuilder: (context, i) {
+                  if (i == currencyPage) return _CurrencyStepView(active: i == _page);
+                  if (i == themePage) return _ThemeStepView(active: i == _page);
+                  return _SlideView(slide: slides[i], active: i == _page);
+                },
               ),
             ),
-            _Dots(count: slides.length, index: _page),
+            _Dots(count: pageCount, index: _page),
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => _next(slides.length),
-                  child: Text(_page == slides.length - 1 ? l10n.onboardingStart : l10n.onboardingNext),
+                  onPressed: () => _next(pageCount),
+                  child: Text(_page == pageCount - 1 ? l10n.onboardingStart : l10n.onboardingNext),
                 ),
               ),
             ),
@@ -164,6 +179,193 @@ class _SlideView extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Общая «въезжающая» анимация для интерактивных шагов онбординга —
+/// повторяет ритм [_SlideView], чтобы переход между слайдами и шагами
+/// настройки выглядел единым.
+class _StepScaffold extends StatelessWidget {
+  const _StepScaffold({required this.active, required this.title, required this.child});
+
+  final bool active;
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedSlide(
+            offset: active ? Offset.zero : const Offset(0, 0.2),
+            duration: AppMotion.slow,
+            curve: Curves.easeOutCubic,
+            child: AnimatedOpacity(
+              opacity: active ? 1.0 : 0.0,
+              duration: AppMotion.normal,
+              child: Column(
+                children: [
+                  Text(title, style: context.text.headline, textAlign: TextAlign.center),
+                  const SizedBox(height: 24),
+                  child,
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CurrencyStepView extends ConsumerWidget {
+  const _CurrencyStepView({required this.active});
+
+  final bool active;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final current = ref.watch(currencyProvider);
+    final l10n = context.l10n;
+
+    return _StepScaffold(
+      active: active,
+      title: l10n.onboardingCurrencyStepTitle,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 10,
+        runSpacing: 10,
+        children: AppCurrency.values.map((currency) {
+          final selected = currency == current;
+          return GestureDetector(
+            onTap: () => ref.read(currencyProvider.notifier).setCurrency(currency),
+            child: AnimatedContainer(
+              duration: AppMotion.fast,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: selected ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surface,
+                borderRadius: AppRadius.mediumAll,
+                border: Border.all(
+                  color: selected ? context.colors.accent : context.colors.divider,
+                  width: selected ? 1.5 : 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(currency.symbol, style: context.text.title),
+                  const SizedBox(width: 6),
+                  Text(currencyDisplayName(context, currency), style: context.text.caption),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class _ThemeStepView extends ConsumerWidget {
+  const _ThemeStepView({required this.active});
+
+  final bool active;
+
+  String _label(AppLocalizations l10n, AppThemeVariant variant) => switch (variant) {
+        AppThemeVariant.dark => l10n.themeDark,
+        AppThemeVariant.light => l10n.themeLight,
+        AppThemeVariant.oled => l10n.themeOled,
+      };
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final current = ref.watch(themeVariantProvider);
+    final l10n = context.l10n;
+
+    return _StepScaffold(
+      active: active,
+      title: l10n.onboardingThemeStepTitle,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (final variant in AppThemeVariant.values) ...[
+            _ThemePreviewCard(
+              variant: variant,
+              label: _label(l10n, variant),
+              selected: variant == current,
+              onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
+            ),
+            if (variant != AppThemeVariant.values.last) const SizedBox(width: 12),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemePreviewCard extends StatelessWidget {
+  const _ThemePreviewCard({
+    required this.variant,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final AppThemeVariant variant;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = AppPalettes.forVariant(variant);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          AnimatedContainer(
+            duration: AppMotion.fast,
+            width: 76,
+            height: 96,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: palette.background,
+              borderRadius: AppRadius.mediumAll,
+              border: Border.all(
+                color: selected ? palette.accent : palette.divider,
+                width: selected ? 2 : 1,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(color: palette.accent, borderRadius: AppRadius.smallAll),
+                ),
+                const Spacer(),
+                Container(width: 36, height: 6, color: palette.textPrimary),
+                const SizedBox(height: 6),
+                Container(width: 24, height: 6, color: palette.textTertiary),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: context.text.caption.copyWith(
+              color: selected ? context.colors.accent : context.colors.textSecondary,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
             ),
           ),
         ],

@@ -9,6 +9,7 @@ class TransactionEntity {
     required this.category,
     required this.date,
     this.note,
+    this.accountId,
     required this.createdAt,
   });
 
@@ -18,6 +19,7 @@ class TransactionEntity {
   final CategoryEntity category;
   final DateTime date;
   final String? note;
+  final String? accountId;
   final DateTime createdAt;
 
   /// Со знаком: расход отрицателен, доход положителен.
