@@ -180,6 +180,12 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get commonUndo;
 
+  /// No description provided for @commonDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get commonDeleted;
+
   /// No description provided for @commonExpense.
   ///
   /// In en, this message translates to:

@@ -16,6 +16,7 @@
   "commonCreate": "Create",
   "commonAdd": "Add",
   "commonUndo": "Undo",
+  "commonDeleted": "Deleted",
   "commonExpense": "Expense",
   "commonIncome": "Income",
   "commonCategory": "Category",

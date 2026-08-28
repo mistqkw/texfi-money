@@ -48,6 +48,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get commonUndo => 'Скасувати';
 
   @override
+  String get commonDeleted => 'Видалено';
+
+  @override
   String get commonExpense => 'Витрата';
 
   @override
