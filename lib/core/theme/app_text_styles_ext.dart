@@ -19,4 +19,8 @@ class AppTextStyles {
   TextStyle get body => _tt.bodyMedium!;
   TextStyle get caption => _tt.bodySmall!;
   TextStyle get label => _tt.labelMedium!;
+
+  /// Моноширинный текст для терминальных меток/метаданных — всегда
+  /// JetBrains Mono, независимо от выбранного пользователем основного шрифта.
+  TextStyle get mono => _tt.labelSmall!;
 }
