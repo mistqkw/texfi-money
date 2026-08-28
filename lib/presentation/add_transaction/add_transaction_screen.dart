@@ -146,9 +146,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     : const Text('Сохранить'),
               )
                   .animate(key: ValueKey(_bounceTrigger))
-                  .scaleXY(end: 1.06, duration: 120.ms, curve: Curves.easeOut)
+                  .scaleXY(end: 1.06, duration: 80.ms, curve: Curves.easeOut)
                   .then()
-                  .scaleXY(end: 1.0, duration: 150.ms, curve: Curves.elasticOut),
+                  .scaleXY(end: 1.0, duration: 110.ms, curve: Curves.elasticOut),
             ),
           ],
         ),
