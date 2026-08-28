@@ -15,6 +15,18 @@ class TransactionFilter {
   final DateTime? to;
   final String? categoryId;
   final TransactionType? type;
+
+  @override
+  bool operator ==(Object other) {
+    return other is TransactionFilter &&
+        other.from == from &&
+        other.to == to &&
+        other.categoryId == categoryId &&
+        other.type == type;
+  }
+
+  @override
+  int get hashCode => Object.hash(from, to, categoryId, type);
 }
 
 abstract class TransactionRepository {

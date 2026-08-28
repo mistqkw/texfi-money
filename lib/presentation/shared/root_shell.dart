@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../budgets/budgets_screen.dart';
 import '../goals/goals_screen.dart';
+import '../history/history_screen.dart';
 import '../home/home_screen.dart';
 import '../statistics/statistics_screen.dart';
-import 'coming_soon_screen.dart';
 
 class RootShell extends StatefulWidget {
   const RootShell({super.key});
@@ -18,7 +18,7 @@ class _RootShellState extends State<RootShell> {
 
   static const _pages = [
     HomeScreen(),
-    ComingSoonScreen(title: 'История', icon: Icons.receipt_long_outlined),
+    HistoryScreen(),
     BudgetsScreen(),
     GoalsScreen(),
     StatisticsScreen(),
