@@ -15,6 +15,7 @@
   "commonSave": "Save",
   "commonCreate": "Create",
   "commonAdd": "Add",
+  "commonUndo": "Undo",
   "commonExpense": "Expense",
   "commonIncome": "Income",
   "commonCategory": "Category",
@@ -158,5 +159,14 @@
   "statisticsMonthlyChartTitle": "Income and expense by month",
   "statisticsLoadError": "Couldn't load data",
   "statisticsCategoryChartTitle": "Expenses by category this month",
-  "statisticsNoExpenses": "No expenses this month"
+  "statisticsNoExpenses": "No expenses this month",
+
+  "quickEntryLabel": "quick add",
+  "quickEntryHint": "-15 coffee lunch",
+  "quickEntryHelp": "Sign, amount, category, note — e.g. “-15 coffee lunch” or “+2000 salary”",
+  "quickEntryParseError": "Not recognized. Start with + or -, then the amount.",
+  "quickEntryAdded": "Added: {details}",
+  "@quickEntryAdded": {
+    "placeholders": { "details": { "type": "String" } }
+  }
 }

@@ -45,6 +45,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonAdd => 'Add';
 
   @override
+  String get commonUndo => 'Undo';
+
+  @override
   String get commonExpense => 'Expense';
 
   @override
@@ -383,4 +386,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statisticsNoExpenses => 'No expenses this month';
+
+  @override
+  String get quickEntryLabel => 'quick add';
+
+  @override
+  String get quickEntryHint => '-15 coffee lunch';
+
+  @override
+  String get quickEntryHelp =>
+      'Sign, amount, category, note — e.g. “-15 coffee lunch” or “+2000 salary”';
+
+  @override
+  String get quickEntryParseError =>
+      'Not recognized. Start with + or -, then the amount.';
+
+  @override
+  String quickEntryAdded(String details) {
+    return 'Added: $details';
+  }
 }

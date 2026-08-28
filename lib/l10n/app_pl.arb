@@ -15,6 +15,7 @@
   "commonSave": "Zapisz",
   "commonCreate": "Utwórz",
   "commonAdd": "Dodaj",
+  "commonUndo": "Cofnij",
   "commonExpense": "Wydatek",
   "commonIncome": "Przychód",
   "commonCategory": "Kategoria",
@@ -134,5 +135,11 @@
   "statisticsMonthlyChartTitle": "Przychody i wydatki wg miesięcy",
   "statisticsLoadError": "Nie udało się wczytać danych",
   "statisticsCategoryChartTitle": "Wydatki wg kategorii w tym miesiącu",
-  "statisticsNoExpenses": "Brak wydatków w tym miesiącu"
+  "statisticsNoExpenses": "Brak wydatków w tym miesiącu",
+
+  "quickEntryLabel": "szybkie dodawanie",
+  "quickEntryHint": "-50 zakupy obiad",
+  "quickEntryHelp": "Znak, kwota, kategoria, notatka — np. „-50 zakupy obiad” lub „+3000 wynagrodzenie”",
+  "quickEntryParseError": "Nie rozpoznano. Zacznij od + lub -, potem kwota.",
+  "quickEntryAdded": "Dodano: {details}"
 }

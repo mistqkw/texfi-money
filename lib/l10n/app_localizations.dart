@@ -174,6 +174,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get commonAdd;
 
+  /// No description provided for @commonUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get commonUndo;
+
   /// No description provided for @commonExpense.
   ///
   /// In en, this message translates to:
@@ -803,6 +809,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No expenses this month'**
   String get statisticsNoExpenses;
+
+  /// No description provided for @quickEntryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'quick add'**
+  String get quickEntryLabel;
+
+  /// No description provided for @quickEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'-15 coffee lunch'**
+  String get quickEntryHint;
+
+  /// No description provided for @quickEntryHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign, amount, category, note — e.g. “-15 coffee lunch” or “+2000 salary”'**
+  String get quickEntryHelp;
+
+  /// No description provided for @quickEntryParseError.
+  ///
+  /// In en, this message translates to:
+  /// **'Not recognized. Start with + or -, then the amount.'**
+  String get quickEntryParseError;
+
+  /// No description provided for @quickEntryAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added: {details}'**
+  String quickEntryAdded(String details);
 }
 
 class _AppLocalizationsDelegate

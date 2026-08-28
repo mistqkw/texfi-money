@@ -45,6 +45,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get commonAdd => 'Додати';
 
   @override
+  String get commonUndo => 'Скасувати';
+
+  @override
   String get commonExpense => 'Витрата';
 
   @override
@@ -385,4 +388,23 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get statisticsNoExpenses => 'Немає витрат цього місяця';
+
+  @override
+  String get quickEntryLabel => 'швидке додавання';
+
+  @override
+  String get quickEntryHint => '-350 продукти обід';
+
+  @override
+  String get quickEntryHelp =>
+      'Знак, сума, категорія, нотатка — наприклад «-350 продукти обід» або «+5000 зарплата»';
+
+  @override
+  String get quickEntryParseError =>
+      'Не розпізнано. Почніть з + або -, потім сума.';
+
+  @override
+  String quickEntryAdded(String details) {
+    return 'Додано: $details';
+  }
 }

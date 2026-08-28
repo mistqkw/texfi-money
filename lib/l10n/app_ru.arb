@@ -15,6 +15,7 @@
   "commonSave": "Сохранить",
   "commonCreate": "Создать",
   "commonAdd": "Добавить",
+  "commonUndo": "Отменить",
   "commonExpense": "Расход",
   "commonIncome": "Доход",
   "commonCategory": "Категория",
@@ -134,5 +135,11 @@
   "statisticsMonthlyChartTitle": "Доходы и расходы по месяцам",
   "statisticsLoadError": "Не удалось загрузить данные",
   "statisticsCategoryChartTitle": "Расходы по категориям в этом месяце",
-  "statisticsNoExpenses": "Нет расходов в этом месяце"
+  "statisticsNoExpenses": "Нет расходов в этом месяце",
+
+  "quickEntryLabel": "быстрый ввод",
+  "quickEntryHint": "-350 продукты обед",
+  "quickEntryHelp": "Знак, сумма, категория, заметка — например «-350 продукты обед» или «+5000 зарплата»",
+  "quickEntryParseError": "Не распознано. Начните с + или -, затем сумма.",
+  "quickEntryAdded": "Добавлено: {details}"
 }
