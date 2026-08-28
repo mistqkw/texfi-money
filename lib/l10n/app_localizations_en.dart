@@ -405,4 +405,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String quickEntryAdded(String details) {
     return 'Added: $details';
   }
+
+  @override
+  String get onboardingSlide1Title => 'Everything in view';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Balance, income and expenses for the month — all on one screen.';
+
+  @override
+  String get onboardingSlide2Title => 'Budgets & goals';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Set monthly limits per category and save toward what matters, with a live progress bar.';
+
+  @override
+  String get onboardingSlide3Title => '❯ Quick add';
+
+  @override
+  String get onboardingSlide3Body =>
+      'One line — “-15 coffee lunch” — and the transaction is done. Faster than tapping through menus.';
+
+  @override
+  String get onboardingSlide4Title => 'Private & offline';
+
+  @override
+  String get onboardingSlide4Body =>
+      'Everything stays on your device. No account, no cloud, no ads.';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingSkip => 'Skip';
 }

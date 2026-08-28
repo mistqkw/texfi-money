@@ -839,6 +839,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added: {details}'**
   String quickEntryAdded(String details);
+
+  /// No description provided for @onboardingSlide1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything in view'**
+  String get onboardingSlide1Title;
+
+  /// No description provided for @onboardingSlide1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance, income and expenses for the month — all on one screen.'**
+  String get onboardingSlide1Body;
+
+  /// No description provided for @onboardingSlide2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Budgets & goals'**
+  String get onboardingSlide2Title;
+
+  /// No description provided for @onboardingSlide2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Set monthly limits per category and save toward what matters, with a live progress bar.'**
+  String get onboardingSlide2Body;
+
+  /// No description provided for @onboardingSlide3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'❯ Quick add'**
+  String get onboardingSlide3Title;
+
+  /// No description provided for @onboardingSlide3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'One line — “-15 coffee lunch” — and the transaction is done. Faster than tapping through menus.'**
+  String get onboardingSlide3Body;
+
+  /// No description provided for @onboardingSlide4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Private & offline'**
+  String get onboardingSlide4Title;
+
+  /// No description provided for @onboardingSlide4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything stays on your device. No account, no cloud, no ads.'**
+  String get onboardingSlide4Body;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
 }
 
 class _AppLocalizationsDelegate

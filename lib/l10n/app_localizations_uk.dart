@@ -407,4 +407,41 @@ class AppLocalizationsUk extends AppLocalizations {
   String quickEntryAdded(String details) {
     return 'Додано: $details';
   }
+
+  @override
+  String get onboardingSlide1Title => 'Все під контролем';
+
+  @override
+  String get onboardingSlide1Body =>
+      'Баланс, доходи та витрати за місяць — на одному екрані.';
+
+  @override
+  String get onboardingSlide2Title => 'Бюджети та цілі';
+
+  @override
+  String get onboardingSlide2Body =>
+      'Встановлюйте місячні ліміти для категорій і накопичуйте на важливе — з наочним прогрес-баром.';
+
+  @override
+  String get onboardingSlide3Title => '❯ Швидке додавання';
+
+  @override
+  String get onboardingSlide3Body =>
+      'Один рядок — «-350 продукти обід» — і транзакція готова. Швидше, ніж через меню.';
+
+  @override
+  String get onboardingSlide4Title => 'Приватно й офлайн';
+
+  @override
+  String get onboardingSlide4Body =>
+      'Усі дані залишаються на пристрої. Без акаунта, хмари й реклами.';
+
+  @override
+  String get onboardingNext => 'Далі';
+
+  @override
+  String get onboardingStart => 'Почати';
+
+  @override
+  String get onboardingSkip => 'Пропустити';
 }

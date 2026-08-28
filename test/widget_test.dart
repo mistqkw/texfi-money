@@ -10,8 +10,10 @@ import 'package:texfi_money/main.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
 
 void main() {
-  testWidgets('App launches and shows title', (tester) async {
-    SharedPreferences.setMockInitialValues({});
+  testWidgets('App launches, plays the splash, and shows the home screen', (tester) async {
+    // has_seen_onboarding: true — тест проверяет путь возвращающегося
+    // пользователя (сплэш → главный экран); онбординг покрыт отдельно.
+    SharedPreferences.setMockInitialValues({'has_seen_onboarding': true});
     final prefs = await SharedPreferences.getInstance();
 
     await tester.pumpWidget(
@@ -25,6 +27,12 @@ void main() {
         child: const TexFiMoneyApp(),
       ),
     );
+
+    // Сплэш идёт ~1650мс (typed-intro + пауза) — не pumpAndSettle,
+    // курсор мигает бесконечно (repeat(reverse: true)) и завис бы.
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 200));
+    }
 
     expect(find.text('TexFi m0ney'), findsOneWidget);
 
