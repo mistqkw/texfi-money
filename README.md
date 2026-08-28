@@ -1,26 +1,68 @@
-# TexFi m0ney
+<p align="center">
+  <img src="assets/banner.svg" alt="TexFi m0ney banner" width="100%">
+</p>
 
-Личный финансовый трекер для Android. Часть экосистемы **TexFi** (TexFi Files, Tekstik, TeFblock, Ari).
+<p align="center">
+  <b>A private, offline personal finance tracker for Android.</b><br>
+  Track spending, set budgets, and watch your savings goals grow — no account, no cloud, no ads.
+</p>
 
-## Стек
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-Android-4a7dfb" alt="Platform">
+  <img src="https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter" alt="Flutter">
+  <img src="https://img.shields.io/github/v/release/mistqkw/texfi-money?label=release" alt="Release">
+  <img src="https://img.shields.io/badge/license-open%20source-green" alt="License">
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#design">Design</a> ·
+  <a href="#stack">Stack</a> ·
+  <a href="#project-structure">Project structure</a>
+</p>
+
+---
+
+## Features
+
+- 💰 **Home** — total balance, this month's income/expense, recent transactions
+- ➕ **Add transactions** — amount, category, date, note, income or expense
+- 🏷 **Categories** — presets plus your own, with a line-style icon and color
+- 📊 **Budgets** — monthly limit per category, animated progress bar, warning near the limit
+- 🎯 **Savings goals** — target amount, progress, optional deadline, quick top-ups
+- 📈 **Statistics** — income/expense by month, expense breakdown by category (pie chart)
+- 🔎 **History** — full transaction list, filterable by type, category and date range
+- 💱 **Multi-currency display** — RUB, USD, EUR, UAH, PLN and more, switch anytime
+- 🌍 **Languages** — English, Русский, Polski, Українська, follows the system by default
+- 🎨 **Themes & fonts** — Dark, Light, pure-black OLED; Inter, Roboto, Manrope or system font
+
+Part of the **TexFi** ecosystem, alongside [TexFi Files](https://github.com/mistqkw/texfi_files) and [TeFBlock](https://github.com/mistqkw/tefblock).
+
+## Design
+
+Dark theme by default, flat minimalism, accent `#4a7dfb` on `#0d0d10`. Large, tabular
+figures for amounts; light, small type for labels. No gradients, no shadows, restrained
+corner radii (8–12px). Details in [`lib/core/theme`](lib/core/theme).
+
+## Stack
 
 - **Flutter** (Android, min SDK 24)
-- **State management:** [Riverpod](https://riverpod.dev) — минимум boilerplate, providers легко тестировать изолированно, хорошо сочетается с потоковыми запросами Drift (`StreamProvider` на `watch()`-запросы БД без ручной подписки/отписки).
-- **Локальное хранилище:** [Drift](https://drift.simonbinder.eu) (SQLite) — полноценный SQL с миграциями и join-запросами, что нужно для агрегаций бюджетов/статистики. Слой репозиториев абстрагирован через `domain/repositories`, поэтому синхронизацию с сервером можно будет добавить позже без переписывания UI.
-- **Графики:** fl_chart
-- **Архитектура:** Clean Architecture — `data/` (Drift, репозитории) → `domain/` (сущности, интерфейсы репозиториев) → `presentation/` (экраны, Riverpod providers).
+- **State management:** [Riverpod](https://riverpod.dev) — minimal boilerplate, providers are easy to test in isolation, and pairs well with Drift's streaming queries (`StreamProvider` over `watch()` queries with no manual subscribe/unsubscribe).
+- **Local storage:** [Drift](https://drift.simonbinder.eu) (SQLite) — full SQL with migrations and joins, which budget/statistics aggregations need. The repository layer is abstracted behind `domain/repositories`, so server sync can be added later without rewriting the UI.
+- **Charts:** fl_chart
+- **Architecture:** Clean Architecture — `data/` (Drift, repositories) → `domain/` (entities, repository interfaces) → `presentation/` (screens, Riverpod providers).
 
-## Структура
+## Project structure
 
 ```
 lib/
-  core/            тема, константы, утилиты
+  core/            theme, constants, utils, localization
   data/
     local/         Drift database, DAO
-    repositories/  реализации репозиториев поверх Drift
+    repositories/  repository implementations over Drift
   domain/
-    entities/      доменные модели
-    repositories/  абстрактные интерфейсы репозиториев
+    entities/      domain models
+    repositories/  abstract repository interfaces
   presentation/
     home/
     add_transaction/
@@ -29,9 +71,6 @@ lib/
     goals/
     statistics/
     history/
+    settings/
     shared/
 ```
-
-## Дизайн
-
-Тёмная тема по умолчанию, плоский минимализм, акцент `#4a7dfb` на фоне `#0d0d10`. Подробности — `lib/core/theme`.
