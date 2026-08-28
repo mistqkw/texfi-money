@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../categories/category_form_screen.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 
@@ -60,6 +62,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     if (picked != null) setState(() => _date = picked);
   }
 
+  Future<void> _addCategory() async {
+    final created = await Navigator.of(context).push<CategoryEntity>(
+      fadeSlideRoute(CategoryFormScreen(initialType: _type)),
+    );
+    if (created != null) setState(() => _selectedCategoryId = created.id);
+  }
+
   Future<void> _handleSave() async {
     if (!_canSave) return;
     setState(() {
@@ -106,6 +115,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 categories: categories,
                 selectedId: _selectedCategoryId,
                 onSelected: (id) => setState(() => _selectedCategoryId = id),
+                onAddCategory: _addCategory,
               ),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
@@ -229,46 +239,66 @@ class _CategoryGrid extends StatelessWidget {
     required this.categories,
     required this.selectedId,
     required this.onSelected,
+    required this.onAddCategory,
   });
 
   final List<CategoryEntity> categories;
   final String? selectedId;
   final ValueChanged<String> onSelected;
+  final VoidCallback onAddCategory;
 
   @override
   Widget build(BuildContext context) {
-    if (categories.isEmpty) {
-      return Text('Нет категорий этого типа', style: AppTypography.body);
-    }
     return Wrap(
       spacing: 12,
       runSpacing: 12,
-      children: categories.map((category) {
-        final selected = category.id == selectedId;
-        return GestureDetector(
-          onTap: () => onSelected(category.id),
-          child: AnimatedContainer(
-            duration: AppMotion.fast,
+      children: [
+        ...categories.map((category) {
+          final selected = category.id == selectedId;
+          return GestureDetector(
+            onTap: () => onSelected(category.id),
+            child: AnimatedContainer(
+              duration: AppMotion.fast,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: selected ? category.color.withValues(alpha: 0.16) : AppColors.surface,
+                borderRadius: AppRadius.mediumAll,
+                border: Border.all(
+                  color: selected ? category.color : AppColors.divider,
+                  width: selected ? 1.5 : 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CategoryAvatar(category: category, size: 28),
+                  const SizedBox(width: 8),
+                  Text(category.name, style: AppTypography.title),
+                ],
+              ),
+            ),
+          );
+        }),
+        GestureDetector(
+          onTap: onAddCategory,
+          child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: selected ? category.color.withValues(alpha: 0.16) : AppColors.surface,
+              color: AppColors.surface,
               borderRadius: AppRadius.mediumAll,
-              border: Border.all(
-                color: selected ? category.color : AppColors.divider,
-                width: selected ? 1.5 : 1,
-              ),
+              border: Border.all(color: AppColors.divider, style: BorderStyle.solid),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CategoryAvatar(category: category, size: 28),
-                const SizedBox(width: 8),
-                Text(category.name, style: AppTypography.title),
+                const Icon(Icons.add, size: 20, color: AppColors.textSecondary),
+                const SizedBox(width: 6),
+                Text('Своя категория', style: AppTypography.title),
               ],
             ),
           ),
-        );
-      }).toList(),
+        ),
+      ],
     );
   }
 }

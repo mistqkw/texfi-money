@@ -6,6 +6,7 @@ import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_typography.dart';
 import '../add_transaction/add_transaction_screen.dart';
+import '../categories/categories_screen.dart';
 import '../shared/animated_amount.dart';
 import '../shared/transaction_tile.dart';
 import 'home_providers.dart';
@@ -20,7 +21,18 @@ class HomeScreen extends ConsumerWidget {
     final recentAsync = ref.watch(recentTransactionsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('TexFi m0ney')),
+      appBar: AppBar(
+        title: const Text('TexFi m0ney'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.category_outlined),
+            tooltip: 'Категории',
+            onPressed: () => Navigator.of(context).push(
+              fadeSlideRoute(const CategoriesScreen()),
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'add_transaction_fab',
         onPressed: () => Navigator.of(context).push(
