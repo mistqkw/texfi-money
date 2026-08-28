@@ -45,6 +45,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonAdd => 'Add';
 
   @override
+  String get commonOk => 'OK';
+
+  @override
   String get commonExpense => 'Expense';
 
   @override
@@ -434,6 +437,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsManageSection => 'Manage';
+
+  @override
+  String get settingsBackupSection => 'Backup';
+
+  @override
+  String get backupExport => 'Export data';
+
+  @override
+  String get backupImport => 'Import data';
+
+  @override
+  String get backupImportConfirmTitle => 'Replace all data?';
+
+  @override
+  String get backupImportConfirmBody =>
+      'Importing a backup replaces everything currently on this device — transactions, categories, accounts, profiles, budgets and goals. This can\'t be undone.';
+
+  @override
+  String get backupImportConfirmAction => 'Replace';
+
+  @override
+  String get backupImportSuccess => 'Data restored from backup';
+
+  @override
+  String get backupImportError => 'This file isn\'t a valid TexFi m0ney backup';
 
   @override
   String get themeDark => 'Dark';

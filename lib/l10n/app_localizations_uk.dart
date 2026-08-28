@@ -45,6 +45,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get commonAdd => 'Додати';
 
   @override
+  String get commonOk => 'ОК';
+
+  @override
   String get commonExpense => 'Витрата';
 
   @override
@@ -435,6 +438,32 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingsManageSection => 'Керування';
+
+  @override
+  String get settingsBackupSection => 'Резервна копія';
+
+  @override
+  String get backupExport => 'Експортувати дані';
+
+  @override
+  String get backupImport => 'Імпортувати дані';
+
+  @override
+  String get backupImportConfirmTitle => 'Замінити всі дані?';
+
+  @override
+  String get backupImportConfirmBody =>
+      'Імпорт резервної копії замінить усе, що зараз є на пристрої — транзакції, категорії, рахунки, профілі, бюджети та цілі. Це не можна скасувати.';
+
+  @override
+  String get backupImportConfirmAction => 'Замінити';
+
+  @override
+  String get backupImportSuccess => 'Дані відновлено з резервної копії';
+
+  @override
+  String get backupImportError =>
+      'Цей файл не є коректною резервною копією TexFi m0ney';
 
   @override
   String get themeDark => 'Темна';

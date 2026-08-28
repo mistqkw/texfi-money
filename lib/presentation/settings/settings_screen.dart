@@ -1,5 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../core/constants/app_font.dart';
 import '../../core/constants/app_theme_variant.dart';
@@ -7,6 +13,8 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../data/local/backup_service.dart';
+import '../../data/providers/data_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../accounts/accounts_screen.dart';
 import '../profiles/debt_profiles_screen.dart';
@@ -42,6 +50,70 @@ class SettingsScreen extends ConsumerWidget {
         AppFont.manrope => 'Manrope',
         AppFont.system => l10n.fontSystem,
       };
+
+  Future<void> _exportBackup(BuildContext context, WidgetRef ref) async {
+    final json = await ref.read(backupServiceProvider).exportToJson();
+    final dir = await getTemporaryDirectory();
+    final stamp = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:.]'), '-');
+    final file = File('${dir.path}/texfi-money-backup-$stamp.json');
+    await file.writeAsString(json);
+
+    await SharePlus.instance.share(ShareParams(files: [XFile(file.path)]));
+  }
+
+  Future<void> _showResultDialog(BuildContext context, {required String title}) {
+    return showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.l10n.commonOk),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _importBackup(BuildContext context, WidgetRef ref) async {
+    final file = await FilePicker.pickFile(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
+    if (file == null) return;
+    final bytes = await file.readAsBytes();
+
+    if (!context.mounted) return;
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.backupImportConfirmTitle),
+        content: Text(l10n.backupImportConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.commonCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.backupImportConfirmAction),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    try {
+      await ref.read(backupServiceProvider).restoreFromJson(utf8.decode(bytes));
+      if (!context.mounted) return;
+      await _showResultDialog(context, title: l10n.backupImportSuccess);
+    } on BackupFormatException {
+      if (!context.mounted) return;
+      await _showResultDialog(context, title: l10n.backupImportError);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,6 +193,23 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => Navigator.of(context).push(
               fadeSlideRoute(const DebtProfilesScreen()),
             ),
+          ),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsBackupSection),
+          const SizedBox(height: 8),
+          _OptionTile(
+            icon: Icons.upload_outlined,
+            label: l10n.backupExport,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => _exportBackup(context, ref),
+          ),
+          _OptionTile(
+            icon: Icons.download_outlined,
+            label: l10n.backupImport,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => _importBackup(context, ref),
           ),
         ],
       ),
