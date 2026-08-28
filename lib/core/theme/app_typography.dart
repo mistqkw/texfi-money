@@ -8,7 +8,7 @@ import 'app_colors_ext.dart';
 /// с именованными стилями приложения (см. `AppTextStyles`):
 /// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
 /// headline→headlineMedium, title→titleMedium, body→bodyMedium,
-/// caption→bodySmall, label→labelMedium.
+/// caption→bodySmall, label→labelMedium, mono→labelSmall.
 TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
   TextStyle style({
     required double size,
@@ -54,6 +54,17 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
       color: colors.textSecondary,
       letterSpacing: 0.1,
       features: const [],
+    ),
+    // Терминальные метки/метаданные — всегда моноширинный JetBrains Mono,
+    // независимо от выбранного пользователем основного шрифта.
+    labelSmall: GoogleFonts.jetBrainsMono(
+      textStyle: TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.2,
+        height: 1.2,
+        color: colors.textSecondary,
+      ),
     ),
   );
 }
