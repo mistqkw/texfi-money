@@ -2,7 +2,7 @@ name: texfi_money
 description: "TexFi m0ney — личный финансовый трекер"
 publish_to: 'none'
 
-version: 0.9.0+11
+version: 1.0.0+12
 
 environment:
   sdk: ^3.12.2
