@@ -20,6 +20,7 @@ class SavingsGoalRepositoryImpl implements SavingsGoalRepository {
         deadline: row.deadline,
         color: Color(row.colorValue),
         createdAt: row.createdAt,
+        imagePath: row.imagePath,
       );
 
   @override
@@ -38,6 +39,7 @@ class SavingsGoalRepositoryImpl implements SavingsGoalRepository {
     required double targetAmount,
     DateTime? deadline,
     required Color color,
+    String? imagePath,
   }) async {
     final id = _uuid.v4();
     await _db.into(_db.savingsGoals).insert(SavingsGoalsCompanion.insert(
@@ -46,6 +48,7 @@ class SavingsGoalRepositoryImpl implements SavingsGoalRepository {
           targetAmount: targetAmount,
           deadline: Value(deadline),
           colorValue: color.toARGB32(),
+          imagePath: Value(imagePath),
         ));
     return id;
   }
@@ -68,6 +71,7 @@ class SavingsGoalRepositoryImpl implements SavingsGoalRepository {
         targetAmount: Value(goal.targetAmount),
         deadline: Value(goal.deadline),
         colorValue: Value(goal.color.toARGB32()),
+        imagePath: Value(goal.imagePath),
       ),
     );
   }

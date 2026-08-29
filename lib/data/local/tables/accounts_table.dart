@@ -8,6 +8,10 @@ class Accounts extends Table {
   IntColumn get colorValue => integer()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
+  /// Ссылается на id из `BankCatalog` (core/constants/banks.dart) —
+  /// необязательное, для отображения фирменного бейджа банка.
+  TextColumn get bankId => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

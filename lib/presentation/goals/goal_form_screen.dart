@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
@@ -8,6 +11,8 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
+import '../../core/utils/image_storage.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
@@ -26,6 +31,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
   late final TextEditingController _targetController;
   DateTime? _deadline;
   late Color _color;
+  String? _imagePath;
   bool _saving = false;
 
   bool get _isEditing => widget.existing != null;
@@ -40,6 +46,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
     );
     _deadline = existing?.deadline;
     _color = existing?.color ?? AppColors.categoryPalette.first;
+    _imagePath = existing?.imagePath;
   }
 
   @override
@@ -53,6 +60,20 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
 
   bool get _canSave =>
       _titleController.text.trim().isNotEmpty && _target > 0 && !_saving;
+
+  Future<void> _pickImage() async {
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
+    if (picked == null) return;
+    final savedPath = await savePickedImage(picked);
+    if (!mounted) return;
+    Haptics.select();
+    setState(() => _imagePath = savedPath);
+  }
+
+  void _removeImage() {
+    Haptics.select();
+    setState(() => _imagePath = null);
+  }
 
   Future<void> _pickDeadline() async {
     final picked = await showDatePicker(
@@ -77,6 +98,8 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
         deadline: _deadline,
         clearDeadline: _deadline == null,
         color: _color,
+        imagePath: _imagePath,
+        clearImage: _imagePath == null,
       ));
     } else {
       await ref.read(savingsGoalRepositoryProvider).create(
@@ -84,6 +107,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
             targetAmount: _target,
             deadline: _deadline,
             color: _color,
+            imagePath: _imagePath,
           );
     }
     if (mounted) Navigator.of(context).pop(true);
@@ -108,6 +132,38 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           children: [
+            Center(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      radius: 44,
+                      backgroundColor: _color.withValues(alpha: 0.16),
+                      backgroundImage: _imagePath != null ? FileImage(File(_imagePath!)) : null,
+                      child: _imagePath == null
+                          ? Icon(Icons.add_a_photo_outlined, color: _color, size: 28)
+                          : null,
+                    ),
+                  ),
+                  if (_imagePath != null)
+                    Positioned(
+                      right: -4,
+                      top: -4,
+                      child: GestureDetector(
+                        onTap: _removeImage,
+                        child: CircleAvatar(
+                          radius: 14,
+                          backgroundColor: context.colors.expense,
+                          child: const Icon(Icons.close, color: Colors.white, size: 16),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
             TextField(
               controller: _titleController,
               autofocus: !_isEditing,

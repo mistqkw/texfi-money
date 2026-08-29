@@ -9,6 +9,7 @@ class SavingsGoalEntity {
     this.deadline,
     required this.color,
     required this.createdAt,
+    this.imagePath,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class SavingsGoalEntity {
   final DateTime? deadline;
   final Color color;
   final DateTime createdAt;
+  final String? imagePath;
 
   double get progress =>
       targetAmount <= 0 ? 0 : (currentAmount / targetAmount).clamp(0, 1);
@@ -34,6 +36,8 @@ class SavingsGoalEntity {
     DateTime? deadline,
     bool clearDeadline = false,
     Color? color,
+    String? imagePath,
+    bool clearImage = false,
   }) {
     return SavingsGoalEntity(
       id: id,
@@ -43,6 +47,7 @@ class SavingsGoalEntity {
       deadline: clearDeadline ? null : (deadline ?? this.deadline),
       color: color ?? this.color,
       createdAt: createdAt,
+      imagePath: clearImage ? null : (imagePath ?? this.imagePath),
     );
   }
 }

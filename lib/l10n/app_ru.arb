@@ -117,6 +117,8 @@
   "accountFormTitleNew": "Новый счёт",
   "accountFormTitleEdit": "Редактировать счёт",
   "accountFormNameHint": "Название счёта, например «Карта банка А»",
+  "accountFormBankLabel": "Банк",
+  "accountFormNoBank": "Без банка",
 
   "profilesTitle": "Профили",
   "profilesEmpty": "Пока нет профилей — учитывайте чужие деньги кнопкой «+»",
@@ -146,6 +148,8 @@
   "settingsTitle": "Настройки",
   "settingsThemeSection": "Тема",
   "settingsFontSection": "Шрифт",
+  "settingsHapticsSection": "Вибрация",
+  "hapticsEnabled": "Тактильный отклик",
   "settingsCurrencySection": "Валюта",
   "settingsLanguageSection": "Язык",
   "settingsManageSection": "Управление",
@@ -194,6 +198,7 @@
   "onboardingSlide4Body": "Все данные остаются на устройстве. Без аккаунта, облака и рекламы.",
   "onboardingCurrencyStepTitle": "Выберите валюту",
   "onboardingThemeStepTitle": "Выберите оформление",
+  "onboardingBankStepTitle": "Добавьте свой банк (необязательно)",
   "onboardingNext": "Далее",
   "onboardingStart": "Начать",
   "onboardingSkip": "Пропустить"

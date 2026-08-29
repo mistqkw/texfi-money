@@ -10,6 +10,7 @@ abstract class SavingsGoalRepository {
     required double targetAmount,
     DateTime? deadline,
     required Color color,
+    String? imagePath,
   });
 
   /// Добавляет сумму к текущему прогрессу (может быть отрицательной для отмены).

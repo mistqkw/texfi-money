@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/utils/haptics.dart';
 import 'brand_glyph.dart';
 
 const _brandName = 'texfi m0ney';
@@ -21,6 +22,9 @@ class LaunchSplash extends StatefulWidget {
 class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _cursorController;
+  late final CurvedAnimation _logoAnim;
+  late final CurvedAnimation _typeAnim;
+  int _lastCharCount = 0;
 
   @override
   void initState() {
@@ -28,6 +32,24 @@ class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMix
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
     _cursorController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
       ..repeat(reverse: true);
+    _logoAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0, 0.45, curve: Curves.easeOutBack),
+    );
+    _typeAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.35, 0.9, curve: Curves.easeIn),
+    );
+
+    // Тик на каждый новый напечатанный символ — сплэш ощущается как
+    // настоящий терминал, а не просто анимация.
+    _controller.addListener(() {
+      final charCount = (_brandName.length * _typeAnim.value).clamp(0, _brandName.length).floor();
+      if (charCount > _lastCharCount) {
+        _lastCharCount = charCount;
+        Haptics.select();
+      }
+    });
 
     _controller.forward().whenComplete(() {
       Future.delayed(const Duration(milliseconds: 250), () {
@@ -45,14 +67,8 @@ class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final logoAnim = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0, 0.45, curve: Curves.easeOutBack),
-    );
-    final typeAnim = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.35, 0.9, curve: Curves.easeIn),
-    );
+    final logoAnim = _logoAnim;
+    final typeAnim = _typeAnim;
 
     return Scaffold(
       backgroundColor: Colors.black,

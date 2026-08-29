@@ -343,6 +343,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get accountFormNameHint => 'Nazwa konta, np. „Karta banku A”';
 
   @override
+  String get accountFormBankLabel => 'Bank';
+
+  @override
+  String get accountFormNoBank => 'Brak';
+
+  @override
   String get profilesTitle => 'Profile';
 
   @override
@@ -428,6 +434,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get settingsFontSection => 'Czcionka';
+
+  @override
+  String get settingsHapticsSection => 'Wibracje';
+
+  @override
+  String get hapticsEnabled => 'Wibracje przy interakcji';
 
   @override
   String get settingsCurrencySection => 'Waluta';
@@ -564,6 +576,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get onboardingThemeStepTitle => 'Wybierz wygląd';
+
+  @override
+  String get onboardingBankStepTitle => 'Dodaj swój bank (opcjonalnie)';
 
   @override
   String get onboardingNext => 'Dalej';

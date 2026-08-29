@@ -8,7 +8,7 @@ abstract class AccountRepository {
   /// Баланс счёта: сумма подписанных сумм всех привязанных транзакций.
   Stream<double> watchBalance(String accountId);
 
-  Future<String> create({required String name, required Color color});
+  Future<String> create({required String name, required Color color, String? bankId});
 
   Future<void> update(AccountEntity account);
 
