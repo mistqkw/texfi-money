@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/transaction_entity.dart';
@@ -27,13 +28,13 @@ class TransactionTile extends ConsumerWidget {
       child: Row(
         children: [
           CategoryAvatar(category: transaction.category),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(categoryDisplayName(context, transaction.category), style: context.text.title),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   transaction.note?.isNotEmpty == true
                       ? '${formatDate(transaction.date, context)} · ${transaction.note}'

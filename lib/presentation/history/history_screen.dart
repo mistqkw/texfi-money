@@ -5,14 +5,17 @@ import 'package:intl/intl.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
+import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
@@ -68,6 +71,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         ),
       ),
     );
+    Haptics.select();
     setState(() => _type = result);
   }
 
@@ -100,6 +104,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         ),
       ),
     );
+    Haptics.select();
     setState(() => _categoryId = result);
   }
 
@@ -121,6 +126,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   }
 
   void _resetFilters() {
+    Haptics.select();
     setState(() {
       _type = null;
       _categoryId = null;
@@ -192,13 +198,14 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             child: transactionsAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
-                  return Center(
-                    child: Text(l10n.historyEmpty, style: context.text.body),
+                  return EmptyState(
+                    icon: Icons.search_off_outlined,
+                    message: l10n.historyEmpty,
                   );
                 }
                 final grouped = _groupByDay(transactions);
                 return ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                  padding: AppSpacing.screen,
                   itemCount: grouped.length,
                   itemBuilder: (context, i) {
                     final item = grouped[i];
@@ -252,10 +259,10 @@ class _FilterChip extends StatelessWidget {
               ),
             ),
             if (icon != null) ...[
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Icon(icon, size: 14, color: context.colors.textSecondary),
             ] else ...[
-              const SizedBox(width: 4),
+              const SizedBox(width: AppSpacing.xs),
               Icon(Icons.expand_more, size: 16, color: active ? context.colors.accent : context.colors.textTertiary),
             ],
           ],

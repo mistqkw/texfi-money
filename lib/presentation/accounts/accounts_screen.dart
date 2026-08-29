@@ -6,6 +6,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -13,6 +14,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/bank_mark.dart';
+import '../shared/empty_state.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'account_form_screen.dart';
@@ -65,17 +67,15 @@ class AccountsScreen extends ConsumerWidget {
       body: accountsAsync.when(
         data: (accounts) {
           if (accounts.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(l10n.accountsEmpty, style: context.text.body, textAlign: TextAlign.center),
-              ),
+            return EmptyState(
+              icon: Icons.account_balance_wallet_outlined,
+              message: l10n.accountsEmpty,
             );
           }
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+            padding: AppSpacing.screenWithFab,
             itemCount: accounts.length,
-            separatorBuilder: (context, i) => const SizedBox(height: 12),
+            separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) {
               final account = accounts[i];
               return Dismissible(
@@ -143,7 +143,7 @@ class _AccountCard extends ConsumerWidget {
               ),
               child: Icon(Icons.credit_card, color: account.color, size: 18),
             ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
           Expanded(child: Text(account.name, style: context.text.title)),
           Text(
             formatAmount(balanceAsync.valueOrNull ?? 0, currency, context),

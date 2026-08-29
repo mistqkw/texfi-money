@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_l10n_ext.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -52,6 +54,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
 
   Future<void> _save() async {
     if (!_canSave) return;
+    Haptics.success();
     setState(() => _saving = true);
     await ref
         .read(budgetRepositoryProvider)
@@ -73,23 +76,28 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
       appBar: AppBar(
         title: Text(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
         leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           if (_isEditing)
-            IconButton(icon: const Icon(Icons.delete_outline), onPressed: _delete),
+            IconButton(
+              tooltip: l10n.commonDelete,
+              icon: const Icon(Icons.delete_outline),
+              onPressed: _delete,
+            ),
         ],
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: AppSpacing.screen,
           children: [
             if (_isEditing) ...[
               Row(
                 children: [
                   CategoryAvatar(category: widget.existing!.category),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppSpacing.md),
                   Text(
                     categoryDisplayName(context, widget.existing!.category),
                     style: context.text.headline,
@@ -98,15 +106,15 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               ),
             ] else ...[
               Text(l10n.commonCategory, style: context.text.label),
-              const SizedBox(height: 8),
+              AppSpacing.gapSm,
               _CategoryPicker(
                 selectedId: _categoryId,
                 onSelected: (id) => setState(() => _categoryId = id),
               ),
             ],
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.setBudgetLimitLabel, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             TextField(
               controller: _amountController,
               autofocus: !_isEditing,
@@ -116,7 +124,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
-            const SizedBox(height: 32),
+            AppSpacing.gapXxl,
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

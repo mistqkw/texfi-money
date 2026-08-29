@@ -8,6 +8,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -157,20 +158,21 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       appBar: AppBar(
         title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: AppSpacing.screen,
           children: [
             _TypeToggle(type: _type, onChanged: _onTypeChanged),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             _AmountField(controller: _amountController, onChanged: () => setState(() {})),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.commonCategory, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             categoriesAsync.when(
               data: (categories) => _CategoryGrid(
                 categories: categories,
@@ -190,9 +192,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 24),
+                    AppSpacing.gapXl,
                     Text(l10n.addTxAccountLabel, style: context.text.label),
-                    const SizedBox(height: 8),
+                    AppSpacing.gapSm,
                     _AccountRow(
                       accounts: accounts,
                       selectedId: _selectedAccountId,
@@ -203,15 +205,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               },
               orElse: () => const SizedBox.shrink(),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             _DateRow(date: _date, onTap: _pickDate),
-            const SizedBox(height: 16),
+            AppSpacing.gapLg,
             TextField(
               controller: _noteController,
               style: context.text.body.copyWith(color: context.colors.textPrimary),
               decoration: InputDecoration(hintText: l10n.addTxNoteHint),
             ),
-            const SizedBox(height: 32),
+            AppSpacing.gapXxl,
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -353,7 +355,7 @@ class _CategoryGrid extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(Icons.add, size: 20, color: context.colors.textSecondary),
-                const SizedBox(width: 6),
+                const SizedBox(width: AppSpacing.xs),
                 Text(context.l10n.addTxAddCategory, style: context.text.title),
               ],
             ),
@@ -406,7 +408,7 @@ class _AccountRow extends StatelessWidget {
               height: 10,
               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Text(label, style: context.text.title),
           ],
         ),
@@ -435,7 +437,7 @@ class _DateRow extends StatelessWidget {
         child: Row(
           children: [
             Icon(Icons.calendar_today_outlined, size: 20, color: context.colors.textSecondary),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
             Expanded(child: Text(formatDate(date, context), style: context.text.title)),
             Icon(Icons.chevron_right, color: context.colors.textTertiary),
           ],

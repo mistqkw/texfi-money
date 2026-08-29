@@ -6,12 +6,14 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
+import '../shared/empty_state.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'debt_profile_form_screen.dart';
@@ -109,17 +111,12 @@ class DebtProfilesScreen extends ConsumerWidget {
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(l10n.profilesEmpty, style: context.text.body, textAlign: TextAlign.center),
-              ),
-            );
+            return EmptyState(icon: Icons.people_outline, message: l10n.profilesEmpty);
           }
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+            padding: AppSpacing.screenWithFab,
             itemCount: profiles.length,
-            separatorBuilder: (context, i) => const SizedBox(height: 12),
+            separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) {
               final profile = profiles[i];
               return Dismissible(
@@ -190,7 +187,7 @@ class _ProfileCard extends ConsumerWidget {
             decoration: BoxDecoration(color: profile.color.withValues(alpha: 0.16), shape: BoxShape.circle),
             child: Icon(Icons.person_outline, color: profile.color, size: 18),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,6 +198,7 @@ class _ProfileCard extends ConsumerWidget {
             ),
           ),
           IconButton(
+            tooltip: l10n.profilesRecordTitle(profile.name),
             icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
             onPressed: onRecord,
           ),

@@ -21,8 +21,15 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # Импорты в одном порядке во всех файлах — иначе при слиянии веток
+    # блок импортов расходится и даёт конфликты на пустом месте.
+    directives_ordering: true
+    # Ключи у элементов списков: без них Flutter путает состояние строк
+    # при пересортировке (например, свайп удаляет не ту транзакцию).
+    use_key_in_widget_constructors: true
+    # Освобождать контроллеры и подписки — утечки в долгоживущем
+    # приложении накапливаются незаметно.
+    close_sinks: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

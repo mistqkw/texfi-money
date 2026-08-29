@@ -12,6 +12,7 @@ import '../../core/constants/app_theme_variant.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/local/backup_service.dart';
@@ -168,10 +169,10 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+        padding: AppSpacing.screen,
         children: [
           _SectionLabel(l10n.settingsLanguageSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           _OptionTile(
             icon: Icons.language_outlined,
             label: languageLabel,
@@ -181,27 +182,27 @@ class SettingsScreen extends ConsumerWidget {
               fadeSlideRoute(const LanguagePickerScreen()),
             ),
           ),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsThemeSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           ...AppThemeVariant.values.map((variant) => _OptionTile(
                 icon: _themeIcon(variant),
                 label: _themeLabel(context, variant),
                 selected: variant == themeVariant,
                 onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
               )),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsFontSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           ...AppFont.values.map((f) => _OptionTile(
                 icon: Icons.text_fields,
                 label: _fontLabel(f, l10n),
                 selected: f == font,
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
               )),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsHapticsSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(l10n.hapticsEnabled, style: context.text.title),
@@ -211,9 +212,9 @@ class SettingsScreen extends ConsumerWidget {
               if (value) Haptics.select();
             },
           ),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsCurrencySection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           _OptionTile(
             icon: Icons.payments_outlined,
             label: '${currencyDisplayName(context, currency)} (${currency.symbol})',
@@ -223,9 +224,9 @@ class SettingsScreen extends ConsumerWidget {
               fadeSlideRoute(const CurrencyPickerScreen()),
             ),
           ),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsManageSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           _OptionTile(
             icon: Icons.account_balance_wallet_outlined,
             label: l10n.accountsTitle,
@@ -244,9 +245,9 @@ class SettingsScreen extends ConsumerWidget {
               fadeSlideRoute(const DebtProfilesScreen()),
             ),
           ),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsBackupSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           _OptionTile(
             icon: Icons.upload_outlined,
             label: l10n.backupExport,
@@ -261,9 +262,9 @@ class SettingsScreen extends ConsumerWidget {
             showCheckmark: false,
             onTap: () => _importBackup(context, ref),
           ),
-          const SizedBox(height: 24),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsDangerSection),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           _OptionTile(
             icon: Icons.restart_alt,
             label: l10n.resetApp,
