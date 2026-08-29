@@ -9,6 +9,7 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../l10n/app_localizations.dart';
 import '../settings/currency_provider.dart';
 import '../settings/onboarding_provider.dart';
@@ -74,6 +75,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _next(int pageCount) {
+    Haptics.select();
     if (_page == pageCount - 1) {
       _finish();
       return;
@@ -246,7 +248,10 @@ class _CurrencyStepView extends ConsumerWidget {
         children: AppCurrency.values.map((currency) {
           final selected = currency == current;
           return GestureDetector(
-            onTap: () => ref.read(currencyProvider.notifier).setCurrency(currency),
+            onTap: () {
+              Haptics.select();
+              ref.read(currencyProvider.notifier).setCurrency(currency);
+            },
             child: AnimatedContainer(
               duration: AppMotion.fast,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -301,7 +306,10 @@ class _ThemeStepView extends ConsumerWidget {
               variant: variant,
               label: _label(l10n, variant),
               selected: variant == current,
-              onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
+              onTap: () {
+                Haptics.select();
+                ref.read(themeVariantProvider.notifier).setVariant(variant);
+              },
             ),
             if (variant != AppThemeVariant.values.last) const SizedBox(width: 12),
           ],

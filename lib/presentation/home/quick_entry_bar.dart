@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -44,6 +45,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
   Future<void> _submit() async {
     final raw = parseQuickEntry(_controller.text);
     if (raw == null) {
+      Haptics.error();
       setState(() => _error = true);
       return;
     }
@@ -68,6 +70,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
     category ??= _fallbackCategory(categories, raw.type);
 
     if (category == null) {
+      Haptics.error();
       setState(() {
         _error = true;
         _submitting = false;
@@ -84,6 +87,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
         );
 
     if (!mounted) return;
+    Haptics.success();
 
     _controller.clear();
     setState(() {

@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -12,6 +13,7 @@ import '../../domain/repositories/category_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/press_scale.dart';
 import 'category_form_screen.dart';
 
 class CategoriesScreen extends ConsumerWidget {
@@ -49,6 +51,7 @@ class CategoriesScreen extends ConsumerWidget {
     if (confirmed != true) return;
 
     try {
+      Haptics.delete();
       await ref.read(categoryRepositoryProvider).delete(category.id);
     } on CategoryInUseException {
       if (context.mounted) {
@@ -66,9 +69,14 @@ class CategoriesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.categoriesTitle)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openForm(context),
-        child: const Icon(Icons.add),
+      floatingActionButton: PressScale(
+        child: FloatingActionButton(
+          onPressed: () {
+            Haptics.select();
+            _openForm(context);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: categoriesAsync.when(
         data: (categories) {

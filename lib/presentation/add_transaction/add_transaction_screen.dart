@@ -10,6 +10,7 @@ import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../../domain/entities/category_entity.dart';
@@ -51,6 +52,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   void _onTypeChanged(TransactionType type) {
     if (type == _type) return;
+    Haptics.select();
     setState(() {
       _type = type;
       _selectedCategoryId = null;
@@ -76,6 +78,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   Future<void> _handleSave() async {
     if (!_canSave) return;
+    Haptics.success();
     setState(() {
       _saving = true;
       _bounceTrigger++;

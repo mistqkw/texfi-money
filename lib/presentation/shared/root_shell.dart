@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_l10n_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../budgets/budgets_screen.dart';
 import '../goals/goals_screen.dart';
 import '../history/history_screen.dart';
@@ -33,7 +34,10 @@ class _RootShellState extends State<RootShell> {
       body: IndexedStack(index: _index, children: _pages),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
-        onDestinationSelected: (value) => setState(() => _index = value),
+        onDestinationSelected: (value) {
+          if (value != _index) Haptics.select();
+          setState(() => _index = value);
+        },
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
