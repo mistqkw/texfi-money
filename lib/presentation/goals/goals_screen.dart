@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
+import '../../core/utils/image_storage.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
@@ -81,6 +84,7 @@ class GoalsScreen extends ConsumerWidget {
     if (confirmed == true) {
       Haptics.delete();
       await ref.read(savingsGoalRepositoryProvider).delete(goal.id);
+      await deleteImageIfExists(goal.imagePath);
     }
   }
 
@@ -175,18 +179,17 @@ class _GoalCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: goal.color.withValues(alpha: 0.16),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  goal.isCompleted ? Icons.check_circle_outline : Icons.savings_outlined,
-                  color: goal.color,
-                  size: 18,
-                ),
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: goal.color.withValues(alpha: 0.16),
+                backgroundImage: goal.imagePath != null ? FileImage(File(goal.imagePath!)) : null,
+                child: goal.imagePath == null
+                    ? Icon(
+                        goal.isCompleted ? Icons.check_circle_outline : Icons.savings_outlined,
+                        color: goal.color,
+                        size: 18,
+                      )
+                    : null,
               ),
               const SizedBox(width: 12),
               Expanded(child: Text(goal.title, style: context.text.title)),

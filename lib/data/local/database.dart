@@ -20,7 +20,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -35,6 +35,10 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(accounts);
             await m.createTable(debtProfiles);
             await m.addColumn(transactions, transactions.accountId);
+          }
+          if (from < 3) {
+            await m.addColumn(savingsGoals, savingsGoals.imagePath);
+            await m.addColumn(accounts, accounts.bankId);
           }
         },
       );

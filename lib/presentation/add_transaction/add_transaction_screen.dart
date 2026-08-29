@@ -78,7 +78,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   Future<void> _handleSave() async {
     if (!_canSave) return;
-    Haptics.success();
+    _type == TransactionType.income ? Haptics.income() : Haptics.expense();
     setState(() {
       _saving = true;
       _bounceTrigger++;

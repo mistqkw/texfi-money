@@ -343,6 +343,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accountFormNameHint => 'Название счёта, например «Карта банка А»';
 
   @override
+  String get accountFormBankLabel => 'Банк';
+
+  @override
+  String get accountFormNoBank => 'Без банка';
+
+  @override
   String get profilesTitle => 'Профили';
 
   @override
@@ -428,6 +434,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsFontSection => 'Шрифт';
+
+  @override
+  String get settingsHapticsSection => 'Вибрация';
+
+  @override
+  String get hapticsEnabled => 'Тактильный отклик';
 
   @override
   String get settingsCurrencySection => 'Валюта';
@@ -564,6 +576,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingThemeStepTitle => 'Выберите оформление';
+
+  @override
+  String get onboardingBankStepTitle => 'Добавьте свой банк (необязательно)';
 
   @override
   String get onboardingNext => 'Далее';

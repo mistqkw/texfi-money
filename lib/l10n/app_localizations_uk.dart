@@ -344,6 +344,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get accountFormNameHint => 'Назва рахунку, наприклад «Картка банку А»';
 
   @override
+  String get accountFormBankLabel => 'Банк';
+
+  @override
+  String get accountFormNoBank => 'Без банку';
+
+  @override
   String get profilesTitle => 'Профілі';
 
   @override
@@ -429,6 +435,12 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingsFontSection => 'Шрифт';
+
+  @override
+  String get settingsHapticsSection => 'Вібрація';
+
+  @override
+  String get hapticsEnabled => 'Тактильний відгук';
 
   @override
   String get settingsCurrencySection => 'Валюта';
@@ -565,6 +577,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get onboardingThemeStepTitle => 'Виберіть оформлення';
+
+  @override
+  String get onboardingBankStepTitle => 'Додайте свій банк (необов\'язково)';
 
   @override
   String get onboardingNext => 'Далі';

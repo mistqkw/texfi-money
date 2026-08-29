@@ -117,6 +117,8 @@
   "accountFormTitleNew": "Nowe konto",
   "accountFormTitleEdit": "Edytuj konto",
   "accountFormNameHint": "Nazwa konta, np. „Karta banku A”",
+  "accountFormBankLabel": "Bank",
+  "accountFormNoBank": "Brak",
 
   "profilesTitle": "Profile",
   "profilesEmpty": "Brak profili — śledź cudze pieniądze przyciskiem „+”",
@@ -146,6 +148,8 @@
   "settingsTitle": "Ustawienia",
   "settingsThemeSection": "Motyw",
   "settingsFontSection": "Czcionka",
+  "settingsHapticsSection": "Wibracje",
+  "hapticsEnabled": "Wibracje przy interakcji",
   "settingsCurrencySection": "Waluta",
   "settingsLanguageSection": "Język",
   "settingsManageSection": "Zarządzanie",
@@ -194,6 +198,7 @@
   "onboardingSlide4Body": "Wszystko zostaje na urządzeniu. Bez konta, chmury i reklam.",
   "onboardingCurrencyStepTitle": "Wybierz walutę",
   "onboardingThemeStepTitle": "Wybierz wygląd",
+  "onboardingBankStepTitle": "Dodaj swój bank (opcjonalnie)",
   "onboardingNext": "Dalej",
   "onboardingStart": "Zaczynajmy",
   "onboardingSkip": "Pomiń"

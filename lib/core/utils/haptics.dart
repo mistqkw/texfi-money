@@ -2,21 +2,48 @@ import 'package:flutter/services.dart';
 
 /// Единая точка тактильной обратной связи — чтобы вибрация по всему
 /// приложению была последовательной и её было легко настроить в одном
-/// месте. Используется точечно, только там, где отклик физически осмыслен
-/// (выбор, успех, удаление, предупреждение) — не на каждое нажатие.
+/// месте (в том числе выключить целиком). Используется точечно, только
+/// там, где отклик физически осмыслен — не на каждое нажатие.
 abstract final class Haptics {
-  /// Лёгкий тик — переключение вкладки, сегмента, шаг онбординга.
-  static void select() => HapticFeedback.selectionClick();
+  /// Общий выключатель — синхронизируется с настройкой пользователя
+  /// (см. haptics_provider.dart). Пока провайдер не создан, вибрация
+  /// включена по умолчанию.
+  static bool enabled = true;
 
-  /// Позитивное завершение действия — транзакция добавлена, взнос в цель.
-  static void success() => HapticFeedback.lightImpact();
+  /// Лёгкий тик — переключение вкладки, сегмента, шаг онбординга,
+  /// печатающийся текст на сплэше.
+  static void select() {
+    if (enabled) HapticFeedback.selectionClick();
+  }
+
+  /// Позитивное завершение нейтрального действия — взнос в цель,
+  /// восстановление бэкапа.
+  static void success() {
+    if (enabled) HapticFeedback.lightImpact();
+  }
+
+  /// Доход — деньги зачислены на счёт.
+  static void income() {
+    if (enabled) HapticFeedback.lightImpact();
+  }
+
+  /// Расход — деньги списаны со счёта.
+  static void expense() {
+    if (enabled) HapticFeedback.mediumImpact();
+  }
 
   /// Удаление — свайп или подтверждённое удаление записи.
-  static void delete() => HapticFeedback.mediumImpact();
+  static void delete() {
+    if (enabled) HapticFeedback.mediumImpact();
+  }
 
   /// Ошибка ввода — не распознана строка быстрого ввода и т.п.
-  static void error() => HapticFeedback.vibrate();
+  static void error() {
+    if (enabled) HapticFeedback.vibrate();
+  }
 
   /// Необратимое/предупреждающее действие — сброс приложения.
-  static void warning() => HapticFeedback.heavyImpact();
+  static void warning() {
+    if (enabled) HapticFeedback.heavyImpact();
+  }
 }

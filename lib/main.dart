@@ -8,6 +8,7 @@ import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
 import 'presentation/settings/font_provider.dart';
+import 'presentation/settings/haptics_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
@@ -35,6 +36,9 @@ class TexFiMoneyApp extends ConsumerWidget {
     final variant = ref.watch(themeVariantProvider);
     final font = ref.watch(fontProvider);
     final locale = ref.watch(localeProvider);
+    // Синхронизирует Haptics.enabled с настройкой при самом первом кадре —
+    // не только когда пользователь открывает Settings.
+    ref.watch(hapticsEnabledProvider);
 
     return MaterialApp(
       title: 'TexFi m0ney',

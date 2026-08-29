@@ -117,6 +117,8 @@
   "accountFormTitleNew": "Новий рахунок",
   "accountFormTitleEdit": "Редагувати рахунок",
   "accountFormNameHint": "Назва рахунку, наприклад «Картка банку А»",
+  "accountFormBankLabel": "Банк",
+  "accountFormNoBank": "Без банку",
 
   "profilesTitle": "Профілі",
   "profilesEmpty": "Поки що немає профілів — обліковуйте чужі гроші кнопкою «+»",
@@ -146,6 +148,8 @@
   "settingsTitle": "Налаштування",
   "settingsThemeSection": "Тема",
   "settingsFontSection": "Шрифт",
+  "settingsHapticsSection": "Вібрація",
+  "hapticsEnabled": "Тактильний відгук",
   "settingsCurrencySection": "Валюта",
   "settingsLanguageSection": "Мова",
   "settingsManageSection": "Керування",
@@ -194,6 +198,7 @@
   "onboardingSlide4Body": "Усі дані залишаються на пристрої. Без акаунта, хмари й реклами.",
   "onboardingCurrencyStepTitle": "Виберіть валюту",
   "onboardingThemeStepTitle": "Виберіть оформлення",
+  "onboardingBankStepTitle": "Додайте свій банк (необов'язково)",
   "onboardingNext": "Далі",
   "onboardingStart": "Почати",
   "onboardingSkip": "Пропустити"

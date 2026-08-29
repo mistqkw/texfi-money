@@ -87,7 +87,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
         );
 
     if (!mounted) return;
-    Haptics.success();
+    result.type == TransactionType.income ? Haptics.income() : Haptics.expense();
 
     _controller.clear();
     setState(() {

@@ -714,6 +714,18 @@ abstract class AppLocalizations {
   /// **'Account name, e.g. “Bank A card”'**
   String get accountFormNameHint;
 
+  /// No description provided for @accountFormBankLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get accountFormBankLabel;
+
+  /// No description provided for @accountFormNoBank.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get accountFormNoBank;
+
   /// No description provided for @profilesTitle.
   ///
   /// In en, this message translates to:
@@ -869,6 +881,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Font'**
   String get settingsFontSection;
+
+  /// No description provided for @settingsHapticsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration'**
+  String get settingsHapticsSection;
+
+  /// No description provided for @hapticsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration feedback'**
+  String get hapticsEnabled;
 
   /// No description provided for @settingsCurrencySection.
   ///
@@ -1121,6 +1145,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pick your look'**
   String get onboardingThemeStepTitle;
+
+  /// No description provided for @onboardingBankStepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your bank (optional)'**
+  String get onboardingBankStepTitle;
 
   /// No description provided for @onboardingNext.
   ///

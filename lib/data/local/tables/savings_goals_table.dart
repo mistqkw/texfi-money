@@ -10,6 +10,9 @@ class SavingsGoals extends Table {
   IntColumn get colorValue => integer()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
+  /// Путь к фото цели, скопированному в документы приложения. Необязательное.
+  TextColumn get imagePath => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

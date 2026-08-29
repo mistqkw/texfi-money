@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
@@ -120,6 +121,8 @@ class _AccountCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final balanceAsync = ref.watch(accountBalanceProvider(account.id));
 
+    final bank = BankCatalog.byId(account.bankId);
+
     return TerminalBox(
       label: account.name.toLowerCase(),
       labelColor: account.color,
@@ -129,8 +132,14 @@ class _AccountCard extends ConsumerWidget {
           Container(
             width: 36,
             height: 36,
+            alignment: Alignment.center,
             decoration: BoxDecoration(color: account.color.withValues(alpha: 0.16), shape: BoxShape.circle),
-            child: Icon(Icons.credit_card, color: account.color, size: 18),
+            child: bank != null
+                ? Text(
+                    bank.monogram,
+                    style: context.text.title.copyWith(color: account.color, fontWeight: FontWeight.w700),
+                  )
+                : Icon(Icons.credit_card, color: account.color, size: 18),
           ),
           const SizedBox(width: 12),
           Expanded(child: Text(account.name, style: context.text.title)),

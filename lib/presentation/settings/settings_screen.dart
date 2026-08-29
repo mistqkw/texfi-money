@@ -24,6 +24,7 @@ import '../shared/restart_widget.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
 import 'font_provider.dart';
+import 'haptics_provider.dart';
 import 'language_picker_screen.dart';
 import 'locale_provider.dart';
 import 'theme_provider.dart';
@@ -157,6 +158,7 @@ class SettingsScreen extends ConsumerWidget {
     final font = ref.watch(fontProvider);
     final currency = ref.watch(currencyProvider);
     final locale = ref.watch(localeProvider);
+    final hapticsEnabled = ref.watch(hapticsEnabledProvider);
     final l10n = context.l10n;
 
     final languageLabel = locale == null
@@ -197,6 +199,18 @@ class SettingsScreen extends ConsumerWidget {
                 selected: f == font,
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
               )),
+          const SizedBox(height: 24),
+          _SectionLabel(l10n.settingsHapticsSection),
+          const SizedBox(height: 8),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.hapticsEnabled, style: context.text.title),
+            value: hapticsEnabled,
+            onChanged: (value) {
+              ref.read(hapticsEnabledProvider.notifier).setEnabled(value);
+              if (value) Haptics.select();
+            },
+          ),
           const SizedBox(height: 24),
           _SectionLabel(l10n.settingsCurrencySection),
           const SizedBox(height: 8),

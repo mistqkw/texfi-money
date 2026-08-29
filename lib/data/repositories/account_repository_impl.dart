@@ -18,6 +18,7 @@ class AccountRepositoryImpl implements AccountRepository {
         name: row.name,
         color: Color(row.colorValue),
         createdAt: row.createdAt,
+        bankId: row.bankId,
       );
 
   @override
@@ -42,12 +43,13 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<String> create({required String name, required Color color}) async {
+  Future<String> create({required String name, required Color color, String? bankId}) async {
     final id = _uuid.v4();
     await _db.into(_db.accounts).insert(AccountsCompanion.insert(
           id: id,
           name: name,
           colorValue: color.toARGB32(),
+          bankId: Value(bankId),
         ));
     return id;
   }
@@ -58,6 +60,7 @@ class AccountRepositoryImpl implements AccountRepository {
       AccountsCompanion(
         name: Value(account.name),
         colorValue: Value(account.color.toARGB32()),
+        bankId: Value(account.bankId),
       ),
     );
   }

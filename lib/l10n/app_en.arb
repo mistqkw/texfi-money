@@ -144,6 +144,8 @@
   "accountFormTitleNew": "New account",
   "accountFormTitleEdit": "Edit account",
   "accountFormNameHint": "Account name, e.g. “Bank A card”",
+  "accountFormBankLabel": "Bank",
+  "accountFormNoBank": "None",
 
   "profilesTitle": "Profiles",
   "profilesEmpty": "No profiles yet — track money someone owes you (or you owe them) with the “+” button",
@@ -185,6 +187,8 @@
   "settingsTitle": "Settings",
   "settingsThemeSection": "Theme",
   "settingsFontSection": "Font",
+  "settingsHapticsSection": "Vibration",
+  "hapticsEnabled": "Vibration feedback",
   "settingsCurrencySection": "Currency",
   "settingsLanguageSection": "Language",
   "settingsManageSection": "Manage",
@@ -233,6 +237,7 @@
   "onboardingSlide4Body": "Everything stays on your device. No account, no cloud, no ads.",
   "onboardingCurrencyStepTitle": "Pick your currency",
   "onboardingThemeStepTitle": "Pick your look",
+  "onboardingBankStepTitle": "Add your bank (optional)",
   "onboardingNext": "Next",
   "onboardingStart": "Get started",
   "onboardingSkip": "Skip"

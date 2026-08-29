@@ -1332,6 +1332,17 @@ class $SavingsGoalsTable extends SavingsGoals
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _imagePathMeta = const VerificationMeta(
+    'imagePath',
+  );
+  @override
+  late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
+    'image_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1341,6 +1352,7 @@ class $SavingsGoalsTable extends SavingsGoals
     deadline,
     colorValue,
     createdAt,
+    imagePath,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1407,6 +1419,12 @@ class $SavingsGoalsTable extends SavingsGoals
         createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
       );
     }
+    if (data.containsKey('image_path')) {
+      context.handle(
+        _imagePathMeta,
+        imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta),
+      );
+    }
     return context;
   }
 
@@ -1444,6 +1462,10 @@ class $SavingsGoalsTable extends SavingsGoals
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      imagePath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_path'],
+      ),
     );
   }
 
@@ -1461,6 +1483,9 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
   final DateTime? deadline;
   final int colorValue;
   final DateTime createdAt;
+
+  /// Путь к фото цели, скопированному в документы приложения. Необязательное.
+  final String? imagePath;
   const SavingsGoal({
     required this.id,
     required this.title,
@@ -1469,6 +1494,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
     this.deadline,
     required this.colorValue,
     required this.createdAt,
+    this.imagePath,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1482,6 +1508,9 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
     }
     map['color_value'] = Variable<int>(colorValue);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || imagePath != null) {
+      map['image_path'] = Variable<String>(imagePath);
+    }
     return map;
   }
 
@@ -1496,6 +1525,9 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
           : Value(deadline),
       colorValue: Value(colorValue),
       createdAt: Value(createdAt),
+      imagePath: imagePath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imagePath),
     );
   }
 
@@ -1512,6 +1544,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
       deadline: serializer.fromJson<DateTime?>(json['deadline']),
       colorValue: serializer.fromJson<int>(json['colorValue']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      imagePath: serializer.fromJson<String?>(json['imagePath']),
     );
   }
   @override
@@ -1525,6 +1558,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
       'deadline': serializer.toJson<DateTime?>(deadline),
       'colorValue': serializer.toJson<int>(colorValue),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'imagePath': serializer.toJson<String?>(imagePath),
     };
   }
 
@@ -1536,6 +1570,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
     Value<DateTime?> deadline = const Value.absent(),
     int? colorValue,
     DateTime? createdAt,
+    Value<String?> imagePath = const Value.absent(),
   }) => SavingsGoal(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -1544,6 +1579,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
     deadline: deadline.present ? deadline.value : this.deadline,
     colorValue: colorValue ?? this.colorValue,
     createdAt: createdAt ?? this.createdAt,
+    imagePath: imagePath.present ? imagePath.value : this.imagePath,
   );
   SavingsGoal copyWithCompanion(SavingsGoalsCompanion data) {
     return SavingsGoal(
@@ -1560,6 +1596,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
           ? data.colorValue.value
           : this.colorValue,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
     );
   }
 
@@ -1572,7 +1609,8 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
           ..write('currentAmount: $currentAmount, ')
           ..write('deadline: $deadline, ')
           ..write('colorValue: $colorValue, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('imagePath: $imagePath')
           ..write(')'))
         .toString();
   }
@@ -1586,6 +1624,7 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
     deadline,
     colorValue,
     createdAt,
+    imagePath,
   );
   @override
   bool operator ==(Object other) =>
@@ -1597,7 +1636,8 @@ class SavingsGoal extends DataClass implements Insertable<SavingsGoal> {
           other.currentAmount == this.currentAmount &&
           other.deadline == this.deadline &&
           other.colorValue == this.colorValue &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.imagePath == this.imagePath);
 }
 
 class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
@@ -1608,6 +1648,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
   final Value<DateTime?> deadline;
   final Value<int> colorValue;
   final Value<DateTime> createdAt;
+  final Value<String?> imagePath;
   final Value<int> rowid;
   const SavingsGoalsCompanion({
     this.id = const Value.absent(),
@@ -1617,6 +1658,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
     this.deadline = const Value.absent(),
     this.colorValue = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.imagePath = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SavingsGoalsCompanion.insert({
@@ -1627,6 +1669,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
     this.deadline = const Value.absent(),
     required int colorValue,
     this.createdAt = const Value.absent(),
+    this.imagePath = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        title = Value(title),
@@ -1640,6 +1683,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
     Expression<DateTime>? deadline,
     Expression<int>? colorValue,
     Expression<DateTime>? createdAt,
+    Expression<String>? imagePath,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1650,6 +1694,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
       if (deadline != null) 'deadline': deadline,
       if (colorValue != null) 'color_value': colorValue,
       if (createdAt != null) 'created_at': createdAt,
+      if (imagePath != null) 'image_path': imagePath,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1662,6 +1707,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
     Value<DateTime?>? deadline,
     Value<int>? colorValue,
     Value<DateTime>? createdAt,
+    Value<String?>? imagePath,
     Value<int>? rowid,
   }) {
     return SavingsGoalsCompanion(
@@ -1672,6 +1718,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
       deadline: deadline ?? this.deadline,
       colorValue: colorValue ?? this.colorValue,
       createdAt: createdAt ?? this.createdAt,
+      imagePath: imagePath ?? this.imagePath,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1700,6 +1747,9 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (imagePath.present) {
+      map['image_path'] = Variable<String>(imagePath.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1716,6 +1766,7 @@ class SavingsGoalsCompanion extends UpdateCompanion<SavingsGoal> {
           ..write('deadline: $deadline, ')
           ..write('colorValue: $colorValue, ')
           ..write('createdAt: $createdAt, ')
+          ..write('imagePath: $imagePath, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1768,8 +1819,23 @@ class $AccountsTable extends Accounts with TableInfo<$AccountsTable, Account> {
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _bankIdMeta = const VerificationMeta('bankId');
   @override
-  List<GeneratedColumn> get $columns => [id, name, colorValue, createdAt];
+  late final GeneratedColumn<String> bankId = GeneratedColumn<String>(
+    'bank_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    colorValue,
+    createdAt,
+    bankId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1809,6 +1875,12 @@ class $AccountsTable extends Accounts with TableInfo<$AccountsTable, Account> {
         createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
       );
     }
+    if (data.containsKey('bank_id')) {
+      context.handle(
+        _bankIdMeta,
+        bankId.isAcceptableOrUnknown(data['bank_id']!, _bankIdMeta),
+      );
+    }
     return context;
   }
 
@@ -1834,6 +1906,10 @@ class $AccountsTable extends Accounts with TableInfo<$AccountsTable, Account> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      bankId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bank_id'],
+      ),
     );
   }
 
@@ -1848,11 +1924,16 @@ class Account extends DataClass implements Insertable<Account> {
   final String name;
   final int colorValue;
   final DateTime createdAt;
+
+  /// Ссылается на id из `BankCatalog` (core/constants/banks.dart) —
+  /// необязательное, для отображения фирменного бейджа банка.
+  final String? bankId;
   const Account({
     required this.id,
     required this.name,
     required this.colorValue,
     required this.createdAt,
+    this.bankId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1861,6 +1942,9 @@ class Account extends DataClass implements Insertable<Account> {
     map['name'] = Variable<String>(name);
     map['color_value'] = Variable<int>(colorValue);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || bankId != null) {
+      map['bank_id'] = Variable<String>(bankId);
+    }
     return map;
   }
 
@@ -1870,6 +1954,9 @@ class Account extends DataClass implements Insertable<Account> {
       name: Value(name),
       colorValue: Value(colorValue),
       createdAt: Value(createdAt),
+      bankId: bankId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bankId),
     );
   }
 
@@ -1883,6 +1970,7 @@ class Account extends DataClass implements Insertable<Account> {
       name: serializer.fromJson<String>(json['name']),
       colorValue: serializer.fromJson<int>(json['colorValue']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      bankId: serializer.fromJson<String?>(json['bankId']),
     );
   }
   @override
@@ -1893,6 +1981,7 @@ class Account extends DataClass implements Insertable<Account> {
       'name': serializer.toJson<String>(name),
       'colorValue': serializer.toJson<int>(colorValue),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'bankId': serializer.toJson<String?>(bankId),
     };
   }
 
@@ -1901,11 +1990,13 @@ class Account extends DataClass implements Insertable<Account> {
     String? name,
     int? colorValue,
     DateTime? createdAt,
+    Value<String?> bankId = const Value.absent(),
   }) => Account(
     id: id ?? this.id,
     name: name ?? this.name,
     colorValue: colorValue ?? this.colorValue,
     createdAt: createdAt ?? this.createdAt,
+    bankId: bankId.present ? bankId.value : this.bankId,
   );
   Account copyWithCompanion(AccountsCompanion data) {
     return Account(
@@ -1915,6 +2006,7 @@ class Account extends DataClass implements Insertable<Account> {
           ? data.colorValue.value
           : this.colorValue,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      bankId: data.bankId.present ? data.bankId.value : this.bankId,
     );
   }
 
@@ -1924,13 +2016,14 @@ class Account extends DataClass implements Insertable<Account> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('colorValue: $colorValue, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('bankId: $bankId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, colorValue, createdAt);
+  int get hashCode => Object.hash(id, name, colorValue, createdAt, bankId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1938,7 +2031,8 @@ class Account extends DataClass implements Insertable<Account> {
           other.id == this.id &&
           other.name == this.name &&
           other.colorValue == this.colorValue &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.bankId == this.bankId);
 }
 
 class AccountsCompanion extends UpdateCompanion<Account> {
@@ -1946,12 +2040,14 @@ class AccountsCompanion extends UpdateCompanion<Account> {
   final Value<String> name;
   final Value<int> colorValue;
   final Value<DateTime> createdAt;
+  final Value<String?> bankId;
   final Value<int> rowid;
   const AccountsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.colorValue = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.bankId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   AccountsCompanion.insert({
@@ -1959,6 +2055,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
     required String name,
     required int colorValue,
     this.createdAt = const Value.absent(),
+    this.bankId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -1968,6 +2065,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
     Expression<String>? name,
     Expression<int>? colorValue,
     Expression<DateTime>? createdAt,
+    Expression<String>? bankId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1975,6 +2073,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
       if (name != null) 'name': name,
       if (colorValue != null) 'color_value': colorValue,
       if (createdAt != null) 'created_at': createdAt,
+      if (bankId != null) 'bank_id': bankId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1984,6 +2083,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
     Value<String>? name,
     Value<int>? colorValue,
     Value<DateTime>? createdAt,
+    Value<String?>? bankId,
     Value<int>? rowid,
   }) {
     return AccountsCompanion(
@@ -1991,6 +2091,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
       name: name ?? this.name,
       colorValue: colorValue ?? this.colorValue,
       createdAt: createdAt ?? this.createdAt,
+      bankId: bankId ?? this.bankId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2010,6 +2111,9 @@ class AccountsCompanion extends UpdateCompanion<Account> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (bankId.present) {
+      map['bank_id'] = Variable<String>(bankId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2023,6 +2127,7 @@ class AccountsCompanion extends UpdateCompanion<Account> {
           ..write('name: $name, ')
           ..write('colorValue: $colorValue, ')
           ..write('createdAt: $createdAt, ')
+          ..write('bankId: $bankId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3072,6 +3177,7 @@ typedef $$SavingsGoalsTableCreateCompanionBuilder =
       Value<DateTime?> deadline,
       required int colorValue,
       Value<DateTime> createdAt,
+      Value<String?> imagePath,
       Value<int> rowid,
     });
 typedef $$SavingsGoalsTableUpdateCompanionBuilder =
@@ -3083,6 +3189,7 @@ typedef $$SavingsGoalsTableUpdateCompanionBuilder =
       Value<DateTime?> deadline,
       Value<int> colorValue,
       Value<DateTime> createdAt,
+      Value<String?> imagePath,
       Value<int> rowid,
     });
 
@@ -3127,6 +3234,11 @@ class $$SavingsGoalsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3174,6 +3286,11 @@ class $$SavingsGoalsTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get imagePath => $composableBuilder(
+    column: $table.imagePath,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SavingsGoalsTableAnnotationComposer
@@ -3211,6 +3328,9 @@ class $$SavingsGoalsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get imagePath =>
+      $composableBuilder(column: $table.imagePath, builder: (column) => column);
 }
 
 class $$SavingsGoalsTableTableManager
@@ -3251,6 +3371,7 @@ class $$SavingsGoalsTableTableManager
                 Value<DateTime?> deadline = const Value.absent(),
                 Value<int> colorValue = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> imagePath = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SavingsGoalsCompanion(
                 id: id,
@@ -3260,6 +3381,7 @@ class $$SavingsGoalsTableTableManager
                 deadline: deadline,
                 colorValue: colorValue,
                 createdAt: createdAt,
+                imagePath: imagePath,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3271,6 +3393,7 @@ class $$SavingsGoalsTableTableManager
                 Value<DateTime?> deadline = const Value.absent(),
                 required int colorValue,
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> imagePath = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SavingsGoalsCompanion.insert(
                 id: id,
@@ -3280,6 +3403,7 @@ class $$SavingsGoalsTableTableManager
                 deadline: deadline,
                 colorValue: colorValue,
                 createdAt: createdAt,
+                imagePath: imagePath,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -3313,6 +3437,7 @@ typedef $$AccountsTableCreateCompanionBuilder =
       required String name,
       required int colorValue,
       Value<DateTime> createdAt,
+      Value<String?> bankId,
       Value<int> rowid,
     });
 typedef $$AccountsTableUpdateCompanionBuilder =
@@ -3321,6 +3446,7 @@ typedef $$AccountsTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int> colorValue,
       Value<DateTime> createdAt,
+      Value<String?> bankId,
       Value<int> rowid,
     });
 
@@ -3350,6 +3476,11 @@ class $$AccountsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bankId => $composableBuilder(
+    column: $table.bankId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3382,6 +3513,11 @@ class $$AccountsTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get bankId => $composableBuilder(
+    column: $table.bankId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$AccountsTableAnnotationComposer
@@ -3406,6 +3542,9 @@ class $$AccountsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get bankId =>
+      $composableBuilder(column: $table.bankId, builder: (column) => column);
 }
 
 class $$AccountsTableTableManager
@@ -3440,12 +3579,14 @@ class $$AccountsTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int> colorValue = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> bankId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AccountsCompanion(
                 id: id,
                 name: name,
                 colorValue: colorValue,
                 createdAt: createdAt,
+                bankId: bankId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3454,12 +3595,14 @@ class $$AccountsTableTableManager
                 required String name,
                 required int colorValue,
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> bankId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AccountsCompanion.insert(
                 id: id,
                 name: name,
                 colorValue: colorValue,
                 createdAt: createdAt,
+                bankId: bankId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
