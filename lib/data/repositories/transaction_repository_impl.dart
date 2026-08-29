@@ -172,6 +172,41 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
+  Future<double> averageAmount({required TransactionType type, String? categoryId}) async {
+    final query = _db.select(_db.transactions)
+      ..where((t) => t.type.equals(type.storageKey));
+    if (categoryId != null) {
+      query.where((t) => t.categoryId.equals(categoryId));
+    }
+    final rows = await query.get();
+    if (rows.isEmpty) return 0;
+    final total = rows.fold<double>(0, (sum, row) => sum + row.amount);
+    return total / rows.length;
+  }
+
+  @override
+  Future<void> update({
+    required String id,
+    required double amount,
+    required TransactionType type,
+    required String categoryId,
+    required DateTime date,
+    String? note,
+    String? accountId,
+  }) {
+    return (_db.update(_db.transactions)..where((t) => t.id.equals(id))).write(
+      TransactionsCompanion(
+        amount: Value(amount),
+        type: Value(type.storageKey),
+        categoryId: Value(categoryId),
+        date: Value(date),
+        note: Value(note),
+        accountId: Value(accountId),
+      ),
+    );
+  }
+
+  @override
   Future<String> add({
     required double amount,
     required TransactionType type,

@@ -420,6 +420,60 @@ abstract class AppLocalizations {
   /// **'New transaction'**
   String get addTxTitle;
 
+  /// No description provided for @addTxTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit transaction'**
+  String get addTxTitleEdit;
+
+  /// No description provided for @txActionRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat today'**
+  String get txActionRepeat;
+
+  /// No description provided for @txActionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get txActionEdit;
+
+  /// No description provided for @nudgeUnusualAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s {times}× your usual {category}. Amount right?'**
+  String nudgeUnusualAmount(String times, String category);
+
+  /// No description provided for @nudgeBudgetClose.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} budget is {percent}% spent'**
+  String nudgeBudgetClose(String category, String percent);
+
+  /// No description provided for @nudgeBudgetOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} is over budget by {amount}'**
+  String nudgeBudgetOver(String category, String amount);
+
+  /// No description provided for @nudgeQuietDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged in {days} days — catch up?'**
+  String nudgeQuietDays(num days);
+
+  /// No description provided for @nudgeGoalClose.
+  ///
+  /// In en, this message translates to:
+  /// **'“{title}” is {percent}% funded — nearly there'**
+  String nudgeGoalClose(String title, String percent);
+
+  /// No description provided for @nudgeDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get nudgeDismiss;
+
   /// No description provided for @addTxLoadCategoriesError.
   ///
   /// In en, this message translates to:

@@ -12,6 +12,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
+import '../shared/bank_mark.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'account_form_screen.dart';
@@ -129,18 +130,19 @@ class _AccountCard extends ConsumerWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: account.color.withValues(alpha: 0.16), shape: BoxShape.circle),
-            child: bank != null
-                ? Text(
-                    bank.monogram,
-                    style: context.text.title.copyWith(color: account.color, fontWeight: FontWeight.w700),
-                  )
-                : Icon(Icons.credit_card, color: account.color, size: 18),
-          ),
+          if (bank != null)
+            BankMark(bank: bank, size: 36)
+          else
+            Container(
+              width: 36,
+              height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: account.color.withValues(alpha: 0.16),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.credit_card, color: account.color, size: 18),
+            ),
           const SizedBox(width: 12),
           Expanded(child: Text(account.name, style: context.text.title)),
           Text(

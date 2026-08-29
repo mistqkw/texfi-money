@@ -6,20 +6,25 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/constants/banks.dart';
 import '../../core/utils/haptics.dart';
-import '../../data/providers/data_providers.dart';
+import '../../domain/entities/account_entity.dart';
+import '../accounts/account_providers.dart';
+import '../accounts/accounts_screen.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
 import '../settings/currency_picker_screen.dart';
 import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
+import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import '../shared/terminal_divider.dart';
-import '../shared/transaction_tile.dart';
+import '../shared/transaction_row.dart';
 import 'home_providers.dart';
+import 'nudge_card.dart';
 import 'quick_entry_bar.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -35,7 +40,14 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TexFi m0ney'),
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(child: Text('TexFi m0ney', overflow: TextOverflow.ellipsis)),
+            SizedBox(width: 10),
+            Flexible(child: _AccountMarks()),
+          ],
+        ),
         actions: [
           IconButton(
             icon: Text(currency.symbol, style: context.text.title),
@@ -76,6 +88,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             _BalanceCard(balance: balanceAsync.valueOrNull ?? 0),
             const SizedBox(height: 16),
+            const NudgeCard(),
             summaryAsync.when(
               data: (summary) => Row(
                 children: [
@@ -118,20 +131,7 @@ class HomeScreen extends ConsumerWidget {
                 return Column(
                   children: [
                     for (int i = 0; i < transactions.length; i++) ...[
-                      Dismissible(
-                        key: ValueKey(transactions[i].id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: Icon(Icons.delete_outline, color: context.colors.expense),
-                        ),
-                        onDismissed: (_) {
-                          Haptics.delete();
-                          ref.read(transactionRepositoryProvider).delete(transactions[i].id);
-                        },
-                        child: TransactionTile(transaction: transactions[i]),
-                      ),
+                      TransactionRow(transaction: transactions[i]),
                       if (i != transactions.length - 1)
                         const Divider(height: 1),
                     ],
@@ -146,6 +146,45 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Знаки банков привязанных счетов — прямо в шапке рядом с названием.
+/// Сразу видно, чьи деньги считаешь, без захода в «Счета». Тап ведёт
+/// в управление счетами.
+class _AccountMarks extends ConsumerWidget {
+  const _AccountMarks();
+
+  static const int _maxShown = 4;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final accounts = ref.watch(allAccountsProvider).valueOrNull ?? const <AccountEntity>[];
+    final banks = [
+      for (final account in accounts) ?BankCatalog.byId(account.bankId),
+    ];
+    if (banks.isEmpty) return const SizedBox.shrink();
+
+    final shown = banks.take(_maxShown).toList();
+    final hidden = banks.length - shown.length;
+
+    return GestureDetector(
+      onTap: () {
+        Haptics.select();
+        Navigator.of(context).push(fadeSlideRoute(const AccountsScreen()));
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final bank in shown) ...[
+            BankMark(bank: bank, size: 22),
+            const SizedBox(width: 4),
+          ],
+          if (hidden > 0)
+            Text('+$hidden', style: context.text.mono.copyWith(fontSize: 11)),
+        ],
       ),
     );
   }

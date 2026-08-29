@@ -61,6 +61,16 @@
   "homeBalance": "Saldo",
 
   "addTxTitle": "Nowa transakcja",
+  "addTxTitleEdit": "Edytuj transakcję",
+  "txActionRepeat": "Powtórz dzisiaj",
+  "txActionEdit": "Edytuj",
+
+  "nudgeUnusualAmount": "To {times}× więcej niż zwykle w „{category}”. Kwota się zgadza?",
+  "nudgeBudgetClose": "Budżet „{category}” wykorzystany w {percent}%",
+  "nudgeBudgetOver": "„{category}” przekracza budżet o {amount}",
+  "nudgeQuietDays": "{days, plural, one {Brak wpisów od {days} dnia — uzupełnić?} few {Brak wpisów od {days} dni — uzupełnić?} many {Brak wpisów od {days} dni — uzupełnić?} other {Brak wpisów od {days} dnia — uzupełnić?}}",
+  "nudgeGoalClose": "„{title}” zebrane w {percent}% — już blisko",
+  "nudgeDismiss": "Ukryj",
   "addTxLoadCategoriesError": "Nie udało się wczytać kategorii",
   "addTxNoteHint": "Notatka (opcjonalnie)",
   "addTxAddCategory": "Własna kategoria",

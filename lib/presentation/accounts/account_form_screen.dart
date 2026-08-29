@@ -9,6 +9,7 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
+import '../shared/bank_mark.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.existing});
@@ -98,7 +99,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
                   if (i == 0) {
                     return _BankChip(
                       label: l10n.accountFormNoBank,
-                      monogram: '—',
+                      bank: null,
                       color: context.colors.textTertiary,
                       selected: _bankId == null,
                       onTap: () => _pickBank(null),
@@ -107,7 +108,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
                   final bank = BankCatalog.all[i - 1];
                   return _BankChip(
                     label: bank.name,
-                    monogram: bank.monogram,
+                    bank: bank,
                     color: bank.color,
                     selected: _bankId == bank.id,
                     onTap: () => _pickBank(bank),
@@ -168,14 +169,14 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
 class _BankChip extends StatelessWidget {
   const _BankChip({
     required this.label,
-    required this.monogram,
+    required this.bank,
     required this.color,
     required this.selected,
     required this.onTap,
   });
 
   final String label;
-  final String monogram;
+  final BankPreset? bank;
   final Color color;
   final bool selected;
   final VoidCallback onTap;
@@ -189,18 +190,26 @@ class _BankChip extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 44,
-              height: 44,
-              alignment: Alignment.center,
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.16),
                 shape: BoxShape.circle,
-                border: selected ? Border.all(color: color, width: 2) : null,
+                border: Border.all(
+                  color: selected ? color : Colors.transparent,
+                  width: 2,
+                ),
               ),
-              child: Text(
-                monogram,
-                style: context.text.title.copyWith(color: color, fontWeight: FontWeight.w700),
-              ),
+              child: bank != null
+                  ? BankMark(bank: bank!, size: 40)
+                  : Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.16),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.block, size: 18, color: color),
+                    ),
             ),
             const SizedBox(height: 4),
             Text(

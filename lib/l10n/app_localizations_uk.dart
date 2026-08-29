@@ -172,6 +172,51 @@ class AppLocalizationsUk extends AppLocalizations {
   String get addTxTitle => 'Нова транзакція';
 
   @override
+  String get addTxTitleEdit => 'Змінити транзакцію';
+
+  @override
+  String get txActionRepeat => 'Повторити сьогодні';
+
+  @override
+  String get txActionEdit => 'Змінити';
+
+  @override
+  String nudgeUnusualAmount(String times, String category) {
+    return 'Це у $times× більше за звичне в «$category». Сума правильна?';
+  }
+
+  @override
+  String nudgeBudgetClose(String category, String percent) {
+    return 'Бюджет «$category» витрачено на $percent%';
+  }
+
+  @override
+  String nudgeBudgetOver(String category, String amount) {
+    return '«$category» перевищує бюджет на $amount';
+  }
+
+  @override
+  String nudgeQuietDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Немає записів уже $days дня — внести?',
+      many: 'Немає записів уже $days днів — внести?',
+      few: 'Немає записів уже $days дні — внести?',
+      one: 'Немає записів уже $days день — внести?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nudgeGoalClose(String title, String percent) {
+    return '«$title» зібрано на $percent% — майже ціль';
+  }
+
+  @override
+  String get nudgeDismiss => 'Сховати';
+
+  @override
   String get addTxLoadCategoriesError => 'Не вдалося завантажити категорії';
 
   @override

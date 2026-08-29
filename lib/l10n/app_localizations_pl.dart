@@ -172,6 +172,51 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addTxTitle => 'Nowa transakcja';
 
   @override
+  String get addTxTitleEdit => 'Edytuj transakcję';
+
+  @override
+  String get txActionRepeat => 'Powtórz dzisiaj';
+
+  @override
+  String get txActionEdit => 'Edytuj';
+
+  @override
+  String nudgeUnusualAmount(String times, String category) {
+    return 'To $times× więcej niż zwykle w „$category”. Kwota się zgadza?';
+  }
+
+  @override
+  String nudgeBudgetClose(String category, String percent) {
+    return 'Budżet „$category” wykorzystany w $percent%';
+  }
+
+  @override
+  String nudgeBudgetOver(String category, String amount) {
+    return '„$category” przekracza budżet o $amount';
+  }
+
+  @override
+  String nudgeQuietDays(num days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Brak wpisów od $days dnia — uzupełnić?',
+      many: 'Brak wpisów od $days dni — uzupełnić?',
+      few: 'Brak wpisów od $days dni — uzupełnić?',
+      one: 'Brak wpisów od $days dnia — uzupełnić?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nudgeGoalClose(String title, String percent) {
+    return '„$title” zebrane w $percent% — już blisko';
+  }
+
+  @override
+  String get nudgeDismiss => 'Ukryj';
+
+  @override
   String get addTxLoadCategoriesError => 'Nie udało się wczytać kategorii';
 
   @override

@@ -52,6 +52,9 @@ flutter:
 
   assets:
     - assets/icon/
+    # Пусто по умолчанию: приложение рисует собственные знаки банков.
+    # Настоящие логотипы можно положить сюда — см. assets/banks/README.md.
+    - assets/banks/
 
 flutter_launcher_icons:
   android: true
