@@ -37,6 +37,9 @@
 - 📈 **Statistics** — income/expense by month, expense breakdown by category (pie chart)
 - 🔎 **History** — full transaction list, filterable by type, category and date range
 - 💱 **Multi-currency display** — RUB, USD, EUR, UAH, PLN and more, switch anytime
+- 💡 **Smart nudges** — the app quietly flags what's worth a second look: a purchase far above your usual for that category ("amount right?"), a budget running out, a goal nearly funded, a few quiet days with nothing logged. One at a time, always dismissible
+- ✋ **Gestures on every transaction** — tap to edit, long-press for a menu, swipe left to delete, swipe right to repeat it today
+- 📳 **Haptics with a vocabulary** — each event has its own rhythm, not one generic buzz; income rises, expense falls, and a big purchase feels heavier than a small one
 - 💾 **Backup & restore** — export everything to a JSON file (share it anywhere) and import it back on any device — the only safety net for an offline-only app
 - 🌍 **Languages** — English, Русский, Polski, Українська, follows the system by default
 - 🎨 **Themes & fonts** — Dark, Light, pure-black OLED; Inter, Roboto, Manrope or system font

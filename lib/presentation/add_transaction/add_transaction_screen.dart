@@ -14,6 +14,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../accounts/account_providers.dart';
 import '../categories/category_form_screen.dart';
@@ -22,26 +23,52 @@ import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
-  const AddTransactionScreen({super.key});
+  const AddTransactionScreen({super.key, this.existing, this.prefill});
+
+  /// Транзакция, которую редактируем. null — создаём новую.
+  final TransactionEntity? existing;
+
+  /// Транзакция-образец для повтора: поля подставляются, но сохранение
+  /// создаёт новую запись сегодняшним днём.
+  final TransactionEntity? prefill;
 
   @override
   ConsumerState<AddTransactionScreen> createState() => _AddTransactionScreenState();
 }
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
-  TransactionType _type = TransactionType.expense;
+  late TransactionType _type;
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
   String? _selectedCategoryId;
   String? _selectedAccountId;
-  DateTime _date = DateTime.now();
+  late DateTime _date;
   bool _saving = false;
   int _bounceTrigger = 0;
+
+  bool get _isEditing => widget.existing != null;
 
   double get _amount =>
       double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0;
 
   bool get _canSave => _amount > 0 && _selectedCategoryId != null && !_saving;
+
+  @override
+  void initState() {
+    super.initState();
+    // Повтор подставляет всё, кроме даты — она всегда сегодняшняя.
+    final source = widget.existing ?? widget.prefill;
+    _type = source?.type ?? TransactionType.expense;
+    _date = widget.existing?.date ?? DateTime.now();
+    _selectedCategoryId = source?.category.id;
+    _selectedAccountId = source?.accountId;
+    if (source != null) {
+      _amountController.text = source.amount == source.amount.roundToDouble()
+          ? source.amount.toStringAsFixed(0)
+          : source.amount.toString();
+      _noteController.text = source.note ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -78,21 +105,43 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   Future<void> _handleSave() async {
     if (!_canSave) return;
-    _type == TransactionType.income ? Haptics.income() : Haptics.expense();
+    final repo = ref.read(transactionRepositoryProvider);
+
+    // Отклик тем весомее, чем сильнее сумма выбивается из привычной
+    // для этой категории — крупную трату чувствуешь, не глядя на экран.
+    final reference = await repo.averageAmount(type: _type, categoryId: _selectedCategoryId);
+    final weight = Haptics.weightFor(amount: _amount, reference: reference);
+    _type == TransactionType.income ? Haptics.income(weight) : Haptics.expense(weight);
+
+    if (!mounted) return;
     setState(() {
       _saving = true;
       _bounceTrigger++;
     });
 
     await Future.delayed(AppMotion.fast);
-    await ref.read(transactionRepositoryProvider).add(
-          amount: _amount,
-          type: _type,
-          categoryId: _selectedCategoryId!,
-          date: _date,
-          note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
-          accountId: _selectedAccountId,
-        );
+    final note = _noteController.text.trim().isEmpty ? null : _noteController.text.trim();
+
+    if (_isEditing) {
+      await repo.update(
+        id: widget.existing!.id,
+        amount: _amount,
+        type: _type,
+        categoryId: _selectedCategoryId!,
+        date: _date,
+        note: note,
+        accountId: _selectedAccountId,
+      );
+    } else {
+      await repo.add(
+        amount: _amount,
+        type: _type,
+        categoryId: _selectedCategoryId!,
+        date: _date,
+        note: note,
+        accountId: _selectedAccountId,
+      );
+    }
 
     if (mounted) Navigator.of(context).pop(true);
   }
@@ -106,7 +155,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.addTxTitle),
+        title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(false),

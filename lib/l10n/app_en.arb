@@ -64,6 +64,43 @@
   "homeBalance": "Balance",
 
   "addTxTitle": "New transaction",
+  "addTxTitleEdit": "Edit transaction",
+  "txActionRepeat": "Repeat today",
+  "txActionEdit": "Edit",
+
+  "nudgeUnusualAmount": "That's {times}× your usual {category}. Amount right?",
+  "@nudgeUnusualAmount": {
+    "placeholders": {
+      "times": { "type": "String" },
+      "category": { "type": "String" }
+    }
+  },
+  "nudgeBudgetClose": "{category} budget is {percent}% spent",
+  "@nudgeBudgetClose": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "percent": { "type": "String" }
+    }
+  },
+  "nudgeBudgetOver": "{category} is over budget by {amount}",
+  "@nudgeBudgetOver": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "nudgeQuietDays": "Nothing logged in {days} days — catch up?",
+  "@nudgeQuietDays": {
+    "placeholders": { "days": { "type": "num" } }
+  },
+  "nudgeGoalClose": "“{title}” is {percent}% funded — nearly there",
+  "@nudgeGoalClose": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "percent": { "type": "String" }
+    }
+  },
+  "nudgeDismiss": "Dismiss",
   "addTxLoadCategoriesError": "Couldn't load categories",
   "addTxNoteHint": "Note (optional)",
   "addTxAddCategory": "Custom category",

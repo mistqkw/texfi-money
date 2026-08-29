@@ -172,6 +172,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addTxTitle => 'New transaction';
 
   @override
+  String get addTxTitleEdit => 'Edit transaction';
+
+  @override
+  String get txActionRepeat => 'Repeat today';
+
+  @override
+  String get txActionEdit => 'Edit';
+
+  @override
+  String nudgeUnusualAmount(String times, String category) {
+    return 'That\'s $times× your usual $category. Amount right?';
+  }
+
+  @override
+  String nudgeBudgetClose(String category, String percent) {
+    return '$category budget is $percent% spent';
+  }
+
+  @override
+  String nudgeBudgetOver(String category, String amount) {
+    return '$category is over budget by $amount';
+  }
+
+  @override
+  String nudgeQuietDays(num days) {
+    return 'Nothing logged in $days days — catch up?';
+  }
+
+  @override
+  String nudgeGoalClose(String title, String percent) {
+    return '“$title” is $percent% funded — nearly there';
+  }
+
+  @override
+  String get nudgeDismiss => 'Dismiss';
+
+  @override
   String get addTxLoadCategoriesError => 'Couldn\'t load categories';
 
   @override

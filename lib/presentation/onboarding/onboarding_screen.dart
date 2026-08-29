@@ -16,6 +16,7 @@ import '../../l10n/app_localizations.dart';
 import '../settings/currency_provider.dart';
 import '../settings/onboarding_provider.dart';
 import '../settings/theme_provider.dart';
+import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/root_shell.dart';
 import '../shared/terminal_box.dart';
@@ -422,7 +423,7 @@ class _BankStepView extends StatelessWidget {
         children: [
           _BankBadge(
             label: l10n.accountFormNoBank,
-            monogram: '—',
+            bank: null,
             color: context.colors.textTertiary,
             selected: selectedId == null,
             onTap: () {
@@ -433,7 +434,7 @@ class _BankStepView extends StatelessWidget {
           for (final bank in BankCatalog.all)
             _BankBadge(
               label: bank.name,
-              monogram: bank.monogram,
+              bank: bank,
               color: bank.color,
               selected: selectedId == bank.id,
               onTap: () {
@@ -450,14 +451,14 @@ class _BankStepView extends StatelessWidget {
 class _BankBadge extends StatelessWidget {
   const _BankBadge({
     required this.label,
-    required this.monogram,
+    required this.bank,
     required this.color,
     required this.selected,
     required this.onTap,
   });
 
   final String label;
-  final String monogram;
+  final BankPreset? bank;
   final Color color;
   final bool selected;
   final VoidCallback onTap;
@@ -471,18 +472,23 @@ class _BankBadge extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 44,
-              height: 44,
-              alignment: Alignment.center,
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.16),
                 shape: BoxShape.circle,
-                border: selected ? Border.all(color: color, width: 2) : null,
+                border: Border.all(color: selected ? color : Colors.transparent, width: 2),
               ),
-              child: Text(
-                monogram,
-                style: context.text.title.copyWith(color: color, fontWeight: FontWeight.w700),
-              ),
+              child: bank != null
+                  ? BankMark(bank: bank!, size: 40)
+                  : Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.16),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.block, size: 18, color: color),
+                    ),
             ),
             const SizedBox(height: 4),
             Text(

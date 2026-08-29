@@ -61,6 +61,16 @@
   "homeBalance": "Баланс",
 
   "addTxTitle": "Нова транзакція",
+  "addTxTitleEdit": "Змінити транзакцію",
+  "txActionRepeat": "Повторити сьогодні",
+  "txActionEdit": "Змінити",
+
+  "nudgeUnusualAmount": "Це у {times}× більше за звичне в «{category}». Сума правильна?",
+  "nudgeBudgetClose": "Бюджет «{category}» витрачено на {percent}%",
+  "nudgeBudgetOver": "«{category}» перевищує бюджет на {amount}",
+  "nudgeQuietDays": "{days, plural, one {Немає записів уже {days} день — внести?} few {Немає записів уже {days} дні — внести?} many {Немає записів уже {days} днів — внести?} other {Немає записів уже {days} дня — внести?}}",
+  "nudgeGoalClose": "«{title}» зібрано на {percent}% — майже ціль",
+  "nudgeDismiss": "Сховати",
   "addTxLoadCategoriesError": "Не вдалося завантажити категорії",
   "addTxNoteHint": "Нотатка (необов'язково)",
   "addTxAddCategory": "Своя категорія",

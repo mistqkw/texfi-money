@@ -7,8 +7,6 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
-import '../../core/utils/haptics.dart';
-import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -17,7 +15,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/terminal_divider.dart';
-import '../shared/transaction_tile.dart';
+import '../shared/transaction_row.dart';
 import 'history_providers.dart';
 
 class HistoryScreen extends ConsumerStatefulWidget {
@@ -211,20 +209,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       );
                     }
                     final tx = item as TransactionEntity;
-                    return Dismissible(
-                      key: ValueKey(tx.id),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Icon(Icons.delete_outline, color: context.colors.expense),
-                      ),
-                      onDismissed: (_) {
-                        Haptics.delete();
-                        ref.read(transactionRepositoryProvider).delete(tx.id);
-                      },
-                      child: TransactionTile(transaction: tx),
-                    );
+                    return TransactionRow(transaction: tx);
                   },
                 );
               },

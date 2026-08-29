@@ -61,6 +61,16 @@
   "homeBalance": "Баланс",
 
   "addTxTitle": "Новая транзакция",
+  "addTxTitleEdit": "Изменить транзакцию",
+  "txActionRepeat": "Повторить сегодня",
+  "txActionEdit": "Изменить",
+
+  "nudgeUnusualAmount": "Это в {times}× больше обычного по «{category}». Сумма верна?",
+  "nudgeBudgetClose": "Бюджет «{category}» израсходован на {percent}%",
+  "nudgeBudgetOver": "«{category}» превышает бюджет на {amount}",
+  "nudgeQuietDays": "{days, plural, one {Нет записей уже {days} день — внести?} few {Нет записей уже {days} дня — внести?} many {Нет записей уже {days} дней — внести?} other {Нет записей уже {days} дня — внести?}}",
+  "nudgeGoalClose": "«{title}» собрана на {percent}% — почти цель",
+  "nudgeDismiss": "Скрыть",
   "addTxLoadCategoriesError": "Не удалось загрузить категории",
   "addTxNoteHint": "Заметка (необязательно)",
   "addTxAddCategory": "Своя категория",

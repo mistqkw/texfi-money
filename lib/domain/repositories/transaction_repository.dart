@@ -48,7 +48,26 @@ abstract class TransactionRepository {
     required TransactionType type,
   });
 
+  /// Средняя сумма транзакции заданного типа (опционально — в пределах
+  /// категории). Нужна как ориентир «привычной» траты: по ней подбирается
+  /// сила тактильного отклика и строятся подсказки о нетипичных суммах.
+  /// Возвращает 0, если данных ещё нет.
+  Future<double> averageAmount({required TransactionType type, String? categoryId});
+
   Future<String> add({
+    required double amount,
+    required TransactionType type,
+    required String categoryId,
+    required DateTime date,
+    String? note,
+    String? accountId,
+  });
+
+  /// Обновляет существующую транзакцию. Поля задаются явно, а не целой
+  /// сущностью: форма редактирования оперирует id категории, а не самой
+  /// категорией.
+  Future<void> update({
+    required String id,
     required double amount,
     required TransactionType type,
     required String categoryId,
