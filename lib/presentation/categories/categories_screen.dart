@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
@@ -84,7 +85,7 @@ class CategoriesScreen extends ConsumerWidget {
           final income = categories.where((c) => c.type == TransactionType.income).toList();
 
           return ListView(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+            padding: AppSpacing.screenWithFab,
             children: [
               _SectionHeader(l10n.categoriesExpenseSection),
               ...expense.map((c) => _CategoryRow(
@@ -92,7 +93,7 @@ class CategoriesScreen extends ConsumerWidget {
                     onTap: c.isCustom ? () => _openForm(context, category: c) : null,
                     onDelete: c.isCustom ? () => _confirmDelete(context, ref, c) : null,
                   )),
-              const SizedBox(height: 24),
+              AppSpacing.gapXl,
               _SectionHeader(l10n.categoriesIncomeSection),
               ...income.map((c) => _CategoryRow(
                     category: c,
@@ -139,12 +140,13 @@ class _CategoryRow extends StatelessWidget {
         child: Row(
           children: [
             CategoryAvatar(category: category, size: 40),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(categoryDisplayName(context, category), style: context.text.title),
             ),
             if (onDelete != null)
               IconButton(
+                tooltip: context.l10n.commonDelete,
                 icon: Icon(Icons.delete_outline, color: context.colors.textTertiary),
                 onPressed: onDelete,
               )

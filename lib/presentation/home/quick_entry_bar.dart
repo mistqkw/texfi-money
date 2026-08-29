@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
@@ -115,7 +116,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                 '❯',
                 style: context.text.mono.copyWith(color: context.colors.accent, fontWeight: FontWeight.w700),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: TextField(
                   controller: _controller,
@@ -146,6 +147,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                 )
               else
                 IconButton(
+                  tooltip: l10n.commonAdd,
                   icon: const Icon(Icons.arrow_forward_rounded, size: 20),
                   color: context.colors.accent,
                   visualDensity: VisualDensity.compact,

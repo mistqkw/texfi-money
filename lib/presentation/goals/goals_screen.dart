@@ -8,6 +8,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -16,6 +17,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
+import '../shared/empty_state.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
@@ -56,10 +58,15 @@ class GoalsScreen extends ConsumerWidget {
       ),
     );
 
-    if (amount != null && amount > 0) {
-      Haptics.success();
-      await ref.read(savingsGoalRepositoryProvider).addContribution(id: goal.id, amount: amount);
-    }
+    if (amount == null || amount <= 0) return;
+
+    // Взнос, которым цель закрывается, заслуживает большего, чем обычное
+    // «готово»: короткая нарастающая фанфара.
+    final reachesGoal =
+        !goal.isCompleted && goal.currentAmount + amount >= goal.targetAmount;
+    reachesGoal ? Haptics.celebrate() : Haptics.success();
+
+    await ref.read(savingsGoalRepositoryProvider).addContribution(id: goal.id, amount: amount);
   }
 
   Future<void> _confirmDelete(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
@@ -107,21 +114,12 @@ class GoalsScreen extends ConsumerWidget {
       body: goalsAsync.when(
         data: (goals) {
           if (goals.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(
-                  l10n.goalsEmpty,
-                  style: context.text.body,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
+            return EmptyState(icon: Icons.flag_outlined, message: l10n.goalsEmpty);
           }
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+            padding: AppSpacing.screenWithFab,
             itemCount: goals.length,
-            separatorBuilder: (context, i) => const SizedBox(height: 12),
+            separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) {
               final goal = goals[i];
               return Dismissible(
@@ -191,15 +189,16 @@ class _GoalCard extends ConsumerWidget {
                       )
                     : null,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(child: Text(goal.title, style: context.text.title)),
               IconButton(
+                tooltip: l10n.goalsAddFundsTitle(goal.title),
                 icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
                 onPressed: onAddFunds,
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          AppSpacing.gapXs,
           Text(
             l10n.goalsProgressOf(
               formatAmount(goal.currentAmount, currency, context),
@@ -207,13 +206,13 @@ class _GoalCard extends ConsumerWidget {
             ),
             style: context.text.caption,
           ),
-          const SizedBox(height: 12),
+          AppSpacing.gapMd,
           AnimatedProgressBar(
             progress: goal.progress,
             color: goal.isCompleted ? context.colors.income : goal.color,
           ),
           if (goal.deadline != null) ...[
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             Text(
               goal.isCompleted
                   ? l10n.goalsAchieved
@@ -229,7 +228,7 @@ class _GoalCard extends ConsumerWidget {
               ),
             ),
           ] else if (goal.isCompleted) ...[
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             Text(
               l10n.goalsAchieved,
               style: context.text.caption.copyWith(color: context.colors.income),

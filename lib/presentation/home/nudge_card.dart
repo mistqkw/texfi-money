@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -137,7 +138,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(_icon(), size: 18, color: accent),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 1),

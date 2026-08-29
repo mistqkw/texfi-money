@@ -9,6 +9,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -16,6 +17,7 @@ import '../../core/utils/image_storage.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
+import '../shared/color_picker_row.dart';
 
 class GoalFormScreen extends ConsumerStatefulWidget {
   const GoalFormScreen({super.key, this.existing});
@@ -87,6 +89,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
 
   Future<void> _save() async {
     if (!_canSave) return;
+    Haptics.success();
     setState(() => _saving = true);
     final title = _titleController.text.trim();
 
@@ -124,13 +127,14 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
       appBar: AppBar(
         title: Text(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
         leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: AppSpacing.screen,
           children: [
             Center(
               child: Stack(
@@ -163,7 +167,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             TextField(
               controller: _titleController,
               autofocus: !_isEditing,
@@ -171,9 +175,9 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               decoration: InputDecoration(hintText: l10n.goalFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.goalFormTargetLabel, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             TextField(
               controller: _targetController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -182,9 +186,9 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.goalFormDeadlineLabel, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             InkWell(
               onTap: _pickDeadline,
               borderRadius: AppRadius.mediumAll,
@@ -197,7 +201,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                 child: Row(
                   children: [
                     Icon(Icons.event_outlined, size: 20, color: context.colors.textSecondary),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: AppSpacing.md),
                     Expanded(child: Text(deadlineText, style: context.text.title)),
                     if (_deadline != null)
                       IconButton(
@@ -210,34 +214,14 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.commonColor, style: context.text.label),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: AppColors.categoryPalette.map((color) {
-                final isSelected = color.toARGB32() == _color.toARGB32();
-                return GestureDetector(
-                  onTap: () => setState(() => _color = color),
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                      border: isSelected
-                          ? Border.all(color: context.colors.textPrimary, width: 2)
-                          : null,
-                    ),
-                    child: isSelected
-                        ? const Icon(Icons.check, color: Colors.white, size: 18)
-                        : null,
-                  ),
-                );
-              }).toList(),
+            AppSpacing.gapSm,
+            ColorPickerRow(
+              selected: _color,
+              onSelected: (color) => setState(() => _color = color),
             ),
-            const SizedBox(height: 32),
+            AppSpacing.gapXxl,
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

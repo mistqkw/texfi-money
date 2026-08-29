@@ -9,6 +9,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
@@ -136,7 +137,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
             _Dots(count: pageCount, index: _page),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SizedBox(
@@ -147,7 +148,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
           ],
         ),
       ),
@@ -182,7 +183,7 @@ class _SlideView extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: AppSpacing.huge),
           AnimatedSlide(
             offset: active ? Offset.zero : const Offset(0, 0.2),
             duration: AppMotion.slow,
@@ -193,7 +194,7 @@ class _SlideView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(slide.title, style: context.text.headline, textAlign: TextAlign.center),
-                  const SizedBox(height: 12),
+                  AppSpacing.gapMd,
                   Text(
                     slide.body,
                     style: context.text.body,
@@ -236,7 +237,7 @@ class _StepScaffold extends StatelessWidget {
               child: Column(
                 children: [
                   Text(title, style: context.text.headline, textAlign: TextAlign.center),
-                  const SizedBox(height: 24),
+                  AppSpacing.gapXl,
                   child,
                 ],
               ),
@@ -287,7 +288,7 @@ class _CurrencyStepView extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(currency.symbol, style: context.text.title),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: AppSpacing.xs),
                   Text(currencyDisplayName(context, currency), style: context.text.caption),
                 ],
               ),
@@ -331,7 +332,7 @@ class _ThemeStepView extends ConsumerWidget {
                 ref.read(themeVariantProvider.notifier).setVariant(variant);
               },
             ),
-            if (variant != AppThemeVariant.values.last) const SizedBox(width: 12),
+            if (variant != AppThemeVariant.values.last) const SizedBox(width: AppSpacing.md),
           ],
         ],
       ),
@@ -383,12 +384,12 @@ class _ThemePreviewCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(width: 36, height: 6, color: palette.textPrimary),
-                const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.xs),
                 Container(width: 24, height: 6, color: palette.textTertiary),
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          AppSpacing.gapSm,
           Text(
             label,
             style: context.text.caption.copyWith(
@@ -490,7 +491,7 @@ class _BankBadge extends StatelessWidget {
                       child: Icon(Icons.block, size: 18, color: color),
                     ),
             ),
-            const SizedBox(height: 4),
+            AppSpacing.gapXs,
             Text(
               label,
               maxLines: 1,

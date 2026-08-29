@@ -5,11 +5,13 @@ import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../shared/bank_mark.dart';
+import '../shared/color_picker_row.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.existing});
@@ -58,6 +60,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
 
   Future<void> _save() async {
     if (!_canSave) return;
+    Haptics.success();
     setState(() => _saving = true);
     final name = _nameController.text.trim();
 
@@ -79,22 +82,23 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
       appBar: AppBar(
         title: Text(_isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew),
         leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: AppSpacing.screen,
           children: [
             Text(l10n.accountFormBankLabel, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             SizedBox(
               height: 84,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: BankCatalog.all.length + 1,
-                separatorBuilder: (context, i) => const SizedBox(width: 12),
+                separatorBuilder: (context, i) => const SizedBox(width: AppSpacing.md),
                 itemBuilder: (context, i) {
                   if (i == 0) {
                     return _BankChip(
@@ -116,7 +120,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             TextField(
               controller: _nameController,
               autofocus: !_isEditing,
@@ -124,34 +128,14 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               decoration: InputDecoration(hintText: l10n.accountFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.commonColor, style: context.text.label),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: AppColors.categoryPalette.map((color) {
-                final isSelected = color.toARGB32() == _color.toARGB32();
-                return GestureDetector(
-                  onTap: () => setState(() => _color = color),
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                      border: isSelected
-                          ? Border.all(color: context.colors.textPrimary, width: 2)
-                          : null,
-                    ),
-                    child: isSelected
-                        ? const Icon(Icons.check, color: Colors.white, size: 18)
-                        : null,
-                  ),
-                );
-              }).toList(),
+            AppSpacing.gapSm,
+            ColorPickerRow(
+              selected: _color,
+              onSelected: (color) => setState(() => _color = color),
             ),
-            const SizedBox(height: 32),
+            AppSpacing.gapXxl,
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -211,7 +195,7 @@ class _BankChip extends StatelessWidget {
                       child: Icon(Icons.block, size: 18, color: color),
                     ),
             ),
-            const SizedBox(height: 4),
+            AppSpacing.gapXs,
             Text(
               label,
               maxLines: 1,

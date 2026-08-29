@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../domain/entities/category_entity.dart';
 import 'category_avatar.dart';
@@ -40,7 +41,7 @@ class CategorySelectChip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CategoryAvatar(category: category, size: 28),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Text(categoryDisplayName(context, category), style: context.text.title),
           ],
         ),

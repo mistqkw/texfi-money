@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../../core/constants/banks.dart';
 import '../../core/utils/haptics.dart';
 import '../../domain/entities/account_entity.dart';
 import '../accounts/account_providers.dart';
@@ -18,6 +19,7 @@ import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
+import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
@@ -44,7 +46,7 @@ class HomeScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(child: Text('TexFi m0ney', overflow: TextOverflow.ellipsis)),
-            SizedBox(width: 10),
+            SizedBox(width: AppSpacing.sm),
             Flexible(child: _AccountMarks()),
           ],
         ),
@@ -84,10 +86,10 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 96),
+          padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.md, AppSpacing.page, AppSpacing.fabSafeBottom),
           children: [
             _BalanceCard(balance: balanceAsync.valueOrNull ?? 0),
-            const SizedBox(height: 16),
+            AppSpacing.gapLg,
             const NudgeCard(),
             summaryAsync.when(
               data: (summary) => Row(
@@ -99,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                       color: context.colors.income,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: _StatTile(
                       label: l10n.homeExpenseThisMonth,
@@ -114,18 +116,15 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             const QuickEntryBar(),
-            const SizedBox(height: 28),
+            AppSpacing.gapXl,
             TerminalDivider(label: l10n.homeRecentTransactions),
-            const SizedBox(height: 12),
+            AppSpacing.gapMd,
             recentAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: Text(
-                      l10n.homeEmptyTransactions,
-                      style: context.text.body,
-                    ),
+                  return EmptyState(
+                    icon: Icons.receipt_long_outlined,
+                    message: l10n.homeEmptyTransactions,
                   );
                 }
                 return Column(
@@ -180,7 +179,7 @@ class _AccountMarks extends ConsumerWidget {
         children: [
           for (final bank in shown) ...[
             BankMark(bank: bank, size: 22),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSpacing.xs),
           ],
           if (hidden > 0)
             Text('+$hidden', style: context.text.mono.copyWith(fontSize: 11)),
@@ -199,7 +198,7 @@ class _BalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return TerminalBox(
       label: context.l10n.homeBalance.toLowerCase(),
-      padding: const EdgeInsets.fromLTRB(20, 22, 20, 20),
+      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.xl, AppSpacing.page, AppSpacing.page),
       child: Align(
         alignment: Alignment.centerLeft,
         child: _PulsingBalance(value: balance, style: context.text.balance),

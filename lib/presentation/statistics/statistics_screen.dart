@@ -4,14 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
+import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/terminal_box.dart';
 import 'statistics_providers.dart';
 
 class StatisticsScreen extends ConsumerWidget {
@@ -26,28 +28,55 @@ class StatisticsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.statisticsTitle)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+        padding: AppSpacing.screen,
         children: [
-          Text(l10n.statisticsMonthlyChartTitle, style: context.text.headline),
-          const SizedBox(height: 16),
-          monthlyAsync.when(
-            data: (months) => _MonthlyBarChart(months: months),
-            loading: () => const SizedBox(
-              height: 220,
-              child: Center(child: CircularProgressIndicator()),
+          // Заголовки живут в метке рамки, как на остальных экранах, —
+          // отдельная строка над карточкой здесь была единственным местом,
+          // выпадавшим из общего языка.
+          TerminalBox(
+            label: l10n.statisticsMonthlyChartTitle.toLowerCase(),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.sm,
+              AppSpacing.xl,
+              AppSpacing.sm,
+              AppSpacing.sm,
             ),
-            error: (e, st) => Text(l10n.statisticsLoadError, style: context.text.body),
+            child: monthlyAsync.when(
+              data: (months) => _MonthlyBarChart(months: months),
+              loading: () => const SizedBox(
+                height: 208,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+              error: (e, st) => SizedBox(
+                height: 208,
+                child: Center(
+                  child: Text(l10n.statisticsLoadError, style: context.text.body),
+                ),
+              ),
+            ),
           ),
-          const SizedBox(height: 32),
-          Text(l10n.statisticsCategoryChartTitle, style: context.text.headline),
-          const SizedBox(height: 16),
-          categoryAsync.when(
-            data: (categories) => _CategoryPie(categories: categories),
-            loading: () => const SizedBox(
-              height: 220,
-              child: Center(child: CircularProgressIndicator()),
+          AppSpacing.gapLg,
+          TerminalBox(
+            label: l10n.statisticsCategoryChartTitle.toLowerCase(),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.xl,
+              AppSpacing.lg,
+              AppSpacing.lg,
             ),
-            error: (e, st) => Text(l10n.statisticsLoadError, style: context.text.body),
+            child: categoryAsync.when(
+              data: (categories) => _CategoryPie(categories: categories),
+              loading: () => const SizedBox(
+                height: 208,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+              error: (e, st) => SizedBox(
+                height: 208,
+                child: Center(
+                  child: Text(l10n.statisticsLoadError, style: context.text.body),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -68,10 +97,8 @@ class _MonthlyBarChart extends StatelessWidget {
     );
     final maxY = maxValue <= 0 ? 100.0 : maxValue * 1.2;
 
-    return Container(
-      height: 240,
-      padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-      decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
+    return SizedBox(
+      height: 208,
       child: BarChart(
         BarChartData(
           maxY: maxY,
@@ -92,8 +119,10 @@ class _MonthlyBarChart extends StatelessWidget {
                   if (index < 0 || index >= months.length) return const SizedBox.shrink();
                   final label = formatMonthShort(months[index].month, context);
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(label, style: context.text.caption),
+                    padding: const EdgeInsets.only(top: AppSpacing.sm),
+                    // Подписи осей — моноширинные, как и вся служебная
+                    // типографика приложения.
+                    child: Text(label, style: context.text.mono),
                   );
                 },
               ),
@@ -103,18 +132,18 @@ class _MonthlyBarChart extends StatelessWidget {
             for (int i = 0; i < months.length; i++)
               BarChartGroupData(
                 x: i,
-                barsSpace: 4,
+                barsSpace: AppSpacing.xs,
                 barRods: [
                   BarChartRodData(
                     toY: months[i].income,
                     color: context.colors.income,
-                    width: 8,
+                    width: AppSpacing.sm,
                     borderRadius: BorderRadius.circular(3),
                   ),
                   BarChartRodData(
                     toY: months[i].expense,
                     color: context.colors.expense,
-                    width: 8,
+                    width: AppSpacing.sm,
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ],
@@ -136,68 +165,65 @@ class _CategoryPie extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
 
     if (categories.isEmpty) {
-      return Container(
-        height: 160,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
-        child: Text(context.l10n.statisticsNoExpenses, style: context.text.body),
+      return EmptyState(
+        icon: Icons.pie_chart_outline,
+        message: context.l10n.statisticsNoExpenses,
       );
     }
 
     final total = categories.fold<double>(0, (sum, c) => sum + c.total);
 
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.largeAll),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 180,
-            child: PieChart(
-              PieChartData(
-                sectionsSpace: 2,
-                centerSpaceRadius: 48,
-                sections: categories.map((c) {
-                  final percent = total <= 0 ? 0 : c.total / total * 100;
-                  return PieChartSectionData(
-                    value: c.total,
-                    color: c.category.color,
-                    radius: 36,
-                    showTitle: percent >= 8,
-                    title: '${percent.toStringAsFixed(0)}%',
-                    titleStyle: context.text.caption.copyWith(
-                      color: context.colors.onAccent,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  );
-                }).toList(),
-              ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 180,
+          child: PieChart(
+            PieChartData(
+              sectionsSpace: 2,
+              centerSpaceRadius: 48,
+              sections: categories.map((c) {
+                final percent = total <= 0 ? 0 : c.total / total * 100;
+                return PieChartSectionData(
+                  value: c.total,
+                  color: c.category.color,
+                  radius: 36,
+                  showTitle: percent >= 8,
+                  title: '${percent.toStringAsFixed(0)}%',
+                  titleStyle: context.text.mono.copyWith(
+                    color: context.colors.onAccent,
+                    fontWeight: FontWeight.w700,
+                  ),
+                );
+              }).toList(),
             ),
           ),
-          const SizedBox(height: 16),
-          Column(
-            children: categories.map((c) {
-              final percent = total <= 0 ? 0 : c.total / total * 100;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: Row(
-                  children: [
-                    CategoryAvatar(category: c.category, size: 28),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(categoryDisplayName(context, c.category), style: context.text.title),
+        ),
+        AppSpacing.gapLg,
+        Column(
+          children: categories.map((c) {
+            final percent = total <= 0 ? 0 : c.total / total * 100;
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+              child: Row(
+                children: [
+                  CategoryAvatar(category: c.category, size: 28),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: Text(
+                      categoryDisplayName(context, c.category),
+                      style: context.text.title,
                     ),
-                    Text(
-                      '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency, context)}',
-                      style: context.text.caption,
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
+                  ),
+                  Text(
+                    '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency, context)}',
+                    style: context.text.caption,
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

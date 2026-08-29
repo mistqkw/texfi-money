@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -11,6 +12,7 @@ import '../../domain/entities/budget_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
+import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
@@ -39,21 +41,15 @@ class BudgetsScreen extends ConsumerWidget {
       body: budgetsAsync.when(
         data: (budgets) {
           if (budgets.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(
-                  l10n.budgetsEmpty,
-                  style: context.text.body,
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            return EmptyState(
+              icon: Icons.account_balance_wallet_outlined,
+              message: l10n.budgetsEmpty,
             );
           }
           return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 96),
+            padding: AppSpacing.screenWithFab,
             itemCount: budgets.length,
-            separatorBuilder: (context, i) => const SizedBox(height: 12),
+            separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) => _BudgetCard(budget: budgets[i]),
           );
         },
@@ -92,7 +88,7 @@ class _BudgetCard extends ConsumerWidget {
           Row(
             children: [
               CategoryAvatar(category: budget.category, size: 36),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Text(categoryDisplayName(context, budget.category), style: context.text.title),
               ),
@@ -102,14 +98,14 @@ class _BudgetCard extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          AppSpacing.gapMd,
           AnimatedProgressBar(progress: budget.progress, color: _barColor(context)),
           if (budget.isOverLimit) ...[
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             Row(
               children: [
                 Icon(Icons.error_outline, size: 14, color: context.colors.expense),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
                   style: context.text.caption.copyWith(color: context.colors.expense),
@@ -117,11 +113,11 @@ class _BudgetCard extends ConsumerWidget {
               ],
             ),
           ] else if (budget.isNearLimit) ...[
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             Row(
               children: [
                 Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
-                const SizedBox(width: 4),
+                const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.budgetsNearLimit,
                   style: context.text.caption.copyWith(color: context.colors.warning),

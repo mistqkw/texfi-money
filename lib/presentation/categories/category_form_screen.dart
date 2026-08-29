@@ -7,7 +7,9 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
@@ -53,6 +55,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
 
   Future<void> _save() async {
     if (!_canSave) return;
+    Haptics.success();
     setState(() => _saving = true);
     final repo = ref.read(categoryRepositoryProvider);
     final name = _nameController.text.trim();
@@ -83,20 +86,21 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
       appBar: AppBar(
         title: Text(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
         leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: AppSpacing.screen,
           children: [
             if (!_isEditing) ...[
               _TypeToggle(
                 type: _type,
                 onChanged: (t) => setState(() => _type = t),
               ),
-              const SizedBox(height: 24),
+              AppSpacing.gapXl,
             ],
             TextField(
               controller: _nameController,
@@ -105,22 +109,22 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               decoration: InputDecoration(hintText: l10n.categoryFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.categoryFormIconLabel, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             _IconPicker(
               selectedKey: _iconKey,
               color: _color,
               onSelected: (key) => setState(() => _iconKey = key),
             ),
-            const SizedBox(height: 24),
+            AppSpacing.gapXl,
             Text(l10n.commonColor, style: context.text.label),
-            const SizedBox(height: 8),
+            AppSpacing.gapSm,
             _ColorPicker(
               selected: _color,
               onSelected: (color) => setState(() => _color = color),
             ),
-            const SizedBox(height: 32),
+            AppSpacing.gapXxl,
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
