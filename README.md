@@ -53,6 +53,17 @@ Dark theme by default, flat minimalism, accent `#4a7dfb` on `#0d0d10`. Large, ta
 figures for amounts; light, small type for labels. No gradients, no shadows, restrained
 corner radii (8–12px). Details in [`lib/core/theme`](lib/core/theme).
 
+Every distance comes from one 4pt scale in [`app_spacing.dart`](lib/core/theme/app_spacing.dart)
+rather than being eyeballed per screen, section headings live in the cut-out label of
+[`TerminalBox`](lib/presentation/shared/terminal_box.dart) on every screen, and touch
+targets are 48dp even where the visible dot is smaller.
+
+**Haptics have a vocabulary.** Each event is a short rhythm rather than one generic buzz —
+income rises, expense falls, delete has a fading tail, an error is a firm double tap, a
+reached goal gets a small fanfare. A purchase far above your usual for that category
+feels heavier than a routine one. All of it respects a single switch in Settings.
+See [`haptics.dart`](lib/core/utils/haptics.dart).
+
 ## Stack
 
 - **Flutter** (Android, min SDK 24)
