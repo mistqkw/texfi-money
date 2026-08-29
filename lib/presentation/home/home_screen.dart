@@ -6,6 +6,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../categories/categories_screen.dart';
@@ -14,6 +15,7 @@ import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_tile.dart';
@@ -58,12 +60,15 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'add_transaction_fab',
-        onPressed: () => Navigator.of(context).push(
-          fadeSlideRoute(const AddTransactionScreen()),
+      floatingActionButton: PressScale(
+        child: FloatingActionButton(
+          heroTag: 'add_transaction_fab',
+          onPressed: () {
+            Haptics.select();
+            Navigator.of(context).push(fadeSlideRoute(const AddTransactionScreen()));
+          },
+          child: const Icon(Icons.add),
         ),
-        child: const Icon(Icons.add),
       ),
       body: SafeArea(
         child: ListView(
@@ -121,8 +126,10 @@ class HomeScreen extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Icon(Icons.delete_outline, color: context.colors.expense),
                         ),
-                        onDismissed: (_) =>
-                            ref.read(transactionRepositoryProvider).delete(transactions[i].id),
+                        onDismissed: (_) {
+                          Haptics.delete();
+                          ref.read(transactionRepositoryProvider).delete(transactions[i].id);
+                        },
                         child: TransactionTile(transaction: transactions[i]),
                       ),
                       if (i != transactions.length - 1)

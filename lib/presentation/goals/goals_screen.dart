@@ -8,10 +8,12 @@ import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
+import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
@@ -52,6 +54,7 @@ class GoalsScreen extends ConsumerWidget {
     );
 
     if (amount != null && amount > 0) {
+      Haptics.success();
       await ref.read(savingsGoalRepositoryProvider).addContribution(id: goal.id, amount: amount);
     }
   }
@@ -76,6 +79,7 @@ class GoalsScreen extends ConsumerWidget {
       ),
     );
     if (confirmed == true) {
+      Haptics.delete();
       await ref.read(savingsGoalRepositoryProvider).delete(goal.id);
     }
   }
@@ -87,9 +91,14 @@ class GoalsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.goalsTitle)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen())),
-        child: const Icon(Icons.add),
+      floatingActionButton: PressScale(
+        child: FloatingActionButton(
+          onPressed: () {
+            Haptics.select();
+            Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen()));
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: goalsAsync.when(
         data: (goals) {

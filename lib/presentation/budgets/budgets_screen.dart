@@ -6,11 +6,13 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
@@ -25,9 +27,14 @@ class BudgetsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.budgetsTitle)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen())),
-        child: const Icon(Icons.add),
+      floatingActionButton: PressScale(
+        child: FloatingActionButton(
+          onPressed: () {
+            Haptics.select();
+            Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen()));
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: budgetsAsync.when(
         data: (budgets) {

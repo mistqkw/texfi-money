@@ -13,6 +13,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/local/backup_service.dart';
 import '../../data/providers/data_providers.dart';
 import '../../l10n/app_localizations.dart';
@@ -108,9 +109,11 @@ class SettingsScreen extends ConsumerWidget {
 
     try {
       await ref.read(backupServiceProvider).restoreFromJson(utf8.decode(bytes));
+      Haptics.success();
       if (!context.mounted) return;
       await _showResultDialog(context, title: l10n.backupImportSuccess);
     } on BackupFormatException {
+      Haptics.error();
       if (!context.mounted) return;
       await _showResultDialog(context, title: l10n.backupImportError);
     }
@@ -139,6 +142,7 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
     if (confirmed != true) return;
+    Haptics.warning();
 
     await ref.read(backupServiceProvider).resetAllData();
     await ref.read(sharedPreferencesProvider).clear();

@@ -7,9 +7,11 @@ import '../../core/theme/app_page_route.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
+import '../shared/press_scale.dart';
 import '../shared/terminal_box.dart';
 import 'account_form_screen.dart';
 import 'account_providers.dart';
@@ -37,6 +39,7 @@ class AccountsScreen extends ConsumerWidget {
       ),
     );
     if (confirmed == true) {
+      Haptics.delete();
       await ref.read(accountRepositoryProvider).delete(account.id);
     }
   }
@@ -48,9 +51,14 @@ class AccountsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.accountsTitle)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(fadeSlideRoute(const AccountFormScreen())),
-        child: const Icon(Icons.add),
+      floatingActionButton: PressScale(
+        child: FloatingActionButton(
+          onPressed: () {
+            Haptics.select();
+            Navigator.of(context).push(fadeSlideRoute(const AccountFormScreen()));
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: accountsAsync.when(
         data: (accounts) {

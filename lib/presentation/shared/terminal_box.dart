@@ -3,12 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 
 /// Плоский блок с тонкой рамкой и меткой, врезанной прямо в линию рамки —
 /// терминальный стиль экосистемы TexFi (как в TexFi Files). Метка рисуется
 /// поверх разрыва в обводке, который вычисляется по размеру её текста.
-class TerminalBox extends StatelessWidget {
+class TerminalBox extends StatefulWidget {
   const TerminalBox({
     super.key,
     required this.child,
@@ -32,17 +33,38 @@ class TerminalBox extends StatelessWidget {
   final double radius;
   final VoidCallback? onTap;
 
+  @override
+  State<TerminalBox> createState() => _TerminalBoxState();
+}
+
+class _TerminalBoxState extends State<TerminalBox> {
   static const double _labelLeft = 12;
   static const double _labelPadH = 6;
 
+  bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (widget.onTap == null || _pressed == value) return;
+    setState(() => _pressed = value);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final label = widget.label;
+    final prompt = widget.prompt;
+    final labelColor = widget.labelColor;
+    final borderColor = widget.borderColor;
+    final fillColor = widget.fillColor;
+    final padding = widget.padding;
+    final radius = widget.radius;
+    final onTap = widget.onTap;
+    final child = widget.child;
     final resolvedBorder = borderColor ?? context.colors.textPrimary.withValues(alpha: 0.18);
     final resolvedFill = fillColor ?? context.colors.surface;
 
     Widget content;
 
-    if (label == null || label!.isEmpty) {
+    if (label == null || label.isEmpty) {
       content = Container(
         decoration: BoxDecoration(
           color: resolvedFill,
@@ -114,8 +136,16 @@ class TerminalBox extends StatelessWidget {
     if (onTap == null) return content;
     return InkWell(
       onTap: onTap,
+      onTapDown: (_) => _setPressed(true),
+      onTapCancel: () => _setPressed(false),
+      onTapUp: (_) => _setPressed(false),
       borderRadius: BorderRadius.circular(radius),
-      child: content,
+      child: AnimatedScale(
+        scale: _pressed ? 0.97 : 1.0,
+        duration: AppMotion.fast,
+        curve: Curves.easeOut,
+        child: content,
+      ),
     );
   }
 }
