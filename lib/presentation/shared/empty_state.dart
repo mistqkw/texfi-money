@@ -33,9 +33,11 @@ class EmptyState extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: context.colors.surfaceVariant,
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: context.colors.divider, width: 2),
                 ),
                 child: Icon(icon, size: 28, color: context.colors.textTertiary),
               ),

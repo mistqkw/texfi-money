@@ -34,11 +34,36 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
     };
   }
 
+  // Пиксельный bitmap-шрифт (Press Start 2P) — визуальный язык, общий для
+  // всей линейки TexFi (взят из TexFi f0kus). Используется только там, где
+  // текст короткий и в основном латиница/цифры: крупные суммы и заголовки
+  // экранов/секций. Основной текст остаётся на выбранном пользователем
+  // шрифте — Press Start 2P не покрывает кириллицу, и Flutter аккуратно
+  // подставляет системный шрифт посимвольно там, где глифов не хватает,
+  // так что переведённые заголовки не превращаются в тофу-квадраты.
+  TextStyle pixelStyle({
+    required double size,
+    required Color color,
+    double? letterSpacing,
+    double height = 1.4,
+  }) {
+    return GoogleFonts.pressStart2p(
+      textStyle: TextStyle(
+        fontSize: size,
+        fontWeight: FontWeight.w400,
+        color: color,
+        letterSpacing: letterSpacing,
+        fontFeatures: const [FontFeature.tabularFigures()],
+        height: height,
+      ),
+    );
+  }
+
   return TextTheme(
-    displayLarge: style(size: 44, weight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -1),
-    displayMedium: style(size: 28, weight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -0.5),
-    displaySmall: style(size: 17, weight: FontWeight.w600, color: colors.textPrimary),
-    headlineMedium: style(size: 20, weight: FontWeight.w600, color: colors.textPrimary, features: const []),
+    displayLarge: pixelStyle(size: 30, color: colors.textPrimary, letterSpacing: 0),
+    displayMedium: pixelStyle(size: 19, color: colors.textPrimary, letterSpacing: 0),
+    displaySmall: pixelStyle(size: 13, color: colors.textPrimary, letterSpacing: 0),
+    headlineMedium: pixelStyle(size: 14, color: colors.textPrimary, letterSpacing: 0.5),
     titleMedium: style(size: 16, weight: FontWeight.w500, color: colors.textPrimary, features: const []),
     bodyMedium: style(size: 14, weight: FontWeight.w400, color: colors.textSecondary, features: const []),
     bodySmall: style(

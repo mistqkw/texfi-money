@@ -13,6 +13,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../shared/pixel_icon.dart';
 
 /// Форма создания или редактирования категории.
 /// При создании возвращает [CategoryEntity], при редактировании — `true`.
@@ -210,15 +211,20 @@ class _IconPicker extends StatelessWidget {
           child: Container(
             width: 48,
             height: 48,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: selected ? color.withValues(alpha: 0.18) : context.colors.surface,
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color: selected ? color : context.colors.divider,
-                width: selected ? 1.5 : 1,
+                width: selected ? 2 : 1.5,
               ),
             ),
-            child: Icon(entry.value, color: selected ? color : context.colors.textSecondary),
+            child: PixelIcon(
+              PixelIcons.forCategoryKey(entry.key),
+              color: selected ? color : context.colors.textSecondary,
+              size: 22,
+            ),
           ),
         );
       }).toList(),

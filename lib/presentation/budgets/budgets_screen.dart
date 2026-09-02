@@ -14,7 +14,7 @@ import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/press_scale.dart';
+import '../shared/pixel_fab.dart';
 import '../shared/terminal_box.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
@@ -29,14 +29,11 @@ class BudgetsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.budgetsTitle)),
-      floatingActionButton: PressScale(
-        child: FloatingActionButton(
-          onPressed: () {
-            Haptics.select();
-            Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen()));
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: PixelFab(
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen()));
+        },
       ),
       body: budgetsAsync.when(
         data: (budgets) {

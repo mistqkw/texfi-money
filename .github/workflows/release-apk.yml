@@ -1,0 +1,45 @@
+name: Release APK
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter build apk --release
+
+      - name: Set release tag
+        id: tag
+        run: echo "tag=build-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: TexFi m0ney ${{ steps.tag.outputs.tag }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+          # Debug-signed (no android/key.properties in CI) — fine for
+          # sideloading on a personal device, not for the Play Store.
+          body: |
+            Автосборка APK для установки на телефон (debug-подпись — только для sideload).
+            Commit: ${{ github.sha }}

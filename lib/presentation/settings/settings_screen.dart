@@ -21,6 +21,8 @@ import '../../l10n/app_localizations.dart';
 import '../accounts/accounts_screen.dart';
 import '../profiles/debt_profiles_screen.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_icon.dart';
+import '../shared/pixel_switch.dart';
 import '../shared/restart_widget.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
@@ -42,10 +44,10 @@ class SettingsScreen extends ConsumerWidget {
     };
   }
 
-  IconData _themeIcon(AppThemeVariant variant) => switch (variant) {
-        AppThemeVariant.dark => Icons.dark_mode_outlined,
-        AppThemeVariant.light => Icons.light_mode_outlined,
-        AppThemeVariant.oled => Icons.contrast,
+  List<String> _themeIcon(AppThemeVariant variant) => switch (variant) {
+        AppThemeVariant.dark => PixelIcons.themeDark,
+        AppThemeVariant.light => PixelIcons.themeLight,
+        AppThemeVariant.oled => PixelIcons.themeContrast,
       };
 
   String _fontLabel(AppFont font, AppLocalizations l10n) => switch (font) {
@@ -174,7 +176,7 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsLanguageSection),
           AppSpacing.gapSm,
           _OptionTile(
-            icon: Icons.language_outlined,
+            icon: PixelIcons.language,
             label: languageLabel,
             selected: false,
             showCheckmark: false,
@@ -195,7 +197,7 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsFontSection),
           AppSpacing.gapSm,
           ...AppFont.values.map((f) => _OptionTile(
-                icon: Icons.text_fields,
+                icon: PixelIcons.font,
                 label: _fontLabel(f, l10n),
                 selected: f == font,
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
@@ -203,9 +205,8 @@ class SettingsScreen extends ConsumerWidget {
           AppSpacing.gapXl,
           _SectionLabel(l10n.settingsHapticsSection),
           AppSpacing.gapSm,
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(l10n.hapticsEnabled, style: context.text.title),
+          _SwitchTile(
+            label: l10n.hapticsEnabled,
             value: hapticsEnabled,
             onChanged: (value) {
               ref.read(hapticsEnabledProvider.notifier).setEnabled(value);
@@ -216,7 +217,7 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsCurrencySection),
           AppSpacing.gapSm,
           _OptionTile(
-            icon: Icons.payments_outlined,
+            icon: PixelIcons.money,
             label: '${currencyDisplayName(context, currency)} (${currency.symbol})',
             selected: false,
             showCheckmark: false,
@@ -228,7 +229,7 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsManageSection),
           AppSpacing.gapSm,
           _OptionTile(
-            icon: Icons.account_balance_wallet_outlined,
+            icon: PixelIcons.wallet,
             label: l10n.accountsTitle,
             selected: false,
             showCheckmark: false,
@@ -237,7 +238,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           _OptionTile(
-            icon: Icons.people_outline,
+            icon: PixelIcons.profiles,
             label: l10n.profilesTitle,
             selected: false,
             showCheckmark: false,
@@ -249,14 +250,14 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsBackupSection),
           AppSpacing.gapSm,
           _OptionTile(
-            icon: Icons.upload_outlined,
+            icon: PixelIcons.backupUp,
             label: l10n.backupExport,
             selected: false,
             showCheckmark: false,
             onTap: () => _exportBackup(context, ref),
           ),
           _OptionTile(
-            icon: Icons.download_outlined,
+            icon: PixelIcons.backupDown,
             label: l10n.backupImport,
             selected: false,
             showCheckmark: false,
@@ -266,7 +267,7 @@ class SettingsScreen extends ConsumerWidget {
           _SectionLabel(l10n.settingsDangerSection),
           AppSpacing.gapSm,
           _OptionTile(
-            icon: Icons.restart_alt,
+            icon: PixelIcons.danger,
             label: l10n.resetApp,
             selected: false,
             showCheckmark: false,
@@ -300,7 +301,7 @@ class _OptionTile extends StatelessWidget {
     this.color,
   });
 
-  final IconData icon;
+  final List<String> icon;
   final String label;
   final bool selected;
   final bool showCheckmark;
@@ -311,12 +312,36 @@ class _OptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Icon(icon, color: color ?? context.colors.textSecondary),
+      leading: PixelIcon(icon, color: color ?? context.colors.textSecondary),
       title: Text(label, style: context.text.title.copyWith(color: color)),
       trailing: showCheckmark
-          ? (selected ? Icon(Icons.check, color: context.colors.accent) : null)
-          : Icon(Icons.chevron_right, color: context.colors.textTertiary),
+          ? (selected ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null)
+          : PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary, size: 14),
       onTap: onTap,
+    );
+  }
+}
+
+class _SwitchTile extends StatelessWidget {
+  const _SwitchTile({required this.label, required this.value, required this.onChanged});
+
+  final String label;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onChanged(!value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            Expanded(child: Text(label, style: context.text.title)),
+            PixelSwitch(value: value, onChanged: onChanged),
+          ],
+        ),
+      ),
     );
   }
 }

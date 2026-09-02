@@ -17,6 +17,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
 import 'history_providers.dart';
@@ -247,7 +248,7 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: active ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surfaceVariant,
           borderRadius: AppRadius.smallAll,
-          border: active ? Border.all(color: context.colors.accent, width: 1) : null,
+          border: Border.all(color: active ? context.colors.accent : context.colors.divider, width: active ? 2 : 1.5),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -285,7 +286,7 @@ class _SheetOption extends StatelessWidget {
     return ListTile(
       leading: leading,
       title: Text(label, style: context.text.title),
-      trailing: selected ? Icon(Icons.check, color: context.colors.accent) : null,
+      trailing: selected ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null,
       onTap: onTap,
     );
   }
