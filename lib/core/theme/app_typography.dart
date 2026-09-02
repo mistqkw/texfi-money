@@ -7,8 +7,16 @@ import 'app_colors_ext.dart';
 /// Строит [TextTheme] под выбранный шрифт и палитру. Слоты сопоставлены
 /// с именованными стилями приложения (см. `AppTextStyles`):
 /// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
-/// headline→headlineMedium, title→titleMedium, body→bodyMedium,
-/// caption→bodySmall, label→labelMedium, mono→labelSmall.
+/// headline→headlineMedium, pixelAccent→titleLarge, title→titleMedium,
+/// body→bodyMedium, caption→bodySmall, label→labelMedium, mono→labelSmall.
+///
+/// Пиксельный шрифт (Press Start 2P) — только на заголовках экранов/секций
+/// (headlineMedium) и на самом крупном акцентном числе — балансе
+/// (displayLarge) и компактных акцентных числах вроде процентов на
+/// донат-чарте (titleLarge/pixelAccent). Остальные суммы (amountLarge/
+/// amountMedium — история, счета, цели, бюджеты) — на обычном шрифте
+/// пользователя, чтобы оставаться читаемыми в списках; их табличное
+/// выравнивание цифр обеспечивается фичей ниже, а не сменой шрифта.
 TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
   TextStyle style({
     required double size,
@@ -61,24 +69,25 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
 
   return TextTheme(
     displayLarge: pixelStyle(size: 30, color: colors.textPrimary, letterSpacing: 0),
-    displayMedium: pixelStyle(size: 19, color: colors.textPrimary, letterSpacing: 0),
-    displaySmall: pixelStyle(size: 13, color: colors.textPrimary, letterSpacing: 0),
+    displayMedium: style(size: 26, weight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -0.5),
+    displaySmall: style(size: 17, weight: FontWeight.w600, color: colors.textPrimary),
     headlineMedium: pixelStyle(size: 14, color: colors.textPrimary, letterSpacing: 0.5),
-    titleMedium: style(size: 16, weight: FontWeight.w500, color: colors.textPrimary, features: const []),
-    bodyMedium: style(size: 14, weight: FontWeight.w400, color: colors.textSecondary, features: const []),
+    // Компактные акцентные пиксельные числа вне основной шкалы сумм —
+    // проценты на донат-чарте и подобные короткие акцентные бейджи.
+    titleLarge: pixelStyle(size: 11, color: colors.textPrimary, letterSpacing: 0, height: 1.2),
+    titleMedium: style(size: 16, weight: FontWeight.w500, color: colors.textPrimary),
+    bodyMedium: style(size: 14, weight: FontWeight.w400, color: colors.textSecondary),
     bodySmall: style(
       size: 12,
       weight: FontWeight.w400,
       color: colors.textTertiary,
       letterSpacing: 0.2,
-      features: const [],
     ),
     labelMedium: style(
       size: 13,
       weight: FontWeight.w500,
       color: colors.textSecondary,
       letterSpacing: 0.1,
-      features: const [],
     ),
     // Терминальные метки/метаданные — всегда моноширинный JetBrains Mono,
     // независимо от выбранного пользователем основного шрифта.

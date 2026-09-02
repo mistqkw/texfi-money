@@ -15,6 +15,10 @@ class AppTextStyles {
   TextStyle get amountLarge => _tt.displayMedium!;
   TextStyle get amountMedium => _tt.displaySmall!;
   TextStyle get headline => _tt.headlineMedium!;
+
+  /// Компактное пиксельное акцентное число вне основной шкалы сумм —
+  /// проценты на донат-чарте и подобные короткие бейджи.
+  TextStyle get pixelAccent => _tt.titleLarge!;
   TextStyle get title => _tt.titleMedium!;
   TextStyle get body => _tt.bodyMedium!;
   TextStyle get caption => _tt.bodySmall!;
