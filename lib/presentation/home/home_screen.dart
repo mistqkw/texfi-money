@@ -21,7 +21,8 @@ import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/press_scale.dart';
+import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/terminal_box.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
@@ -59,14 +60,14 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.category_outlined),
+            icon: const PixelIcon(PixelIcons.category),
             tooltip: l10n.homeCategoriesTooltip,
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const CategoriesScreen()),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const PixelIcon(PixelIcons.settings),
             tooltip: l10n.homeSettingsTooltip,
             onPressed: () => Navigator.of(context).push(
               fadeSlideRoute(const SettingsScreen()),
@@ -74,15 +75,12 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: PressScale(
-        child: FloatingActionButton(
-          heroTag: 'add_transaction_fab',
-          onPressed: () {
-            Haptics.select();
-            Navigator.of(context).push(fadeSlideRoute(const AddTransactionScreen()));
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: PixelFab(
+        heroTag: 'add_transaction_fab',
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(fadeSlideRoute(const AddTransactionScreen()));
+        },
       ),
       body: SafeArea(
         child: ListView(

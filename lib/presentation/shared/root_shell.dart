@@ -7,6 +7,7 @@ import '../goals/goals_screen.dart';
 import '../history/history_screen.dart';
 import '../home/home_screen.dart';
 import '../statistics/statistics_screen.dart';
+import 'pixel_icon.dart';
 
 class RootShell extends StatefulWidget {
   const RootShell({super.key});
@@ -40,28 +41,23 @@ class _RootShellState extends State<RootShell> {
         },
         destinations: [
           NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
+            icon: const PixelIcon(PixelIcons.home),
             label: l10n.navHome,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.receipt_long_outlined),
-            selectedIcon: const Icon(Icons.receipt_long),
+            icon: const PixelIcon(PixelIcons.history),
             label: l10n.navHistory,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: const Icon(Icons.account_balance_wallet),
+            icon: const PixelIcon(PixelIcons.budgets),
             label: l10n.navBudgets,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.flag_outlined),
-            selectedIcon: const Icon(Icons.flag),
+            icon: const PixelIcon(PixelIcons.goals),
             label: l10n.navGoals,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.insights_outlined),
-            selectedIcon: const Icon(Icons.insights),
+            icon: const PixelIcon(PixelIcons.statistics),
             label: l10n.navStatistics,
           ),
         ],

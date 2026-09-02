@@ -66,7 +66,10 @@ abstract final class AppTheme {
           foregroundColor: colors.onAccent,
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-          shape: RoundedRectangleBorder(borderRadius: AppRadius.mediumAll),
+          shape: RoundedRectangleBorder(
+            borderRadius: AppRadius.mediumAll,
+            side: BorderSide(color: colors.onAccent, width: 2),
+          ),
           textStyle: textTheme.titleMedium,
         ),
       ),

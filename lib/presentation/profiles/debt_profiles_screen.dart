@@ -14,7 +14,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
-import '../shared/press_scale.dart';
+import '../shared/pixel_fab.dart';
 import '../shared/terminal_box.dart';
 import 'debt_profile_form_screen.dart';
 import 'debt_profile_providers.dart';
@@ -99,14 +99,11 @@ class DebtProfilesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profilesTitle)),
-      floatingActionButton: PressScale(
-        child: FloatingActionButton(
-          onPressed: () {
-            Haptics.select();
-            Navigator.of(context).push(fadeSlideRoute(const DebtProfileFormScreen()));
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: PixelFab(
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(fadeSlideRoute(const DebtProfileFormScreen()));
+        },
       ),
       body: profilesAsync.when(
         data: (profiles) {

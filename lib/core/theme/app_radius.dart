@@ -1,10 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-/// Плоский дизайн: сдержанные радиусы, без переборов.
+/// Пиксель-арт язык TexFi: почти прямые углы — квадратные карточки и кнопки,
+/// минимально скруглённые (8-12px), как PixelCard/PixelButton в TexFi f0kus.
 abstract final class AppRadius {
-  static const double small = 8;
-  static const double medium = 10;
-  static const double large = 12;
+  static const double small = 6;
+  static const double medium = 8;
+  static const double large = 10;
 
   static const BorderRadius smallAll = BorderRadius.all(Radius.circular(small));
   static const BorderRadius mediumAll = BorderRadius.all(Radius.circular(medium));
