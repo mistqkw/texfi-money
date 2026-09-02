@@ -15,7 +15,7 @@ import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
-import '../shared/press_scale.dart';
+import '../shared/pixel_fab.dart';
 import '../shared/terminal_box.dart';
 import 'account_form_screen.dart';
 import 'account_providers.dart';
@@ -55,14 +55,11 @@ class AccountsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.accountsTitle)),
-      floatingActionButton: PressScale(
-        child: FloatingActionButton(
-          onPressed: () {
-            Haptics.select();
-            Navigator.of(context).push(fadeSlideRoute(const AccountFormScreen()));
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: PixelFab(
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(fadeSlideRoute(const AccountFormScreen()));
+        },
       ),
       body: accountsAsync.when(
         data: (accounts) {

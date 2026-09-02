@@ -6,9 +6,11 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 
-/// Плоский блок с тонкой рамкой и меткой, врезанной прямо в линию рамки —
-/// терминальный стиль экосистемы TexFi (как в TexFi Files). Метка рисуется
-/// поверх разрыва в обводке, который вычисляется по размеру её текста.
+/// Пиксель-карточка экосистемы TexFi (PixelCard, как в TexFi f0kus): почти
+/// прямые углы, плотная 2px рамка и сплошная офсетная тень без blur —
+/// поверх сохранён терминальный приём m0ney с меткой, врезанной прямо
+/// в линию рамки. Метка рисуется поверх разрыва в обводке, который
+/// вычисляется по размеру её текста.
 class TerminalBox extends StatefulWidget {
   const TerminalBox({
     super.key,
@@ -19,7 +21,9 @@ class TerminalBox extends StatefulWidget {
     this.borderColor,
     this.fillColor,
     this.padding = const EdgeInsets.fromLTRB(14, 16, 14, 14),
-    this.radius = 6,
+    this.radius = 8,
+    this.borderWidth = 2,
+    this.shadowOffset = 3,
     this.onTap,
   });
 
@@ -31,6 +35,8 @@ class TerminalBox extends StatefulWidget {
   final Color? fillColor;
   final EdgeInsets padding;
   final double radius;
+  final double borderWidth;
+  final double shadowOffset;
   final VoidCallback? onTap;
 
   @override
@@ -57,10 +63,15 @@ class _TerminalBoxState extends State<TerminalBox> {
     final fillColor = widget.fillColor;
     final padding = widget.padding;
     final radius = widget.radius;
+    final borderWidth = widget.borderWidth;
+    final shadowOffset = widget.shadowOffset;
     final onTap = widget.onTap;
     final child = widget.child;
-    final resolvedBorder = borderColor ?? context.colors.textPrimary.withValues(alpha: 0.18);
+    final resolvedBorder = borderColor ?? context.colors.textPrimary.withValues(alpha: 0.28);
     final resolvedFill = fillColor ?? context.colors.surface;
+    final hardShadow = [
+      BoxShadow(color: resolvedBorder, offset: Offset(shadowOffset, shadowOffset)),
+    ];
 
     Widget content;
 
@@ -69,7 +80,8 @@ class _TerminalBoxState extends State<TerminalBox> {
         decoration: BoxDecoration(
           color: resolvedFill,
           borderRadius: BorderRadius.circular(radius),
-          border: Border.all(color: resolvedBorder, width: 1),
+          border: Border.all(color: resolvedBorder, width: borderWidth),
+          boxShadow: hardShadow,
         ),
         padding: padding,
         child: child,
@@ -110,9 +122,14 @@ class _TerminalBoxState extends State<TerminalBox> {
                 color: resolvedBorder,
                 radius: radius,
                 gap: gap,
+                strokeWidth: borderWidth,
               ),
               child: Container(
-                decoration: BoxDecoration(color: resolvedFill, borderRadius: BorderRadius.circular(radius)),
+                decoration: BoxDecoration(
+                  color: resolvedFill,
+                  borderRadius: BorderRadius.circular(radius),
+                  boxShadow: hardShadow,
+                ),
                 padding: padding,
                 child: child,
               ),
@@ -151,22 +168,28 @@ class _TerminalBoxState extends State<TerminalBox> {
 }
 
 class _TerminalBorderPainter extends CustomPainter {
-  _TerminalBorderPainter({required this.color, required this.radius, required this.gap});
+  _TerminalBorderPainter({
+    required this.color,
+    required this.radius,
+    required this.gap,
+    required this.strokeWidth,
+  });
 
   final Color color;
   final double radius;
   final Rect gap;
+  final double strokeWidth;
 
   @override
   void paint(Canvas canvas, Size size) {
     final rrect = RRect.fromRectAndRadius(
-      (Offset.zero & size).deflate(0.5),
+      (Offset.zero & size).deflate(strokeWidth / 2),
       Radius.circular(radius),
     );
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
+      ..strokeWidth = strokeWidth;
 
     canvas.save();
     canvas.clipRect(gap, clipOp: ui.ClipOp.difference);
@@ -176,6 +199,9 @@ class _TerminalBorderPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _TerminalBorderPainter oldDelegate) {
-    return color != oldDelegate.color || radius != oldDelegate.radius || gap != oldDelegate.gap;
+    return color != oldDelegate.color ||
+        radius != oldDelegate.radius ||
+        gap != oldDelegate.gap ||
+        strokeWidth != oldDelegate.strokeWidth;
   }
 }

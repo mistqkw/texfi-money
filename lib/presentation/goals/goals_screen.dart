@@ -18,7 +18,7 @@ import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/empty_state.dart';
-import '../shared/press_scale.dart';
+import '../shared/pixel_fab.dart';
 import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
@@ -102,14 +102,11 @@ class GoalsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.goalsTitle)),
-      floatingActionButton: PressScale(
-        child: FloatingActionButton(
-          onPressed: () {
-            Haptics.select();
-            Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen()));
-          },
-          child: const Icon(Icons.add),
-        ),
+      floatingActionButton: PixelFab(
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen()));
+        },
       ),
       body: goalsAsync.when(
         data: (goals) {
