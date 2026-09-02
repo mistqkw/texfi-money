@@ -189,10 +189,7 @@ class _CategoryPie extends ConsumerWidget {
                   radius: 36,
                   showTitle: percent >= 8,
                   title: '${percent.toStringAsFixed(0)}%',
-                  titleStyle: context.text.mono.copyWith(
-                    color: context.colors.onAccent,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  titleStyle: context.text.pixelAccent.copyWith(color: context.colors.onAccent),
                 );
               }).toList(),
             ),
