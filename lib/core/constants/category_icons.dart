@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 /// иконки не сериализуются напрямую, чтобы пережить смену набора шрифтов.
 abstract final class CategoryIcons {
   static const Map<String, IconData> catalog = {
+    'food': Icons.restaurant_menu_outlined,
     'groceries': Icons.shopping_cart_outlined,
     'restaurant': Icons.restaurant_outlined,
     'transport': Icons.directions_car_outlined,

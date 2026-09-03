@@ -1,0 +1,33 @@
+name: Regenerate launcher icons
+
+on:
+  workflow_dispatch:
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - run: flutter pub get
+
+      - run: dart run flutter_launcher_icons
+
+      - name: Commit regenerated icons
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add android/app/src/main/res
+          if git diff --cached --quiet; then
+            echo "No icon changes to commit."
+          else
+            git commit -m "chore: regenerate launcher icons from assets/icon source"
+            git push
+          fi
