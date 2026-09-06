@@ -25,25 +25,30 @@
 
 ## Features
 
-- 💰 **Home** — total balance, this month's income/expense, recent transactions
-- ➕ **Add transactions** — amount, category, date, note, income or expense, optional account
-- ⌨️ **Quick add** — one line, e.g. `-15 coffee lunch` or `+2000 salary`, parsed and committed instantly
-- 🗑 **Swipe to delete** — swipe a transaction away on Home or in History; the balance pulses to confirm
-- 🏷 **Categories** — presets plus your own, with a line-style icon and color
-- 💳 **Accounts** — track cash and multiple cards separately (bank A, bank B...), each with its own balance
-- 🤝 **Profiles** — keep tabs on money you've lent to or borrowed from other people, separate from your own accounts
-- 📊 **Budgets** — monthly limit per category, animated progress bar, warning near the limit
-- 🎯 **Savings goals** — target amount, progress, optional deadline, quick top-ups
-- 📈 **Statistics** — income/expense by month, expense breakdown by category (pie chart)
-- 🔎 **History** — full transaction list, filterable by type, category and date range
-- 💱 **Multi-currency display** — RUB, USD, EUR, UAH, PLN and more, switch anytime
-- 💡 **Smart nudges** — the app quietly flags what's worth a second look: a purchase far above your usual for that category ("amount right?"), a budget running out, a goal nearly funded, a few quiet days with nothing logged. One at a time, always dismissible
-- ✋ **Gestures on every transaction** — tap to edit, long-press for a menu, swipe left to delete, swipe right to repeat it today
-- 📳 **Haptics with a vocabulary** — each event has its own rhythm, not one generic buzz; income rises, expense falls, and a big purchase feels heavier than a small one
-- 💾 **Backup & restore** — export everything to a JSON file (share it anywhere) and import it back on any device — the only safety net for an offline-only app
-- 🌍 **Languages** — English, Русский, Polski, Українська, follows the system by default
-- 🎨 **Themes & fonts** — Dark, Light, pure-black OLED; Inter, Roboto, Manrope or system font
-- 👋 **Guided first run** — animated onboarding walks through the app, then lets you pick your currency and theme with a live preview
+- **Home** — total balance, this month's income/expense, recent transactions
+- Add a transaction with amount, category, date, note, income or expense, and an optional account
+- Quick add: type one line like `-15 coffee lunch` or `+2000 salary` and it's parsed and committed instantly
+- Swipe a transaction away on Home or in History to delete it; the balance pulses to confirm
+- Categories — the usual presets plus your own, each with a line-style icon and color
+- Accounts for cash and however many cards you actually use (bank A, bank B...), each tracked separately
+- Profiles for money you've lent to or borrowed from other people, kept apart from your own accounts
+- Budgets: a monthly limit per category with an animated progress bar and a warning as you get close
+- Savings goals with a target amount, progress, an optional deadline, and quick top-ups
+- Statistics — income/expense by month, plus a pie chart of expenses by category
+- History: the full transaction list, filterable by type, category and date range
+- Multi-currency display (RUB, USD, EUR, UAH, PLN and more), switch anytime
+- Smart nudges. The app quietly flags what's worth a second look — a purchase well above your usual
+  for that category ("amount right?"), a budget running low, a goal that's nearly funded, a few quiet
+  days with nothing logged. One at a time, and always dismissible.
+- Gestures on every transaction: tap to edit, long-press for a menu, swipe left to delete, swipe right
+  to repeat it today
+- Haptics that aren't just one generic buzz — income rises, expense falls, and a big purchase feels
+  heavier than a small one
+- Backup and restore: export everything to a JSON file, share it anywhere, and import it back on any
+  device. It's the only safety net an offline-only app gets.
+- Languages: English, Русский, Polski, Українська, follows the system by default
+- Themes and fonts — Dark, Light, pure-black OLED, with Inter, Roboto, Manrope or the system font
+- A guided first run walks through the app with an animated onboarding, then lets you pick currency and theme with a live preview
 
 Part of the **TexFi** ecosystem, alongside [TexFi Files](https://github.com/mistqkw/texfi_files) and [TeFBlock](https://github.com/mistqkw/tefblock).
 
@@ -54,23 +59,29 @@ figures for amounts; light, small type for labels. No gradients, no shadows, res
 corner radii (8–12px). Details in [`lib/core/theme`](lib/core/theme).
 
 Every distance comes from one 4pt scale in [`app_spacing.dart`](lib/core/theme/app_spacing.dart)
-rather than being eyeballed per screen, section headings live in the cut-out label of
+instead of being eyeballed per screen. Section headings live in the cut-out label of
 [`TerminalBox`](lib/presentation/shared/terminal_box.dart) on every screen, and touch
-targets are 48dp even where the visible dot is smaller.
+targets stay 48dp even where the visible dot is smaller.
 
-**Haptics have a vocabulary.** Each event is a short rhythm rather than one generic buzz —
-income rises, expense falls, delete has a fading tail, an error is a firm double tap, a
-reached goal gets a small fanfare. A purchase far above your usual for that category
-feels heavier than a routine one. All of it respects a single switch in Settings.
-See [`haptics.dart`](lib/core/utils/haptics.dart).
+Haptics have their own vocabulary — each event is a short rhythm rather than one generic
+buzz. Income rises, expense falls, delete has a fading tail, an error is a firm double
+tap, a reached goal gets a small fanfare, and a purchase well above your usual for that
+category feels heavier than a routine one. All of it respects a single switch in
+Settings. See [`haptics.dart`](lib/core/utils/haptics.dart).
 
 ## Stack
 
 - **Flutter** (Android, min SDK 24)
-- **State management:** [Riverpod](https://riverpod.dev) — minimal boilerplate, providers are easy to test in isolation, and pairs well with Drift's streaming queries (`StreamProvider` over `watch()` queries with no manual subscribe/unsubscribe).
-- **Local storage:** [Drift](https://drift.simonbinder.eu) (SQLite) — full SQL with migrations and joins, which budget/statistics aggregations need. The repository layer is abstracted behind `domain/repositories`, so server sync can be added later without rewriting the UI.
+- **State management:** [Riverpod](https://riverpod.dev). Minimal boilerplate, providers
+  are easy to test in isolation, and it pairs well with Drift's streaming queries —
+  `StreamProvider` over `watch()` queries, no manual subscribe/unsubscribe.
+- **Local storage:** [Drift](https://drift.simonbinder.eu) (SQLite), because budget and
+  statistics aggregations need full SQL with migrations and joins. The repository layer
+  sits behind `domain/repositories`, so server sync could be bolted on later without
+  touching the UI.
 - **Charts:** fl_chart
-- **Architecture:** Clean Architecture — `data/` (Drift, repositories) → `domain/` (entities, repository interfaces) → `presentation/` (screens, Riverpod providers).
+- **Architecture:** Clean Architecture — `data/` (Drift, repositories) → `domain/`
+  (entities, repository interfaces) → `presentation/` (screens, Riverpod providers).
 
 ## Project structure
 
