@@ -1,0 +1,21 @@
+A private, offline personal finance tracker. Track spending, set budgets and watch savings goals grow — no account, no cloud, no ads.
+
+WHAT IT DOES
+
+* Accounts, categories, recurring payments and savings goals
+* Budgets per category, with a warning as the limit gets close
+* Quick entry in one line: "-15 coffee lunch" or "+2000 salary"
+* History filtered by type, category and period
+* Statistics: income against spending by month, expenses by category
+* Export and import of your data, so it is yours to move
+* Twelve currencies, from złoty to tenge
+* Four languages: English, Russian, Ukrainian, Polish
+
+WHAT IT DOES NOT DO
+
+* No account. Nothing to register, nothing to log in to.
+* No bank linking. Nothing to connect, and no bank credentials to hand over — you enter what you spent.
+* No analytics, no ad SDKs, no background reporting.
+* Nothing leaves the device. The database lives on your phone.
+
+Free software under the GNU AGPL v3. The source is open, and the builds come from public CI on that same code.

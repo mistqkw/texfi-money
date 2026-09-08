@@ -1,0 +1,5 @@
+Version 1.0.0
+
+* Pixel-art redesign in the shared TexFi visual language
+* A single spacing grid, honest empty states, accessibility pass
+* New app icon and clearer category icons

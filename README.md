@@ -16,6 +16,7 @@
 
 <p align="center">
   <a href="#download">Download</a> ·
+  <a href="#screenshots">Screenshots</a> ·
   <a href="#features">Features</a> ·
   <a href="#design">Design</a> ·
   <a href="#stack">Stack</a> ·
@@ -34,6 +35,19 @@ build lands in a release, the site picks it up on its own.
 
 The APK does not come from Google Play, so Android will ask for permission to
 install from this source.
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="180" alt="Home">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="180" alt="History">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="180" alt="Budgets">
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="180" alt="Statistics">
+</p>
+
+<p align="center"><i>More on the <a href="https://texfi-hub.vercel.app/download/money">download page</a>.</i></p>
 
 ---
 
