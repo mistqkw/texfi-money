@@ -11,15 +11,29 @@
   <img src="https://img.shields.io/badge/platform-Android-4a7dfb" alt="Platform">
   <img src="https://img.shields.io/badge/Flutter-3.44-02569B?logo=flutter" alt="Flutter">
   <img src="https://img.shields.io/github/v/release/mistqkw/texfi-money?label=release" alt="Release">
-  <img src="https://img.shields.io/badge/license-open%20source-green" alt="License">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-green" alt="License: AGPL-3.0"></a>
 </p>
 
 <p align="center">
+  <a href="#download">Download</a> ·
   <a href="#features">Features</a> ·
   <a href="#design">Design</a> ·
   <a href="#stack">Stack</a> ·
   <a href="#project-structure">Project structure</a>
 </p>
+
+---
+
+## Download
+
+**Android:** [APK from the latest release](https://github.com/mistqkw/texfi-money/releases/latest)
+· or via the site: **[texfi-hub.vercel.app/download/money](https://texfi-hub.vercel.app/download/money)**
+
+There is no desktop build yet — CI builds the APK only. When a Windows or Linux
+build lands in a release, the site picks it up on its own.
+
+The APK does not come from Google Play, so Android will ask for permission to
+install from this source.
 
 ---
 
