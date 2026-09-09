@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
@@ -120,7 +120,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
     final tx = widget.nudge.transaction;
     if (tx == null) return;
     Haptics.select();
-    Navigator.of(context).push(fadeSlideRoute(AddTransactionScreen(existing: tx)));
+    Navigator.of(context).push(pixelDissolveRoute(AddTransactionScreen(existing: tx)));
   }
 
   @override

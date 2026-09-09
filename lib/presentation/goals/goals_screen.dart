@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -105,7 +105,7 @@ class GoalsScreen extends ConsumerWidget {
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(fadeSlideRoute(const GoalFormScreen()));
+          Navigator.of(context).push(pixelDissolveRoute(const GoalFormScreen()));
         },
       ),
       body: goalsAsync.when(
@@ -138,7 +138,7 @@ class GoalsScreen extends ConsumerWidget {
                 child: _GoalCard(
                   goal: goal,
                   onTap: () => Navigator.of(context).push(
-                    fadeSlideRoute(GoalFormScreen(existing: goal)),
+                    pixelDissolveRoute(GoalFormScreen(existing: goal)),
                   ),
                   onAddFunds: () => _addContribution(context, ref, goal),
                 ),

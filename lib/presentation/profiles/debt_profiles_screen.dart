@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -102,7 +102,7 @@ class DebtProfilesScreen extends ConsumerWidget {
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(fadeSlideRoute(const DebtProfileFormScreen()));
+          Navigator.of(context).push(pixelDissolveRoute(const DebtProfileFormScreen()));
         },
       ),
       body: profilesAsync.when(
@@ -135,7 +135,7 @@ class DebtProfilesScreen extends ConsumerWidget {
                 child: _ProfileCard(
                   profile: profile,
                   onTap: () => Navigator.of(context).push(
-                    fadeSlideRoute(DebtProfileFormScreen(existing: profile)),
+                    pixelDissolveRoute(DebtProfileFormScreen(existing: profile)),
                   ),
                   onRecord: () => _recordOperation(context, ref, profile),
                 ),

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
@@ -32,7 +32,7 @@ class BudgetsScreen extends ConsumerWidget {
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(fadeSlideRoute(const SetBudgetScreen()));
+          Navigator.of(context).push(pixelDissolveRoute(const SetBudgetScreen()));
         },
       ),
       body: budgetsAsync.when(
@@ -77,7 +77,7 @@ class _BudgetCard extends ConsumerWidget {
       label: categoryDisplayName(context, budget.category).toLowerCase(),
       labelColor: _barColor(context),
       onTap: () => Navigator.of(context).push(
-        fadeSlideRoute(SetBudgetScreen(existing: budget)),
+        pixelDissolveRoute(SetBudgetScreen(existing: budget)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,7 +5,7 @@ import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
@@ -56,21 +56,21 @@ class HomeScreen extends ConsumerWidget {
             icon: Text(currency.symbol, style: context.text.title),
             tooltip: l10n.homeCurrencyTooltip(currencyDisplayName(context, currency)),
             onPressed: () => Navigator.of(context).push(
-              fadeSlideRoute(const CurrencyPickerScreen()),
+              pixelDissolveRoute(const CurrencyPickerScreen()),
             ),
           ),
           IconButton(
             icon: const PixelIcon(PixelIcons.category),
             tooltip: l10n.homeCategoriesTooltip,
             onPressed: () => Navigator.of(context).push(
-              fadeSlideRoute(const CategoriesScreen()),
+              pixelDissolveRoute(const CategoriesScreen()),
             ),
           ),
           IconButton(
             icon: const PixelIcon(PixelIcons.settings),
             tooltip: l10n.homeSettingsTooltip,
             onPressed: () => Navigator.of(context).push(
-              fadeSlideRoute(const SettingsScreen()),
+              pixelDissolveRoute(const SettingsScreen()),
             ),
           ),
         ],
@@ -79,7 +79,7 @@ class HomeScreen extends ConsumerWidget {
         heroTag: 'add_transaction_fab',
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(fadeSlideRoute(const AddTransactionScreen()));
+          Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
         },
       ),
       body: SafeArea(
@@ -170,7 +170,7 @@ class _AccountMarks extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         Haptics.select();
-        Navigator.of(context).push(fadeSlideRoute(const AccountsScreen()));
+        Navigator.of(context).push(pixelDissolveRoute(const AccountsScreen()));
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,

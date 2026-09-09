@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_motion.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -99,7 +99,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   Future<void> _addCategory() async {
     final created = await Navigator.of(context).push<CategoryEntity>(
-      fadeSlideRoute(CategoryFormScreen(initialType: _type)),
+      pixelDissolveRoute(CategoryFormScreen(initialType: _type)),
     );
     if (created != null) setState(() => _selectedCategoryId = created.id);
   }

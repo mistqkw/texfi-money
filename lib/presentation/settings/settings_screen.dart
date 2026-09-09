@@ -11,7 +11,7 @@ import '../../core/constants/app_font.dart';
 import '../../core/constants/app_theme_variant.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
@@ -181,7 +181,7 @@ class SettingsScreen extends ConsumerWidget {
             selected: false,
             showCheckmark: false,
             onTap: () => Navigator.of(context).push(
-              fadeSlideRoute(const LanguagePickerScreen()),
+              pixelDissolveRoute(const LanguagePickerScreen()),
             ),
           ),
           AppSpacing.gapXl,
@@ -222,7 +222,7 @@ class SettingsScreen extends ConsumerWidget {
             selected: false,
             showCheckmark: false,
             onTap: () => Navigator.of(context).push(
-              fadeSlideRoute(const CurrencyPickerScreen()),
+              pixelDissolveRoute(const CurrencyPickerScreen()),
             ),
           ),
           AppSpacing.gapXl,
@@ -234,7 +234,7 @@ class SettingsScreen extends ConsumerWidget {
             selected: false,
             showCheckmark: false,
             onTap: () => Navigator.of(context).push(
-              fadeSlideRoute(const AccountsScreen()),
+              pixelDissolveRoute(const AccountsScreen()),
             ),
           ),
           _OptionTile(
@@ -243,7 +243,7 @@ class SettingsScreen extends ConsumerWidget {
             selected: false,
             showCheckmark: false,
             onTap: () => Navigator.of(context).push(
-              fadeSlideRoute(const DebtProfilesScreen()),
+              pixelDissolveRoute(const DebtProfilesScreen()),
             ),
           ),
           AppSpacing.gapXl,

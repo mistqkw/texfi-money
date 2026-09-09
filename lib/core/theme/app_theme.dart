@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_font.dart';
 import '../constants/app_theme_variant.dart';
+import 'app_page_transitions.dart';
 import 'app_palettes.dart';
 import 'app_radius.dart';
 import 'app_typography.dart';
@@ -35,6 +36,17 @@ abstract final class AppTheme {
       highlightColor: Colors.transparent,
       dividerColor: colors.divider,
       extensions: [colors],
+      // iOS оставлен системным намеренно: там свайп-назад от края —
+      // часть жеста, а не украшение, и подменять его на распад значило
+      // бы сломать навигацию ради стиля.
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: PixelDissolvePageTransitionsBuilder(),
+          TargetPlatform.linux: PixelDissolvePageTransitionsBuilder(),
+          TargetPlatform.windows: PixelDissolvePageTransitionsBuilder(),
+          TargetPlatform.macOS: PixelDissolvePageTransitionsBuilder(),
+        },
+      ),
       dividerTheme: DividerThemeData(
         color: colors.divider,
         thickness: 1,

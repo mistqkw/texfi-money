@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -58,7 +58,7 @@ class AccountsScreen extends ConsumerWidget {
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(fadeSlideRoute(const AccountFormScreen()));
+          Navigator.of(context).push(pixelDissolveRoute(const AccountFormScreen()));
         },
       ),
       body: accountsAsync.when(
@@ -94,7 +94,7 @@ class AccountsScreen extends ConsumerWidget {
                 child: _AccountCard(
                   account: account,
                   onTap: () => Navigator.of(context).push(
-                    fadeSlideRoute(AccountFormScreen(existing: account)),
+                    pixelDissolveRoute(AccountFormScreen(existing: account)),
                   ),
                 ),
               );

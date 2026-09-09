@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
@@ -25,14 +25,14 @@ class TransactionRow extends ConsumerWidget {
   void _edit(BuildContext context) {
     Haptics.select();
     Navigator.of(context).push(
-      fadeSlideRoute(AddTransactionScreen(existing: transaction)),
+      pixelDissolveRoute(AddTransactionScreen(existing: transaction)),
     );
   }
 
   void _repeat(BuildContext context) {
     Haptics.select();
     Navigator.of(context).push(
-      fadeSlideRoute(AddTransactionScreen(prefill: transaction)),
+      pixelDissolveRoute(AddTransactionScreen(prefill: transaction)),
     );
   }
 

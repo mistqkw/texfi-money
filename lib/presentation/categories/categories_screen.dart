@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_page_route.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
@@ -22,7 +22,7 @@ class CategoriesScreen extends ConsumerWidget {
 
   Future<void> _openForm(BuildContext context, {CategoryEntity? category}) {
     return Navigator.of(context).push(
-      fadeSlideRoute(CategoryFormScreen(initial: category)),
+      pixelDissolveRoute(CategoryFormScreen(initial: category)),
     );
   }
 
