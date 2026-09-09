@@ -14,6 +14,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_spinner.dart';
 import 'budgets_providers.dart';
 
 /// Создание или редактирование месячного лимита по категории.
@@ -175,7 +176,7 @@ class _CategoryPicker extends ConsumerWidget {
           }).toList(),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: PixelSpinner()),
       error: (e, st) => Text(l10n.setBudgetLoadCategoriesError, style: context.text.body),
     );
   }

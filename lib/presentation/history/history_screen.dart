@@ -18,6 +18,8 @@ import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_spinner.dart';
+import '../shared/staggered_entrance.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
 import 'history_providers.dart';
@@ -211,17 +213,23 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   itemBuilder: (context, i) {
                     final item = grouped[i];
                     if (item is DateTime) {
-                      return Padding(
-                        padding: EdgeInsets.only(top: i == 0 ? 0 : 16, bottom: 8),
-                        child: TerminalDivider(label: formatDate(item, context)),
+                      return StaggeredEntrance(
+                        index: i,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: i == 0 ? 0 : 16, bottom: 8),
+                          child: TerminalDivider(label: formatDate(item, context)),
+                        ),
                       );
                     }
                     final tx = item as TransactionEntity;
-                    return TransactionRow(transaction: tx);
+                    return StaggeredEntrance(
+                      index: i,
+                      child: TransactionRow(transaction: tx),
+                    );
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: PixelSpinner()),
               error: (e, st) => Center(child: Text(l10n.historyLoadError, style: context.text.body)),
             ),
           ),

@@ -15,6 +15,8 @@ import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_spinner.dart';
+import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
 import 'debt_profile_form_screen.dart';
 import 'debt_profile_providers.dart';
@@ -116,34 +118,37 @@ class DebtProfilesScreen extends ConsumerWidget {
             separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) {
               final profile = profiles[i];
-              return Dismissible(
-                key: ValueKey(profile.id),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (_) async {
-                  await _confirmDelete(context, ref, profile);
-                  return false;
-                },
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: context.colors.expense.withValues(alpha: 0.15),
-                    borderRadius: AppRadius.mediumAll,
+              return StaggeredEntrance(
+                index: i,
+                child: Dismissible(
+                  key: ValueKey(profile.id),
+                  direction: DismissDirection.endToStart,
+                  confirmDismiss: (_) async {
+                    await _confirmDelete(context, ref, profile);
+                    return false;
+                  },
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: context.colors.expense.withValues(alpha: 0.15),
+                      borderRadius: AppRadius.mediumAll,
+                    ),
+                    child: Icon(Icons.delete_outline, color: context.colors.expense),
                   ),
-                  child: Icon(Icons.delete_outline, color: context.colors.expense),
-                ),
-                child: _ProfileCard(
-                  profile: profile,
-                  onTap: () => Navigator.of(context).push(
-                    pixelDissolveRoute(DebtProfileFormScreen(existing: profile)),
+                  child: _ProfileCard(
+                    profile: profile,
+                    onTap: () => Navigator.of(context).push(
+                      pixelDissolveRoute(DebtProfileFormScreen(existing: profile)),
+                    ),
+                    onRecord: () => _recordOperation(context, ref, profile),
                   ),
-                  onRecord: () => _recordOperation(context, ref, profile),
                 ),
               );
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: PixelSpinner()),
         error: (e, st) => Center(child: Text(l10n.profilesLoadError, style: context.text.body)),
       ),
     );

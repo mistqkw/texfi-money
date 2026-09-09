@@ -19,6 +19,8 @@ import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_spinner.dart';
+import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
@@ -119,34 +121,37 @@ class GoalsScreen extends ConsumerWidget {
             separatorBuilder: (context, i) => AppSpacing.gapMd,
             itemBuilder: (context, i) {
               final goal = goals[i];
-              return Dismissible(
-                key: ValueKey(goal.id),
-                direction: DismissDirection.endToStart,
-                confirmDismiss: (_) async {
-                  await _confirmDelete(context, ref, goal);
-                  return false;
-                },
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: context.colors.expense.withValues(alpha: 0.15),
-                    borderRadius: AppRadius.mediumAll,
+              return StaggeredEntrance(
+                index: i,
+                child: Dismissible(
+                  key: ValueKey(goal.id),
+                  direction: DismissDirection.endToStart,
+                  confirmDismiss: (_) async {
+                    await _confirmDelete(context, ref, goal);
+                    return false;
+                  },
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: context.colors.expense.withValues(alpha: 0.15),
+                      borderRadius: AppRadius.mediumAll,
+                    ),
+                    child: Icon(Icons.delete_outline, color: context.colors.expense),
                   ),
-                  child: Icon(Icons.delete_outline, color: context.colors.expense),
-                ),
-                child: _GoalCard(
-                  goal: goal,
-                  onTap: () => Navigator.of(context).push(
-                    pixelDissolveRoute(GoalFormScreen(existing: goal)),
+                  child: _GoalCard(
+                    goal: goal,
+                    onTap: () => Navigator.of(context).push(
+                      pixelDissolveRoute(GoalFormScreen(existing: goal)),
+                    ),
+                    onAddFunds: () => _addContribution(context, ref, goal),
                   ),
-                  onAddFunds: () => _addContribution(context, ref, goal),
                 ),
               );
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: PixelSpinner()),
         error: (e, st) => Center(child: Text(l10n.goalsLoadError, style: context.text.body)),
       ),
     );

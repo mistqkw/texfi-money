@@ -23,6 +23,7 @@ import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_spinner.dart';
 import '../shared/terminal_box.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
@@ -137,7 +138,7 @@ class HomeScreen extends ConsumerWidget {
               },
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => Text(l10n.homeLoadTransactionsError, style: context.text.body),
             ),

@@ -13,6 +13,7 @@ import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_spinner.dart';
 import '../shared/terminal_box.dart';
 import 'statistics_providers.dart';
 
@@ -45,7 +46,7 @@ class StatisticsScreen extends ConsumerWidget {
               data: (months) => _MonthlyBarChart(months: months),
               loading: () => const SizedBox(
                 height: 208,
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => SizedBox(
                 height: 208,
@@ -68,7 +69,7 @@ class StatisticsScreen extends ConsumerWidget {
               data: (categories) => _CategoryPie(categories: categories),
               loading: () => const SizedBox(
                 height: 208,
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => SizedBox(
                 height: 208,

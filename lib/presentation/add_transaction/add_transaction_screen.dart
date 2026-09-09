@@ -22,6 +22,7 @@ import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
+import '../shared/pixel_spinner.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key, this.existing, this.prefill});
@@ -182,7 +183,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               ),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => Text(l10n.addTxLoadCategoriesError, style: context.text.body),
             ),

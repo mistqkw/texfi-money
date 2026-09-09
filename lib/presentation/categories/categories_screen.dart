@@ -15,6 +15,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_spinner.dart';
 import 'category_form_screen.dart';
 
 class CategoriesScreen extends ConsumerWidget {
@@ -100,7 +101,7 @@ class CategoriesScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: PixelSpinner()),
         error: (e, st) => Center(child: Text(l10n.categoriesLoadError, style: context.text.body)),
       ),
     );

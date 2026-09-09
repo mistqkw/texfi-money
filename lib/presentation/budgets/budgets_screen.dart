@@ -15,6 +15,8 @@ import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_spinner.dart';
+import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
@@ -47,10 +49,13 @@ class BudgetsScreen extends ConsumerWidget {
             padding: AppSpacing.screenWithFab,
             itemCount: budgets.length,
             separatorBuilder: (context, i) => AppSpacing.gapMd,
-            itemBuilder: (context, i) => _BudgetCard(budget: budgets[i]),
+            itemBuilder: (context, i) => StaggeredEntrance(
+              index: i,
+              child: _BudgetCard(budget: budgets[i]),
+            ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: PixelSpinner()),
         error: (e, st) => Center(child: Text(l10n.budgetsLoadError, style: context.text.body)),
       ),
     );
