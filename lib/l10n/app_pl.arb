@@ -1,15 +1,12 @@
 {
   "@@locale": "pl",
-
   "navHome": "Główna",
   "navHistory": "Historia",
   "navBudgets": "Budżety",
   "navGoals": "Cele",
   "navStatistics": "Statystyki",
-
   "dateToday": "Dzisiaj",
   "dateYesterday": "Wczoraj",
-
   "commonCancel": "Anuluj",
   "commonDelete": "Usuń",
   "commonSave": "Zapisz",
@@ -20,7 +17,6 @@
   "commonIncome": "Przychód",
   "commonCategory": "Kategoria",
   "commonColor": "Kolor",
-
   "categoryGroceries": "Zakupy spożywcze",
   "categoryTransport": "Transport",
   "categoryHome": "Mieszkanie",
@@ -35,9 +31,7 @@
   "categoryGifts": "Prezenty",
   "categoryInvestments": "Inwestycje",
   "categoryOtherIncome": "Inne",
-
   "categoryDeleteHasTransactionsError": "Nie można usunąć kategorii, która ma transakcje",
-
   "currencyRub": "Rubel rosyjski",
   "currencyUsd": "Dolar amerykański",
   "currencyEur": "Euro",
@@ -48,7 +42,6 @@
   "currencyGbp": "Funt szterling",
   "currencyCny": "Juan chiński",
   "currencyTry": "Lira turecka",
-
   "appTitle": "TexFi m0ney",
   "homeCurrencyTooltip": "Waluta: {name}",
   "homeCategoriesTooltip": "Kategorie",
@@ -59,12 +52,10 @@
   "homeEmptyTransactions": "Brak transakcji — dodaj pierwszą przyciskiem „+”",
   "homeLoadTransactionsError": "Nie udało się wczytać transakcji",
   "homeBalance": "Saldo",
-
   "addTxTitle": "Nowa transakcja",
   "addTxTitleEdit": "Edytuj transakcję",
   "txActionRepeat": "Powtórz dzisiaj",
   "txActionEdit": "Edytuj",
-
   "nudgeUnusualAmount": "To {times}× więcej niż zwykle w „{category}”. Kwota się zgadza?",
   "nudgeBudgetClose": "Budżet „{category}” wykorzystany w {percent}%",
   "nudgeBudgetOver": "„{category}” przekracza budżet o {amount}",
@@ -76,38 +67,32 @@
   "addTxAddCategory": "Własna kategoria",
   "addTxAccountLabel": "Konto",
   "addTxNoAccount": "Bez konta",
-
   "budgetsTitle": "Budżety",
   "budgetsEmpty": "Brak budżetów — ustaw miesięczny limit dla kategorii przyciskiem „+”",
   "budgetsLoadError": "Nie udało się wczytać budżetów",
   "budgetsOverBy": "Przekroczono o {amount}",
   "budgetsNearLimit": "Zbliża się do limitu",
-
   "setBudgetTitleEdit": "Edytuj budżet",
   "setBudgetTitleNew": "Nowy budżet",
   "setBudgetLimitLabel": "Miesięczny limit",
   "setBudgetNoCategoriesLeft": "Wszystkie kategorie wydatków mają już budżet",
   "setBudgetLoadCategoriesError": "Nie udało się wczytać kategorii",
-
   "categoriesDeleteTitle": "Usunąć kategorię?",
   "categoriesDeleteConfirm": "Kategoria „{name}” zostanie usunięta bezpowrotnie.",
   "categoriesTitle": "Kategorie",
   "categoriesExpenseSection": "Wydatki",
   "categoriesIncomeSection": "Przychody",
   "categoriesLoadError": "Nie udało się wczytać kategorii",
-
   "categoryFormTitleNew": "Nowa kategoria",
   "categoryFormTitleEdit": "Edytuj kategorię",
   "categoryFormNameHint": "Nazwa kategorii",
   "categoryFormIconLabel": "Ikona",
-
   "goalFormNoDeadline": "Bez terminu",
   "goalFormTitleEdit": "Edytuj cel",
   "goalFormTitleNew": "Nowy cel",
   "goalFormNameHint": "Nazwa celu, np. „Nowy komputer”",
   "goalFormTargetLabel": "Kwota docelowa",
   "goalFormDeadlineLabel": "Termin",
-
   "goalsAddFundsTitle": "Doładuj „{title}”",
   "goalsDeleteTitle": "Usunąć cel?",
   "goalsDeleteConfirm": "Cel „{title}” zostanie usunięty razem z zebranym postępem.",
@@ -118,7 +103,6 @@
   "goalsAchieved": "Cel osiągnięty!",
   "goalsDeadlinePassed": "Termin minął",
   "goalsDaysLeft": "{days, plural, one {Został {days} dzień} few {Zostały {days} dni} many {Zostało {days} dni} other {Zostało {days} dnia}}",
-
   "accountsTitle": "Konta",
   "accountsEmpty": "Brak kont — dodaj pierwsze przyciskiem „+”",
   "accountsLoadError": "Nie udało się załadować kont",
@@ -129,7 +113,6 @@
   "accountFormNameHint": "Nazwa konta, np. „Karta banku A”",
   "accountFormBankLabel": "Bank",
   "accountFormNoBank": "Brak",
-
   "profilesTitle": "Profile",
   "profilesEmpty": "Brak profili — śledź cudze pieniądze przyciskiem „+”",
   "profilesLoadError": "Nie udało się załadować profili",
@@ -144,7 +127,6 @@
   "profilesOwesYou": "Jest winien(na) {amount}",
   "profilesYouOwe": "Jesteś winien(na) {amount}",
   "profilesSettled": "Rozliczone",
-
   "historyAllTypes": "Wszystkie typy",
   "historyAllCategories": "Wszystkie kategorie",
   "historyTitle": "Historia",
@@ -154,7 +136,6 @@
   "historyReset": "Resetuj",
   "historyEmpty": "Nic nie znaleziono",
   "historyLoadError": "Nie udało się wczytać historii",
-
   "settingsTitle": "Ustawienia",
   "settingsThemeSection": "Motyw",
   "settingsFontSection": "Czcionka",
@@ -164,7 +145,16 @@
   "settingsLanguageSection": "Język",
   "settingsManageSection": "Zarządzanie",
   "settingsBackupSection": "Kopia zapasowa",
-
+  "settingsSecuritySection": "Bezpieczeństwo",
+  "securityAppLock": "Blokuj aplikację",
+  "securityAppLockDesc": "Pyta o blokadę urządzenia — odcisk, twarz lub PIN — przy otwarciu i po tym, jak aplikacja pobyła w tle.",
+  "securityAppLockUnavailable": "Urządzenie nie ma ustawionej blokady. Najpierw dodaj ją w ustawieniach systemu.",
+  "securityHideInSwitcher": "Ukryj w przełączniku aplikacji",
+  "securityHideInSwitcherDesc": "Zastępuje podgląd na liście ostatnich aplikacji pustym ekranem, żeby saldo nie było tam widoczne. Blokuje też zrzuty ekranu.",
+  "securityUnlockReason": "Potwierdź, że to Ty, aby otworzyć TexFi m0ney",
+  "securityLockedTitle": "Zablokowane",
+  "securityLockedBody": "Twoje pieniądze zostają na tym urządzeniu. Potwierdź, że to Ty.",
+  "securityUnlock": "ODBLOKUJ",
   "backupExport": "Eksportuj dane",
   "backupImport": "Importuj dane",
   "backupImportConfirmTitle": "Zastąpić wszystkie dane?",
@@ -172,7 +162,6 @@
   "backupImportConfirmAction": "Zastąp",
   "backupImportSuccess": "Dane przywrócone z kopii zapasowej",
   "backupImportError": "Ten plik nie jest prawidłową kopią zapasową TexFi m0ney",
-
   "settingsDangerSection": "Strefa niebezpieczna",
   "resetApp": "Zresetuj aplikację",
   "resetAppConfirmTitle": "Zresetować aplikację?",
@@ -183,21 +172,17 @@
   "themeOled": "Czarny (OLED)",
   "fontSystem": "Systemowa",
   "languageSystem": "Systemowy",
-
   "currencyPickerTitle": "Waluta",
   "languagePickerTitle": "Język",
-
   "statisticsTitle": "Statystyki",
   "statisticsMonthlyChartTitle": "Przychody i wydatki wg miesięcy",
   "statisticsLoadError": "Nie udało się wczytać danych",
   "statisticsCategoryChartTitle": "Wydatki wg kategorii w tym miesiącu",
   "statisticsNoExpenses": "Brak wydatków w tym miesiącu",
-
   "quickEntryLabel": "szybkie dodawanie",
   "quickEntryHint": "-50 zakupy obiad",
   "quickEntryHelp": "Znak, kwota, kategoria, notatka — np. „-50 zakupy obiad” lub „+3000 wynagrodzenie”",
   "quickEntryParseError": "Nie rozpoznano. Zacznij od + lub -, potem kwota.",
-
   "onboardingSlide1Title": "Wszystko pod kontrolą",
   "onboardingSlide1Body": "Saldo, przychody i wydatki w tym miesiącu — na jednym ekranie.",
   "onboardingSlide2Title": "Budżety i cele",

@@ -499,6 +499,41 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsBackupSection => 'Kopia zapasowa';
 
   @override
+  String get settingsSecuritySection => 'Bezpieczeństwo';
+
+  @override
+  String get securityAppLock => 'Blokuj aplikację';
+
+  @override
+  String get securityAppLockDesc =>
+      'Pyta o blokadę urządzenia — odcisk, twarz lub PIN — przy otwarciu i po tym, jak aplikacja pobyła w tle.';
+
+  @override
+  String get securityAppLockUnavailable =>
+      'Urządzenie nie ma ustawionej blokady. Najpierw dodaj ją w ustawieniach systemu.';
+
+  @override
+  String get securityHideInSwitcher => 'Ukryj w przełączniku aplikacji';
+
+  @override
+  String get securityHideInSwitcherDesc =>
+      'Zastępuje podgląd na liście ostatnich aplikacji pustym ekranem, żeby saldo nie było tam widoczne. Blokuje też zrzuty ekranu.';
+
+  @override
+  String get securityUnlockReason =>
+      'Potwierdź, że to Ty, aby otworzyć TexFi m0ney';
+
+  @override
+  String get securityLockedTitle => 'Zablokowane';
+
+  @override
+  String get securityLockedBody =>
+      'Twoje pieniądze zostają na tym urządzeniu. Potwierdź, że to Ty.';
+
+  @override
+  String get securityUnlock => 'ODBLOKUJ';
+
+  @override
   String get backupExport => 'Eksportuj dane';
 
   @override

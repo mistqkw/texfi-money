@@ -1,10 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Блокировка приложения. Приложение ничего не знает об отпечатке и
+         лице: оно спрашивает систему «это владелец устройства?» и получает
+         да или нет. Ни один биометрический признак ему не передаётся и
+         нигде им не хранится. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <application
         android:label="TexFi m0ney"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
-        android:fullBackupContent="false">
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".MainActivity"
             android:exported="true"

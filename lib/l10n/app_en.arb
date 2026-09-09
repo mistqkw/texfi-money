@@ -1,15 +1,12 @@
 {
   "@@locale": "en",
-
   "navHome": "Home",
   "navHistory": "History",
   "navBudgets": "Budgets",
   "navGoals": "Goals",
   "navStatistics": "Statistics",
-
   "dateToday": "Today",
   "dateYesterday": "Yesterday",
-
   "commonCancel": "Cancel",
   "commonDelete": "Delete",
   "commonSave": "Save",
@@ -20,7 +17,6 @@
   "commonIncome": "Income",
   "commonCategory": "Category",
   "commonColor": "Color",
-
   "categoryGroceries": "Groceries",
   "categoryTransport": "Transport",
   "categoryHome": "Housing",
@@ -35,9 +31,7 @@
   "categoryGifts": "Gifts",
   "categoryInvestments": "Investments",
   "categoryOtherIncome": "Other",
-
   "categoryDeleteHasTransactionsError": "Can't delete a category that has transactions",
-
   "currencyRub": "Russian ruble",
   "currencyUsd": "US dollar",
   "currencyEur": "Euro",
@@ -48,11 +42,14 @@
   "currencyGbp": "British pound",
   "currencyCny": "Chinese yuan",
   "currencyTry": "Turkish lira",
-
   "appTitle": "TexFi m0ney",
   "homeCurrencyTooltip": "Currency: {name}",
   "@homeCurrencyTooltip": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "homeCategoriesTooltip": "Categories",
   "homeSettingsTooltip": "Settings",
@@ -62,42 +59,60 @@
   "homeEmptyTransactions": "No transactions yet — add your first with the “+” button",
   "homeLoadTransactionsError": "Couldn't load transactions",
   "homeBalance": "Balance",
-
   "addTxTitle": "New transaction",
   "addTxTitleEdit": "Edit transaction",
   "txActionRepeat": "Repeat today",
   "txActionEdit": "Edit",
-
   "nudgeUnusualAmount": "That's {times}× your usual {category}. Amount right?",
   "@nudgeUnusualAmount": {
     "placeholders": {
-      "times": { "type": "String" },
-      "category": { "type": "String" }
+      "times": {
+        "type": "String"
+      },
+      "category": {
+        "type": "String"
+      }
     }
   },
   "nudgeBudgetClose": "{category} budget is {percent}% spent",
   "@nudgeBudgetClose": {
     "placeholders": {
-      "category": { "type": "String" },
-      "percent": { "type": "String" }
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
     }
   },
   "nudgeBudgetOver": "{category} is over budget by {amount}",
   "@nudgeBudgetOver": {
     "placeholders": {
-      "category": { "type": "String" },
-      "amount": { "type": "String" }
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "nudgeQuietDays": "Nothing logged in {days} days — catch up?",
   "@nudgeQuietDays": {
-    "placeholders": { "days": { "type": "num" } }
+    "placeholders": {
+      "days": {
+        "type": "num"
+      }
+    }
   },
   "nudgeGoalClose": "“{title}” is {percent}% funded — nearly there",
   "@nudgeGoalClose": {
     "placeholders": {
-      "title": { "type": "String" },
-      "percent": { "type": "String" }
+      "title": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
     }
   },
   "nudgeDismiss": "Dismiss",
@@ -106,52 +121,62 @@
   "addTxAddCategory": "Custom category",
   "addTxAccountLabel": "Account",
   "addTxNoAccount": "No account",
-
   "budgetsTitle": "Budgets",
   "budgetsEmpty": "No budgets yet — set a monthly limit for a category with the “+” button",
   "budgetsLoadError": "Couldn't load budgets",
   "budgetsOverBy": "Over by {amount}",
   "@budgetsOverBy": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "budgetsNearLimit": "Approaching the limit",
-
   "setBudgetTitleEdit": "Edit budget",
   "setBudgetTitleNew": "New budget",
   "setBudgetLimitLabel": "Monthly limit",
   "setBudgetNoCategoriesLeft": "All expense categories already have a budget",
   "setBudgetLoadCategoriesError": "Couldn't load categories",
-
   "categoriesDeleteTitle": "Delete category?",
   "categoriesDeleteConfirm": "Category “{name}” will be deleted permanently.",
   "@categoriesDeleteConfirm": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "categoriesTitle": "Categories",
   "categoriesExpenseSection": "Expenses",
   "categoriesIncomeSection": "Income",
   "categoriesLoadError": "Couldn't load categories",
-
   "categoryFormTitleNew": "New category",
   "categoryFormTitleEdit": "Edit category",
   "categoryFormNameHint": "Category name",
   "categoryFormIconLabel": "Icon",
-
   "goalFormNoDeadline": "No deadline",
   "goalFormTitleEdit": "Edit goal",
   "goalFormTitleNew": "New goal",
   "goalFormNameHint": "Goal name, e.g. “New PC”",
   "goalFormTargetLabel": "Target amount",
   "goalFormDeadlineLabel": "Deadline",
-
   "goalsAddFundsTitle": "Add to “{title}”",
   "@goalsAddFundsTitle": {
-    "placeholders": { "title": { "type": "String" } }
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
   },
   "goalsDeleteTitle": "Delete goal?",
   "goalsDeleteConfirm": "Goal “{title}” and its saved progress will be deleted.",
   "@goalsDeleteConfirm": {
-    "placeholders": { "title": { "type": "String" } }
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
   },
   "goalsTitle": "Savings goals",
   "goalsEmpty": "No goals yet — create your first with the “+” button",
@@ -159,58 +184,83 @@
   "goalsProgressOf": "{current} of {target}",
   "@goalsProgressOf": {
     "placeholders": {
-      "current": { "type": "String" },
-      "target": { "type": "String" }
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
     }
   },
   "goalsAchieved": "Goal achieved!",
   "goalsDeadlinePassed": "Deadline passed",
   "goalsDaysLeft": "{days, plural, one {{days} day left} other {{days} days left}}",
   "@goalsDaysLeft": {
-    "placeholders": { "days": { "type": "num" } }
+    "placeholders": {
+      "days": {
+        "type": "num"
+      }
+    }
   },
-
   "accountsTitle": "Accounts",
   "accountsEmpty": "No accounts yet — add your first with the “+” button",
   "accountsLoadError": "Couldn't load accounts",
   "accountsDeleteTitle": "Delete account?",
   "accountsDeleteConfirm": "Account “{name}” will be deleted. Its transactions stay, just unassigned.",
   "@accountsDeleteConfirm": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "accountFormTitleNew": "New account",
   "accountFormTitleEdit": "Edit account",
   "accountFormNameHint": "Account name, e.g. “Bank A card”",
   "accountFormBankLabel": "Bank",
   "accountFormNoBank": "None",
-
   "profilesTitle": "Profiles",
   "profilesEmpty": "No profiles yet — track money someone owes you (or you owe them) with the “+” button",
   "profilesLoadError": "Couldn't load profiles",
   "profilesDeleteTitle": "Delete profile?",
   "profilesDeleteConfirm": "Profile “{name}” and its balance will be deleted.",
   "@profilesDeleteConfirm": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "profileFormTitleNew": "New profile",
   "profileFormTitleEdit": "Edit profile",
   "profileFormNameHint": "Person's name",
   "profilesRecordTitle": "Record for “{name}”",
   "@profilesRecordTitle": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "profilesTheyBorrowed": "They borrowed",
   "profilesTheyRepaid": "They repaid",
   "profilesOwesYou": "Owes you {amount}",
   "@profilesOwesYou": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "profilesYouOwe": "You owe {amount}",
   "@profilesYouOwe": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "profilesSettled": "Settled up",
-
   "historyAllTypes": "All types",
   "historyAllCategories": "All categories",
   "historyTitle": "History",
@@ -220,7 +270,6 @@
   "historyReset": "Reset",
   "historyEmpty": "Nothing found",
   "historyLoadError": "Couldn't load history",
-
   "settingsTitle": "Settings",
   "settingsThemeSection": "Theme",
   "settingsFontSection": "Font",
@@ -230,7 +279,19 @@
   "settingsLanguageSection": "Language",
   "settingsManageSection": "Manage",
   "settingsBackupSection": "Backup",
-
+  "settingsSecuritySection": "Security",
+  "securityAppLock": "Lock the app",
+  "securityAppLockDesc": "Asks for your device lock — fingerprint, face or PIN — when you open the app and after it has been in the background for a while.",
+  "securityAppLockUnavailable": "Your device has no lock set up. Add one in system settings first.",
+  "securityHideInSwitcher": "Hide in the app switcher",
+  "securityHideInSwitcherDesc": "Replaces the preview in the recent apps list with a blank screen, so your balance isn't visible there. Also blocks screenshots.",
+  "securityUnlockReason": "Confirm it's you to open TexFi m0ney",
+  "securityLockedTitle": "Locked",
+  "securityLockedBody": "Your money stays on this device. Confirm it's you to open it.",
+  "securityUnlock": "UNLOCK",
+  "@settingsSecuritySection": {
+    "description": "Settings section: app lock and hiding content from the system"
+  },
   "backupExport": "Export data",
   "backupImport": "Import data",
   "backupImportConfirmTitle": "Replace all data?",
@@ -238,7 +299,6 @@
   "backupImportConfirmAction": "Replace",
   "backupImportSuccess": "Data restored from backup",
   "backupImportError": "This file isn't a valid TexFi m0ney backup",
-
   "settingsDangerSection": "Danger zone",
   "resetApp": "Reset app",
   "resetAppConfirmTitle": "Reset the app?",
@@ -249,21 +309,17 @@
   "themeOled": "Black (OLED)",
   "fontSystem": "System",
   "languageSystem": "System",
-
   "currencyPickerTitle": "Currency",
   "languagePickerTitle": "Language",
-
   "statisticsTitle": "Statistics",
   "statisticsMonthlyChartTitle": "Income and expense by month",
   "statisticsLoadError": "Couldn't load data",
   "statisticsCategoryChartTitle": "Expenses by category this month",
   "statisticsNoExpenses": "No expenses this month",
-
   "quickEntryLabel": "quick add",
   "quickEntryHint": "-15 coffee lunch",
   "quickEntryHelp": "Sign, amount, category, note — e.g. “-15 coffee lunch” or “+2000 salary”",
   "quickEntryParseError": "Not recognized. Start with + or -, then the amount.",
-
   "onboardingSlide1Title": "Everything in view",
   "onboardingSlide1Body": "Balance, income and expenses for the month — all on one screen.",
   "onboardingSlide2Title": "Budgets & goals",

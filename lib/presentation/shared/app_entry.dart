@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../onboarding/onboarding_screen.dart';
 import '../settings/onboarding_provider.dart';
 import 'launch_splash.dart';
+import 'lock_gate.dart';
 import 'root_shell.dart';
 
 /// Сплэш на каждом запуске → онбординг один раз при первом запуске → главный экран.
@@ -24,6 +25,10 @@ class _AppEntryState extends ConsumerState<AppEntry> {
     }
 
     final hasSeenOnboarding = ref.watch(hasSeenOnboardingProvider);
-    return hasSeenOnboarding ? const RootShell() : const OnboardingScreen();
+    if (!hasSeenOnboarding) return const OnboardingScreen();
+    // Замок ставится после онбординга и до содержимого: закрывать им пустое
+    // приложение, в котором ещё нет ни одной траты, незачем, а включить его
+    // предлагается уже изнутри настроек.
+    return const LockGate(child: RootShell());
   }
 }

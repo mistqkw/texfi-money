@@ -491,6 +491,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsBackupSection => 'Backup';
 
   @override
+  String get settingsSecuritySection => 'Security';
+
+  @override
+  String get securityAppLock => 'Lock the app';
+
+  @override
+  String get securityAppLockDesc =>
+      'Asks for your device lock — fingerprint, face or PIN — when you open the app and after it has been in the background for a while.';
+
+  @override
+  String get securityAppLockUnavailable =>
+      'Your device has no lock set up. Add one in system settings first.';
+
+  @override
+  String get securityHideInSwitcher => 'Hide in the app switcher';
+
+  @override
+  String get securityHideInSwitcherDesc =>
+      'Replaces the preview in the recent apps list with a blank screen, so your balance isn\'t visible there. Also blocks screenshots.';
+
+  @override
+  String get securityUnlockReason => 'Confirm it\'s you to open TexFi m0ney';
+
+  @override
+  String get securityLockedTitle => 'Locked';
+
+  @override
+  String get securityLockedBody =>
+      'Your money stays on this device. Confirm it\'s you to open it.';
+
+  @override
+  String get securityUnlock => 'UNLOCK';
+
+  @override
   String get backupExport => 'Export data';
 
   @override

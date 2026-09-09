@@ -1,15 +1,12 @@
 {
   "@@locale": "uk",
-
   "navHome": "Головна",
   "navHistory": "Історія",
   "navBudgets": "Бюджети",
   "navGoals": "Цілі",
   "navStatistics": "Статистика",
-
   "dateToday": "Сьогодні",
   "dateYesterday": "Вчора",
-
   "commonCancel": "Скасувати",
   "commonDelete": "Видалити",
   "commonSave": "Зберегти",
@@ -20,7 +17,6 @@
   "commonIncome": "Дохід",
   "commonCategory": "Категорія",
   "commonColor": "Колір",
-
   "categoryGroceries": "Продукти",
   "categoryTransport": "Транспорт",
   "categoryHome": "Житло",
@@ -35,9 +31,7 @@
   "categoryGifts": "Подарунки",
   "categoryInvestments": "Інвестиції",
   "categoryOtherIncome": "Інше",
-
   "categoryDeleteHasTransactionsError": "Не можна видалити категорію, яка має транзакції",
-
   "currencyRub": "Російський рубль",
   "currencyUsd": "Долар США",
   "currencyEur": "Євро",
@@ -48,7 +42,6 @@
   "currencyGbp": "Фунт стерлінгів",
   "currencyCny": "Китайський юань",
   "currencyTry": "Турецька ліра",
-
   "appTitle": "TexFi m0ney",
   "homeCurrencyTooltip": "Валюта: {name}",
   "homeCategoriesTooltip": "Категорії",
@@ -59,12 +52,10 @@
   "homeEmptyTransactions": "Поки що немає транзакцій — додайте першу кнопкою «+»",
   "homeLoadTransactionsError": "Не вдалося завантажити транзакції",
   "homeBalance": "Баланс",
-
   "addTxTitle": "Нова транзакція",
   "addTxTitleEdit": "Змінити транзакцію",
   "txActionRepeat": "Повторити сьогодні",
   "txActionEdit": "Змінити",
-
   "nudgeUnusualAmount": "Це у {times}× більше за звичне в «{category}». Сума правильна?",
   "nudgeBudgetClose": "Бюджет «{category}» витрачено на {percent}%",
   "nudgeBudgetOver": "«{category}» перевищує бюджет на {amount}",
@@ -76,38 +67,32 @@
   "addTxAddCategory": "Своя категорія",
   "addTxAccountLabel": "Рахунок",
   "addTxNoAccount": "Без рахунку",
-
   "budgetsTitle": "Бюджети",
   "budgetsEmpty": "Поки що немає бюджетів — встановіть місячний ліміт для категорії кнопкою «+»",
   "budgetsLoadError": "Не вдалося завантажити бюджети",
   "budgetsOverBy": "Перевищено на {amount}",
   "budgetsNearLimit": "Наближається до ліміту",
-
   "setBudgetTitleEdit": "Змінити бюджет",
   "setBudgetTitleNew": "Новий бюджет",
   "setBudgetLimitLabel": "Ліміт на місяць",
   "setBudgetNoCategoriesLeft": "Для всіх категорій витрат уже задано бюджети",
   "setBudgetLoadCategoriesError": "Не вдалося завантажити категорії",
-
   "categoriesDeleteTitle": "Видалити категорію?",
   "categoriesDeleteConfirm": "Категорія «{name}» буде видалена без можливості відновлення.",
   "categoriesTitle": "Категорії",
   "categoriesExpenseSection": "Витрати",
   "categoriesIncomeSection": "Доходи",
   "categoriesLoadError": "Не вдалося завантажити категорії",
-
   "categoryFormTitleNew": "Нова категорія",
   "categoryFormTitleEdit": "Редагувати категорію",
   "categoryFormNameHint": "Назва категорії",
   "categoryFormIconLabel": "Іконка",
-
   "goalFormNoDeadline": "Без дедлайну",
   "goalFormTitleEdit": "Змінити ціль",
   "goalFormTitleNew": "Нова ціль",
   "goalFormNameHint": "Назва цілі, наприклад «ПК»",
   "goalFormTargetLabel": "Цільова сума",
   "goalFormDeadlineLabel": "Дедлайн",
-
   "goalsAddFundsTitle": "Поповнити «{title}»",
   "goalsDeleteTitle": "Видалити ціль?",
   "goalsDeleteConfirm": "Ціль «{title}» буде видалена разом із накопиченим прогресом.",
@@ -118,7 +103,6 @@
   "goalsAchieved": "Ціль досягнута!",
   "goalsDeadlinePassed": "Дедлайн минув",
   "goalsDaysLeft": "{days, plural, one {Залишився {days} день} few {Залишилося {days} дні} many {Залишилося {days} днів} other {Залишилося {days} дня}}",
-
   "accountsTitle": "Рахунки",
   "accountsEmpty": "Поки що немає рахунків — додайте перший кнопкою «+»",
   "accountsLoadError": "Не вдалося завантажити рахунки",
@@ -129,7 +113,6 @@
   "accountFormNameHint": "Назва рахунку, наприклад «Картка банку А»",
   "accountFormBankLabel": "Банк",
   "accountFormNoBank": "Без банку",
-
   "profilesTitle": "Профілі",
   "profilesEmpty": "Поки що немає профілів — обліковуйте чужі гроші кнопкою «+»",
   "profilesLoadError": "Не вдалося завантажити профілі",
@@ -144,7 +127,6 @@
   "profilesOwesYou": "Винен(на) вам {amount}",
   "profilesYouOwe": "Ви винні {amount}",
   "profilesSettled": "У розрахунку",
-
   "historyAllTypes": "Всі типи",
   "historyAllCategories": "Всі категорії",
   "historyTitle": "Історія",
@@ -154,7 +136,6 @@
   "historyReset": "Скинути",
   "historyEmpty": "Нічого не знайдено",
   "historyLoadError": "Не вдалося завантажити історію",
-
   "settingsTitle": "Налаштування",
   "settingsThemeSection": "Тема",
   "settingsFontSection": "Шрифт",
@@ -164,7 +145,16 @@
   "settingsLanguageSection": "Мова",
   "settingsManageSection": "Керування",
   "settingsBackupSection": "Резервна копія",
-
+  "settingsSecuritySection": "Безпека",
+  "securityAppLock": "Блокувати застосунок",
+  "securityAppLockDesc": "Запитує замок пристрою — відбиток, обличчя або код — під час відкриття і після того, як застосунок побув у фоні.",
+  "securityAppLockUnavailable": "На пристрої не налаштовано замок. Спершу створіть його в системних налаштуваннях.",
+  "securityHideInSwitcher": "Ховати в перемикачі задач",
+  "securityHideInSwitcherDesc": "Замінює прев'ю у списку недавніх застосунків порожнім екраном, щоб баланс не було видно. Заразом забороняє знімки екрана.",
+  "securityUnlockReason": "Підтвердьте, що це ви, щоб відкрити TexFi m0ney",
+  "securityLockedTitle": "Заблоковано",
+  "securityLockedBody": "Гроші залишаються на цьому пристрої. Підтвердьте, що це ви.",
+  "securityUnlock": "РОЗБЛОКУВАТИ",
   "backupExport": "Експортувати дані",
   "backupImport": "Імпортувати дані",
   "backupImportConfirmTitle": "Замінити всі дані?",
@@ -172,7 +162,6 @@
   "backupImportConfirmAction": "Замінити",
   "backupImportSuccess": "Дані відновлено з резервної копії",
   "backupImportError": "Цей файл не є коректною резервною копією TexFi m0ney",
-
   "settingsDangerSection": "Небезпечна зона",
   "resetApp": "Скинути застосунок",
   "resetAppConfirmTitle": "Скинути застосунок?",
@@ -183,21 +172,17 @@
   "themeOled": "Чорна (OLED)",
   "fontSystem": "Системний",
   "languageSystem": "Системна",
-
   "currencyPickerTitle": "Валюта",
   "languagePickerTitle": "Мова",
-
   "statisticsTitle": "Статистика",
   "statisticsMonthlyChartTitle": "Доходи та витрати за місяцями",
   "statisticsLoadError": "Не вдалося завантажити дані",
   "statisticsCategoryChartTitle": "Витрати за категоріями цього місяця",
   "statisticsNoExpenses": "Немає витрат цього місяця",
-
   "quickEntryLabel": "швидке додавання",
   "quickEntryHint": "-350 продукти обід",
   "quickEntryHelp": "Знак, сума, категорія, нотатка — наприклад «-350 продукти обід» або «+5000 зарплата»",
   "quickEntryParseError": "Не розпізнано. Почніть з + або -, потім сума.",
-
   "onboardingSlide1Title": "Все під контролем",
   "onboardingSlide1Body": "Баланс, доходи та витрати за місяць — на одному екрані.",
   "onboardingSlide2Title": "Бюджети та цілі",

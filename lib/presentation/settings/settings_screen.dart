@@ -30,6 +30,7 @@ import 'font_provider.dart';
 import 'haptics_provider.dart';
 import 'language_picker_screen.dart';
 import 'locale_provider.dart';
+import 'security_provider.dart';
 import 'theme_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -247,6 +248,10 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
+          _SectionLabel(l10n.settingsSecuritySection),
+          AppSpacing.gapSm,
+          const _SecuritySection(),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsBackupSection),
           AppSpacing.gapSm,
           _OptionTile(
@@ -322,23 +327,119 @@ class _OptionTile extends StatelessWidget {
   }
 }
 
+/// Настройки безопасности.
+///
+/// Отдельным виджетом из-за доступности замка: есть ли на устройстве чем
+/// подтвердить личность, приложение узнаёт у системы, ответ приходит
+/// асинхронно и может измениться, пока экран открыт — замок заводят и
+/// снимают в системных настройках. Предлагать включить блокировку там, где
+/// её нечем подтвердить, значило бы обещать защиту, которой не будет.
+class _SecuritySection extends ConsumerWidget {
+  const _SecuritySection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final lock = ref.watch(appLockProvider);
+    final hideInSwitcher = ref.watch(hideInSwitcherProvider);
+    final privacy = ref.watch(screenPrivacyProvider);
+    // Пока ответ не пришёл, считаем замок доступным: мигать предупреждением
+    // на каждом заходе в настройки незачем.
+    final canLock = ref.watch(appLockAvailableProvider).value ?? true;
+
+    return Column(
+      children: [
+        if (lock.isSupported)
+          _SwitchTile(
+            label: l10n.securityAppLock,
+            subtitle: canLock
+                ? l10n.securityAppLockDesc
+                : l10n.securityAppLockUnavailable,
+            value: ref.watch(appLockEnabledProvider),
+            enabled: canLock,
+            onChanged: (value) async {
+              // Включение подтверждается замком сразу. Иначе настройку мог
+              // бы включить тот, у кого телефон в руках, — и запереть
+              // владельца снаружи собственных данных.
+              if (value &&
+                  !await lock.authenticate(
+                    reason: l10n.securityUnlockReason,
+                  )) {
+                return;
+              }
+              await ref.read(appLockEnabledProvider.notifier).set(value);
+              ref.invalidate(appLockAvailableProvider);
+            },
+          ),
+        if (privacy.isSupported)
+          _SwitchTile(
+            label: l10n.securityHideInSwitcher,
+            subtitle: l10n.securityHideInSwitcherDesc,
+            value: hideInSwitcher,
+            onChanged: (value) =>
+                ref.read(hideInSwitcherProvider.notifier).set(value),
+          ),
+      ],
+    );
+  }
+}
+
 class _SwitchTile extends StatelessWidget {
-  const _SwitchTile({required this.label, required this.value, required this.onChanged});
+  const _SwitchTile({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+    this.subtitle,
+    this.enabled = true,
+  });
 
   final String label;
+
+  /// Пояснение под названием. Нужно там, где из одного названия не понять,
+  /// что настройка делает и чем за неё платят.
+  final String? subtitle;
+
   final bool value;
+  final bool enabled;
   final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return InkWell(
-      onTap: () => onChanged(!value),
+      onTap: enabled ? () => onChanged(!value) : null,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(child: Text(label, style: context.text.title)),
-            PixelSwitch(value: value, onChanged: onChanged),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: context.text.title.copyWith(
+                      color: enabled ? colors.textPrimary : colors.textTertiary,
+                    ),
+                  ),
+                  if (subtitle case final subtitle?) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: context.text.caption.copyWith(
+                        color: colors.textTertiary,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            PixelSwitch(
+              value: value,
+              onChanged: enabled ? onChanged : (_) {},
+            ),
           ],
         ),
       ),

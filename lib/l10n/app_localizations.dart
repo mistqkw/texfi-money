@@ -972,6 +972,66 @@ abstract class AppLocalizations {
   /// **'Backup'**
   String get settingsBackupSection;
 
+  /// Settings section: app lock and hiding content from the system
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get settingsSecuritySection;
+
+  /// No description provided for @securityAppLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app'**
+  String get securityAppLock;
+
+  /// No description provided for @securityAppLockDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Asks for your device lock — fingerprint, face or PIN — when you open the app and after it has been in the background for a while.'**
+  String get securityAppLockDesc;
+
+  /// No description provided for @securityAppLockUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your device has no lock set up. Add one in system settings first.'**
+  String get securityAppLockUnavailable;
+
+  /// No description provided for @securityHideInSwitcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide in the app switcher'**
+  String get securityHideInSwitcher;
+
+  /// No description provided for @securityHideInSwitcherDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaces the preview in the recent apps list with a blank screen, so your balance isn\'t visible there. Also blocks screenshots.'**
+  String get securityHideInSwitcherDesc;
+
+  /// No description provided for @securityUnlockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm it\'s you to open TexFi m0ney'**
+  String get securityUnlockReason;
+
+  /// No description provided for @securityLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get securityLockedTitle;
+
+  /// No description provided for @securityLockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your money stays on this device. Confirm it\'s you to open it.'**
+  String get securityLockedBody;
+
+  /// No description provided for @securityUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'UNLOCK'**
+  String get securityUnlock;
+
   /// No description provided for @backupExport.
   ///
   /// In en, this message translates to:

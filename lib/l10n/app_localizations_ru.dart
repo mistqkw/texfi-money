@@ -499,6 +499,41 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsBackupSection => 'Резервная копия';
 
   @override
+  String get settingsSecuritySection => 'Безопасность';
+
+  @override
+  String get securityAppLock => 'Блокировать приложение';
+
+  @override
+  String get securityAppLockDesc =>
+      'Спрашивает замок устройства — отпечаток, лицо или код — при открытии и после того, как приложение побыло в фоне.';
+
+  @override
+  String get securityAppLockUnavailable =>
+      'На устройстве не настроен замок. Сначала заведите его в системных настройках.';
+
+  @override
+  String get securityHideInSwitcher => 'Прятать в переключателе задач';
+
+  @override
+  String get securityHideInSwitcherDesc =>
+      'Заменяет превью в списке недавних приложений пустым экраном, чтобы баланс не был там виден. Заодно запрещает скриншоты.';
+
+  @override
+  String get securityUnlockReason =>
+      'Подтвердите, что это вы, чтобы открыть TexFi m0ney';
+
+  @override
+  String get securityLockedTitle => 'Заблокировано';
+
+  @override
+  String get securityLockedBody =>
+      'Деньги остаются на этом устройстве. Подтвердите, что это вы.';
+
+  @override
+  String get securityUnlock => 'РАЗБЛОКИРОВАТЬ';
+
+  @override
   String get backupExport => 'Экспортировать данные';
 
   @override

@@ -1,15 +1,12 @@
 {
   "@@locale": "ru",
-
   "navHome": "Главная",
   "navHistory": "История",
   "navBudgets": "Бюджеты",
   "navGoals": "Цели",
   "navStatistics": "Статистика",
-
   "dateToday": "Сегодня",
   "dateYesterday": "Вчера",
-
   "commonCancel": "Отмена",
   "commonDelete": "Удалить",
   "commonSave": "Сохранить",
@@ -20,7 +17,6 @@
   "commonIncome": "Доход",
   "commonCategory": "Категория",
   "commonColor": "Цвет",
-
   "categoryGroceries": "Продукты",
   "categoryTransport": "Транспорт",
   "categoryHome": "Жильё",
@@ -35,9 +31,7 @@
   "categoryGifts": "Подарки",
   "categoryInvestments": "Инвестиции",
   "categoryOtherIncome": "Прочее",
-
   "categoryDeleteHasTransactionsError": "Нельзя удалить категорию, у которой есть транзакции",
-
   "currencyRub": "Российский рубль",
   "currencyUsd": "Доллар США",
   "currencyEur": "Евро",
@@ -48,7 +42,6 @@
   "currencyGbp": "Фунт стерлингов",
   "currencyCny": "Китайский юань",
   "currencyTry": "Турецкая лира",
-
   "appTitle": "TexFi m0ney",
   "homeCurrencyTooltip": "Валюта: {name}",
   "homeCategoriesTooltip": "Категории",
@@ -59,12 +52,10 @@
   "homeEmptyTransactions": "Пока нет транзакций — добавьте первую кнопкой «+»",
   "homeLoadTransactionsError": "Не удалось загрузить транзакции",
   "homeBalance": "Баланс",
-
   "addTxTitle": "Новая транзакция",
   "addTxTitleEdit": "Изменить транзакцию",
   "txActionRepeat": "Повторить сегодня",
   "txActionEdit": "Изменить",
-
   "nudgeUnusualAmount": "Это в {times}× больше обычного по «{category}». Сумма верна?",
   "nudgeBudgetClose": "Бюджет «{category}» израсходован на {percent}%",
   "nudgeBudgetOver": "«{category}» превышает бюджет на {amount}",
@@ -76,38 +67,32 @@
   "addTxAddCategory": "Своя категория",
   "addTxAccountLabel": "Счёт",
   "addTxNoAccount": "Без счёта",
-
   "budgetsTitle": "Бюджеты",
   "budgetsEmpty": "Пока нет бюджетов — задайте месячный лимит по категории кнопкой «+»",
   "budgetsLoadError": "Не удалось загрузить бюджеты",
   "budgetsOverBy": "Превышен на {amount}",
   "budgetsNearLimit": "Приближается к лимиту",
-
   "setBudgetTitleEdit": "Изменить бюджет",
   "setBudgetTitleNew": "Новый бюджет",
   "setBudgetLimitLabel": "Лимит в месяц",
   "setBudgetNoCategoriesLeft": "Для всех категорий расходов уже заданы бюджеты",
   "setBudgetLoadCategoriesError": "Не удалось загрузить категории",
-
   "categoriesDeleteTitle": "Удалить категорию?",
   "categoriesDeleteConfirm": "Категория «{name}» будет удалена без возможности восстановления.",
   "categoriesTitle": "Категории",
   "categoriesExpenseSection": "Расходы",
   "categoriesIncomeSection": "Доходы",
   "categoriesLoadError": "Не удалось загрузить категории",
-
   "categoryFormTitleNew": "Новая категория",
   "categoryFormTitleEdit": "Редактировать категорию",
   "categoryFormNameHint": "Название категории",
   "categoryFormIconLabel": "Иконка",
-
   "goalFormNoDeadline": "Без дедлайна",
   "goalFormTitleEdit": "Изменить цель",
   "goalFormTitleNew": "Новая цель",
   "goalFormNameHint": "Название цели, например «ПК»",
   "goalFormTargetLabel": "Целевая сумма",
   "goalFormDeadlineLabel": "Дедлайн",
-
   "goalsAddFundsTitle": "Пополнить «{title}»",
   "goalsDeleteTitle": "Удалить цель?",
   "goalsDeleteConfirm": "Цель «{title}» будет удалена вместе с накопленным прогрессом.",
@@ -118,7 +103,6 @@
   "goalsAchieved": "Цель достигнута!",
   "goalsDeadlinePassed": "Дедлайн прошёл",
   "goalsDaysLeft": "{days, plural, one {Осталось {days} день} few {Осталось {days} дня} many {Осталось {days} дней} other {Осталось {days} дня}}",
-
   "accountsTitle": "Счета",
   "accountsEmpty": "Пока нет счетов — добавьте первый кнопкой «+»",
   "accountsLoadError": "Не удалось загрузить счета",
@@ -129,7 +113,6 @@
   "accountFormNameHint": "Название счёта, например «Карта банка А»",
   "accountFormBankLabel": "Банк",
   "accountFormNoBank": "Без банка",
-
   "profilesTitle": "Профили",
   "profilesEmpty": "Пока нет профилей — учитывайте чужие деньги кнопкой «+»",
   "profilesLoadError": "Не удалось загрузить профили",
@@ -144,7 +127,6 @@
   "profilesOwesYou": "Должен(на) вам {amount}",
   "profilesYouOwe": "Вы должны {amount}",
   "profilesSettled": "В расчёте",
-
   "historyAllTypes": "Все типы",
   "historyAllCategories": "Все категории",
   "historyTitle": "История",
@@ -154,7 +136,6 @@
   "historyReset": "Сбросить",
   "historyEmpty": "Ничего не найдено",
   "historyLoadError": "Не удалось загрузить историю",
-
   "settingsTitle": "Настройки",
   "settingsThemeSection": "Тема",
   "settingsFontSection": "Шрифт",
@@ -164,7 +145,16 @@
   "settingsLanguageSection": "Язык",
   "settingsManageSection": "Управление",
   "settingsBackupSection": "Резервная копия",
-
+  "settingsSecuritySection": "Безопасность",
+  "securityAppLock": "Блокировать приложение",
+  "securityAppLockDesc": "Спрашивает замок устройства — отпечаток, лицо или код — при открытии и после того, как приложение побыло в фоне.",
+  "securityAppLockUnavailable": "На устройстве не настроен замок. Сначала заведите его в системных настройках.",
+  "securityHideInSwitcher": "Прятать в переключателе задач",
+  "securityHideInSwitcherDesc": "Заменяет превью в списке недавних приложений пустым экраном, чтобы баланс не был там виден. Заодно запрещает скриншоты.",
+  "securityUnlockReason": "Подтвердите, что это вы, чтобы открыть TexFi m0ney",
+  "securityLockedTitle": "Заблокировано",
+  "securityLockedBody": "Деньги остаются на этом устройстве. Подтвердите, что это вы.",
+  "securityUnlock": "РАЗБЛОКИРОВАТЬ",
   "backupExport": "Экспортировать данные",
   "backupImport": "Импортировать данные",
   "backupImportConfirmTitle": "Заменить все данные?",
@@ -172,7 +162,6 @@
   "backupImportConfirmAction": "Заменить",
   "backupImportSuccess": "Данные восстановлены из бэкапа",
   "backupImportError": "Этот файл не является корректным бэкапом TexFi m0ney",
-
   "settingsDangerSection": "Опасная зона",
   "resetApp": "Сбросить приложение",
   "resetAppConfirmTitle": "Сбросить приложение?",
@@ -183,21 +172,17 @@
   "themeOled": "Чёрная (OLED)",
   "fontSystem": "Системный",
   "languageSystem": "Системный",
-
   "currencyPickerTitle": "Валюта",
   "languagePickerTitle": "Язык",
-
   "statisticsTitle": "Статистика",
   "statisticsMonthlyChartTitle": "Доходы и расходы по месяцам",
   "statisticsLoadError": "Не удалось загрузить данные",
   "statisticsCategoryChartTitle": "Расходы по категориям в этом месяце",
   "statisticsNoExpenses": "Нет расходов в этом месяце",
-
   "quickEntryLabel": "быстрый ввод",
   "quickEntryHint": "-350 продукты обед",
   "quickEntryHelp": "Знак, сумма, категория, заметка — например «-350 продукты обед» или «+5000 зарплата»",
   "quickEntryParseError": "Не распознано. Начните с + или -, затем сумма.",
-
   "onboardingSlide1Title": "Всё под контролем",
   "onboardingSlide1Body": "Баланс, доходы и расходы за месяц — на одном экране.",
   "onboardingSlide2Title": "Бюджеты и цели",

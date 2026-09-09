@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Данные приложения не покидают устройство ни одним из системных путей.
+
+    `allowBackup="false"` закрывает старый механизм резервных копий, но на
+    Android 12+ его недостаточно: облачная копия и перенос на новый телефон
+    описываются отдельным файлом правил, и без него система вправе забрать
+    базу трат в облако. Здесь оба канала закрыты явно.
+
+    Перенос данных остаётся ровно один — экспорт в JSON, который человек
+    делает руками и сам решает, куда положить файл.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </device-transfer>
+</data-extraction-rules>
