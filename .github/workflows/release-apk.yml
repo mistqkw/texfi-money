@@ -28,9 +28,21 @@ jobs:
 
       - run: flutter build apk --release
 
+      # Тег релиза: пришедший с пушем, если он есть, и только иначе —
+      # номер сборки.
+      #
+      # Раньше здесь всегда стоял `build-N`, и это молча ломало ровно тот
+      # путь, ради которого workflow и заведён: пуш тега `v0.2.0` выпускал
+      # релиз с именем `build-47`. Заметить это можно было только на
+      # странице релизов, уже после выпуска.
       - name: Set release tag
         id: tag
-        run: echo "tag=build-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "tag=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=build-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Publish release with APK
         uses: softprops/action-gh-release@v2
@@ -40,6 +52,11 @@ jobs:
           files: build/app/outputs/flutter-apk/app-release.apk
           # Debug-signed (no android/key.properties in CI) — fine for
           # sideloading on a personal device, not for the Play Store.
+          # Описание пишется вручную для релизов по тегу: у выпуска есть что
+          # сказать, кроме хеша коммита. Для сборок без тега остаётся
+          # служебный текст — им и правда больше нечего сообщить.
           body: |
             Автосборка APK для установки на телефон (debug-подпись — только для sideload).
             Commit: ${{ github.sha }}
+          # Не затирать заметки, если релиз с таким тегом уже создан руками.
+          append_body: ${{ github.ref_type == 'tag' }}
