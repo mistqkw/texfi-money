@@ -15,6 +15,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/spend_usefulness.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../accounts/account_providers.dart';
@@ -23,6 +24,7 @@ import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_spinner.dart';
+import '../wealth/wealth_labels.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key, this.existing, this.prefill});
@@ -42,6 +44,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   late TransactionType _type;
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
+
+  /// Оценка полезности. `null` — не оценивал, и это осмысленное значение,
+  /// а не «ещё не выбрал»: большинство трат так и останутся без оценки.
+  SpendUsefulness? _usefulness;
   String? _selectedCategoryId;
   String? _selectedAccountId;
   late DateTime _date;
@@ -64,6 +70,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     _date = widget.existing?.date ?? DateTime.now();
     _selectedCategoryId = source?.category.id;
     _selectedAccountId = source?.accountId;
+    _usefulness = source?.usefulness;
     if (source != null) {
       _amountController.text = source.amount == source.amount.roundToDouble()
           ? source.amount.toStringAsFixed(0)
@@ -133,6 +140,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         date: _date,
         note: note,
         accountId: _selectedAccountId,
+        usefulness: _usefulness,
       );
     } else {
       await repo.add(
@@ -142,6 +150,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         date: _date,
         note: note,
         accountId: _selectedAccountId,
+        usefulness: _usefulness,
       );
     }
 
@@ -208,6 +217,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
             AppSpacing.gapXl,
             _DateRow(date: _date, onTap: _pickDate),
+            // Оценка полезности — только у расходов: спрашивать, стоил ли
+            // того полученный доход, бессмысленно.
+            if (_type == TransactionType.expense) ...[
+              AppSpacing.gapLg,
+              _UsefulnessRow(
+                value: _usefulness,
+                onChanged: (value) => setState(() => _usefulness = value),
+              ),
+            ],
             AppSpacing.gapLg,
             TextField(
               controller: _noteController,
@@ -444,6 +462,78 @@ class _DateRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Выбор полезности траты.
+///
+/// Три кнопки и возможность снять выбор повторным нажатием. Снять важно:
+/// поставленная сгоряча оценка иначе осталась бы навсегда, а «не
+/// оценивал» — это отдельное состояние, к которому надо уметь вернуться.
+class _UsefulnessRow extends StatelessWidget {
+  const _UsefulnessRow({required this.value, required this.onChanged});
+
+  final SpendUsefulness? value;
+  final ValueChanged<SpendUsefulness?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final colors = context.colors;
+
+    Color colorFor(SpendUsefulness item) => switch (item) {
+          SpendUsefulness.useful => colors.income,
+          SpendUsefulness.useless => colors.expense,
+          SpendUsefulness.neutral => colors.textSecondary,
+        };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.usefulnessLabel.toUpperCase(),
+          style: context.text.label.copyWith(color: colors.textTertiary),
+        ),
+        AppSpacing.gapSm,
+        Row(
+          children: [
+            for (final item in SpendUsefulness.values) ...[
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => onChanged(value == item ? null : item),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpacing.sm,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: value == item
+                            ? colorFor(item)
+                            : colors.divider,
+                        width: 2,
+                      ),
+                      color: value == item
+                          ? colorFor(item).withValues(alpha: 0.12)
+                          : null,
+                    ),
+                    child: Text(
+                      usefulnessLabel(l10n, item),
+                      textAlign: TextAlign.center,
+                      style: context.text.caption.copyWith(
+                        color: value == item
+                            ? colorFor(item)
+                            : colors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (item != SpendUsefulness.values.last) AppSpacing.gapHSm,
+            ],
+          ],
+        ),
+      ],
     );
   }
 }

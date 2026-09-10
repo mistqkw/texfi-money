@@ -27,6 +27,8 @@ import '../shared/pixel_spinner.dart';
 import '../shared/terminal_box.dart';
 import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
+import '../wealth/cash_flow_screen.dart';
+import '../wealth/wealth_providers.dart';
 import 'home_providers.dart';
 import 'nudge_card.dart';
 import 'quick_entry_bar.dart';
@@ -89,6 +91,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             _BalanceCard(balance: balanceAsync.valueOrNull ?? 0),
             AppSpacing.gapLg,
+            const _SavingsRateCard(),
             const NudgeCard(),
             summaryAsync.when(
               data: (summary) => Row(
@@ -306,6 +309,67 @@ class _StatTile extends StatelessWidget {
       labelColor: color,
       padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
       child: AnimatedAmount(value: value, style: context.text.amountMedium.copyWith(color: color)),
+    );
+  }
+}
+
+/// Процент сбережений за текущий месяц.
+///
+/// Тон нейтрально-информативный: приложение говорит, сколько осталось, и
+/// не сообщает, много это или мало. Оценивать чужие деньги — не его дело,
+/// и «у вас плохой процент» здесь не появится ни при каком значении.
+class _SavingsRateCard extends ConsumerWidget {
+  const _SavingsRateCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final colors = context.colors;
+    final rate = ref.watch(currentSavingsRateProvider);
+
+    return rate.when(
+      data: (value) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+          child: TerminalBox(
+            label: l10n.savingsRateTitle.toLowerCase(),
+            onTap: () => Navigator.of(context)
+                .push(pixelDissolveRoute(const CashFlowScreen())),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (value == null)
+                  // Месяц без дохода — это не ноль процентов: делить не на
+                  // что. Ноль смешал бы его с месяцем, где всё потрачено
+                  // подчистую.
+                  Text(
+                    l10n.savingsRateNoIncome,
+                    style:
+                        context.text.body.copyWith(color: colors.textSecondary),
+                  )
+                else ...[
+                  Text(
+                    '${value.toStringAsFixed(0)}%',
+                    style: context.text.amountLarge.copyWith(
+                      // Отрицательный процент — это перерасход, и цвет
+                      // говорит об этом раньше знака минуса.
+                      color: value < 0 ? colors.expense : colors.income,
+                    ),
+                  ),
+                  AppSpacing.gapSm,
+                  Text(
+                    l10n.savingsRateHint,
+                    style: context.text.caption
+                        .copyWith(color: colors.textTertiary),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (e, st) => const SizedBox.shrink(),
     );
   }
 }

@@ -24,12 +24,14 @@ import '../shared/l10n_helpers.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_switch.dart';
 import '../shared/restart_widget.dart';
+import 'analysis_range_provider.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
 import 'font_provider.dart';
 import 'haptics_provider.dart';
 import 'language_picker_screen.dart';
 import 'locale_provider.dart';
+import 'risk_settings_screen.dart';
 import 'security_provider.dart';
 import 'theme_provider.dart';
 
@@ -248,6 +250,19 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
+          _SectionLabel(l10n.riskSection),
+          AppSpacing.gapSm,
+          _OptionTile(
+            icon: PixelIcons.risk,
+            label: l10n.riskSection,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => Navigator.of(context).push(
+              pixelDissolveRoute(const RiskSettingsScreen()),
+            ),
+          ),
+          const _AnalysisRangeTile(),
+          AppSpacing.gapXl,
           _SectionLabel(l10n.settingsSecuritySection),
           AppSpacing.gapSm,
           const _SecuritySection(),
@@ -334,6 +349,95 @@ class _OptionTile extends StatelessWidget {
 /// асинхронно и может измениться, пока экран открыт — замок заводят и
 /// снимают в системных настройках. Предлагать включить блокировку там, где
 /// её нечем подтвердить, значило бы обещать защиту, которой не будет.
+/// Диапазон, на котором строятся все исторические графики.
+///
+/// Настройка общая, а не своя у каждого экрана: динамика капитала за пять
+/// лет рядом с движением денег за год — это два графика, которые нельзя
+/// сопоставить, хотя стоят они рядом и выглядят одинаково.
+class _AnalysisRangeTile extends ConsumerWidget {
+  const _AnalysisRangeTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final range = ref.watch(analysisRangeProvider);
+
+    return _OptionTile(
+      icon: PixelIcons.cashFlow,
+      label: l10n.analysisRangeTitle,
+      selected: false,
+      showCheckmark: false,
+      onTap: () => _pick(context, ref, range),
+    );
+  }
+
+  Future<void> _pick(
+    BuildContext context,
+    WidgetRef ref,
+    AnalysisRange current,
+  ) async {
+    final l10n = context.l10n;
+    final choice = await showModalBottomSheet<Object>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: AppSpacing.screen,
+              child: Text(
+                l10n.analysisRangeHint,
+                style: context.text.caption
+                    .copyWith(color: context.colors.textTertiary),
+              ),
+            ),
+            for (final years in const [1, 2, 3, 5, 10])
+              ListTile(
+                title: Text(l10n.analysisRangeYears(years)),
+                trailing: current.years == years
+                    ? PixelIcon(
+                        PixelIcons.check,
+                        size: 16,
+                        color: context.colors.accent,
+                      )
+                    : null,
+                onTap: () => Navigator.of(context).pop(years),
+              ),
+            ListTile(
+              title: Text(l10n.analysisRangeCustom),
+              trailing: current.isExplicit
+                  ? PixelIcon(
+                      PixelIcons.check,
+                      size: 16,
+                      color: context.colors.accent,
+                    )
+                  : null,
+              onTap: () => Navigator.of(context).pop('custom'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (!context.mounted || choice == null) return;
+
+    if (choice is int) {
+      await ref.read(analysisRangeProvider.notifier).setYears(choice);
+      return;
+    }
+
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked == null) return;
+    await ref
+        .read(analysisRangeProvider.notifier)
+        .setExplicit(from: picked.start, to: picked.end);
+  }
+}
+
 class _SecuritySection extends ConsumerWidget {
   const _SecuritySection();
 
