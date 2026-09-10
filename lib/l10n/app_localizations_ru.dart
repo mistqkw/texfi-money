@@ -668,4 +668,332 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingSkip => 'Пропустить';
+
+  @override
+  String get navWealth => 'Капитал';
+
+  @override
+  String get wealthTitle => 'Капитал';
+
+  @override
+  String get wealthTotal => 'Капитал';
+
+  @override
+  String get wealthAssets => 'Активы';
+
+  @override
+  String get wealthLiabilities => 'Пассивы';
+
+  @override
+  String get wealthEmptyTitle => 'Пока пусто';
+
+  @override
+  String get wealthEmptyBody =>
+      'Добавьте то, чем владеете, и то, что должны. Стоимость ставите вы сами и сами её обновляете — ничего никуда не подтягивается.';
+
+  @override
+  String get wealthAddAsset => 'ДОБАВИТЬ АКТИВ';
+
+  @override
+  String get wealthYearChange => 'За последний год';
+
+  @override
+  String get wealthYearChangeNoBase =>
+      'Данных годичной давности пока нет — сравнивать не с чем.';
+
+  @override
+  String get wealthByCategory => 'В чём лежит';
+
+  @override
+  String get wealthByCashFlow => 'Что делает';
+
+  @override
+  String get wealthByRisk => 'Насколько рискованно';
+
+  @override
+  String get wealthAssetsList => 'Активы';
+
+  @override
+  String get wealthOffline =>
+      'Все цифры здесь — те, что ввели вы. Приложение никуда не ходит за курсами и котировками.';
+
+  @override
+  String get flowIncome => 'Приносит деньги';
+
+  @override
+  String get flowLiability => 'Забирает деньги';
+
+  @override
+  String get flowNeutral => 'Ни то ни другое';
+
+  @override
+  String get assetName => 'Название';
+
+  @override
+  String get assetValue => 'Текущая стоимость';
+
+  @override
+  String get assetCategory => 'Категория';
+
+  @override
+  String get assetRisk => 'Уровень риска';
+
+  @override
+  String get assetFlow => 'Денежный поток';
+
+  @override
+  String get assetNote => 'Заметка';
+
+  @override
+  String get assetValuedAt => 'Стоимость на дату';
+
+  @override
+  String get assetNew => 'Новый актив';
+
+  @override
+  String get assetEdit => 'Правка актива';
+
+  @override
+  String get assetRevalue => 'ОБНОВИТЬ СТОИМОСТЬ';
+
+  @override
+  String get assetRevalueTitle => 'Новая стоимость';
+
+  @override
+  String get assetHistory => 'История стоимости';
+
+  @override
+  String get assetHistoryHint =>
+      'Каждое обновление добавляет точку, а не заменяет прошлую — из них и считается изменение за год.';
+
+  @override
+  String get assetDelete => 'Удалить актив';
+
+  @override
+  String get assetDeleteBody =>
+      'Актив и вся история его стоимости исчезнут. Отменить это нельзя.';
+
+  @override
+  String get riskSection => 'Риск-менеджмент';
+
+  @override
+  String riskLimitLabel(String level) {
+    return 'Лимит для «$level»';
+  }
+
+  @override
+  String get riskNoLimit => 'без лимита';
+
+  @override
+  String get riskLimitHint =>
+      'Доля капитала, которую вы согласны держать на этом уровне риска. Решаете вы: у приложения нет мнения о том, что безопасно.';
+
+  @override
+  String get riskBreachTitle => 'Выше вашего лимита';
+
+  @override
+  String riskBreachBody(String level, String actual, String limit) {
+    return '«$level»: $actual% капитала при заданном лимите $limit%.';
+  }
+
+  @override
+  String get riskAddLevel => 'ДОБАВИТЬ УРОВЕНЬ';
+
+  @override
+  String get riskLevelName => 'Название уровня';
+
+  @override
+  String get riskLevelInUse =>
+      'На этом уровне есть активы — сначала перенесите их.';
+
+  @override
+  String get riskLastLevel => 'Последний уровень удалить нельзя.';
+
+  @override
+  String get usefulnessLabel => 'Стоило того?';
+
+  @override
+  String get usefulnessUseful => 'Стоило';
+
+  @override
+  String get usefulnessUseless => 'Не стоило';
+
+  @override
+  String get usefulnessNeutral => 'Ни то ни другое';
+
+  @override
+  String get usefulnessNotRated => 'Без оценки';
+
+  @override
+  String get usefulnessSection => 'Стоило или нет';
+
+  @override
+  String get usefulnessHint =>
+      'Только то, что вы отметили сами. Приложение не угадывает: одна и та же доставка бывает и спасением вечера, и слабостью, и знаете об этом только вы.';
+
+  @override
+  String get subscriptionsTitle => 'Подписки';
+
+  @override
+  String get subscriptionsMonthly => 'В месяц';
+
+  @override
+  String get subscriptionsMonthlyHint =>
+      'Годовые показаны месячной долей, чтобы сумма значила одно и то же в любом месяце.';
+
+  @override
+  String get subscriptionsEmpty =>
+      'Подписок пока нет. Добавьте те, что продлеваются сами.';
+
+  @override
+  String get subscriptionsAdd => 'ДОБАВИТЬ ПОДПИСКУ';
+
+  @override
+  String get subscriptionNew => 'Новая подписка';
+
+  @override
+  String get subscriptionEdit => 'Правка подписки';
+
+  @override
+  String get subscriptionName => 'Название';
+
+  @override
+  String get subscriptionAmount => 'Сумма';
+
+  @override
+  String get subscriptionPeriod => 'Продлевается';
+
+  @override
+  String get subscriptionNextCharge => 'Следующее списание';
+
+  @override
+  String get subscriptionCustomDays => 'Раз в N дней';
+
+  @override
+  String get subscriptionActive => 'Активна';
+
+  @override
+  String get subscriptionCancelled => 'Отменена';
+
+  @override
+  String get periodMonthly => 'Ежемесячно';
+
+  @override
+  String get periodYearly => 'Ежегодно';
+
+  @override
+  String get periodCustom => 'Свой период';
+
+  @override
+  String get chargeToday => 'сегодня';
+
+  @override
+  String get chargeTomorrow => 'завтра';
+
+  @override
+  String chargeInDays(int days) {
+    return 'через $days дн.';
+  }
+
+  @override
+  String get chargeOverdue => 'срок прошёл';
+
+  @override
+  String get savingsRateTitle => 'Процент сбережений';
+
+  @override
+  String get savingsRateHint =>
+      'Столько осталось от всего, что пришло за месяц. Чем больше доля, тем больше дохода осталось вашим.';
+
+  @override
+  String get savingsRateNoIncome =>
+      'В этом месяце дохода не было — долю считать не от чего.';
+
+  @override
+  String get savingsRateHistory => 'По месяцам';
+
+  @override
+  String get cashFlowTitle => 'Движение денег';
+
+  @override
+  String get cashFlowReceived => 'Пришло';
+
+  @override
+  String get cashFlowSpent => 'Ушло';
+
+  @override
+  String get cashFlowSaved => 'Осталось';
+
+  @override
+  String get reportsTitle => 'Отчёты';
+
+  @override
+  String get reportsCategory => 'Категория';
+
+  @override
+  String get reportsAllCategories => 'Все категории';
+
+  @override
+  String get reportsPeriod => 'Период';
+
+  @override
+  String get reportsGroupByMonth => 'По месяцам';
+
+  @override
+  String get reportsGroupByYear => 'По годам';
+
+  @override
+  String get reportsEmpty => 'Под эти условия ничего не попало.';
+
+  @override
+  String get reportsTotal => 'Итого';
+
+  @override
+  String get adviceSection => 'На что посмотреть';
+
+  @override
+  String adviceRisk(String level, String percent, String limit) {
+    return 'На уровне «$level» — $percent% капитала при вашем лимите $limit%. Возможно, стоит пересмотреть распределение.';
+  }
+
+  @override
+  String adviceUseless(String percent) {
+    return 'Траты, которые вы отметили как «не стоило», выросли на $percent% против прошлого месяца.';
+  }
+
+  @override
+  String adviceSubscriptions(String percent) {
+    return 'Подписки стоят на $percent% больше, чем месяц назад — стоит проверить, все ли ещё нужны.';
+  }
+
+  @override
+  String adviceSavings(String percent, String limit) {
+    return 'В этом месяце осталось $percent% против обычных $limit%.';
+  }
+
+  @override
+  String get adviceEmpty =>
+      'На фоне ваших же чисел сейчас ничего не выделяется.';
+
+  @override
+  String get adviceDisclaimer =>
+      'Всё это — сравнение ваших чисел с вашими же лимитами и историей. Никаких рыночных данных и никакой оценки того, чем вы владеете.';
+
+  @override
+  String get analysisRangeTitle => 'Диапазон анализа';
+
+  @override
+  String get analysisRangeHint =>
+      'Насколько далеко назад смотрят все графики истории — капитал, движение денег, процент сбережений.';
+
+  @override
+  String analysisRangeYears(int years) {
+    return 'Последние $years лет';
+  }
+
+  @override
+  String get analysisRangeCustom => 'Задать даты';
+
+  @override
+  String get assetCategoriesTitle => 'Категории активов';
 }

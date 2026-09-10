@@ -333,5 +333,175 @@
   "onboardingBankStepTitle": "Add your bank (optional)",
   "onboardingNext": "Next",
   "onboardingStart": "Get started",
-  "onboardingSkip": "Skip"
+  "onboardingSkip": "Skip",
+  "navWealth": "Wealth",
+  "wealthTitle": "Wealth",
+  "wealthTotal": "Net worth",
+  "wealthAssets": "Assets",
+  "wealthLiabilities": "Liabilities",
+  "wealthEmptyTitle": "Nothing here yet",
+  "wealthEmptyBody": "Add what you own and what you owe. Values are yours to set and yours to update — nothing is fetched from anywhere.",
+  "wealthAddAsset": "ADD ASSET",
+  "wealthYearChange": "Over the last year",
+  "wealthYearChangeNoBase": "No data from a year ago to compare with yet.",
+  "wealthByCategory": "Where it sits",
+  "wealthByCashFlow": "What it does",
+  "wealthByRisk": "How risky",
+  "wealthAssetsList": "Assets",
+  "wealthOffline": "Every figure here is one you entered. The app does not look up prices or rates anywhere.",
+  "flowIncome": "Brings money in",
+  "flowLiability": "Takes money out",
+  "flowNeutral": "Neither",
+  "assetName": "Name",
+  "assetValue": "Current value",
+  "assetCategory": "Category",
+  "assetRisk": "Risk level",
+  "assetFlow": "Cash flow",
+  "assetNote": "Note",
+  "assetValuedAt": "Value as of",
+  "assetNew": "New asset",
+  "assetEdit": "Edit asset",
+  "assetRevalue": "UPDATE VALUE",
+  "assetRevalueTitle": "New value",
+  "assetHistory": "Value history",
+  "assetHistoryHint": "Each update adds a point instead of replacing the last one — that is what the year-over-year figure is built from.",
+  "assetDelete": "Delete asset",
+  "assetDeleteBody": "The asset and its whole value history go away. This cannot be undone.",
+  "riskSection": "Risk management",
+  "riskLimitLabel": "Limit for {level}",
+  "riskNoLimit": "no limit",
+  "riskLimitHint": "The share of your wealth you are fine keeping at this risk level. Yours to decide — the app has no opinion about what is safe.",
+  "riskBreachTitle": "Over your own limit",
+  "riskBreachBody": "{level}: {actual}% of your wealth, and you set the limit at {limit}%.",
+  "riskAddLevel": "ADD LEVEL",
+  "riskLevelName": "Level name",
+  "riskLevelInUse": "Assets are using this level — move them first.",
+  "riskLastLevel": "The last level cannot be removed.",
+  "usefulnessLabel": "Was it worth it?",
+  "usefulnessUseful": "Worth it",
+  "usefulnessUseless": "Not worth it",
+  "usefulnessNeutral": "Neither",
+  "usefulnessNotRated": "Not rated",
+  "usefulnessSection": "Worth it or not",
+  "usefulnessHint": "Only what you marked yourself. The app does not guess: the same delivery can be a rescue or a slip, and only you know which.",
+  "subscriptionsTitle": "Subscriptions",
+  "subscriptionsMonthly": "Per month",
+  "subscriptionsMonthlyHint": "Yearly ones are shown as their monthly share, so the total means the same thing every month.",
+  "subscriptionsEmpty": "No subscriptions yet. Add the ones that renew on their own.",
+  "subscriptionsAdd": "ADD SUBSCRIPTION",
+  "subscriptionNew": "New subscription",
+  "subscriptionEdit": "Edit subscription",
+  "subscriptionName": "Name",
+  "subscriptionAmount": "Amount",
+  "subscriptionPeriod": "Renews",
+  "subscriptionNextCharge": "Next charge",
+  "subscriptionCustomDays": "Every N days",
+  "subscriptionActive": "Active",
+  "subscriptionCancelled": "Cancelled",
+  "periodMonthly": "Monthly",
+  "periodYearly": "Yearly",
+  "periodCustom": "Custom",
+  "chargeToday": "today",
+  "chargeTomorrow": "tomorrow",
+  "chargeInDays": "in {days} d",
+  "chargeOverdue": "overdue",
+  "savingsRateTitle": "Savings rate",
+  "savingsRateHint": "Of everything that came in this month, this much stayed. A higher share means more of your income is still yours.",
+  "savingsRateNoIncome": "No income this month — there is nothing to take a share of.",
+  "savingsRateHistory": "By month",
+  "cashFlowTitle": "Cash flow",
+  "cashFlowReceived": "Came in",
+  "cashFlowSpent": "Went out",
+  "cashFlowSaved": "Kept",
+  "reportsTitle": "Reports",
+  "reportsCategory": "Category",
+  "reportsAllCategories": "All categories",
+  "reportsPeriod": "Period",
+  "reportsGroupByMonth": "By month",
+  "reportsGroupByYear": "By year",
+  "reportsEmpty": "Nothing matches these filters.",
+  "reportsTotal": "Total",
+  "adviceSection": "Worth a look",
+  "adviceRisk": "{level} holds {percent}% of your wealth, above the {limit}% you set. Might be worth rebalancing.",
+  "adviceUseless": "Spending you marked as not worth it is up {percent}% from last month.",
+  "adviceSubscriptions": "Subscriptions cost {percent}% more than last month — worth checking whether you still need them all.",
+  "adviceSavings": "You kept {percent}% this month against your usual {limit}%.",
+  "adviceEmpty": "Nothing stands out against your own numbers right now.",
+  "adviceDisclaimer": "These come from comparing your numbers with your own limits and history. No market data, no analysis of what you hold.",
+  "analysisRangeTitle": "Analysis range",
+  "analysisRangeHint": "How far back every history chart looks — wealth, cash flow, savings rate.",
+  "analysisRangeYears": "Last {years} years",
+  "analysisRangeCustom": "Set dates",
+  "assetCategoriesTitle": "Asset categories",
+  "@riskLimitLabel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "@riskBreachBody": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "actual": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@chargeInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@adviceRisk": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@adviceUseless": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "@adviceSubscriptions": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "@adviceSavings": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@analysisRangeYears": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  }
 }

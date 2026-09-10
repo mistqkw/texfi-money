@@ -657,4 +657,331 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingSkip => 'Skip';
+
+  @override
+  String get navWealth => 'Wealth';
+
+  @override
+  String get wealthTitle => 'Wealth';
+
+  @override
+  String get wealthTotal => 'Net worth';
+
+  @override
+  String get wealthAssets => 'Assets';
+
+  @override
+  String get wealthLiabilities => 'Liabilities';
+
+  @override
+  String get wealthEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get wealthEmptyBody =>
+      'Add what you own and what you owe. Values are yours to set and yours to update — nothing is fetched from anywhere.';
+
+  @override
+  String get wealthAddAsset => 'ADD ASSET';
+
+  @override
+  String get wealthYearChange => 'Over the last year';
+
+  @override
+  String get wealthYearChangeNoBase =>
+      'No data from a year ago to compare with yet.';
+
+  @override
+  String get wealthByCategory => 'Where it sits';
+
+  @override
+  String get wealthByCashFlow => 'What it does';
+
+  @override
+  String get wealthByRisk => 'How risky';
+
+  @override
+  String get wealthAssetsList => 'Assets';
+
+  @override
+  String get wealthOffline =>
+      'Every figure here is one you entered. The app does not look up prices or rates anywhere.';
+
+  @override
+  String get flowIncome => 'Brings money in';
+
+  @override
+  String get flowLiability => 'Takes money out';
+
+  @override
+  String get flowNeutral => 'Neither';
+
+  @override
+  String get assetName => 'Name';
+
+  @override
+  String get assetValue => 'Current value';
+
+  @override
+  String get assetCategory => 'Category';
+
+  @override
+  String get assetRisk => 'Risk level';
+
+  @override
+  String get assetFlow => 'Cash flow';
+
+  @override
+  String get assetNote => 'Note';
+
+  @override
+  String get assetValuedAt => 'Value as of';
+
+  @override
+  String get assetNew => 'New asset';
+
+  @override
+  String get assetEdit => 'Edit asset';
+
+  @override
+  String get assetRevalue => 'UPDATE VALUE';
+
+  @override
+  String get assetRevalueTitle => 'New value';
+
+  @override
+  String get assetHistory => 'Value history';
+
+  @override
+  String get assetHistoryHint =>
+      'Each update adds a point instead of replacing the last one — that is what the year-over-year figure is built from.';
+
+  @override
+  String get assetDelete => 'Delete asset';
+
+  @override
+  String get assetDeleteBody =>
+      'The asset and its whole value history go away. This cannot be undone.';
+
+  @override
+  String get riskSection => 'Risk management';
+
+  @override
+  String riskLimitLabel(String level) {
+    return 'Limit for $level';
+  }
+
+  @override
+  String get riskNoLimit => 'no limit';
+
+  @override
+  String get riskLimitHint =>
+      'The share of your wealth you are fine keeping at this risk level. Yours to decide — the app has no opinion about what is safe.';
+
+  @override
+  String get riskBreachTitle => 'Over your own limit';
+
+  @override
+  String riskBreachBody(String level, String actual, String limit) {
+    return '$level: $actual% of your wealth, and you set the limit at $limit%.';
+  }
+
+  @override
+  String get riskAddLevel => 'ADD LEVEL';
+
+  @override
+  String get riskLevelName => 'Level name';
+
+  @override
+  String get riskLevelInUse => 'Assets are using this level — move them first.';
+
+  @override
+  String get riskLastLevel => 'The last level cannot be removed.';
+
+  @override
+  String get usefulnessLabel => 'Was it worth it?';
+
+  @override
+  String get usefulnessUseful => 'Worth it';
+
+  @override
+  String get usefulnessUseless => 'Not worth it';
+
+  @override
+  String get usefulnessNeutral => 'Neither';
+
+  @override
+  String get usefulnessNotRated => 'Not rated';
+
+  @override
+  String get usefulnessSection => 'Worth it or not';
+
+  @override
+  String get usefulnessHint =>
+      'Only what you marked yourself. The app does not guess: the same delivery can be a rescue or a slip, and only you know which.';
+
+  @override
+  String get subscriptionsTitle => 'Subscriptions';
+
+  @override
+  String get subscriptionsMonthly => 'Per month';
+
+  @override
+  String get subscriptionsMonthlyHint =>
+      'Yearly ones are shown as their monthly share, so the total means the same thing every month.';
+
+  @override
+  String get subscriptionsEmpty =>
+      'No subscriptions yet. Add the ones that renew on their own.';
+
+  @override
+  String get subscriptionsAdd => 'ADD SUBSCRIPTION';
+
+  @override
+  String get subscriptionNew => 'New subscription';
+
+  @override
+  String get subscriptionEdit => 'Edit subscription';
+
+  @override
+  String get subscriptionName => 'Name';
+
+  @override
+  String get subscriptionAmount => 'Amount';
+
+  @override
+  String get subscriptionPeriod => 'Renews';
+
+  @override
+  String get subscriptionNextCharge => 'Next charge';
+
+  @override
+  String get subscriptionCustomDays => 'Every N days';
+
+  @override
+  String get subscriptionActive => 'Active';
+
+  @override
+  String get subscriptionCancelled => 'Cancelled';
+
+  @override
+  String get periodMonthly => 'Monthly';
+
+  @override
+  String get periodYearly => 'Yearly';
+
+  @override
+  String get periodCustom => 'Custom';
+
+  @override
+  String get chargeToday => 'today';
+
+  @override
+  String get chargeTomorrow => 'tomorrow';
+
+  @override
+  String chargeInDays(int days) {
+    return 'in $days d';
+  }
+
+  @override
+  String get chargeOverdue => 'overdue';
+
+  @override
+  String get savingsRateTitle => 'Savings rate';
+
+  @override
+  String get savingsRateHint =>
+      'Of everything that came in this month, this much stayed. A higher share means more of your income is still yours.';
+
+  @override
+  String get savingsRateNoIncome =>
+      'No income this month — there is nothing to take a share of.';
+
+  @override
+  String get savingsRateHistory => 'By month';
+
+  @override
+  String get cashFlowTitle => 'Cash flow';
+
+  @override
+  String get cashFlowReceived => 'Came in';
+
+  @override
+  String get cashFlowSpent => 'Went out';
+
+  @override
+  String get cashFlowSaved => 'Kept';
+
+  @override
+  String get reportsTitle => 'Reports';
+
+  @override
+  String get reportsCategory => 'Category';
+
+  @override
+  String get reportsAllCategories => 'All categories';
+
+  @override
+  String get reportsPeriod => 'Period';
+
+  @override
+  String get reportsGroupByMonth => 'By month';
+
+  @override
+  String get reportsGroupByYear => 'By year';
+
+  @override
+  String get reportsEmpty => 'Nothing matches these filters.';
+
+  @override
+  String get reportsTotal => 'Total';
+
+  @override
+  String get adviceSection => 'Worth a look';
+
+  @override
+  String adviceRisk(String level, String percent, String limit) {
+    return '$level holds $percent% of your wealth, above the $limit% you set. Might be worth rebalancing.';
+  }
+
+  @override
+  String adviceUseless(String percent) {
+    return 'Spending you marked as not worth it is up $percent% from last month.';
+  }
+
+  @override
+  String adviceSubscriptions(String percent) {
+    return 'Subscriptions cost $percent% more than last month — worth checking whether you still need them all.';
+  }
+
+  @override
+  String adviceSavings(String percent, String limit) {
+    return 'You kept $percent% this month against your usual $limit%.';
+  }
+
+  @override
+  String get adviceEmpty =>
+      'Nothing stands out against your own numbers right now.';
+
+  @override
+  String get adviceDisclaimer =>
+      'These come from comparing your numbers with your own limits and history. No market data, no analysis of what you hold.';
+
+  @override
+  String get analysisRangeTitle => 'Analysis range';
+
+  @override
+  String get analysisRangeHint =>
+      'How far back every history chart looks — wealth, cash flow, savings rate.';
+
+  @override
+  String analysisRangeYears(int years) {
+    return 'Last $years years';
+  }
+
+  @override
+  String get analysisRangeCustom => 'Set dates';
+
+  @override
+  String get assetCategoriesTitle => 'Asset categories';
 }

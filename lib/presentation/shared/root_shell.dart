@@ -7,6 +7,7 @@ import '../goals/goals_screen.dart';
 import '../history/history_screen.dart';
 import '../home/home_screen.dart';
 import '../statistics/statistics_screen.dart';
+import '../wealth/wealth_screen.dart';
 import 'pixel_icon.dart';
 
 class RootShell extends StatefulWidget {
@@ -25,6 +26,7 @@ class _RootShellState extends State<RootShell> {
     BudgetsScreen(),
     GoalsScreen(),
     StatisticsScreen(),
+    WealthScreen(),
   ];
 
   @override
@@ -59,6 +61,14 @@ class _RootShellState extends State<RootShell> {
           NavigationDestination(
             icon: const PixelIcon(PixelIcons.statistics),
             label: l10n.navStatistics,
+          ),
+          // Шестая вкладка — практический потолок нижней панели, и капитал
+          // занял его осознанно: это отдельный раздел со своими экранами
+          // внутри, а не ещё один срез трат. Подписки, движение денег и
+          // отчёты живут за ним, а не рядом с ним.
+          NavigationDestination(
+            icon: const PixelIcon(PixelIcons.netWorth),
+            label: l10n.navWealth,
           ),
         ],
       ),

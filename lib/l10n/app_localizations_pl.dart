@@ -668,4 +668,332 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get onboardingSkip => 'Pomiń';
+
+  @override
+  String get navWealth => 'Majątek';
+
+  @override
+  String get wealthTitle => 'Majątek';
+
+  @override
+  String get wealthTotal => 'Majątek netto';
+
+  @override
+  String get wealthAssets => 'Aktywa';
+
+  @override
+  String get wealthLiabilities => 'Zobowiązania';
+
+  @override
+  String get wealthEmptyTitle => 'Na razie pusto';
+
+  @override
+  String get wealthEmptyBody =>
+      'Dodaj to, co masz, i to, co jesteś winien. Wartości ustawiasz i aktualizujesz sam — nic nie jest nigdzie pobierane.';
+
+  @override
+  String get wealthAddAsset => 'DODAJ AKTYWO';
+
+  @override
+  String get wealthYearChange => 'Przez ostatni rok';
+
+  @override
+  String get wealthYearChangeNoBase =>
+      'Nie ma jeszcze danych sprzed roku, żeby porównać.';
+
+  @override
+  String get wealthByCategory => 'Gdzie leży';
+
+  @override
+  String get wealthByCashFlow => 'Co robi';
+
+  @override
+  String get wealthByRisk => 'Jak ryzykowne';
+
+  @override
+  String get wealthAssetsList => 'Aktywa';
+
+  @override
+  String get wealthOffline =>
+      'Wszystkie liczby tutaj wpisałeś ty. Aplikacja nigdzie nie sprawdza kursów ani notowań.';
+
+  @override
+  String get flowIncome => 'Przynosi pieniądze';
+
+  @override
+  String get flowLiability => 'Zabiera pieniądze';
+
+  @override
+  String get flowNeutral => 'Ani jedno, ani drugie';
+
+  @override
+  String get assetName => 'Nazwa';
+
+  @override
+  String get assetValue => 'Obecna wartość';
+
+  @override
+  String get assetCategory => 'Kategoria';
+
+  @override
+  String get assetRisk => 'Poziom ryzyka';
+
+  @override
+  String get assetFlow => 'Przepływ pieniędzy';
+
+  @override
+  String get assetNote => 'Notatka';
+
+  @override
+  String get assetValuedAt => 'Wartość na dzień';
+
+  @override
+  String get assetNew => 'Nowe aktywo';
+
+  @override
+  String get assetEdit => 'Edycja aktywa';
+
+  @override
+  String get assetRevalue => 'ZAKTUALIZUJ WARTOŚĆ';
+
+  @override
+  String get assetRevalueTitle => 'Nowa wartość';
+
+  @override
+  String get assetHistory => 'Historia wartości';
+
+  @override
+  String get assetHistoryHint =>
+      'Każda aktualizacja dodaje punkt zamiast zastępować poprzedni — z nich liczy się zmiana roczna.';
+
+  @override
+  String get assetDelete => 'Usuń aktywo';
+
+  @override
+  String get assetDeleteBody =>
+      'Aktywo i cała historia jego wartości znikną. Tego nie da się cofnąć.';
+
+  @override
+  String get riskSection => 'Zarządzanie ryzykiem';
+
+  @override
+  String riskLimitLabel(String level) {
+    return 'Limit dla „$level”';
+  }
+
+  @override
+  String get riskNoLimit => 'bez limitu';
+
+  @override
+  String get riskLimitHint =>
+      'Część majątku, jaką godzisz się trzymać na tym poziomie ryzyka. Decydujesz ty: aplikacja nie ma zdania, co jest bezpieczne.';
+
+  @override
+  String get riskBreachTitle => 'Powyżej twojego limitu';
+
+  @override
+  String riskBreachBody(String level, String actual, String limit) {
+    return '„$level”: $actual% majątku przy ustawionym limicie $limit%.';
+  }
+
+  @override
+  String get riskAddLevel => 'DODAJ POZIOM';
+
+  @override
+  String get riskLevelName => 'Nazwa poziomu';
+
+  @override
+  String get riskLevelInUse =>
+      'Na tym poziomie są aktywa — najpierw je przenieś.';
+
+  @override
+  String get riskLastLevel => 'Ostatniego poziomu nie można usunąć.';
+
+  @override
+  String get usefulnessLabel => 'Było warto?';
+
+  @override
+  String get usefulnessUseful => 'Warto';
+
+  @override
+  String get usefulnessUseless => 'Nie warto';
+
+  @override
+  String get usefulnessNeutral => 'Ani tak, ani nie';
+
+  @override
+  String get usefulnessNotRated => 'Bez oceny';
+
+  @override
+  String get usefulnessSection => 'Warto czy nie';
+
+  @override
+  String get usefulnessHint =>
+      'Tylko to, co sam oznaczyłeś. Aplikacja nie zgaduje: ta sama dostawa bywa ratunkiem wieczoru i słabością, a wiesz o tym tylko ty.';
+
+  @override
+  String get subscriptionsTitle => 'Subskrypcje';
+
+  @override
+  String get subscriptionsMonthly => 'Miesięcznie';
+
+  @override
+  String get subscriptionsMonthlyHint =>
+      'Roczne pokazane jako część miesięczna, żeby suma znaczyła to samo w każdym miesiącu.';
+
+  @override
+  String get subscriptionsEmpty =>
+      'Na razie brak subskrypcji. Dodaj te, które odnawiają się same.';
+
+  @override
+  String get subscriptionsAdd => 'DODAJ SUBSKRYPCJĘ';
+
+  @override
+  String get subscriptionNew => 'Nowa subskrypcja';
+
+  @override
+  String get subscriptionEdit => 'Edycja subskrypcji';
+
+  @override
+  String get subscriptionName => 'Nazwa';
+
+  @override
+  String get subscriptionAmount => 'Kwota';
+
+  @override
+  String get subscriptionPeriod => 'Odnawia się';
+
+  @override
+  String get subscriptionNextCharge => 'Następne obciążenie';
+
+  @override
+  String get subscriptionCustomDays => 'Co N dni';
+
+  @override
+  String get subscriptionActive => 'Aktywna';
+
+  @override
+  String get subscriptionCancelled => 'Anulowana';
+
+  @override
+  String get periodMonthly => 'Co miesiąc';
+
+  @override
+  String get periodYearly => 'Co rok';
+
+  @override
+  String get periodCustom => 'Własny okres';
+
+  @override
+  String get chargeToday => 'dziś';
+
+  @override
+  String get chargeTomorrow => 'jutro';
+
+  @override
+  String chargeInDays(int days) {
+    return 'za $days dn.';
+  }
+
+  @override
+  String get chargeOverdue => 'termin minął';
+
+  @override
+  String get savingsRateTitle => 'Stopa oszczędności';
+
+  @override
+  String get savingsRateHint =>
+      'Tyle zostało z wszystkiego, co wpłynęło w tym miesiącu. Im większa część, tym więcej dochodu zostało twoje.';
+
+  @override
+  String get savingsRateNoIncome =>
+      'W tym miesiącu nie było dochodu — nie ma od czego liczyć części.';
+
+  @override
+  String get savingsRateHistory => 'Wg miesięcy';
+
+  @override
+  String get cashFlowTitle => 'Przepływ pieniędzy';
+
+  @override
+  String get cashFlowReceived => 'Wpłynęło';
+
+  @override
+  String get cashFlowSpent => 'Wypłynęło';
+
+  @override
+  String get cashFlowSaved => 'Zostało';
+
+  @override
+  String get reportsTitle => 'Raporty';
+
+  @override
+  String get reportsCategory => 'Kategoria';
+
+  @override
+  String get reportsAllCategories => 'Wszystkie kategorie';
+
+  @override
+  String get reportsPeriod => 'Okres';
+
+  @override
+  String get reportsGroupByMonth => 'Wg miesięcy';
+
+  @override
+  String get reportsGroupByYear => 'Wg lat';
+
+  @override
+  String get reportsEmpty => 'Nic nie pasuje do tych warunków.';
+
+  @override
+  String get reportsTotal => 'Razem';
+
+  @override
+  String get adviceSection => 'Warto zerknąć';
+
+  @override
+  String adviceRisk(String level, String percent, String limit) {
+    return 'Na poziomie „$level” jest $percent% majątku przy twoim limicie $limit%. Może warto przemyśleć podział.';
+  }
+
+  @override
+  String adviceUseless(String percent) {
+    return 'Wydatki oznaczone jako „nie warto” wzrosły o $percent% wobec zeszłego miesiąca.';
+  }
+
+  @override
+  String adviceSubscriptions(String percent) {
+    return 'Subskrypcje kosztują o $percent% więcej niż miesiąc temu — warto sprawdzić, czy wszystkie są jeszcze potrzebne.';
+  }
+
+  @override
+  String adviceSavings(String percent, String limit) {
+    return 'W tym miesiącu zostało $percent% wobec zwykłych $limit%.';
+  }
+
+  @override
+  String get adviceEmpty =>
+      'Na tle twoich własnych liczb nic się teraz nie wyróżnia.';
+
+  @override
+  String get adviceDisclaimer =>
+      'To wszystko to porównanie twoich liczb z twoimi limitami i historią. Żadnych danych rynkowych ani oceny tego, co posiadasz.';
+
+  @override
+  String get analysisRangeTitle => 'Zakres analizy';
+
+  @override
+  String get analysisRangeHint =>
+      'Jak daleko wstecz sięgają wszystkie wykresy historii — majątek, przepływ, stopa oszczędności.';
+
+  @override
+  String analysisRangeYears(int years) {
+    return 'Ostatnie $years lat';
+  }
+
+  @override
+  String get analysisRangeCustom => 'Ustaw daty';
+
+  @override
+  String get assetCategoriesTitle => 'Kategorie aktywów';
 }

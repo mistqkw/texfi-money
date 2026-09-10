@@ -1283,6 +1283,600 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip'**
   String get onboardingSkip;
+
+  /// No description provided for @navWealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Wealth'**
+  String get navWealth;
+
+  /// No description provided for @wealthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wealth'**
+  String get wealthTitle;
+
+  /// No description provided for @wealthTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Net worth'**
+  String get wealthTotal;
+
+  /// No description provided for @wealthAssets.
+  ///
+  /// In en, this message translates to:
+  /// **'Assets'**
+  String get wealthAssets;
+
+  /// No description provided for @wealthLiabilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Liabilities'**
+  String get wealthLiabilities;
+
+  /// No description provided for @wealthEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get wealthEmptyTitle;
+
+  /// No description provided for @wealthEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add what you own and what you owe. Values are yours to set and yours to update — nothing is fetched from anywhere.'**
+  String get wealthEmptyBody;
+
+  /// No description provided for @wealthAddAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD ASSET'**
+  String get wealthAddAsset;
+
+  /// No description provided for @wealthYearChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the last year'**
+  String get wealthYearChange;
+
+  /// No description provided for @wealthYearChangeNoBase.
+  ///
+  /// In en, this message translates to:
+  /// **'No data from a year ago to compare with yet.'**
+  String get wealthYearChangeNoBase;
+
+  /// No description provided for @wealthByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Where it sits'**
+  String get wealthByCategory;
+
+  /// No description provided for @wealthByCashFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'What it does'**
+  String get wealthByCashFlow;
+
+  /// No description provided for @wealthByRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'How risky'**
+  String get wealthByRisk;
+
+  /// No description provided for @wealthAssetsList.
+  ///
+  /// In en, this message translates to:
+  /// **'Assets'**
+  String get wealthAssetsList;
+
+  /// No description provided for @wealthOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Every figure here is one you entered. The app does not look up prices or rates anywhere.'**
+  String get wealthOffline;
+
+  /// No description provided for @flowIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Brings money in'**
+  String get flowIncome;
+
+  /// No description provided for @flowLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes money out'**
+  String get flowLiability;
+
+  /// No description provided for @flowNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither'**
+  String get flowNeutral;
+
+  /// No description provided for @assetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get assetName;
+
+  /// No description provided for @assetValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Current value'**
+  String get assetValue;
+
+  /// No description provided for @assetCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get assetCategory;
+
+  /// No description provided for @assetRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk level'**
+  String get assetRisk;
+
+  /// No description provided for @assetFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash flow'**
+  String get assetFlow;
+
+  /// No description provided for @assetNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get assetNote;
+
+  /// No description provided for @assetValuedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Value as of'**
+  String get assetValuedAt;
+
+  /// No description provided for @assetNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New asset'**
+  String get assetNew;
+
+  /// No description provided for @assetEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit asset'**
+  String get assetEdit;
+
+  /// No description provided for @assetRevalue.
+  ///
+  /// In en, this message translates to:
+  /// **'UPDATE VALUE'**
+  String get assetRevalue;
+
+  /// No description provided for @assetRevalueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New value'**
+  String get assetRevalueTitle;
+
+  /// No description provided for @assetHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Value history'**
+  String get assetHistory;
+
+  /// No description provided for @assetHistoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Each update adds a point instead of replacing the last one — that is what the year-over-year figure is built from.'**
+  String get assetHistoryHint;
+
+  /// No description provided for @assetDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete asset'**
+  String get assetDelete;
+
+  /// No description provided for @assetDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The asset and its whole value history go away. This cannot be undone.'**
+  String get assetDeleteBody;
+
+  /// No description provided for @riskSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk management'**
+  String get riskSection;
+
+  /// No description provided for @riskLimitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit for {level}'**
+  String riskLimitLabel(String level);
+
+  /// No description provided for @riskNoLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'no limit'**
+  String get riskNoLimit;
+
+  /// No description provided for @riskLimitHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The share of your wealth you are fine keeping at this risk level. Yours to decide — the app has no opinion about what is safe.'**
+  String get riskLimitHint;
+
+  /// No description provided for @riskBreachTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Over your own limit'**
+  String get riskBreachTitle;
+
+  /// No description provided for @riskBreachBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{level}: {actual}% of your wealth, and you set the limit at {limit}%.'**
+  String riskBreachBody(String level, String actual, String limit);
+
+  /// No description provided for @riskAddLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD LEVEL'**
+  String get riskAddLevel;
+
+  /// No description provided for @riskLevelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Level name'**
+  String get riskLevelName;
+
+  /// No description provided for @riskLevelInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Assets are using this level — move them first.'**
+  String get riskLevelInUse;
+
+  /// No description provided for @riskLastLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'The last level cannot be removed.'**
+  String get riskLastLevel;
+
+  /// No description provided for @usefulnessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Was it worth it?'**
+  String get usefulnessLabel;
+
+  /// No description provided for @usefulnessUseful.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth it'**
+  String get usefulnessUseful;
+
+  /// No description provided for @usefulnessUseless.
+  ///
+  /// In en, this message translates to:
+  /// **'Not worth it'**
+  String get usefulnessUseless;
+
+  /// No description provided for @usefulnessNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither'**
+  String get usefulnessNeutral;
+
+  /// No description provided for @usefulnessNotRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rated'**
+  String get usefulnessNotRated;
+
+  /// No description provided for @usefulnessSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth it or not'**
+  String get usefulnessSection;
+
+  /// No description provided for @usefulnessHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only what you marked yourself. The app does not guess: the same delivery can be a rescue or a slip, and only you know which.'**
+  String get usefulnessHint;
+
+  /// No description provided for @subscriptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get subscriptionsTitle;
+
+  /// No description provided for @subscriptionsMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Per month'**
+  String get subscriptionsMonthly;
+
+  /// No description provided for @subscriptionsMonthlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly ones are shown as their monthly share, so the total means the same thing every month.'**
+  String get subscriptionsMonthlyHint;
+
+  /// No description provided for @subscriptionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No subscriptions yet. Add the ones that renew on their own.'**
+  String get subscriptionsEmpty;
+
+  /// No description provided for @subscriptionsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD SUBSCRIPTION'**
+  String get subscriptionsAdd;
+
+  /// No description provided for @subscriptionNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New subscription'**
+  String get subscriptionNew;
+
+  /// No description provided for @subscriptionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit subscription'**
+  String get subscriptionEdit;
+
+  /// No description provided for @subscriptionName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get subscriptionName;
+
+  /// No description provided for @subscriptionAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get subscriptionAmount;
+
+  /// No description provided for @subscriptionPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews'**
+  String get subscriptionPeriod;
+
+  /// No description provided for @subscriptionNextCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Next charge'**
+  String get subscriptionNextCharge;
+
+  /// No description provided for @subscriptionCustomDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Every N days'**
+  String get subscriptionCustomDays;
+
+  /// No description provided for @subscriptionActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get subscriptionActive;
+
+  /// No description provided for @subscriptionCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get subscriptionCancelled;
+
+  /// No description provided for @periodMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get periodMonthly;
+
+  /// No description provided for @periodYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get periodYearly;
+
+  /// No description provided for @periodCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get periodCustom;
+
+  /// No description provided for @chargeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get chargeToday;
+
+  /// No description provided for @chargeTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get chargeTomorrow;
+
+  /// No description provided for @chargeInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'in {days} d'**
+  String chargeInDays(int days);
+
+  /// No description provided for @chargeOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'overdue'**
+  String get chargeOverdue;
+
+  /// No description provided for @savingsRateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings rate'**
+  String get savingsRateTitle;
+
+  /// No description provided for @savingsRateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Of everything that came in this month, this much stayed. A higher share means more of your income is still yours.'**
+  String get savingsRateHint;
+
+  /// No description provided for @savingsRateNoIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'No income this month — there is nothing to take a share of.'**
+  String get savingsRateNoIncome;
+
+  /// No description provided for @savingsRateHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'By month'**
+  String get savingsRateHistory;
+
+  /// No description provided for @cashFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash flow'**
+  String get cashFlowTitle;
+
+  /// No description provided for @cashFlowReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Came in'**
+  String get cashFlowReceived;
+
+  /// No description provided for @cashFlowSpent.
+  ///
+  /// In en, this message translates to:
+  /// **'Went out'**
+  String get cashFlowSpent;
+
+  /// No description provided for @cashFlowSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept'**
+  String get cashFlowSaved;
+
+  /// No description provided for @reportsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reportsTitle;
+
+  /// No description provided for @reportsCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get reportsCategory;
+
+  /// No description provided for @reportsAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All categories'**
+  String get reportsAllCategories;
+
+  /// No description provided for @reportsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get reportsPeriod;
+
+  /// No description provided for @reportsGroupByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'By month'**
+  String get reportsGroupByMonth;
+
+  /// No description provided for @reportsGroupByYear.
+  ///
+  /// In en, this message translates to:
+  /// **'By year'**
+  String get reportsGroupByYear;
+
+  /// No description provided for @reportsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches these filters.'**
+  String get reportsEmpty;
+
+  /// No description provided for @reportsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get reportsTotal;
+
+  /// No description provided for @adviceSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth a look'**
+  String get adviceSection;
+
+  /// No description provided for @adviceRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'{level} holds {percent}% of your wealth, above the {limit}% you set. Might be worth rebalancing.'**
+  String adviceRisk(String level, String percent, String limit);
+
+  /// No description provided for @adviceUseless.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending you marked as not worth it is up {percent}% from last month.'**
+  String adviceUseless(String percent);
+
+  /// No description provided for @adviceSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions cost {percent}% more than last month — worth checking whether you still need them all.'**
+  String adviceSubscriptions(String percent);
+
+  /// No description provided for @adviceSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'You kept {percent}% this month against your usual {limit}%.'**
+  String adviceSavings(String percent, String limit);
+
+  /// No description provided for @adviceEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing stands out against your own numbers right now.'**
+  String get adviceEmpty;
+
+  /// No description provided for @adviceDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'These come from comparing your numbers with your own limits and history. No market data, no analysis of what you hold.'**
+  String get adviceDisclaimer;
+
+  /// No description provided for @analysisRangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis range'**
+  String get analysisRangeTitle;
+
+  /// No description provided for @analysisRangeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How far back every history chart looks — wealth, cash flow, savings rate.'**
+  String get analysisRangeHint;
+
+  /// No description provided for @analysisRangeYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Last {years} years'**
+  String analysisRangeYears(int years);
+
+  /// No description provided for @analysisRangeCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Set dates'**
+  String get analysisRangeCustom;
+
+  /// No description provided for @assetCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset categories'**
+  String get assetCategoriesTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -45,6 +45,12 @@ abstract final class AppSpacing {
 
   // Готовые вертикальные промежутки — короче и нагляднее, чем SizedBox
   // с числом в каждом файле.
+  /// Горизонтальные промежутки. Заведены рядом с вертикальными, а не
+  /// собираются по месту через `SizedBox(width:)`: иначе расстояние между
+  /// иконкой и текстом оказывается своё на каждом экране.
+  static const Widget gapHSm = SizedBox(width: sm);
+  static const Widget gapHMd = SizedBox(width: md);
+
   static const Widget gapXs = SizedBox(height: xs);
   static const Widget gapSm = SizedBox(height: sm);
   static const Widget gapMd = SizedBox(height: md);
