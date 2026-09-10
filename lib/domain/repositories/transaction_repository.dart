@@ -1,5 +1,6 @@
 import '../entities/category_total.dart';
 import '../entities/monthly_total.dart';
+import '../entities/spend_usefulness.dart';
 import '../entities/transaction_entity.dart';
 import '../entities/transaction_type.dart';
 
@@ -54,6 +55,16 @@ abstract class TransactionRepository {
   /// Возвращает 0, если данных ещё нет.
   Future<double> averageAmount({required TransactionType type, String? categoryId});
 
+  /// Суммы расходов по оценке полезности за период.
+  ///
+  /// Ключ `null` — операции, которым оценку не ставили. Это отдельная
+  /// строка, а не «нейтрально»: у человека, который вообще не пользуется
+  /// оценкой, весь период иначе выглядел бы взвешенно-нейтральным.
+  Future<Map<SpendUsefulness?, double>> usefulnessTotals({
+    required DateTime from,
+    required DateTime to,
+  });
+
   Future<String> add({
     required double amount,
     required TransactionType type,
@@ -61,6 +72,7 @@ abstract class TransactionRepository {
     required DateTime date,
     String? note,
     String? accountId,
+    SpendUsefulness? usefulness,
   });
 
   /// Обновляет существующую транзакцию. Поля задаются явно, а не целой
@@ -74,6 +86,7 @@ abstract class TransactionRepository {
     required DateTime date,
     String? note,
     String? accountId,
+    SpendUsefulness? usefulness,
   });
 
   Future<void> delete(String id);

@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
+import '../../domain/entities/spend_usefulness.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
@@ -27,6 +28,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       date: tx.date,
       note: tx.note,
       accountId: tx.accountId,
+      usefulness: SpendUsefulness.fromStorageKey(tx.usefulness),
       createdAt: tx.createdAt,
     );
   }
@@ -193,6 +195,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required DateTime date,
     String? note,
     String? accountId,
+    SpendUsefulness? usefulness,
   }) {
     return (_db.update(_db.transactions)..where((t) => t.id.equals(id))).write(
       TransactionsCompanion(
@@ -202,6 +205,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         date: Value(date),
         note: Value(note),
         accountId: Value(accountId),
+        usefulness: Value(usefulness?.storageKey),
       ),
     );
   }
@@ -214,6 +218,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required DateTime date,
     String? note,
     String? accountId,
+    SpendUsefulness? usefulness,
   }) async {
     final id = _uuid.v4();
     await _db.into(_db.transactions).insert(TransactionsCompanion.insert(
@@ -224,8 +229,30 @@ class TransactionRepositoryImpl implements TransactionRepository {
           date: date,
           note: Value(note),
           accountId: Value(accountId),
+          usefulness: Value(usefulness?.storageKey),
         ));
     return id;
+  }
+
+  @override
+  Future<Map<SpendUsefulness?, double>> usefulnessTotals({
+    required DateTime from,
+    required DateTime to,
+  }) async {
+    final amount = _db.transactions.amount.sum();
+    final query = _db.selectOnly(_db.transactions)
+      ..addColumns([_db.transactions.usefulness, amount])
+      ..where(_db.transactions.type.equals(TransactionType.expense.storageKey) &
+          _db.transactions.date.isBiggerOrEqualValue(from) &
+          _db.transactions.date.isSmallerOrEqualValue(to))
+      ..groupBy([_db.transactions.usefulness]);
+
+    final rows = await query.get();
+    return {
+      for (final row in rows)
+        SpendUsefulness.fromStorageKey(row.read(_db.transactions.usefulness)):
+            row.read(amount) ?? 0,
+    };
   }
 
   @override

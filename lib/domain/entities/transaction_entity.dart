@@ -1,4 +1,5 @@
 import 'category_entity.dart';
+import 'spend_usefulness.dart';
 import 'transaction_type.dart';
 
 class TransactionEntity {
@@ -10,6 +11,7 @@ class TransactionEntity {
     required this.date,
     this.note,
     this.accountId,
+    this.usefulness,
     required this.createdAt,
   });
 
@@ -20,6 +22,11 @@ class TransactionEntity {
   final DateTime date;
   final String? note;
   final String? accountId;
+
+  /// Оценка полезности траты. `null` — человек её не ставил, и это не то
+  /// же самое, что «нейтрально».
+  final SpendUsefulness? usefulness;
+
   final DateTime createdAt;
 
   /// Со знаком: расход отрицателен, доход положителен.
