@@ -7,6 +7,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_icon.dart';
 import 'currency_provider.dart';
 
 class CurrencyPickerScreen extends ConsumerWidget {
@@ -38,7 +39,7 @@ class CurrencyPickerScreen extends ConsumerWidget {
             ),
             title: Text(currencyDisplayName(context, currency), style: context.text.title),
             subtitle: Text(currency.code, style: context.text.caption),
-            trailing: selected ? Icon(Icons.check, color: context.colors.accent) : null,
+            trailing: selected ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null,
             onTap: () {
               Haptics.select();
               ref.read(currencyProvider.notifier).setCurrency(currency);

@@ -89,7 +89,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
         title: Text(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -256,7 +256,7 @@ class _ColorPicker extends StatelessWidget {
                   : null,
             ),
             child: isSelected
-                ? const Icon(Icons.check, color: Colors.white, size: 18)
+                ? const PixelIcon(PixelIcons.check, color: Colors.white, size: 18)
                 : null,
           ),
         );

@@ -191,7 +191,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     label: l10n.historyReset,
                     active: false,
                     onTap: _resetFilters,
-                    icon: Icons.close,
+                    icon: PixelIcons.close,
                   ),
               ],
             ),
@@ -245,7 +245,9 @@ class _FilterChip extends StatelessWidget {
   final String label;
   final bool active;
   final VoidCallback onTap;
-  final IconData? icon;
+  /// Спрайт из [PixelIcons], а не [IconData]: сглаженный Material-контур
+  /// рядом с пиксельными знаками видно без сравнения.
+  final List<String>? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -269,10 +271,10 @@ class _FilterChip extends StatelessWidget {
             ),
             if (icon != null) ...[
               const SizedBox(width: AppSpacing.xs),
-              Icon(icon, size: 14, color: context.colors.textSecondary),
+              PixelIcon(icon!, size: 14, color: context.colors.textSecondary),
             ] else ...[
               const SizedBox(width: AppSpacing.xs),
-              Icon(Icons.expand_more, size: 16, color: active ? context.colors.accent : context.colors.textTertiary),
+              PixelIcon(PixelIcons.chevronDown, size: 16, color: active ? context.colors.accent : context.colors.textTertiary),
             ],
           ],
         ),

@@ -11,6 +11,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_icon.dart';
 
 class DebtProfileFormScreen extends ConsumerStatefulWidget {
   const DebtProfileFormScreen({super.key, this.existing});
@@ -76,7 +77,7 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
         title: Text(_isEditing ? l10n.profileFormTitleEdit : l10n.profileFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

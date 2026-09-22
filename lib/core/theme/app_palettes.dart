@@ -25,6 +25,7 @@ abstract final class AppPalettes {
     income: Color(0xFF3ED598),
     expense: Color(0xFFFF6B6B),
     warning: Color(0xFFFFB648),
+    noise: Color(0x0DFFFFFF),
   );
 
   /// Чистый чёрный OLED: та же тёмная тема, но фон и поверхности — #000000
@@ -43,6 +44,7 @@ abstract final class AppPalettes {
     income: Color(0xFF3ED598),
     expense: Color(0xFFFF6B6B),
     warning: Color(0xFFFFB648),
+    noise: Color(0x0DFFFFFF),
   );
 
   /// «Ретро-бумага, Game Boy на солнце» — та же светлая палитра, что в
@@ -71,6 +73,9 @@ abstract final class AppPalettes {
     income: Color(0xFF1B9E66),
     expense: Color(0xFFD64545),
     warning: Color(0xFFD98A2B),
+    // Тёплая крапинка под цвет бумаги: белая на кремовом фоне не видна
+    // вовсе, а серая делает его грязным.
+    noise: Color(0x0F8A6A3D),
   );
 
   static AppColorsExt forVariant(AppThemeVariant variant) => switch (variant) {

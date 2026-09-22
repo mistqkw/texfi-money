@@ -15,6 +15,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import 'category_form_screen.dart';
 
@@ -145,11 +146,11 @@ class _CategoryRow extends StatelessWidget {
             if (onDelete != null)
               IconButton(
                 tooltip: context.l10n.commonDelete,
-                icon: Icon(Icons.delete_outline, color: context.colors.textTertiary),
+                icon: PixelIcon(PixelIcons.delete, color: context.colors.textTertiary),
                 onPressed: onDelete,
               )
             else
-              Icon(Icons.lock_outline, color: context.colors.textTertiary, size: 18),
+              PixelIcon(PixelIcons.lock, color: context.colors.textTertiary, size: 18),
           ],
         ),
       ),

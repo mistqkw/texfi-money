@@ -3,8 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
 import 'package:texfi_money/core/theme/app_colors_ext.dart';
+import 'package:texfi_money/core/theme/app_radius.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
 import 'package:texfi_money/presentation/shared/pixel_button.dart';
+import 'package:texfi_money/presentation/shared/pixel_icon.dart';
+import 'package:texfi_money/presentation/shared/pixel_shadow.dart';
 
 Widget _wrap(Widget child, {AppThemeVariant variant = AppThemeVariant.dark}) {
   return MaterialApp(
@@ -13,67 +16,60 @@ Widget _wrap(Widget child, {AppThemeVariant variant = AppThemeVariant.dark}) {
   );
 }
 
-/// Геометрия кнопки: сдвиг контейнера и размер тени.
-({double offset, double shadow}) _geometry(WidgetTester tester) {
-  final container = tester.widget<AnimatedContainer>(
+PixelShadowBox _shadow(WidgetTester tester) {
+  return tester.widget<PixelShadowBox>(
     find.descendant(
       of: find.byType(PixelButton),
-      matching: find.byType(AnimatedContainer),
+      matching: find.byType(PixelShadowBox),
     ),
-  );
-  final decoration = container.decoration! as BoxDecoration;
-  return (
-    offset: container.transform!.getTranslation().x,
-    shadow: decoration.boxShadow!.single.offset.dx,
   );
 }
 
+/// Насколько содержимое кнопки уехало вниз-вправо прямо сейчас.
+double _shift(WidgetTester tester) {
+  final transform = tester.widget<Transform>(
+    find.descendant(
+      of: find.byType(PixelShadowBox),
+      matching: find.byType(Transform),
+    ),
+  );
+  return transform.transform.getTranslation().x;
+}
+
 void main() {
-  testWidgets('нажатие вдавливает кнопку: тень схлопывается на тот же сдвиг',
+  testWidgets('кнопка утапливается на высоту тени и возвращается',
       (tester) async {
     await tester.pumpWidget(
       _wrap(PixelButton(label: 'Сохранить', onPressed: () {})),
     );
 
-    final rest = _geometry(tester);
-    expect(rest.offset, 0);
-    expect(rest.shadow, greaterThan(0));
+    expect(_shadow(tester).pressed, isFalse);
+    expect(_shift(tester), 0);
 
     final gesture = await tester.press(find.byType(PixelButton));
     await tester.pumpAndSettle();
 
-    final pressed = _geometry(tester);
-    expect(pressed.shadow, 0);
-    // Суммарный габарит не меняется: сколько кнопка ушла вниз-вправо,
-    // столько же отдала тень. Иначе соседи в форме дёргались бы.
-    expect(pressed.offset, rest.shadow);
+    expect(_shadow(tester).pressed, isTrue);
+    // Содержимое уходит ровно на смещение тени: общий габарит не меняется,
+    // соседи в форме не дёргаются.
+    expect(_shift(tester), AppRadius.pixelShadowOffset);
 
     await gesture.up();
     await tester.pumpAndSettle();
-    expect(_geometry(tester).offset, 0);
+    expect(_shift(tester), 0);
   });
 
-  testWidgets('выключенная кнопка гасит тень и не реагирует на нажатие',
+  testWidgets('выключенная кнопка не отбрасывает тень и не нажимается',
       (tester) async {
     await tester.pumpWidget(
       _wrap(const PixelButton(label: 'Сохранить', onPressed: null)),
     );
 
-    final container = tester.widget<AnimatedContainer>(
-      find.descendant(
-        of: find.byType(PixelButton),
-        matching: find.byType(AnimatedContainer),
-      ),
-    );
-    final decoration = container.decoration! as BoxDecoration;
-    // Тень не убрана из списка, а обесцвечена: убери её совсем — и кнопка
-    // на время недоступности поехала бы на три пикселя вбок.
-    expect(decoration.boxShadow!.single.color, Colors.transparent);
+    expect(_shadow(tester).enabled, isFalse);
 
     await tester.tap(find.byType(PixelButton));
     await tester.pump();
-    // Нажатие не вдавливает выключенную кнопку.
-    expect(_geometry(tester).offset, 0);
+    expect(_shadow(tester).pressed, isFalse);
   });
 
   testWidgets('во время сохранения кнопка не принимает нажатий',
@@ -88,6 +84,18 @@ void main() {
     // Подпись остаётся в дереве прозрачной — высота кнопки не схлопывается
     // до размера индикатора, и форма под ней не прыгает.
     expect(find.text('Сохранить'), findsOneWidget);
+  });
+
+  testWidgets('знак на кнопке — спрайт, а не Material-иконка', (tester) async {
+    await tester.pumpWidget(
+      _wrap(PixelButton(
+        label: 'Добавить',
+        sprite: PixelIcons.add,
+        onPressed: () {},
+      )),
+    );
+    expect(find.byType(PixelIcon), findsOneWidget);
+    expect(find.byType(Icon), findsNothing);
   });
 
   for (final variant in AppThemeVariant.values) {

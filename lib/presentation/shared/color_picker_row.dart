@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/utils/haptics.dart';
+import 'pixel_icon.dart';
 
 /// Палитра выбора цвета — одна на все формы (категория, счёт, цель,
 /// профиль), где раньше лежали четыре одинаковые копии.
@@ -57,7 +58,7 @@ class ColorPickerRow extends StatelessWidget {
                         : null,
                   ),
                   child: isSelected
-                      ? const Icon(Icons.check, color: Colors.white, size: 18)
+                      ? const PixelIcon(PixelIcons.check, color: Colors.white, size: 18)
                       : null,
                 ),
               ),

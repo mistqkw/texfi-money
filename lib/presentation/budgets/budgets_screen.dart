@@ -118,7 +118,7 @@ class _BudgetCard extends ConsumerWidget {
             AppSpacing.gapSm,
             Row(
               children: [
-                Icon(Icons.error_outline, size: 14, color: context.colors.expense),
+                PixelIcon(PixelIcons.danger, size: 14, color: context.colors.expense),
                 const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
@@ -130,7 +130,7 @@ class _BudgetCard extends ConsumerWidget {
             AppSpacing.gapSm,
             Row(
               children: [
-                Icon(Icons.warning_amber_rounded, size: 14, color: context.colors.warning),
+                PixelIcon(PixelIcons.danger, size: 14, color: context.colors.warning),
                 const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.budgetsNearLimit,

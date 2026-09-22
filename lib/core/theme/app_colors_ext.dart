@@ -17,6 +17,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     required this.income,
     required this.expense,
     required this.warning,
+    required this.noise,
   });
 
   final Color background;
@@ -39,6 +40,10 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
   final Color expense;
   final Color warning;
 
+  /// Цвет фоновой крапинки. Очень слабый — глаз замечает её как фактуру,
+  /// но не как шум под текстом.
+  final Color noise;
+
   @override
   AppColorsExt copyWith({
     Color? background,
@@ -54,6 +59,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     Color? income,
     Color? expense,
     Color? warning,
+    Color? noise,
   }) {
     return AppColorsExt(
       background: background ?? this.background,
@@ -69,6 +75,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       income: income ?? this.income,
       expense: expense ?? this.expense,
       warning: warning ?? this.warning,
+      noise: noise ?? this.noise,
     );
   }
 
@@ -89,6 +96,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       income: Color.lerp(income, other.income, t)!,
       expense: Color.lerp(expense, other.expense, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
+      noise: Color.lerp(noise, other.noise, t)!,
     );
   }
 }

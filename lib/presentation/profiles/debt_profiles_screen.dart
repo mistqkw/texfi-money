@@ -144,7 +144,7 @@ class DebtProfilesScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: Icon(Icons.delete_outline, color: context.colors.expense),
+                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
                   ),
                   child: _ProfileCard(
                     profile: profile,
@@ -197,7 +197,7 @@ class _ProfileCard extends ConsumerWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(color: profile.color.withValues(alpha: 0.16), shape: BoxShape.circle),
-            child: Icon(Icons.person_outline, color: profile.color, size: 18),
+            child: PixelIcon(PixelIcons.person, color: profile.color, size: 18),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
@@ -211,7 +211,7 @@ class _ProfileCard extends ConsumerWidget {
           ),
           IconButton(
             tooltip: l10n.profilesRecordTitle(profile.name),
-            icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
+            icon: PixelIcon(PixelIcons.add, color: context.colors.accent),
             onPressed: onRecord,
           ),
         ],

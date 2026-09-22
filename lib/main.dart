@@ -12,6 +12,7 @@ import 'presentation/settings/haptics_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
+import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
 
 void main() async {
@@ -48,6 +49,13 @@ class TexFiMoneyApp extends ConsumerWidget {
       locale: locale,
       supportedLocales: supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // Крап поверх заливки — один слой под всем приложением, как в f0kus
+      // и как `PixelNoise` на сайте. Убирает ощущение пустой плоской
+      // заливки, не мешая читать: точки в 2 логических пикселя с альфой
+      // около 5% глаз считывает как фактуру, а не как шум под текстом.
+      builder: (context, child) => PixelBackground(
+        child: child ?? const SizedBox.shrink(),
+      ),
       home: const AppEntry(),
     );
   }

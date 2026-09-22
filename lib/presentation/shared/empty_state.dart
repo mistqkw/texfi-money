@@ -83,7 +83,7 @@ class EmptyState extends StatelessWidget {
                   label: label,
                   onPressed: action,
                   expand: false,
-                  icon: Icons.add,
+                  sprite: PixelIcons.add,
                 ),
               ],
             ],

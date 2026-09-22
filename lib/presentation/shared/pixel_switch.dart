@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import 'pixel_icon.dart';
 
 /// Квадратный пиксельный переключатель вместо стандартного Material
 /// `Switch` — рамка без сглаживания, заливка блоком при включении, как
@@ -49,7 +50,7 @@ class PixelSwitch extends StatelessWidget {
 }
 
 /// Квадратный чекбокс-метка: рамка + заливка блоком при выборе — используем
-/// вместо `Icon(Icons.check)`-галочки там, где нужен явный чекбокс, а не
+/// вместо `PixelIcon(PixelIcons.check)`-галочки там, где нужен явный чекбокс, а не
 /// просто индикатор выбора в списке.
 class PixelCheckbox extends StatelessWidget {
   const PixelCheckbox({super.key, required this.value, this.onChanged, this.size = 20});
@@ -73,7 +74,7 @@ class PixelCheckbox extends StatelessWidget {
           borderRadius: BorderRadius.circular(3),
         ),
         child: value
-            ? Icon(Icons.check, size: size * 0.75, color: colors.onAccent)
+            ? PixelIcon(PixelIcons.check, size: size * 0.75, color: colors.onAccent)
             : null,
       ),
     );

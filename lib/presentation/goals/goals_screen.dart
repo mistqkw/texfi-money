@@ -152,7 +152,7 @@ class GoalsScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: Icon(Icons.delete_outline, color: context.colors.expense),
+                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
                   ),
                   child: _GoalCard(
                     goal: goal,
@@ -198,8 +198,8 @@ class _GoalCard extends ConsumerWidget {
                 backgroundColor: goal.color.withValues(alpha: 0.16),
                 backgroundImage: goal.imagePath != null ? FileImage(File(goal.imagePath!)) : null,
                 child: goal.imagePath == null
-                    ? Icon(
-                        goal.isCompleted ? Icons.check_circle_outline : Icons.savings_outlined,
+                    ? PixelIcon(
+                        goal.isCompleted ? PixelIcons.check : PixelIcons.savings,
                         color: goal.color,
                         size: 18,
                       )
@@ -209,7 +209,7 @@ class _GoalCard extends ConsumerWidget {
               Expanded(child: Text(goal.title, style: context.text.title)),
               IconButton(
                 tooltip: l10n.goalsAddFundsTitle(goal.title),
-                icon: Icon(Icons.add_circle_outline, color: context.colors.accent),
+                icon: PixelIcon(PixelIcons.add, color: context.colors.accent),
                 onPressed: onAddFunds,
               ),
             ],

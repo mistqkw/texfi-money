@@ -7,6 +7,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_icon.dart';
 
 /// Экран «О приложении»: версия, исходники, лицензия и донат.
 ///
@@ -103,21 +104,21 @@ class _AboutScreenState extends State<AboutScreen> {
 
           PixelSectionHeader(title: l10n.aboutSectionOpen, index: 2),
           _LinkTile(
-            icon: Icons.code,
+            icon: PixelIcons.code,
             title: l10n.aboutSourceTitle,
             subtitle: 'github.com/mistqkw/texfi-money',
             onTap: () => _open(AboutScreen.repoUrl),
           ),
           AppSpacing.gapMd,
           _LinkTile(
-            icon: Icons.balance,
+            icon: PixelIcons.license,
             title: l10n.aboutLicenseTitle,
             subtitle: l10n.aboutLicenseText,
             onTap: () => _open(AboutScreen.licenseUrl),
           ),
           AppSpacing.gapMd,
           _LinkTile(
-            icon: Icons.public,
+            icon: PixelIcons.globe,
             title: l10n.aboutEcosystemTitle,
             subtitle: 'texfi-hub.vercel.app',
             onTap: () => _open(AboutScreen.hubUrl),
@@ -135,7 +136,7 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.favorite, size: 18, color: colors.expense),
+                    PixelIcon(PixelIcons.heart, size: 18, color: colors.expense),
                     AppSpacing.gapHSm,
                     Text(l10n.aboutDonateTitle, style: context.text.title),
                   ],
@@ -193,7 +194,7 @@ class _LinkTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final IconData icon;
+  final List<String> icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -205,7 +206,7 @@ class _LinkTile extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: colors.accent),
+          PixelIcon(icon, size: 20, color: colors.accent),
           AppSpacing.gapHMd,
           Expanded(
             child: Column(
@@ -217,7 +218,7 @@ class _LinkTile extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.north_east, size: 16, color: colors.textTertiary),
+          PixelIcon(PixelIcons.linkOut, size: 16, color: colors.textTertiary),
         ],
       ),
     );

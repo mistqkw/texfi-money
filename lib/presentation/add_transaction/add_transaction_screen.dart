@@ -24,6 +24,7 @@ import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../wealth/wealth_labels.dart';
 
@@ -170,7 +171,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ),
@@ -366,7 +367,7 @@ class _CategoryGrid extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.add, size: 20, color: context.colors.textSecondary),
+                PixelIcon(PixelIcons.add, size: 20, color: context.colors.textSecondary),
                 const SizedBox(width: AppSpacing.xs),
                 Text(context.l10n.addTxAddCategory, style: context.text.title),
               ],
@@ -448,10 +449,10 @@ class _DateRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.calendar_today_outlined, size: 20, color: context.colors.textSecondary),
+            PixelIcon(PixelIcons.calendar, size: 20, color: context.colors.textSecondary),
             const SizedBox(width: AppSpacing.md),
             Expanded(child: Text(formatDate(date, context), style: context.text.title)),
-            Icon(Icons.chevron_right, color: context.colors.textTertiary),
+            PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary),
           ],
         ),
       ),

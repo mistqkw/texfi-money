@@ -15,6 +15,7 @@ import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import 'budgets_providers.dart';
 
@@ -79,14 +80,14 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
         title: Text(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           if (_isEditing)
             IconButton(
               tooltip: l10n.commonDelete,
-              icon: const Icon(Icons.delete_outline),
+              icon: const PixelIcon(PixelIcons.delete),
               onPressed: _delete,
             ),
         ],

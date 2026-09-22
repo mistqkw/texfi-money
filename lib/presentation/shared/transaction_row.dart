@@ -9,6 +9,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../add_transaction/add_transaction_screen.dart';
+import 'pixel_icon.dart';
 import 'transaction_tile.dart';
 
 /// Строка транзакции со всеми жестами сразу — чтобы поведение на главном
@@ -53,17 +54,17 @@ class TransactionRow extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.replay, color: context.colors.accent),
+              leading: PixelIcon(PixelIcons.replay, color: context.colors.accent),
               title: Text(l10n.txActionRepeat, style: context.text.title),
               onTap: () => Navigator.pop(context, 'repeat'),
             ),
             ListTile(
-              leading: Icon(Icons.edit_outlined, color: context.colors.textSecondary),
+              leading: PixelIcon(PixelIcons.edit, color: context.colors.textSecondary),
               title: Text(l10n.txActionEdit, style: context.text.title),
               onTap: () => Navigator.pop(context, 'edit'),
             ),
             ListTile(
-              leading: Icon(Icons.delete_outline, color: context.colors.expense),
+              leading: PixelIcon(PixelIcons.delete, color: context.colors.expense),
               title: Text(
                 l10n.commonDelete,
                 style: context.text.title.copyWith(color: context.colors.expense),
@@ -93,12 +94,12 @@ class TransactionRow extends ConsumerWidget {
       background: Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Icon(Icons.replay, color: context.colors.accent),
+        child: PixelIcon(PixelIcons.replay, color: context.colors.accent),
       ),
       secondaryBackground: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Icon(Icons.delete_outline, color: context.colors.expense),
+        child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
       ),
       confirmDismiss: (direction) async {
         // Свайп вправо — не удаление: открываем повтор и возвращаем строку

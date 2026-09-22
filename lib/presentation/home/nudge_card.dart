@@ -14,6 +14,7 @@ import '../add_transaction/add_transaction_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_icon.dart';
 import 'nudge_providers.dart';
 
 /// Показывает самую важную актуальную подсказку. Намеренно одна за раз —
@@ -65,12 +66,12 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
         NudgeKind.quietDays => context.colors.accent,
       };
 
-  IconData _icon() => switch (widget.nudge.kind) {
-        NudgeKind.budgetOver => Icons.error_outline,
-        NudgeKind.budgetClose => Icons.warning_amber_rounded,
-        NudgeKind.unusualAmount => Icons.help_outline,
-        NudgeKind.goalClose => Icons.flag_outlined,
-        NudgeKind.quietDays => Icons.schedule,
+  List<String> _icon() => switch (widget.nudge.kind) {
+        NudgeKind.budgetOver => PixelIcons.danger,
+        NudgeKind.budgetClose => PixelIcons.danger,
+        NudgeKind.unusualAmount => PixelIcons.info,
+        NudgeKind.goalClose => PixelIcons.goals,
+        NudgeKind.quietDays => PixelIcons.clock,
       };
 
   String _label(BuildContext context) => switch (widget.nudge.kind) {
@@ -137,7 +138,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(_icon(), size: 18, color: accent),
+          PixelIcon(_icon(), size: 18, color: accent),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Padding(
@@ -146,7 +147,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.close, size: 18, color: context.colors.textTertiary),
+            icon: PixelIcon(PixelIcons.close, size: 18, color: context.colors.textTertiary),
             tooltip: context.l10n.nudgeDismiss,
             visualDensity: VisualDensity.compact,
             onPressed: _dismiss,

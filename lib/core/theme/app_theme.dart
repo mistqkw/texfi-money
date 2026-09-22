@@ -79,8 +79,11 @@ abstract final class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: AppRadius.cardSmallAll,
-            side: BorderSide(color: colors.onAccent, width: 2),
+            borderRadius: AppRadius.controlSmallAll,
+            side: BorderSide(
+              color: colors.accentShadow,
+              width: AppRadius.pixelBorder,
+            ),
           ),
           textStyle: textTheme.titleMedium,
         ),
@@ -91,21 +94,49 @@ abstract final class AppTheme {
           textStyle: textTheme.titleMedium,
         ),
       ),
+      // Поле ввода было Material-заливкой без рамки, а в фокусе получало
+      // волосок в 1.5px. На экране, где у всего остального рамка ровно
+      // 2px, это читалось как элемент из другого набора — и заметнее
+      // всего в формах, то есть там, где пользователь проводит больше
+      // всего времени.
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colors.surfaceVariant,
-        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
         border: OutlineInputBorder(
-          borderRadius: AppRadius.cardSmallAll,
-          borderSide: BorderSide.none,
+          borderRadius: AppRadius.controlSmallAll,
+          borderSide: BorderSide(
+            color: colors.divider,
+            width: AppRadius.pixelBorder,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.cardSmallAll,
-          borderSide: BorderSide.none,
+          borderRadius: AppRadius.controlSmallAll,
+          borderSide: BorderSide(
+            color: colors.divider,
+            width: AppRadius.pixelBorder,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.cardSmallAll,
-          borderSide: BorderSide(color: colors.accent, width: 1.5),
+          borderRadius: AppRadius.controlSmallAll,
+          borderSide: BorderSide(
+            color: colors.accent,
+            width: AppRadius.pixelBorder,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: AppRadius.controlSmallAll,
+          borderSide: BorderSide(
+            color: colors.expense,
+            width: AppRadius.pixelBorder,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: AppRadius.controlSmallAll,
+          borderSide: BorderSide(
+            color: colors.expense,
+            width: AppRadius.pixelBorder,
+          ),
         ),
         hintStyle: textTheme.bodyMedium,
         labelStyle: textTheme.labelMedium,

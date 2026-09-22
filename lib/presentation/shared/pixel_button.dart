@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
-import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/utils/haptics.dart';
+import 'pixel_icon.dart';
+import 'pixel_shadow.dart';
 import 'pixel_spinner.dart';
 
 /// Кнопка экосистемы TexFi: 2px рамка, сплошная офсетная тень без blur и —
@@ -21,7 +22,7 @@ class PixelButton extends StatefulWidget {
     super.key,
     required this.label,
     required this.onPressed,
-    this.icon,
+    this.sprite,
     this.filled = true,
     this.expand = true,
     this.danger = false,
@@ -34,7 +35,11 @@ class PixelButton extends StatefulWidget {
   /// `null` выключает кнопку — она гаснет и перестаёт принимать нажатия.
   final VoidCallback? onPressed;
 
-  final IconData? icon;
+  /// Знак на кнопке — сетка спрайта из [PixelIcons], а не [IconData].
+  /// Набор Material внутри пиксельной кнопки сразу выдаёт, что интерфейс
+  /// собран из чужих деталей: сглаженный контур рядом с рублеными
+  /// квадратами видно без сравнения.
+  final List<String>? sprite;
 
   /// Залитая акцентом (основное действие) или обведённая (второстепенное).
   final bool filled;
@@ -54,8 +59,6 @@ class PixelButton extends StatefulWidget {
 }
 
 class _PixelButtonState extends State<PixelButton> {
-  static const double _shadowOffset = 3;
-
   bool _pressed = false;
 
   bool get _enabled => widget.onPressed != null && !widget.busy;
@@ -95,11 +98,6 @@ class _PixelButtonState extends State<PixelButton> {
       shadowColor = colors.divider;
     }
 
-    // Тень и сдвиг меняются встречно: то, что кнопка «съедает» смещением,
-    // она отдаёт схлопнувшейся тенью.
-    final offset = _pressed ? _shadowOffset : 0.0;
-    final shadowSize = _pressed ? 0.0 : _shadowOffset;
-
     if (widget.busy) {
       // Высоту держит невидимая подпись: без неё кнопка на время
       // сохранения схлопывается до размера индикатора, и форма прыгает.
@@ -108,8 +106,6 @@ class _PixelButtonState extends State<PixelButton> {
         foreground: foreground,
         border: border,
         shadowColor: shadowColor,
-        offset: offset,
-        shadowSize: shadowSize,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -127,8 +123,8 @@ class _PixelButtonState extends State<PixelButton> {
       mainAxisSize: widget.expand ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (widget.icon != null) ...[
-          Icon(widget.icon, size: 18, color: foreground),
+        if (widget.sprite != null) ...[
+          PixelIcon(widget.sprite!, size: 16, color: foreground),
           const SizedBox(width: 8),
         ],
         Flexible(
@@ -147,8 +143,6 @@ class _PixelButtonState extends State<PixelButton> {
       foreground: foreground,
       border: border,
       shadowColor: shadowColor,
-      offset: offset,
-      shadowSize: shadowSize,
       child: child,
     );
   }
@@ -158,8 +152,6 @@ class _PixelButtonState extends State<PixelButton> {
     required Color foreground,
     required Color border,
     required Color shadowColor,
-    required double offset,
-    required double shadowSize,
     required Widget child,
   }) {
     return Semantics(
@@ -176,20 +168,23 @@ class _PixelButtonState extends State<PixelButton> {
                 widget.onPressed!.call();
               }
             : null,
-        child: AnimatedContainer(
-          duration: AppMotion.instant,
-          curve: Curves.easeOut,
-          transform: Matrix4.translationValues(offset, offset, 0),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: AppRadius.cardSmallAll,
-            border: Border.all(color: border, width: 2),
-            boxShadow: [
-              BoxShadow(color: shadowColor, offset: Offset(shadowSize, shadowSize)),
-            ],
+        // Тень рисует тот же PixelShadowBox, что у карточки и у FAB.
+        // Своя реализация приёма здесь уже была — и ровно так «объём» в
+        // приложении и разъезжался на пиксель между элементами.
+        child: PixelShadowBox(
+          shadowColor: shadowColor,
+          borderRadius: AppRadius.controlSmallAll,
+          pressed: _pressed,
+          enabled: _enabled,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: AppRadius.controlSmallAll,
+              border: Border.all(color: border, width: AppRadius.pixelBorder),
+            ),
+            child: child,
           ),
-          child: child,
         ),
       ),
     );

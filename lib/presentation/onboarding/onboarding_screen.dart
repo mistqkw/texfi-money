@@ -21,12 +21,13 @@ import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/root_shell.dart';
 
 class _Slide {
   const _Slide({required this.icon, required this.title, required this.body});
 
-  final IconData icon;
+  final List<String> icon;
   final String title;
   final String body;
 }
@@ -45,22 +46,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   List<_Slide> _slides(AppLocalizations l10n) => [
         _Slide(
-          icon: Icons.account_balance_wallet_outlined,
+          icon: PixelIcons.wallet,
           title: l10n.onboardingSlide1Title,
           body: l10n.onboardingSlide1Body,
         ),
         _Slide(
-          icon: Icons.flag_outlined,
+          icon: PixelIcons.goals,
           title: l10n.onboardingSlide2Title,
           body: l10n.onboardingSlide2Body,
         ),
         _Slide(
-          icon: Icons.terminal,
+          icon: PixelIcons.terminal,
           title: l10n.onboardingSlide3Title,
           body: l10n.onboardingSlide3Body,
         ),
         _Slide(
-          icon: Icons.lock_outline,
+          icon: PixelIcons.lock,
           title: l10n.onboardingSlide4Title,
           body: l10n.onboardingSlide4Body,
         ),
@@ -177,7 +178,7 @@ class _SlideView extends StatelessWidget {
               child: PixelCard(
                 label: 'texfi',
                 padding: const EdgeInsets.all(24),
-                child: Icon(slide.icon, size: 56, color: context.colors.accent),
+                child: PixelIcon(slide.icon, size: 56, color: context.colors.accent),
               ),
             ),
           ),
@@ -486,7 +487,7 @@ class _BankBadge extends StatelessWidget {
                         color: color.withValues(alpha: 0.16),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.block, size: 18, color: color),
+                      child: PixelIcon(PixelIcons.danger, size: 18, color: color),
                     ),
             ),
             AppSpacing.gapXs,

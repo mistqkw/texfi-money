@@ -14,6 +14,7 @@ import '../../domain/quick_entry_parser.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_icon.dart';
 
 /// Фирменная фишка приложения: добавление транзакции одной командной
 /// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу.
@@ -148,7 +149,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
               else
                 IconButton(
                   tooltip: l10n.commonAdd,
-                  icon: const Icon(Icons.arrow_forward_rounded, size: 20),
+                  icon: const PixelIcon(PixelIcons.chevronRight, size: 20),
                   color: context.colors.accent,
                   visualDensity: VisualDensity.compact,
                   onPressed: _submit,

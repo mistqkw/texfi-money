@@ -100,7 +100,7 @@ class AccountsScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: Icon(Icons.delete_outline, color: context.colors.expense),
+                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
                   ),
                   child: _AccountCard(
                     account: account,
@@ -150,7 +150,7 @@ class _AccountCard extends ConsumerWidget {
                 color: account.color.withValues(alpha: 0.16),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.credit_card, color: account.color, size: 18),
+              child: PixelIcon(PixelIcons.creditCard, color: account.color, size: 18),
             ),
           const SizedBox(width: AppSpacing.md),
           Expanded(child: Text(account.name, style: context.text.title)),

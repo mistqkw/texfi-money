@@ -13,6 +13,7 @@ import '../../domain/entities/account_entity.dart';
 import '../shared/bank_mark.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_icon.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.existing});
@@ -84,7 +85,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
         title: Text(_isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -190,7 +191,7 @@ class _BankChip extends StatelessWidget {
                         color: color.withValues(alpha: 0.16),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.block, size: 18, color: color),
+                      child: PixelIcon(PixelIcons.danger, size: 18, color: color),
                     ),
             ),
             AppSpacing.gapXs,

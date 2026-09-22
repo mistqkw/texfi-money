@@ -19,6 +19,7 @@ import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_icon.dart';
 
 class GoalFormScreen extends ConsumerStatefulWidget {
   const GoalFormScreen({super.key, this.existing});
@@ -129,7 +130,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
         title: Text(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const Icon(Icons.close),
+          icon: const PixelIcon(PixelIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -148,7 +149,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                       backgroundColor: _color.withValues(alpha: 0.16),
                       backgroundImage: _imagePath != null ? FileImage(File(_imagePath!)) : null,
                       child: _imagePath == null
-                          ? Icon(Icons.add_a_photo_outlined, color: _color, size: 28)
+                          ? PixelIcon(PixelIcons.camera, color: _color, size: 28)
                           : null,
                     ),
                   ),
@@ -161,7 +162,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                         child: CircleAvatar(
                           radius: 14,
                           backgroundColor: context.colors.expense,
-                          child: const Icon(Icons.close, color: Colors.white, size: 16),
+                          child: const PixelIcon(PixelIcons.close, color: Colors.white, size: 16),
                         ),
                       ),
                     ),
@@ -201,16 +202,16 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.event_outlined, size: 20, color: context.colors.textSecondary),
+                    PixelIcon(PixelIcons.calendar, size: 20, color: context.colors.textSecondary),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(child: Text(deadlineText, style: context.text.title)),
                     if (_deadline != null)
                       IconButton(
-                        icon: Icon(Icons.clear, size: 18, color: context.colors.textTertiary),
+                        icon: PixelIcon(PixelIcons.close, size: 18, color: context.colors.textTertiary),
                         onPressed: () => setState(() => _deadline = null),
                       )
                     else
-                      Icon(Icons.chevron_right, color: context.colors.textTertiary),
+                      PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary),
                   ],
                 ),
               ),
