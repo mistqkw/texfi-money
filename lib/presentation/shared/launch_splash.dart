@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/utils/haptics.dart';
 import 'brand_glyph.dart';
 
 const _brandName = 'texfi m0ney';
 const _accent = Color(0xFF4A7DFB);
+const _accentDeep = Color(0xFF2B4FB0);
+
+/// Пиксельный шрифт — тот же, что на заголовках экранов и на сайте.
+/// Раньше здесь стоял родовой `fontFamily: 'monospace'`, то есть системный
+/// моноширинный: на каждом устройстве свой и ни на одном не фирменный.
+final TextStyle _nameStyle = GoogleFonts.pressStart2p(
+  textStyle: const TextStyle(
+    color: Colors.white,
+    fontSize: 13,
+    height: 1.4,
+  ),
+);
+final TextStyle _promptStyle = _nameStyle.copyWith(color: _accent);
 
 /// Анимация запуска: логотип всплывает, затем построчно печатается
 /// "❯ texfi m0ney_" — на каждом старте приложения, поверх нативного
@@ -80,13 +94,20 @@ class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMix
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Знак стоит в пиксельной рамке со смещённой тенью, а не
+                // в размытом синем ореоле. Ореол был единственным blur-ом
+                // во всём приложении: в языке, где объём даёт только
+                // сдвинутый на три пикселя прямоугольник, мягкое свечение
+                // читается как чужая вставка — и именно на первом кадре,
+                // который видят каждый запуск.
                 Container(
-                  padding: const EdgeInsets.all(28),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [_accent.withValues(alpha: 0.22), Colors.transparent],
-                    ),
+                    border: Border.all(color: _accent, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(color: _accentDeep, offset: Offset(3, 3)),
+                    ],
                   ),
                   child: FadeTransition(
                     opacity: logoAnim,
@@ -96,35 +117,24 @@ class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMix
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
                 Text.rich(
                   TextSpan(children: [
-                    const TextSpan(
-                      text: '❯ ',
-                      style: TextStyle(
-                        color: _accent,
-                        fontFamily: 'monospace',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
+                    TextSpan(text: '❯ ', style: _promptStyle),
                     TextSpan(
                       text: _brandName.substring(0, charCount),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'monospace',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        letterSpacing: 0.4,
-                      ),
+                      style: _nameStyle,
                     ),
+                    // Курсор мигает шагами, а не затуханием: у курсора в
+                    // терминале, с которого списан этот кадр, ровно два
+                    // состояния. Плавная прозрачность превращала его в
+                    // дышащее пятно — единственную мягкую анимацию здесь.
                     TextSpan(
                       text: '_',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: _cursorController.value),
-                        fontFamily: 'monospace',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                      style: _nameStyle.copyWith(
+                        color: _cursorController.value < 0.5
+                            ? Colors.transparent
+                            : Colors.white,
                       ),
                     ),
                   ]),
