@@ -69,8 +69,17 @@ class _TerminalBoxState extends State<TerminalBox> {
     final child = widget.child;
     final resolvedBorder = borderColor ?? context.colors.textPrimary.withValues(alpha: 0.28);
     final resolvedFill = fillColor ?? context.colors.surface;
+    // Нажатая карточка вдавливается: тень схлопывается ровно настолько,
+    // насколько карточка сдвигается вниз-вправо, поэтому её габарит не
+    // меняется и соседи в списке не дёргаются. Раньше здесь стоял
+    // AnimatedScale(0.97) — мягкое Material-сжатие, чужое языку, в котором
+    // объём вообще даёт только смещённая тень.
+    final pressDepth = _pressed ? shadowOffset : 0.0;
     final hardShadow = [
-      BoxShadow(color: resolvedBorder, offset: Offset(shadowOffset, shadowOffset)),
+      BoxShadow(
+        color: resolvedBorder,
+        offset: Offset(shadowOffset - pressDepth, shadowOffset - pressDepth),
+      ),
     ];
 
     Widget content;
@@ -151,16 +160,16 @@ class _TerminalBoxState extends State<TerminalBox> {
     }
 
     if (onTap == null) return content;
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       onTapDown: (_) => _setPressed(true),
       onTapCancel: () => _setPressed(false),
       onTapUp: (_) => _setPressed(false),
-      borderRadius: BorderRadius.circular(radius),
-      child: AnimatedScale(
-        scale: _pressed ? 0.97 : 1.0,
-        duration: AppMotion.fast,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: AppMotion.instant,
         curve: Curves.easeOut,
+        transform: Matrix4.translationValues(pressDepth, pressDepth, 0),
         child: content,
       ),
     );

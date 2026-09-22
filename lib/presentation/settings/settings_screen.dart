@@ -24,6 +24,8 @@ import '../shared/l10n_helpers.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_switch.dart';
 import '../shared/restart_widget.dart';
+import '../shared/section_header.dart';
+import 'about_screen.dart';
 import 'analysis_range_provider.dart';
 import 'currency_picker_screen.dart';
 import 'currency_provider.dart';
@@ -176,7 +178,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          _SectionLabel(l10n.settingsLanguageSection),
+          SectionHeader(l10n.settingsLanguageSection, index: 1),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.language,
@@ -188,7 +190,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsThemeSection),
+          SectionHeader(l10n.settingsThemeSection, index: 2),
           AppSpacing.gapSm,
           ...AppThemeVariant.values.map((variant) => _OptionTile(
                 icon: _themeIcon(variant),
@@ -197,7 +199,7 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
               )),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsFontSection),
+          SectionHeader(l10n.settingsFontSection, index: 3),
           AppSpacing.gapSm,
           ...AppFont.values.map((f) => _OptionTile(
                 icon: PixelIcons.font,
@@ -206,7 +208,7 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
               )),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsHapticsSection),
+          SectionHeader(l10n.settingsHapticsSection, index: 4),
           AppSpacing.gapSm,
           _SwitchTile(
             label: l10n.hapticsEnabled,
@@ -217,7 +219,7 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsCurrencySection),
+          SectionHeader(l10n.settingsCurrencySection, index: 5),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.money,
@@ -229,7 +231,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsManageSection),
+          SectionHeader(l10n.settingsManageSection, index: 6),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.wallet,
@@ -250,7 +252,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.riskSection),
+          SectionHeader(l10n.riskSection, index: 7),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.risk,
@@ -263,11 +265,11 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const _AnalysisRangeTile(),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsSecuritySection),
+          SectionHeader(l10n.settingsSecuritySection, index: 8),
           AppSpacing.gapSm,
           const _SecuritySection(),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsBackupSection),
+          SectionHeader(l10n.settingsBackupSection, index: 9),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.backupUp,
@@ -284,7 +286,22 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => _importBackup(context, ref),
           ),
           AppSpacing.gapXl,
-          _SectionLabel(l10n.settingsDangerSection),
+          // «О приложении» стоит перед опасной зоной, а не после: сброс
+          // данных должен оставаться последним пунктом экрана, к которому
+          // не промахиваются по дороге к чему-то безобидному.
+          SectionHeader(l10n.aboutTitle, index: 10),
+          AppSpacing.gapSm,
+          _OptionTile(
+            icon: PixelIcons.info,
+            label: l10n.aboutTitle,
+            selected: false,
+            showCheckmark: false,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const AboutScreen()),
+            ),
+          ),
+          AppSpacing.gapXl,
+          SectionHeader(l10n.settingsDangerSection, index: 11),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.danger,
@@ -297,17 +314,6 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text, style: context.text.headline);
   }
 }
 

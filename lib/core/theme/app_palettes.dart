@@ -6,6 +6,9 @@ import 'app_colors_ext.dart';
 /// Палитры для трёх тем. Акцент `#4a7dfb` общий для всех.
 abstract final class AppPalettes {
   static const Color _accent = Color(0xFF4A7DFB);
+
+  /// Тень под акцентной кнопкой в тёмных темах — глубокий синий.
+  static const Color _accentDeepDark = Color(0xFF2B4FB0);
   static const Color _onAccent = Color(0xFFFFFFFF);
 
   static const AppColorsExt dark = AppColorsExt(
@@ -14,6 +17,7 @@ abstract final class AppPalettes {
     surfaceVariant: Color(0xFF202026),
     divider: Color(0xFF2A2A31),
     accent: _accent,
+    accentDeep: _accentDeepDark,
     onAccent: _onAccent,
     textPrimary: Color(0xFFFFFFFF),
     textSecondary: Color(0xFF9A9AA5),
@@ -31,6 +35,7 @@ abstract final class AppPalettes {
     surfaceVariant: Color(0xFF0D0D0F),
     divider: Color(0xFF232327),
     accent: _accent,
+    accentDeep: _accentDeepDark,
     onAccent: _onAccent,
     textPrimary: Color(0xFFFFFFFF),
     textSecondary: Color(0xFF9A9AA5),
@@ -40,19 +45,32 @@ abstract final class AppPalettes {
     warning: Color(0xFFFFB648),
   );
 
+  /// «Ретро-бумага, Game Boy на солнце» — та же светлая палитра, что в
+  /// TexFi f0kus и на сайте экосистемы, значение в значение.
+  ///
+  /// До этого здесь стоял серо-белый набор (#F7F7F9 / #FFFFFF): корректный,
+  /// но ровно такой, какой Material отдаёт по умолчанию. Рядом с f0kus на
+  /// одном экране это читалось как чужое приложение — светлая тема была
+  /// единственным местом, где m0ney выпадал из семьи. Тёплый оранжево-
+  /// бежевый ключ здесь не украшение, а признак принадлежности.
   static const AppColorsExt light = AppColorsExt(
-    background: Color(0xFFF7F7F9),
-    surface: Color(0xFFFFFFFF),
-    surfaceVariant: Color(0xFFEDEDF2),
-    divider: Color(0xFFE1E1E7),
+    background: Color(0xFFFCF5E9),
+    surface: Color(0xFFFFFBF3),
+    surfaceVariant: Color(0xFFF3E6D2),
+    divider: Color(0xFFE0CDB0),
     accent: _accent,
+    accentDeep: Color(0xFFD98A2B),
     onAccent: _onAccent,
-    textPrimary: Color(0xFF14141A),
-    textSecondary: Color(0xFF63636E),
-    textTertiary: Color(0xFFA0A0AA),
-    income: Color(0xFF1FAE74),
-    expense: Color(0xFFDB3B35),
-    warning: Color(0xFFC97A0A),
+    textPrimary: Color(0xFF2A1F14),
+    textSecondary: Color(0xFF6E5B45),
+    textTertiary: Color(0xFFA08D72),
+    // Доход и расход остаются семантическими: зелёный и красный здесь
+    // подобраны под тёплый фон (на кремовом холодный #1FAE74 звенит), но
+    // не уступают места фирменному синему — сумму читают по цвету раньше,
+    // чем по знаку.
+    income: Color(0xFF1B9E66),
+    expense: Color(0xFFD64545),
+    warning: Color(0xFFD98A2B),
   );
 
   static AppColorsExt forVariant(AppThemeVariant variant) => switch (variant) {

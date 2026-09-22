@@ -12,6 +12,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../shared/bank_mark.dart';
 import '../shared/color_picker_row.dart';
+import '../shared/pixel_button.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.existing});
@@ -136,12 +137,9 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
-              ),
+            PixelButton(
+              label: _isEditing ? l10n.commonSave : l10n.commonCreate,
+              onPressed: _canSave ? _save : null,
             ),
           ],
         ),

@@ -14,6 +14,7 @@ import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_button.dart';
 import '../shared/pixel_spinner.dart';
 import 'budgets_providers.dart';
 
@@ -126,12 +127,9 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
-              ),
+            PixelButton(
+              label: _isEditing ? l10n.commonSave : l10n.commonCreate,
+              onPressed: _canSave ? _save : null,
             ),
           ],
         ),

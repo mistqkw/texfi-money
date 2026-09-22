@@ -9,6 +9,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     required this.surfaceVariant,
     required this.divider,
     required this.accent,
+    required this.accentDeep,
     required this.onAccent,
     required this.textPrimary,
     required this.textSecondary,
@@ -23,6 +24,12 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
   final Color surfaceVariant;
   final Color divider;
   final Color accent;
+
+  /// Цвет офсетной тени под акцентной кнопкой. Отдельный токен, а не
+  /// «акцент потемнее»: в светлой теме фон кремовый, и синий блок под
+  /// синей кнопкой сливается с ней в одно пятно — там тень тёплая
+  /// оранжевая. Тот же приём, что на сайте экосистемы.
+  final Color accentDeep;
   final Color onAccent;
   final Color textPrimary;
   final Color textSecondary;
@@ -38,6 +45,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     Color? surfaceVariant,
     Color? divider,
     Color? accent,
+    Color? accentDeep,
     Color? onAccent,
     Color? textPrimary,
     Color? textSecondary,
@@ -52,6 +60,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       surfaceVariant: surfaceVariant ?? this.surfaceVariant,
       divider: divider ?? this.divider,
       accent: accent ?? this.accent,
+      accentDeep: accentDeep ?? this.accentDeep,
       onAccent: onAccent ?? this.onAccent,
       textPrimary: textPrimary ?? this.textPrimary,
       textSecondary: textSecondary ?? this.textSecondary,
@@ -71,6 +80,7 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
+      accentDeep: Color.lerp(accentDeep, other.accentDeep, t)!,
       onAccent: Color.lerp(onAccent, other.onAccent, t)!,
       textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,

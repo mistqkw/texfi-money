@@ -19,6 +19,7 @@ import '../settings/onboarding_provider.dart';
 import '../settings/theme_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_button.dart';
 import '../shared/root_shell.dart';
 import '../shared/terminal_box.dart';
 
@@ -140,12 +141,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             AppSpacing.gapXl,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _next(pageCount),
-                  child: Text(_page == pageCount - 1 ? l10n.onboardingStart : l10n.onboardingNext),
-                ),
+              child: PixelButton(
+                label: _page == pageCount - 1 ? l10n.onboardingStart : l10n.onboardingNext,
+                onPressed: () => _next(pageCount),
               ),
             ),
             AppSpacing.gapXl,

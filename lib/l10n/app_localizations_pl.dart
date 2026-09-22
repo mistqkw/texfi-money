@@ -996,4 +996,61 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get assetCategoriesTitle => 'Kategorie aktywów';
+
+  @override
+  String get aboutTitle => 'O aplikacji';
+
+  @override
+  String get aboutSectionApp => 'Aplikacja';
+
+  @override
+  String get aboutSectionOpen => 'Otwarty kod';
+
+  @override
+  String get aboutSectionSupport => 'Wsparcie';
+
+  @override
+  String get aboutVersionLabel => 'Wersja';
+
+  @override
+  String get aboutBuildLabel => 'Kompilacja';
+
+  @override
+  String get aboutTagline => 'Finanse osobiste, które nigdzie nie wyciekają';
+
+  @override
+  String get aboutBlurb =>
+      'Wszystko leży w bazie na tym urządzeniu. Bez analityki, bez identyfikatorów reklamowych, bez wysyłania „zdarzeń” w tle — sprawdzisz to w źródłach.';
+
+  @override
+  String get aboutFactOffline => 'OFFLINE';
+
+  @override
+  String get aboutFactTelemetry => 'TELEMETRII';
+
+  @override
+  String get aboutFactLicense => 'LICENCJA';
+
+  @override
+  String get aboutSourceTitle => 'Źródła na GitHubie';
+
+  @override
+  String get aboutLicenseTitle => 'Licencja GNU AGPL v3';
+
+  @override
+  String get aboutLicenseText =>
+      'Kto wyda zmienioną wersję, musi otworzyć swoje poprawki.';
+
+  @override
+  String get aboutEcosystemTitle => 'Cały ekosystem TexFi';
+
+  @override
+  String get aboutDonateTitle => 'Postaw kawę';
+
+  @override
+  String get aboutDonateText =>
+      'TexFi robi jedna osoba, a wszystkie aplikacje są darmowe. Płatnych funkcji nie ma i nie będzie.';
+
+  @override
+  String get aboutLinkFailed => 'Nie ma czym otworzyć tego odnośnika';
 }

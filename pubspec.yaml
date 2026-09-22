@@ -36,6 +36,12 @@ dependencies:
   image_picker: ^1.2.3
   local_auth: ^3.0.2
 
+  # Экран «О приложении»: номер версии берётся из самой сборки, а не
+  # дублируется константой в коде — константа неизбежно разъезжается
+  # с pubspec ровно в тот релиз, когда это заметят пользователи.
+  package_info_plus: ^10.2.1
+  url_launcher: ^6.3.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

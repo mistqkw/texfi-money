@@ -49,5 +49,13 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- Android 11+ прячет от приложения все чужие пакеты, если оно не
+             объявило, что именно собирается открывать. Без этого блока
+             ссылки на исходники и донат с экрана «О приложении» молча
+             ничего не делают: url_launcher не находит браузер. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
+        </intent>
     </queries>
 </manifest>

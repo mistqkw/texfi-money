@@ -13,6 +13,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../shared/pixel_button.dart';
 import '../shared/pixel_icon.dart';
 
 /// Форма создания или редактирования категории.
@@ -126,12 +127,9 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
-              ),
+            PixelButton(
+              label: _isEditing ? l10n.commonSave : l10n.commonCreate,
+              onPressed: _canSave ? _save : null,
             ),
           ],
         ),

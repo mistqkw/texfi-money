@@ -18,6 +18,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/color_picker_row.dart';
+import '../shared/pixel_button.dart';
 
 class GoalFormScreen extends ConsumerStatefulWidget {
   const GoalFormScreen({super.key, this.existing});
@@ -222,12 +223,9 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
-              ),
+            PixelButton(
+              label: _isEditing ? l10n.commonSave : l10n.commonCreate,
+              onPressed: _canSave ? _save : null,
             ),
           ],
         ),

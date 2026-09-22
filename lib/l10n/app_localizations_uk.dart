@@ -997,4 +997,61 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get assetCategoriesTitle => 'Категорії активів';
+
+  @override
+  String get aboutTitle => 'Про застосунок';
+
+  @override
+  String get aboutSectionApp => 'Застосунок';
+
+  @override
+  String get aboutSectionOpen => 'Відкритий код';
+
+  @override
+  String get aboutSectionSupport => 'Підтримати';
+
+  @override
+  String get aboutVersionLabel => 'Версія';
+
+  @override
+  String get aboutBuildLabel => 'Збірка';
+
+  @override
+  String get aboutTagline => 'Особисті фінанси, які нікуди не йдуть';
+
+  @override
+  String get aboutBlurb =>
+      'Усе лежить у базі на цьому пристрої. Ні аналітики, ні рекламних ідентифікаторів, ні фонових «подій» — перевіряється за вихідним кодом.';
+
+  @override
+  String get aboutFactOffline => 'ОФЛАЙН';
+
+  @override
+  String get aboutFactTelemetry => 'ТЕЛЕМЕТРІЇ';
+
+  @override
+  String get aboutFactLicense => 'ЛІЦЕНЗІЯ';
+
+  @override
+  String get aboutSourceTitle => 'Вихідний код на GitHub';
+
+  @override
+  String get aboutLicenseTitle => 'Ліцензія GNU AGPL v3';
+
+  @override
+  String get aboutLicenseText =>
+      'Хто випустить змінену версію — мусить відкрити свої правки.';
+
+  @override
+  String get aboutEcosystemTitle => 'Уся екосистема TexFi';
+
+  @override
+  String get aboutDonateTitle => 'Закинути на каву';
+
+  @override
+  String get aboutDonateText =>
+      'TexFi робить одна людина, і всі застосунки безкоштовні. Платних функцій немає і не буде.';
+
+  @override
+  String get aboutLinkFailed => 'Немає чим відкрити це посилання';
 }

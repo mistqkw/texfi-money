@@ -1877,6 +1877,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Asset categories'**
   String get assetCategoriesTitle;
+
+  /// Title of the About screen
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutTitle;
+
+  /// About screen: section with version and tagline
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get aboutSectionApp;
+
+  /// About screen: open-source section
+  ///
+  /// In en, this message translates to:
+  /// **'Open source'**
+  String get aboutSectionOpen;
+
+  /// About screen: donation section
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get aboutSectionSupport;
+
+  /// Label before the release version number
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get aboutVersionLabel;
+
+  /// Label before the build number
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get aboutBuildLabel;
+
+  /// One-line description of the app
+  ///
+  /// In en, this message translates to:
+  /// **'Personal finance that stays put'**
+  String get aboutTagline;
+
+  /// Short privacy statement on the About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Everything lives in a database on this device. No analytics, no ad identifiers, no background \"events\" — check it against the source.'**
+  String get aboutBlurb;
+
+  /// Fact chip: the app works offline
+  ///
+  /// In en, this message translates to:
+  /// **'OFFLINE'**
+  String get aboutFactOffline;
+
+  /// Fact chip label paired with the number zero
+  ///
+  /// In en, this message translates to:
+  /// **'TELEMETRY'**
+  String get aboutFactTelemetry;
+
+  /// Fact chip: license name label
+  ///
+  /// In en, this message translates to:
+  /// **'LICENSE'**
+  String get aboutFactLicense;
+
+  /// Link to the source repository
+  ///
+  /// In en, this message translates to:
+  /// **'Source on GitHub'**
+  String get aboutSourceTitle;
+
+  /// License row title
+  ///
+  /// In en, this message translates to:
+  /// **'GNU AGPL v3'**
+  String get aboutLicenseTitle;
+
+  /// One-line summary of the AGPL copyleft rule
+  ///
+  /// In en, this message translates to:
+  /// **'Ship a modified version and you have to open your changes too.'**
+  String get aboutLicenseText;
+
+  /// Link to the TexFi hub website
+  ///
+  /// In en, this message translates to:
+  /// **'The whole TexFi ecosystem'**
+  String get aboutEcosystemTitle;
+
+  /// Donation link title
+  ///
+  /// In en, this message translates to:
+  /// **'Buy a coffee'**
+  String get aboutDonateTitle;
+
+  /// Explains that the app is free and donations change nothing
+  ///
+  /// In en, this message translates to:
+  /// **'TexFi is made by one person and every app is free. There are no paid features and there will not be.'**
+  String get aboutDonateText;
+
+  /// Snackbar when no app can handle the URL
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here can open that link'**
+  String get aboutLinkFailed;
 }
 
 class _AppLocalizationsDelegate

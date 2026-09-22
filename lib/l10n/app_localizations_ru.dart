@@ -996,4 +996,61 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get assetCategoriesTitle => 'Категории активов';
+
+  @override
+  String get aboutTitle => 'О приложении';
+
+  @override
+  String get aboutSectionApp => 'Приложение';
+
+  @override
+  String get aboutSectionOpen => 'Открытый код';
+
+  @override
+  String get aboutSectionSupport => 'Поддержать';
+
+  @override
+  String get aboutVersionLabel => 'Версия';
+
+  @override
+  String get aboutBuildLabel => 'Сборка';
+
+  @override
+  String get aboutTagline => 'Личные финансы, которые никуда не уходят';
+
+  @override
+  String get aboutBlurb =>
+      'Все данные лежат в базе на этом устройстве. Ни аналитики, ни рекламных идентификаторов, ни фоновой отправки «событий» — проверяется по исходникам.';
+
+  @override
+  String get aboutFactOffline => 'ОФЛАЙН';
+
+  @override
+  String get aboutFactTelemetry => 'ТЕЛЕМЕТРИИ';
+
+  @override
+  String get aboutFactLicense => 'ЛИЦЕНЗИЯ';
+
+  @override
+  String get aboutSourceTitle => 'Исходники на GitHub';
+
+  @override
+  String get aboutLicenseTitle => 'Лицензия GNU AGPL v3';
+
+  @override
+  String get aboutLicenseText =>
+      'Кто выпустит изменённую версию — обязан открыть свои правки.';
+
+  @override
+  String get aboutEcosystemTitle => 'Вся экосистема TexFi';
+
+  @override
+  String get aboutDonateTitle => 'Закинуть на кофе';
+
+  @override
+  String get aboutDonateText =>
+      'TexFi делает один человек, и все приложения бесплатны. Платных функций нет и не будет.';
+
+  @override
+  String get aboutLinkFailed => 'Не нашлось, чем открыть ссылку';
 }

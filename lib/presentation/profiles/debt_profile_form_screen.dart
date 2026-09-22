@@ -10,6 +10,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../shared/color_picker_row.dart';
+import '../shared/pixel_button.dart';
 
 class DebtProfileFormScreen extends ConsumerStatefulWidget {
   const DebtProfileFormScreen({super.key, this.existing});
@@ -98,12 +99,9 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _save : null,
-                child: Text(_isEditing ? l10n.commonSave : l10n.commonCreate),
-              ),
+            PixelButton(
+              label: _isEditing ? l10n.commonSave : l10n.commonCreate,
+              onPressed: _canSave ? _save : null,
             ),
           ],
         ),

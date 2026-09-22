@@ -503,5 +503,77 @@
         "type": "int"
       }
     }
+  },
+  "aboutTitle": "About",
+  "@aboutTitle": {
+    "description": "Title of the About screen"
+  },
+  "aboutSectionApp": "App",
+  "@aboutSectionApp": {
+    "description": "About screen: section with version and tagline"
+  },
+  "aboutSectionOpen": "Open source",
+  "@aboutSectionOpen": {
+    "description": "About screen: open-source section"
+  },
+  "aboutSectionSupport": "Support",
+  "@aboutSectionSupport": {
+    "description": "About screen: donation section"
+  },
+  "aboutVersionLabel": "Version",
+  "@aboutVersionLabel": {
+    "description": "Label before the release version number"
+  },
+  "aboutBuildLabel": "Build",
+  "@aboutBuildLabel": {
+    "description": "Label before the build number"
+  },
+  "aboutTagline": "Personal finance that stays put",
+  "@aboutTagline": {
+    "description": "One-line description of the app"
+  },
+  "aboutBlurb": "Everything lives in a database on this device. No analytics, no ad identifiers, no background \"events\" — check it against the source.",
+  "@aboutBlurb": {
+    "description": "Short privacy statement on the About screen"
+  },
+  "aboutFactOffline": "OFFLINE",
+  "@aboutFactOffline": {
+    "description": "Fact chip: the app works offline"
+  },
+  "aboutFactTelemetry": "TELEMETRY",
+  "@aboutFactTelemetry": {
+    "description": "Fact chip label paired with the number zero"
+  },
+  "aboutFactLicense": "LICENSE",
+  "@aboutFactLicense": {
+    "description": "Fact chip: license name label"
+  },
+  "aboutSourceTitle": "Source on GitHub",
+  "@aboutSourceTitle": {
+    "description": "Link to the source repository"
+  },
+  "aboutLicenseTitle": "GNU AGPL v3",
+  "@aboutLicenseTitle": {
+    "description": "License row title"
+  },
+  "aboutLicenseText": "Ship a modified version and you have to open your changes too.",
+  "@aboutLicenseText": {
+    "description": "One-line summary of the AGPL copyleft rule"
+  },
+  "aboutEcosystemTitle": "The whole TexFi ecosystem",
+  "@aboutEcosystemTitle": {
+    "description": "Link to the TexFi hub website"
+  },
+  "aboutDonateTitle": "Buy a coffee",
+  "@aboutDonateTitle": {
+    "description": "Donation link title"
+  },
+  "aboutDonateText": "TexFi is made by one person and every app is free. There are no paid features and there will not be.",
+  "@aboutDonateText": {
+    "description": "Explains that the app is free and donations change nothing"
+  },
+  "aboutLinkFailed": "Nothing here can open that link",
+  "@aboutLinkFailed": {
+    "description": "Snackbar when no app can handle the URL"
   }
 }

@@ -984,4 +984,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get assetCategoriesTitle => 'Asset categories';
+
+  @override
+  String get aboutTitle => 'About';
+
+  @override
+  String get aboutSectionApp => 'App';
+
+  @override
+  String get aboutSectionOpen => 'Open source';
+
+  @override
+  String get aboutSectionSupport => 'Support';
+
+  @override
+  String get aboutVersionLabel => 'Version';
+
+  @override
+  String get aboutBuildLabel => 'Build';
+
+  @override
+  String get aboutTagline => 'Personal finance that stays put';
+
+  @override
+  String get aboutBlurb =>
+      'Everything lives in a database on this device. No analytics, no ad identifiers, no background \"events\" — check it against the source.';
+
+  @override
+  String get aboutFactOffline => 'OFFLINE';
+
+  @override
+  String get aboutFactTelemetry => 'TELEMETRY';
+
+  @override
+  String get aboutFactLicense => 'LICENSE';
+
+  @override
+  String get aboutSourceTitle => 'Source on GitHub';
+
+  @override
+  String get aboutLicenseTitle => 'GNU AGPL v3';
+
+  @override
+  String get aboutLicenseText =>
+      'Ship a modified version and you have to open your changes too.';
+
+  @override
+  String get aboutEcosystemTitle => 'The whole TexFi ecosystem';
+
+  @override
+  String get aboutDonateTitle => 'Buy a coffee';
+
+  @override
+  String get aboutDonateText =>
+      'TexFi is made by one person and every app is free. There are no paid features and there will not be.';
+
+  @override
+  String get aboutLinkFailed => 'Nothing here can open that link';
 }

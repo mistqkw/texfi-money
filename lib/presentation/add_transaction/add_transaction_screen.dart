@@ -23,6 +23,7 @@ import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
+import '../shared/pixel_button.dart';
 import '../shared/pixel_spinner.dart';
 import '../wealth/wealth_labels.dart';
 
@@ -233,23 +234,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               decoration: InputDecoration(hintText: l10n.addTxNoteHint),
             ),
             AppSpacing.gapXxl,
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSave ? _handleSave : null,
-                child: _saving
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                      )
-                    : Text(l10n.commonSave),
-              )
-                  .animate(key: ValueKey(_bounceTrigger))
-                  .scaleXY(end: 1.06, duration: 80.ms, curve: Curves.easeOut)
-                  .then()
-                  .scaleXY(end: 1.0, duration: 110.ms, curve: Curves.elasticOut),
-            ),
+            PixelButton(
+              label: l10n.commonSave,
+              busy: _saving,
+              onPressed: _canSave ? _handleSave : null,
+            )
+                .animate(key: ValueKey(_bounceTrigger))
+                .scaleXY(end: 1.06, duration: 80.ms, curve: Curves.easeOut)
+                .then()
+                .scaleXY(end: 1.0, duration: 110.ms, curve: Curves.elasticOut),
           ],
         ),
       ),
