@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,11 +52,15 @@ class _LaunchSplashState extends State<LaunchSplash>
     );
     _assemble = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0, 0.62, curve: Curves.easeOut),
+      // Сборка занимает почти весь кадр, а не первую его треть: при
+      // коротком интервале волна проскакивала за пару кадров, знак
+      // появлялся раньше, чем её успевали прочитать, и «пиксельная
+      // сборка» превращалась в обычное проявление.
+      curve: const Interval(0, 0.82, curve: Curves.linear),
     );
     _name = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.55, 0.9, curve: Curves.easeOut),
+      curve: const Interval(0.78, 1, curve: Curves.easeOut),
     );
 
     // Короткий тик на каждой четверти сборки: знак не просто появляется,
@@ -103,7 +106,7 @@ class _LaunchSplashState extends State<LaunchSplash>
                     child: Opacity(
                       // Знак проступает на последней четверти сборки —
                       // ячейки складываются в него, а не подменяются им.
-                      opacity: math.max(0, _assemble.value * 4 - 3),
+                      opacity: ((_assemble.value - 0.6) / 0.3).clamp(0.0, 1.0),
                       child: const Center(child: BrandGlyph(height: 56)),
                     ),
                   ),
@@ -162,14 +165,27 @@ class _AssemblePainter extends CustomPainter {
       for (var x = 0; x < _grid; x++) {
         // Волна идёт по диагонали, хеш только слегка сбивает её ровность —
         // иначе видно марширующую линию, а не сборку.
+        //
+        // Порог укладывается в 0..0.65, а не в 0..1, и догорание занимает
+        // ещё 0.25: последняя ячейка обязана погаснуть до конца анимации.
+        // При пороге почти в единицу она начинала гаснуть ровно тогда,
+        // когда всё заканчивалось, и оставалась висеть рядом со знаком
+        // недогоревшим огрызком — на самом заметном кадре.
         final wave = (x + y) / (2 * (_grid - 1));
-        final threshold = wave * 0.75 + _noise(x, y) * 0.25;
+        final threshold = wave * 0.5 + _noise(x, y) * 0.15;
         if (progress < threshold) continue;
 
-        // Ячейка гаснет к концу: сборка сходится в сам знак.
-        final fade = ((progress - threshold) / 0.35).clamp(0.0, 1.0);
+        // Ячейка гаснет до конца, а не до остаточной прозрачности.
+        //
+        // Сначала здесь стояло `1 - fade * 0.85`, и каждая отработавшая
+        // ячейка навсегда оставалась видна на 15%. По отдельности это
+        // незаметно, но все шестьдесят четыре вместе складывались в
+        // тёмный квадрат за знаком — подложку, которой в кадре быть не
+        // должно: сборка обязана исчезнуть, оставив только знак.
+        final fade = ((progress - threshold) / 0.25).clamp(0.0, 1.0);
+        if (fade >= 1) continue;
         paint.color = Color.lerp(_accent, _accentShadow, fade)!
-            .withValues(alpha: 1 - fade * 0.85);
+            .withValues(alpha: 1 - fade);
 
         // Рисуем с нахлёстом, а не с зазором: на субпиксельном рендере
         // между ячейками иначе появляются щели и контур рассыпается.
