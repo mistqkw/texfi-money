@@ -19,6 +19,7 @@ import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
@@ -113,7 +114,16 @@ class GoalsScreen extends ConsumerWidget {
       body: goalsAsync.when(
         data: (goals) {
           if (goals.isEmpty) {
-            return EmptyState(icon: Icons.flag_outlined, message: l10n.goalsEmpty);
+            return EmptyState(
+              sprite: PixelIcons.goals,
+              message: l10n.goalsEmpty,
+              actionLabel: l10n.goalFormTitleNew,
+              onAction: () {
+                Haptics.select();
+                Navigator.of(context)
+                    .push(pixelDissolveRoute(const GoalFormScreen()));
+              },
+            );
           }
           return ListView.separated(
             padding: AppSpacing.screenWithFab,

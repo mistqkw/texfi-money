@@ -4,20 +4,50 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import 'pixel_button.dart';
+import 'pixel_icon.dart';
 
-/// Пустой раздел. Не голая строка текста по центру: приглушённая иконка
-/// в круге, короткая подсказка — и мягкое появление, чтобы список,
-/// который ещё грузится, не «прыгал» пустотой.
+/// Пустой раздел: пиксельный знак в рамке, короткая подсказка и — главное —
+/// кнопка, которая этот раздел наполняет.
+///
+/// Раньше здесь были знак и строка текста, и всё. Экран честно сообщал,
+/// что пусто, но не говорил, что с этим делать: кнопка добавления жила
+/// внизу справа плавающим кружком, и на пустом экране взгляд к ней просто
+/// не приходил. Пустой раздел — это момент, когда пользователь впервые
+/// сюда зашёл, и единственный полезный ответ здесь — действие, а не
+/// констатация.
+///
+/// Знак стал пиксельным. Material-иконка с тонкой обводкой посреди
+/// интерфейса, целиком собранного из квадратов, читалась как вставка из
+/// другого приложения.
 class EmptyState extends StatelessWidget {
-  const EmptyState({super.key, required this.icon, required this.message});
+  const EmptyState({
+    super.key,
+    required this.sprite,
+    required this.message,
+    this.actionLabel,
+    this.onAction,
+  });
 
-  final IconData icon;
+  /// Спрайт из [PixelIcons] — 12×12, как все остальные знаки приложения.
+  final List<String> sprite;
+
   final String message;
+
+  /// Подпись действия. Вместе с [onAction] — либо оба, либо ни одного:
+  /// кнопка без обработчика была бы ровно той пустышкой, которой в этом
+  /// приложении быть не должно.
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final label = actionLabel;
+    final action = onAction;
+
     return Center(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.xxl),
         child: TweenAnimationBuilder<double>(
           tween: Tween(begin: 0, end: 1),
@@ -35,11 +65,11 @@ class EmptyState extends StatelessWidget {
                 height: 64,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: context.colors.surfaceVariant,
+                  color: colors.surfaceVariant,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: context.colors.divider, width: 2),
+                  border: Border.all(color: colors.divider, width: 2),
                 ),
-                child: Icon(icon, size: 28, color: context.colors.textTertiary),
+                child: PixelIcon(sprite, size: 32, color: colors.textTertiary),
               ),
               AppSpacing.gapLg,
               Text(
@@ -47,6 +77,15 @@ class EmptyState extends StatelessWidget {
                 style: context.text.body,
                 textAlign: TextAlign.center,
               ),
+              if (label != null && action != null) ...[
+                AppSpacing.gapXl,
+                PixelButton(
+                  label: label,
+                  onPressed: action,
+                  expand: false,
+                  icon: Icons.add,
+                ),
+              ],
             ],
           ),
         ),

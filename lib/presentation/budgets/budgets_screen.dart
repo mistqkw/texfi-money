@@ -15,6 +15,7 @@ import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
@@ -41,8 +42,14 @@ class BudgetsScreen extends ConsumerWidget {
         data: (budgets) {
           if (budgets.isEmpty) {
             return EmptyState(
-              icon: Icons.account_balance_wallet_outlined,
+              sprite: PixelIcons.budgets,
               message: l10n.budgetsEmpty,
+              actionLabel: l10n.setBudgetTitleNew,
+              onAction: () {
+                Haptics.select();
+                Navigator.of(context)
+                    .push(pixelDissolveRoute(const SetBudgetScreen()));
+              },
             );
           }
           return ListView.separated(

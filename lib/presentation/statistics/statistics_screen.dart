@@ -14,6 +14,7 @@ import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/terminal_box.dart';
 import '../wealth/wealth_labels.dart';
@@ -261,7 +262,7 @@ class _CategoryPie extends ConsumerWidget {
 
     if (categories.isEmpty) {
       return EmptyState(
-        icon: Icons.pie_chart_outline,
+        sprite: PixelIcons.statistics,
         message: context.l10n.statisticsNoExpenses,
       );
     }

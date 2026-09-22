@@ -160,7 +160,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get homeEmptyTransactions =>
-      'Поки що немає транзакцій — додайте першу кнопкою «+»';
+      'Тут поки порожньо. Перший запис займе секунд десять.';
 
   @override
   String get homeLoadTransactionsError => 'Не вдалося завантажити транзакції';
@@ -236,7 +236,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get budgetsEmpty =>
-      'Поки що немає бюджетів — встановіть місячний ліміт для категорії кнопкою «+»';
+      'Бюджетів поки немає. Задайте місячний ліміт на категорію — і стане видно, коли ви до нього підходите.';
 
   @override
   String get budgetsLoadError => 'Не вдалося завантажити бюджети';
@@ -332,7 +332,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get goalsTitle => 'Цілі накопичень';
 
   @override
-  String get goalsEmpty => 'Поки що немає цілей — створіть першу кнопкою «+»';
+  String get goalsEmpty =>
+      'Цілей поки немає. Відкладати простіше, коли в суми є ім’я.';
 
   @override
   String get goalsLoadError => 'Не вдалося завантажити цілі';
@@ -366,7 +367,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get accountsEmpty =>
-      'Поки що немає рахунків — додайте перший кнопкою «+»';
+      'Рахунків поки немає. Заведіть ті, де насправді лежать гроші, — картку, готівку, скарбничку.';
 
   @override
   String get accountsLoadError => 'Не вдалося завантажити рахунки';
@@ -399,7 +400,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get profilesEmpty =>
-      'Поки що немає профілів — обліковуйте чужі гроші кнопкою «+»';
+      'Профілів поки немає. Сюди йдуть чужі гроші: борги, спільний рахунок, чийсь бюджет у ваших руках.';
 
   @override
   String get profilesLoadError => 'Не вдалося завантажити профілі';

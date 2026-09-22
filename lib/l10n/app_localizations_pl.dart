@@ -160,7 +160,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get homeEmptyTransactions =>
-      'Brak transakcji — dodaj pierwszą przyciskiem „+”';
+      'Na razie pusto. Pierwszy wpis zajmie ze dziesięć sekund.';
 
   @override
   String get homeLoadTransactionsError => 'Nie udało się wczytać transakcji';
@@ -236,7 +236,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get budgetsEmpty =>
-      'Brak budżetów — ustaw miesięczny limit dla kategorii przyciskiem „+”';
+      'Nie ma jeszcze budżetów. Ustaw miesięczny limit na kategorię, a zobaczysz, kiedy się do niego zbliżasz.';
 
   @override
   String get budgetsLoadError => 'Nie udało się wczytać budżetów';
@@ -332,7 +332,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get goalsTitle => 'Cele oszczędnościowe';
 
   @override
-  String get goalsEmpty => 'Brak celów — utwórz pierwszy przyciskiem „+”';
+  String get goalsEmpty =>
+      'Nie ma jeszcze celów. Łatwiej odkładać, gdy kwota ma imię.';
 
   @override
   String get goalsLoadError => 'Nie udało się wczytać celów';
@@ -365,7 +366,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get accountsTitle => 'Konta';
 
   @override
-  String get accountsEmpty => 'Brak kont — dodaj pierwsze przyciskiem „+”';
+  String get accountsEmpty =>
+      'Nie ma jeszcze kont. Dodaj te, na których naprawdę leżą pieniądze — kartę, gotówkę, skarbonkę.';
 
   @override
   String get accountsLoadError => 'Nie udało się załadować kont';
@@ -398,7 +400,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get profilesEmpty =>
-      'Brak profili — śledź cudze pieniądze przyciskiem „+”';
+      'Nie ma jeszcze profili. Tu trafiają cudze pieniądze: długi, wspólne konto, czyjś budżet w twoich rękach.';
 
   @override
   String get profilesLoadError => 'Nie udało się załadować profili';

@@ -160,7 +160,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeEmptyTransactions =>
-      'No transactions yet — add your first with the “+” button';
+      'Nothing here yet. The first entry takes about ten seconds.';
 
   @override
   String get homeLoadTransactionsError => 'Couldn\'t load transactions';
@@ -228,7 +228,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get budgetsEmpty =>
-      'No budgets yet — set a monthly limit for a category with the “+” button';
+      'No budgets yet. Set a monthly cap on a category and you will see yourself approaching it.';
 
   @override
   String get budgetsLoadError => 'Couldn\'t load budgets';
@@ -325,7 +325,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goalsEmpty =>
-      'No goals yet — create your first with the “+” button';
+      'No goals yet. Saving is easier when the amount has a name.';
 
   @override
   String get goalsLoadError => 'Couldn\'t load goals';
@@ -357,7 +357,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountsEmpty =>
-      'No accounts yet — add your first with the “+” button';
+      'No accounts yet. Add the ones where the money actually sits — a card, cash, a jar.';
 
   @override
   String get accountsLoadError => 'Couldn\'t load accounts';
@@ -390,7 +390,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilesEmpty =>
-      'No profiles yet — track money someone owes you (or you owe them) with the “+” button';
+      'No profiles yet. This is for other people’s money: debts, a shared account, someone’s budget in your hands.';
 
   @override
   String get profilesLoadError => 'Couldn\'t load profiles';

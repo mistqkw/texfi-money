@@ -399,7 +399,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeEmptyTransactions.
   ///
   /// In en, this message translates to:
-  /// **'No transactions yet — add your first with the “+” button'**
+  /// **'Nothing here yet. The first entry takes about ten seconds.'**
   String get homeEmptyTransactions;
 
   /// No description provided for @homeLoadTransactionsError.
@@ -513,7 +513,7 @@ abstract class AppLocalizations {
   /// No description provided for @budgetsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No budgets yet — set a monthly limit for a category with the “+” button'**
+  /// **'No budgets yet. Set a monthly cap on a category and you will see yourself approaching it.'**
   String get budgetsEmpty;
 
   /// No description provided for @budgetsLoadError.
@@ -687,7 +687,7 @@ abstract class AppLocalizations {
   /// No description provided for @goalsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No goals yet — create your first with the “+” button'**
+  /// **'No goals yet. Saving is easier when the amount has a name.'**
   String get goalsEmpty;
 
   /// No description provided for @goalsLoadError.
@@ -729,7 +729,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No accounts yet — add your first with the “+” button'**
+  /// **'No accounts yet. Add the ones where the money actually sits — a card, cash, a jar.'**
   String get accountsEmpty;
 
   /// No description provided for @accountsLoadError.
@@ -789,7 +789,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilesEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No profiles yet — track money someone owes you (or you owe them) with the “+” button'**
+  /// **'No profiles yet. This is for other people’s money: debts, a shared account, someone’s budget in your hands.'**
   String get profilesEmpty;
 
   /// No description provided for @profilesLoadError.

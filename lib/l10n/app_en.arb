@@ -56,7 +56,7 @@
   "homeIncomeThisMonth": "Income this month",
   "homeExpenseThisMonth": "Expense this month",
   "homeRecentTransactions": "Recent transactions",
-  "homeEmptyTransactions": "No transactions yet — add your first with the “+” button",
+  "homeEmptyTransactions": "Nothing here yet. The first entry takes about ten seconds.",
   "homeLoadTransactionsError": "Couldn't load transactions",
   "homeBalance": "Balance",
   "addTxTitle": "New transaction",
@@ -122,7 +122,7 @@
   "addTxAccountLabel": "Account",
   "addTxNoAccount": "No account",
   "budgetsTitle": "Budgets",
-  "budgetsEmpty": "No budgets yet — set a monthly limit for a category with the “+” button",
+  "budgetsEmpty": "No budgets yet. Set a monthly cap on a category and you will see yourself approaching it.",
   "budgetsLoadError": "Couldn't load budgets",
   "budgetsOverBy": "Over by {amount}",
   "@budgetsOverBy": {
@@ -179,7 +179,7 @@
     }
   },
   "goalsTitle": "Savings goals",
-  "goalsEmpty": "No goals yet — create your first with the “+” button",
+  "goalsEmpty": "No goals yet. Saving is easier when the amount has a name.",
   "goalsLoadError": "Couldn't load goals",
   "goalsProgressOf": "{current} of {target}",
   "@goalsProgressOf": {
@@ -203,7 +203,7 @@
     }
   },
   "accountsTitle": "Accounts",
-  "accountsEmpty": "No accounts yet — add your first with the “+” button",
+  "accountsEmpty": "No accounts yet. Add the ones where the money actually sits — a card, cash, a jar.",
   "accountsLoadError": "Couldn't load accounts",
   "accountsDeleteTitle": "Delete account?",
   "accountsDeleteConfirm": "Account “{name}” will be deleted. Its transactions stay, just unassigned.",
@@ -220,7 +220,7 @@
   "accountFormBankLabel": "Bank",
   "accountFormNoBank": "None",
   "profilesTitle": "Profiles",
-  "profilesEmpty": "No profiles yet — track money someone owes you (or you owe them) with the “+” button",
+  "profilesEmpty": "No profiles yet. This is for other people’s money: debts, a shared account, someone’s budget in your hands.",
   "profilesLoadError": "Couldn't load profiles",
   "profilesDeleteTitle": "Delete profile?",
   "profilesDeleteConfirm": "Profile “{name}” and its balance will be deleted.",

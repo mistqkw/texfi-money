@@ -15,6 +15,7 @@ import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
@@ -110,7 +111,16 @@ class DebtProfilesScreen extends ConsumerWidget {
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
-            return EmptyState(icon: Icons.people_outline, message: l10n.profilesEmpty);
+            return EmptyState(
+              sprite: PixelIcons.profiles,
+              message: l10n.profilesEmpty,
+              actionLabel: l10n.profileFormTitleNew,
+              onAction: () {
+                Haptics.select();
+                Navigator.of(context)
+                    .push(pixelDissolveRoute(const DebtProfileFormScreen()));
+              },
+            );
           }
           return ListView.separated(
             padding: AppSpacing.screenWithFab,

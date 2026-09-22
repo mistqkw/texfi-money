@@ -16,6 +16,7 @@ import '../settings/currency_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_fab.dart';
+import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import '../shared/terminal_box.dart';
@@ -67,8 +68,14 @@ class AccountsScreen extends ConsumerWidget {
         data: (accounts) {
           if (accounts.isEmpty) {
             return EmptyState(
-              icon: Icons.account_balance_wallet_outlined,
+              sprite: PixelIcons.wallet,
               message: l10n.accountsEmpty,
+              actionLabel: l10n.accountFormTitleNew,
+              onAction: () {
+                Haptics.select();
+                Navigator.of(context)
+                    .push(pixelDissolveRoute(const AccountFormScreen()));
+              },
             );
           }
           return ListView.separated(

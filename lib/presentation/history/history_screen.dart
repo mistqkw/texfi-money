@@ -202,7 +202,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return EmptyState(
-                    icon: Icons.search_off_outlined,
+                    sprite: PixelIcons.history,
                     message: l10n.historyEmpty,
                   );
                 }

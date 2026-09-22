@@ -125,8 +125,14 @@ class HomeScreen extends ConsumerWidget {
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return EmptyState(
-                    icon: Icons.receipt_long_outlined,
+                    sprite: PixelIcons.history,
                     message: l10n.homeEmptyTransactions,
+                    actionLabel: l10n.addTxTitle,
+                    onAction: () {
+                      Haptics.select();
+                      Navigator.of(context)
+                          .push(pixelDissolveRoute(const AddTransactionScreen()));
+                    },
                   );
                 }
                 return Column(
