@@ -1,8 +1,10 @@
 Version 1.0.0 — the first stable release
 
-* The light theme now uses the warm TexFi ecosystem palette
-* Buttons and cards press inward, the way the pixel language intends
+* The interface now speaks the shared TexFi pixel language: the same cards, buttons and glyphs as f0kus
+* A custom bottom bar replaces the stock one — no round pill under the active tab
+* Six tabs folded into four: Home, History, Plan, Totals
+* The light theme now uses the warm ecosystem palette
+* Buttons and cards press inward
 * Empty sections offer an action instead of only reporting emptiness
-* New About screen: version, source code, AGPL-3.0 license
-* Settings sections are numbered and ruled off — the long screen reads as chapters
-* The splash sits in a pixel frame, with the name set in the brand typeface
+* A new launch screen: the mark assembles out of pixels
+* A new About screen: version, source code, AGPL-3.0 license
