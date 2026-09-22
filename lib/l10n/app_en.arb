@@ -575,5 +575,13 @@
   "aboutLinkFailed": "Nothing here can open that link",
   "@aboutLinkFailed": {
     "description": "Snackbar when no app can handle the URL"
+  },
+  "navPlan": "Plan",
+  "@navPlan": {
+    "description": "Bottom nav tab grouping budgets and savings goals"
+  },
+  "navSummary": "Totals",
+  "@navSummary": {
+    "description": "Bottom nav tab grouping statistics and net worth"
   }
 }

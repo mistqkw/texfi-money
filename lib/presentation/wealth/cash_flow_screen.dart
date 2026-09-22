@@ -8,9 +8,9 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
-import '../shared/terminal_box.dart';
 import 'wealth_providers.dart';
 
 /// Движение денег: сколько пришло, сколько ушло, сколько осталось.
@@ -36,7 +36,7 @@ class CashFlowScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          TerminalBox(
+          PixelCard(
             label: l10n.reportsPeriod.toLowerCase(),
             child: Text(
               '${formatDate(range.from, context)} — '
@@ -76,7 +76,7 @@ class CashFlowScreen extends ConsumerWidget {
             error: (e, st) => Text(l10n.reportsEmpty, style: context.text.body),
           ),
           AppSpacing.gapXl,
-          TerminalBox(
+          PixelCard(
             label: l10n.savingsRateHistory.toLowerCase(),
             child: rates.when(
               data: (months) => _SavingsHistory(months: months),
@@ -106,7 +106,7 @@ class _FlowRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TerminalBox(
+    return PixelCard(
       child: Row(
         children: [
           PixelIcon(icon, size: 22, color: color),

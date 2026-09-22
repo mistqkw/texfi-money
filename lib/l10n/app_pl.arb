@@ -313,5 +313,7 @@
   "aboutEcosystemTitle": "Cały ekosystem TexFi",
   "aboutDonateTitle": "Postaw kawę",
   "aboutDonateText": "TexFi robi jedna osoba, a wszystkie aplikacje są darmowe. Płatnych funkcji nie ma i nie będzie.",
-  "aboutLinkFailed": "Nie ma czym otworzyć tego odnośnika"
+  "aboutLinkFailed": "Nie ma czym otworzyć tego odnośnika",
+  "navPlan": "Plan",
+  "navSummary": "Podsumowanie"
 }

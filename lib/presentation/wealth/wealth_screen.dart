@@ -13,10 +13,10 @@ import '../../domain/entities/cash_flow_type.dart';
 import '../../domain/entities/net_worth.dart';
 import '../../domain/entities/wealth_rules.dart';
 import '../settings/currency_provider.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'asset_form_screen.dart';
 import 'cash_flow_screen.dart';
 import 'reports_screen.dart';
@@ -29,7 +29,11 @@ import 'wealth_providers.dart';
 /// Экран надстроечный. Он ничего не знает про транзакции и не влияет на
 /// них: трекер расходов работает ровно так же, если сюда не заходить.
 class WealthScreen extends ConsumerWidget {
-  const WealthScreen({super.key});
+  const WealthScreen({super.key, this.embedded = false});
+
+  /// Экран открыт как сегмент внутри вкладки «Итоги»: заголовок и
+  /// переключатель сегментов рисует хозяин.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,23 +44,29 @@ class WealthScreen extends ConsumerWidget {
     final snapshot = ref.watch(netWorthProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.wealthTitle),
-        actions: [
-          IconButton(
-            icon: const PixelIcon(PixelIcons.subscriptions),
-            tooltip: l10n.subscriptionsTitle,
-            onPressed: () => Navigator.of(context)
-                .push(pixelDissolveRoute(const SubscriptionsScreen())),
-          ),
-          IconButton(
-            icon: const PixelIcon(PixelIcons.reports),
-            tooltip: l10n.reportsTitle,
-            onPressed: () => Navigator.of(context)
-                .push(pixelDissolveRoute(const ReportsScreen())),
-          ),
-        ],
-      ),
+      // Подписки и отчёты жили иконками в шапке — то есть там, где их
+      // никто не искал. Внутри вкладки шапки нет вовсе, и они переехали в
+      // тело экрана двумя карточками: раздел, до которого нельзя дойти
+      // иначе как угадав иконку, с тем же успехом мог бы не существовать.
+      appBar: embedded
+          ? null
+          : AppBar(
+              title: Text(l10n.wealthTitle),
+              actions: [
+                IconButton(
+                  icon: const PixelIcon(PixelIcons.subscriptions),
+                  tooltip: l10n.subscriptionsTitle,
+                  onPressed: () => Navigator.of(context)
+                      .push(pixelDissolveRoute(const SubscriptionsScreen())),
+                ),
+                IconButton(
+                  icon: const PixelIcon(PixelIcons.reports),
+                  tooltip: l10n.reportsTitle,
+                  onPressed: () => Navigator.of(context)
+                      .push(pixelDissolveRoute(const ReportsScreen())),
+                ),
+              ],
+            ),
       floatingActionButton: PixelFab(
         onPressed: () => Navigator.of(context)
             .push(pixelDissolveRoute(const AssetFormScreen())),
@@ -68,6 +78,10 @@ class WealthScreen extends ConsumerWidget {
         children: [
           _TotalCard(snapshot: snapshot),
           AppSpacing.gapLg,
+          if (embedded) ...[
+            _SectionLinks(),
+            AppSpacing.gapLg,
+          ],
           const _YearChangeCard(),
           AppSpacing.gapLg,
           const _RiskWarnings(),
@@ -109,7 +123,7 @@ class _TotalCard extends ConsumerWidget {
     final assets = ref.watch(assetsProvider).valueOrNull ?? const [];
 
     if (assets.isEmpty) {
-      return TerminalBox(
+      return PixelCard(
         label: l10n.wealthTitle.toLowerCase(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +139,7 @@ class _TotalCard extends ConsumerWidget {
       );
     }
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthTotal.toLowerCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +220,7 @@ class _YearChangeCard extends ConsumerWidget {
     // бы как «капитал не изменился», хотя года назад его просто не с чем
     // сравнить.
     if (change.from <= 0) {
-      return TerminalBox(
+      return PixelCard(
         label: l10n.wealthYearChange.toLowerCase(),
         child: Text(
           l10n.wealthYearChangeNoBase,
@@ -219,7 +233,7 @@ class _YearChangeCard extends ConsumerWidget {
     final color = grew ? colors.income : colors.expense;
     final percent = change.percent;
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthYearChange.toLowerCase(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -266,7 +280,7 @@ class _RiskWarnings extends ConsumerWidget {
     return Column(
       children: [
         for (final breach in breaches) ...[
-          TerminalBox(
+          PixelCard(
             label: l10n.riskBreachTitle.toLowerCase(),
             borderColor: colors.warning,
             labelColor: colors.warning,
@@ -312,7 +326,7 @@ class _AdviceCard extends ConsumerWidget {
 
     return Column(
       children: [
-        TerminalBox(
+        PixelCard(
           label: l10n.adviceSection.toLowerCase(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,7 +444,7 @@ class _CategoryShares extends ConsumerWidget {
     final l10n = context.l10n;
     final shares = ref.watch(categorySharesProvider);
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthByCategory.toLowerCase(),
       child: Column(
         children: [
@@ -459,7 +473,7 @@ class _CashFlowShares extends ConsumerWidget {
     final colors = context.colors;
     final shares = ref.watch(cashFlowSharesProvider);
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthByCashFlow.toLowerCase(),
       child: Column(
         children: [
@@ -492,7 +506,7 @@ class _RiskShares extends ConsumerWidget {
     final colors = context.colors;
     final shares = ref.watch(riskSharesProvider);
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthByRisk.toLowerCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -529,7 +543,7 @@ class _AssetList extends ConsumerWidget {
     final colors = context.colors;
     final currency = ref.watch(currencyProvider);
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.wealthAssetsList.toLowerCase(),
       child: Column(
         children: [
@@ -631,7 +645,7 @@ class _LinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return TerminalBox(
+    return PixelCard(
       onTap: onTap,
       child: Row(
         children: [
@@ -649,6 +663,44 @@ class _LinkTile extends StatelessWidget {
             size: 14,
             color: colors.textTertiary,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Подписки и отчёты внутри вкладки «Итоги»: две карточки вместо двух
+/// иконок в шапке, которой здесь нет.
+class _SectionLinks extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    Widget link(String title, List<String> sprite, Widget target) {
+      return Expanded(
+        child: PixelCard(
+          onTap: () =>
+              Navigator.of(context).push(pixelDissolveRoute(target)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PixelIcon(sprite, size: 20, color: context.colors.accent),
+              AppSpacing.gapSm,
+              Text(title, style: context.text.title),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          link(l10n.subscriptionsTitle, PixelIcons.subscriptions,
+              const SubscriptionsScreen()),
+          AppSpacing.gapHMd,
+          link(l10n.reportsTitle, PixelIcons.reports, const ReportsScreen()),
         ],
       ),
     );

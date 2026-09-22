@@ -6,7 +6,7 @@ import 'brand_glyph.dart';
 
 const _brandName = 'texfi m0ney';
 const _accent = Color(0xFF4A7DFB);
-const _accentDeep = Color(0xFF2B4FB0);
+const _accentShadow = Color(0xFF2B4FB0);
 
 /// Пиксельный шрифт — тот же, что на заголовках экранов и на сайте.
 /// Раньше здесь стоял родовой `fontFamily: 'monospace'`, то есть системный
@@ -106,7 +106,7 @@ class _LaunchSplashState extends State<LaunchSplash> with TickerProviderStateMix
                     border: Border.all(color: _accent, width: 2),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: const [
-                      BoxShadow(color: _accentDeep, offset: Offset(3, 3)),
+                      BoxShadow(color: _accentShadow, offset: Offset(3, 3)),
                     ],
                   ),
                   child: FadeTransition(

@@ -313,5 +313,7 @@
   "aboutEcosystemTitle": "Вся экосистема TexFi",
   "aboutDonateTitle": "Закинуть на кофе",
   "aboutDonateText": "TexFi делает один человек, и все приложения бесплатны. Платных функций нет и не будет.",
-  "aboutLinkFailed": "Не нашлось, чем открыть ссылку"
+  "aboutLinkFailed": "Не нашлось, чем открыть ссылку",
+  "navPlan": "План",
+  "navSummary": "Итоги"
 }

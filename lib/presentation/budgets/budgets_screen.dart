@@ -14,16 +14,21 @@ import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
 
 class BudgetsScreen extends ConsumerWidget {
-  const BudgetsScreen({super.key});
+  const BudgetsScreen({super.key, this.embedded = false});
+
+  /// Экран открыт как сегмент внутри вкладки-группы: заголовок и
+  /// переключатель сегментов рисует хозяин, свой AppBar здесь был бы
+  /// вторым подряд.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,7 +36,7 @@ class BudgetsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.budgetsTitle)),
+      appBar: embedded ? null : AppBar(title: Text(l10n.budgetsTitle)),
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
@@ -85,7 +90,7 @@ class _BudgetCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
-    return TerminalBox(
+    return PixelCard(
       label: categoryDisplayName(context, budget.category).toLowerCase(),
       labelColor: _barColor(context),
       onTap: () => Navigator.of(context).push(

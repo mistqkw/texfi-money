@@ -13,9 +13,9 @@ import '../../domain/repositories/transaction_repository.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
-import '../shared/terminal_box.dart';
 
 /// Параметры отчёта.
 class ReportQuery {
@@ -130,7 +130,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          TerminalBox(
+          PixelCard(
             label: l10n.reportsPeriod.toLowerCase(),
             onTap: () async {
               final picked = await showDateRangePicker(
@@ -147,7 +147,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             child: Row(
               children: [
                 Expanded(
@@ -176,7 +176,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.reportsCategory.toLowerCase(),
             child: Column(
               children: [
@@ -196,7 +196,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             child: Row(
               children: [
                 Expanded(
@@ -228,7 +228,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                   .map((row) => row.total)
                   .reduce((a, b) => a > b ? a : b);
 
-              return TerminalBox(
+              return PixelCard(
                 label: l10n.reportsTotal.toLowerCase(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

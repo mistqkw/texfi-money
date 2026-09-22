@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/utils/haptics.dart';
-import '../budgets/budgets_screen.dart';
-import '../goals/goals_screen.dart';
 import '../history/history_screen.dart';
 import '../home/home_screen.dart';
-import '../statistics/statistics_screen.dart';
-import '../wealth/wealth_screen.dart';
+import 'grouped_tab.dart';
 import 'pixel_icon.dart';
+import 'pixel_nav_bar.dart';
 
 class RootShell extends StatefulWidget {
   const RootShell({super.key});
@@ -23,10 +20,8 @@ class _RootShellState extends State<RootShell> {
   static const _pages = [
     HomeScreen(),
     HistoryScreen(),
-    BudgetsScreen(),
-    GoalsScreen(),
-    StatisticsScreen(),
-    WealthScreen(),
+    PlanTab(),
+    SummaryTab(),
   ];
 
   @override
@@ -35,41 +30,18 @@ class _RootShellState extends State<RootShell> {
 
     return Scaffold(
       body: IndexedStack(index: _index, children: _pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: (value) {
-          if (value != _index) Haptics.select();
-          setState(() => _index = value);
-        },
-        destinations: [
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.home),
-            label: l10n.navHome,
-          ),
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.history),
-            label: l10n.navHistory,
-          ),
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.budgets),
-            label: l10n.navBudgets,
-          ),
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.goals),
-            label: l10n.navGoals,
-          ),
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.statistics),
-            label: l10n.navStatistics,
-          ),
-          // Шестая вкладка — практический потолок нижней панели, и капитал
-          // занял его осознанно: это отдельный раздел со своими экранами
-          // внутри, а не ещё один срез трат. Подписки, движение денег и
-          // отчёты живут за ним, а не рядом с ним.
-          NavigationDestination(
-            icon: const PixelIcon(PixelIcons.netWorth),
-            label: l10n.navWealth,
-          ),
+      bottomNavigationBar: PixelNavBar(
+        currentIndex: _index,
+        onSelected: (value) => setState(() => _index = value),
+        items: [
+          PixelNavItem(sprite: PixelIcons.home, label: l10n.navHome),
+          PixelNavItem(sprite: PixelIcons.history, label: l10n.navHistory),
+          // «План» и «Итоги» — не новые разделы, а две пары старых
+          // вкладок: бюджеты с целями и статистика с капиталом. Шесть
+          // равнозначных пунктов внизу не складывались в структуру и не
+          // помещались подписями в Material-панель.
+          PixelNavItem(sprite: PixelIcons.budgets, label: l10n.navPlan),
+          PixelNavItem(sprite: PixelIcons.statistics, label: l10n.navSummary),
         ],
       ),
     );

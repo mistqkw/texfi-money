@@ -14,11 +14,11 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'debt_profile_form_screen.dart';
 import 'debt_profile_providers.dart';
 
@@ -142,7 +142,7 @@ class DebtProfilesScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       color: context.colors.expense.withValues(alpha: 0.15),
-                      borderRadius: AppRadius.mediumAll,
+                      borderRadius: AppRadius.cardSmallAll,
                     ),
                     child: Icon(Icons.delete_outline, color: context.colors.expense),
                   ),
@@ -187,7 +187,7 @@ class _ProfileCard extends ConsumerWidget {
             ? l10n.profilesYouOwe(formatAmount(-profile.balance, currency, context))
             : l10n.profilesSettled;
 
-    return TerminalBox(
+    return PixelCard(
       label: profile.name.toLowerCase(),
       labelColor: profile.color,
       onTap: onTap,

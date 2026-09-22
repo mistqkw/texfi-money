@@ -1041,4 +1041,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutLinkFailed => 'Nothing here can open that link';
+
+  @override
+  String get navPlan => 'Plan';
+
+  @override
+  String get navSummary => 'Totals';
 }

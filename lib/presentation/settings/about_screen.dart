@@ -6,8 +6,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../shared/section_header.dart';
-import '../shared/terminal_box.dart';
+import '../shared/pixel_card.dart';
 
 /// Экран «О приложении»: версия, исходники, лицензия и донат.
 ///
@@ -68,8 +67,8 @@ class _AboutScreenState extends State<AboutScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          SectionHeader(l10n.aboutSectionApp, index: 1),
-          TerminalBox(
+          PixelSectionHeader(title: l10n.aboutSectionApp, index: 1),
+          PixelCard(
             label: 'texfi m0ney',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +101,7 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           AppSpacing.gapXl,
 
-          SectionHeader(l10n.aboutSectionOpen, index: 2),
+          PixelSectionHeader(title: l10n.aboutSectionOpen, index: 2),
           _LinkTile(
             icon: Icons.code,
             title: l10n.aboutSourceTitle,
@@ -125,8 +124,8 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           AppSpacing.gapXl,
 
-          SectionHeader(l10n.aboutSectionSupport, index: 3),
-          TerminalBox(
+          PixelSectionHeader(title: l10n.aboutSectionSupport, index: 3),
+          PixelCard(
             label: l10n.aboutSectionSupport,
             borderColor: colors.accent,
             labelColor: colors.accent,
@@ -202,7 +201,7 @@ class _LinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return TerminalBox(
+    return PixelCard(
       onTap: onTap,
       child: Row(
         children: [

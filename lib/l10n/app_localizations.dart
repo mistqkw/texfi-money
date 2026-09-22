@@ -1985,6 +1985,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing here can open that link'**
   String get aboutLinkFailed;
+
+  /// Bottom nav tab grouping budgets and savings goals
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get navPlan;
+
+  /// Bottom nav tab grouping statistics and net worth
+  ///
+  /// In en, this message translates to:
+  /// **'Totals'**
+  String get navSummary;
 }
 
 class _AppLocalizationsDelegate

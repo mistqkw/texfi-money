@@ -21,11 +21,11 @@ import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_card.dart';
+import '../shared/pixel_divider.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
-import '../shared/terminal_box.dart';
-import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
 import '../wealth/cash_flow_screen.dart';
 import '../wealth/wealth_providers.dart';
@@ -119,7 +119,7 @@ class HomeScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             const QuickEntryBar(),
             AppSpacing.gapXl,
-            TerminalDivider(label: l10n.homeRecentTransactions),
+            PixelLabelDivider(label: l10n.homeRecentTransactions),
             AppSpacing.gapMd,
             recentAsync.when(
               data: (transactions) {
@@ -204,7 +204,7 @@ class _BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TerminalBox(
+    return PixelCard(
       label: context.l10n.homeBalance.toLowerCase(),
       padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.xl, AppSpacing.page, AppSpacing.page),
       child: Align(
@@ -310,7 +310,7 @@ class _StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TerminalBox(
+    return PixelCard(
       label: label.toLowerCase(),
       labelColor: color,
       padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
@@ -337,7 +337,7 @@ class _SavingsRateCard extends ConsumerWidget {
       data: (value) {
         return Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-          child: TerminalBox(
+          child: PixelCard(
             label: l10n.savingsRateTitle.toLowerCase(),
             onTap: () => Navigator.of(context)
                 .push(pixelDissolveRoute(const CashFlowScreen())),

@@ -1055,4 +1055,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get aboutLinkFailed => 'Немає чим відкрити це посилання';
+
+  @override
+  String get navPlan => 'План';
+
+  @override
+  String get navSummary => 'Підсумки';
 }

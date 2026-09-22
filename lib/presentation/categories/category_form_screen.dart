@@ -150,7 +150,7 @@ class _TypeToggle extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: context.colors.surfaceVariant,
-        borderRadius: AppRadius.mediumAll,
+        borderRadius: AppRadius.cardSmallAll,
       ),
       child: Row(
         children: [
@@ -171,7 +171,7 @@ class _TypeToggle extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: selected ? context.colors.accent : Colors.transparent,
-            borderRadius: AppRadius.smallAll,
+            borderRadius: AppRadius.controlSmallAll,
           ),
           alignment: Alignment.center,
           child: Text(

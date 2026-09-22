@@ -71,7 +71,7 @@ class _PixelButtonState extends State<PixelButton> {
     final text = Theme.of(context).textTheme;
 
     final base = widget.danger ? colors.expense : colors.accent;
-    final shadow = widget.danger ? colors.expense : colors.accentDeep;
+    final shadow = widget.danger ? colors.expense : colors.accentShadow;
 
     final Color background;
     final Color foreground;
@@ -183,7 +183,7 @@ class _PixelButtonState extends State<PixelButton> {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           decoration: BoxDecoration(
             color: background,
-            borderRadius: AppRadius.mediumAll,
+            borderRadius: AppRadius.cardSmallAll,
             border: Border.all(color: border, width: 2),
             boxShadow: [
               BoxShadow(color: shadowColor, offset: Offset(shadowSize, shadowSize)),

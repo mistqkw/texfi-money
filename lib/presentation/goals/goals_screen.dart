@@ -18,16 +18,21 @@ import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/empty_state.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
 
 class GoalsScreen extends ConsumerWidget {
-  const GoalsScreen({super.key});
+  const GoalsScreen({super.key, this.embedded = false});
+
+  /// Экран открыт как сегмент внутри вкладки-группы: заголовок и
+  /// переключатель сегментов рисует хозяин, свой AppBar здесь был бы
+  /// вторым подряд.
+  final bool embedded;
 
   Future<void> _addContribution(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
     final currency = ref.read(currencyProvider);
@@ -104,7 +109,7 @@ class GoalsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.goalsTitle)),
+      appBar: embedded ? null : AppBar(title: Text(l10n.goalsTitle)),
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
@@ -145,7 +150,7 @@ class GoalsScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       color: context.colors.expense.withValues(alpha: 0.15),
-                      borderRadius: AppRadius.mediumAll,
+                      borderRadius: AppRadius.cardSmallAll,
                     ),
                     child: Icon(Icons.delete_outline, color: context.colors.expense),
                   ),
@@ -180,7 +185,7 @@ class _GoalCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
-    return TerminalBox(
+    return PixelCard(
       label: goal.title.toLowerCase(),
       labelColor: goal.isCompleted ? context.colors.income : goal.color,
       onTap: onTap,
@@ -190,7 +195,6 @@ class _GoalCard extends ConsumerWidget {
           Row(
             children: [
               CircleAvatar(
-                radius: 18,
                 backgroundColor: goal.color.withValues(alpha: 0.16),
                 backgroundImage: goal.imagePath != null ? FileImage(File(goal.imagePath!)) : null,
                 child: goal.imagePath == null

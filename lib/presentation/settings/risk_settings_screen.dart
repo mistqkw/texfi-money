@@ -7,8 +7,8 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
-import '../shared/terminal_box.dart';
 import '../wealth/wealth_providers.dart';
 
 /// Риск-менеджмент: уровни и пороги.
@@ -109,7 +109,7 @@ class _LevelCard extends ConsumerWidget {
     final limit = level.maxSharePercent;
     final over = limit != null && actualPercent > limit;
 
-    return TerminalBox(
+    return PixelCard(
       borderColor: over ? colors.warning : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

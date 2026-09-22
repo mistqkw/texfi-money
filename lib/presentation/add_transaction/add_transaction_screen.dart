@@ -262,7 +262,7 @@ class _TypeToggle extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: context.colors.surfaceVariant,
-        borderRadius: AppRadius.mediumAll,
+        borderRadius: AppRadius.cardSmallAll,
       ),
       child: Row(
         children: [
@@ -284,7 +284,7 @@ class _TypeToggle extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: selected ? context.colors.accent : Colors.transparent,
-            borderRadius: AppRadius.smallAll,
+            borderRadius: AppRadius.controlSmallAll,
           ),
           alignment: Alignment.center,
           child: Text(
@@ -360,7 +360,7 @@ class _CategoryGrid extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: context.colors.surface,
-              borderRadius: AppRadius.mediumAll,
+              borderRadius: AppRadius.cardSmallAll,
               border: Border.all(color: context.colors.divider, style: BorderStyle.solid),
             ),
             child: Row(
@@ -406,7 +406,7 @@ class _AccountRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? color.withValues(alpha: 0.16) : context.colors.surface,
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
             color: selected ? color : context.colors.divider,
             width: selected ? 1.5 : 1,
@@ -439,12 +439,12 @@ class _DateRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: AppRadius.mediumAll,
+      borderRadius: AppRadius.cardSmallAll,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: context.colors.surfaceVariant,
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
         ),
         child: Row(
           children: [

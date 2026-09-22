@@ -13,7 +13,7 @@ import '../../domain/entities/transaction_type.dart';
 import '../../domain/quick_entry_parser.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/terminal_box.dart';
+import '../shared/pixel_card.dart';
 
 /// Фирменная фишка приложения: добавление транзакции одной командной
 /// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу.
@@ -102,7 +102,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
     final l10n = context.l10n;
     final errorColor = context.colors.expense;
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.quickEntryLabel,
       borderColor: _error ? errorColor.withValues(alpha: 0.7) : null,
       padding: const EdgeInsets.fromLTRB(14, 18, 10, 10),

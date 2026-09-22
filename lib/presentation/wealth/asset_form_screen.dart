@@ -10,8 +10,8 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
 import '../../domain/entities/cash_flow_type.dart';
 import '../settings/currency_provider.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
-import '../shared/terminal_box.dart';
 import 'wealth_labels.dart';
 import 'wealth_providers.dart';
 
@@ -117,7 +117,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          TerminalBox(
+          PixelCard(
             label: l10n.assetName.toLowerCase(),
             child: TextField(
               controller: _name,
@@ -127,7 +127,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           ),
           AppSpacing.gapLg,
           if (_isNew) ...[
-            TerminalBox(
+            PixelCard(
               label: l10n.assetValue.toLowerCase(),
               child: TextField(
                 controller: _value,
@@ -138,7 +138,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
               ),
             ),
             AppSpacing.gapLg,
-            TerminalBox(
+            PixelCard(
               label: l10n.assetValuedAt.toLowerCase(),
               onTap: _pickDate,
               child: Row(
@@ -159,7 +159,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
             AppSpacing.gapLg,
           ],
-          TerminalBox(
+          PixelCard(
             label: l10n.assetFlow.toLowerCase(),
             child: Column(
               children: [
@@ -179,7 +179,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.assetCategory.toLowerCase(),
             child: Column(
               children: [
@@ -195,7 +195,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.assetRisk.toLowerCase(),
             child: Column(
               children: [
@@ -211,7 +211,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.assetNote.toLowerCase(),
             child: TextField(
               controller: _note,
@@ -319,7 +319,7 @@ class _HistorySection extends ConsumerWidget {
     final history =
         ref.watch(assetHistoryProvider(asset.id)).valueOrNull ?? const [];
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.assetHistory.toLowerCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

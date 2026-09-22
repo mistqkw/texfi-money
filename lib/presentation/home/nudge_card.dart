@@ -13,7 +13,7 @@ import '../../domain/nudges.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/terminal_box.dart';
+import '../shared/pixel_card.dart';
 import 'nudge_providers.dart';
 
 /// Показывает самую важную актуальную подсказку. Намеренно одна за раз —
@@ -128,7 +128,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
     final accent = _accent(context);
     final hasAction = widget.nudge.transaction != null;
 
-    return TerminalBox(
+    return PixelCard(
       label: _label(context),
       labelColor: accent,
       borderColor: accent.withValues(alpha: 0.45),

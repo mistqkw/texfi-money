@@ -31,7 +31,7 @@ class CategorySelectChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? category.color.withValues(alpha: 0.16) : context.colors.surface,
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
             color: selected ? category.color : context.colors.divider,
             width: selected ? 1.5 : 1,

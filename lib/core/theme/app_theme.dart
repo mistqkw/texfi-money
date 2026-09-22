@@ -65,7 +65,7 @@ abstract final class AppTheme {
         color: colors.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.mediumAll),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardSmallAll),
       ),
       textTheme: textTheme,
       iconTheme: IconThemeData(
@@ -79,7 +79,7 @@ abstract final class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: AppRadius.mediumAll,
+            borderRadius: AppRadius.cardSmallAll,
             side: BorderSide(color: colors.onAccent, width: 2),
           ),
           textStyle: textTheme.titleMedium,
@@ -96,15 +96,15 @@ abstract final class AppTheme {
         fillColor: colors.surfaceVariant,
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         border: OutlineInputBorder(
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.mediumAll,
+          borderRadius: AppRadius.cardSmallAll,
           borderSide: BorderSide(color: colors.accent, width: 1.5),
         ),
         hintStyle: textTheme.bodyMedium,

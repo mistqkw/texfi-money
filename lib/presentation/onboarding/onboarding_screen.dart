@@ -20,8 +20,8 @@ import '../settings/theme_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_card.dart';
 import '../shared/root_shell.dart';
-import '../shared/terminal_box.dart';
 
 class _Slide {
   const _Slide({required this.icon, required this.title, required this.body});
@@ -174,7 +174,7 @@ class _SlideView extends StatelessWidget {
             child: AnimatedOpacity(
               opacity: active ? 1.0 : 0.0,
               duration: AppMotion.normal,
-              child: TerminalBox(
+              child: PixelCard(
                 label: 'texfi',
                 padding: const EdgeInsets.all(24),
                 child: Icon(slide.icon, size: 56, color: context.colors.accent),
@@ -276,7 +276,7 @@ class _CurrencyStepView extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
                 color: selected ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surface,
-                borderRadius: AppRadius.mediumAll,
+                borderRadius: AppRadius.cardSmallAll,
                 border: Border.all(
                   color: selected ? context.colors.accent : context.colors.divider,
                   width: selected ? 1.5 : 1,
@@ -366,7 +366,7 @@ class _ThemePreviewCard extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: palette.background,
-              borderRadius: AppRadius.mediumAll,
+              borderRadius: AppRadius.cardSmallAll,
               border: Border.all(
                 color: selected ? palette.accent : palette.divider,
                 width: selected ? 2 : 1,
@@ -378,7 +378,7 @@ class _ThemePreviewCard extends StatelessWidget {
                 Container(
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(color: palette.accent, borderRadius: AppRadius.smallAll),
+                  decoration: BoxDecoration(color: palette.accent, borderRadius: AppRadius.controlSmallAll),
                 ),
                 const Spacer(),
                 Container(width: 36, height: 6, color: palette.textPrimary),

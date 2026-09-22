@@ -17,10 +17,10 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_divider.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_divider.dart';
 import '../shared/transaction_row.dart';
 import 'history_providers.dart';
 
@@ -50,7 +50,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     final result = await showModalBottomSheet<TransactionType?>(
       context: context,
       backgroundColor: context.colors.surface,
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.largeAll),
+      shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardMediumAll),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -86,7 +86,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     final result = await showModalBottomSheet<String?>(
       context: context,
       backgroundColor: context.colors.surface,
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.largeAll),
+      shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardMediumAll),
       builder: (context) => SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -217,7 +217,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         index: i,
                         child: Padding(
                           padding: EdgeInsets.only(top: i == 0 ? 0 : 16, bottom: 8),
-                          child: TerminalDivider(label: formatDate(item, context)),
+                          child: PixelLabelDivider(label: formatDate(item, context)),
                         ),
                       );
                     }
@@ -255,7 +255,7 @@ class _FilterChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: active ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surfaceVariant,
-          borderRadius: AppRadius.smallAll,
+          borderRadius: AppRadius.controlSmallAll,
           border: Border.all(color: active ? context.colors.accent : context.colors.divider, width: active ? 2 : 1.5),
         ),
         child: Row(

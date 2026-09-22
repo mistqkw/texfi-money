@@ -101,7 +101,7 @@ void main() {
       ).extension<AppColorsExt>()!;
       // На кремовом фоне светлой темы синий блок под синей кнопкой слился
       // бы с ней в одно пятно — там тень тёплая.
-      expect(colors.accentDeep, isNot(colors.accent));
+      expect(colors.accentShadow, isNot(colors.accent));
     });
   }
 }

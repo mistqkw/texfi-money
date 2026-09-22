@@ -1055,4 +1055,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get aboutLinkFailed => 'Не нашлось, чем открыть ссылку';
+
+  @override
+  String get navPlan => 'План';
+
+  @override
+  String get navSummary => 'Итоги';
 }

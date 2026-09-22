@@ -14,15 +14,20 @@ import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
-import '../shared/terminal_box.dart';
 import '../wealth/wealth_labels.dart';
 import '../wealth/wealth_providers.dart';
 import 'statistics_providers.dart';
 
 class StatisticsScreen extends ConsumerWidget {
-  const StatisticsScreen({super.key});
+  const StatisticsScreen({super.key, this.embedded = false});
+
+  /// Экран открыт как сегмент внутри вкладки-группы: заголовок и
+  /// переключатель сегментов рисует хозяин, свой AppBar здесь был бы
+  /// вторым подряд.
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,14 +36,14 @@ class StatisticsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.statisticsTitle)),
+      appBar: embedded ? null : AppBar(title: Text(l10n.statisticsTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [
           // Заголовки живут в метке рамки, как на остальных экранах, —
           // отдельная строка над карточкой здесь была единственным местом,
           // выпадавшим из общего языка.
-          TerminalBox(
+          PixelCard(
             label: l10n.statisticsMonthlyChartTitle.toLowerCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.sm,
@@ -61,7 +66,7 @@ class StatisticsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.statisticsCategoryChartTitle.toLowerCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.lg,
@@ -136,7 +141,7 @@ class _UsefulnessSection extends ConsumerWidget {
           null => colors.textTertiary,
         };
 
-    return TerminalBox(
+    return PixelCard(
       label: l10n.usefulnessSection.toLowerCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +287,6 @@ class _CategoryPie extends ConsumerWidget {
                 return PieChartSectionData(
                   value: c.total,
                   color: c.category.color,
-                  radius: 36,
                   showTitle: percent >= 8,
                   title: '${percent.toStringAsFixed(0)}%',
                   titleStyle: context.text.pixelAccent.copyWith(color: context.colors.onAccent),

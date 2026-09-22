@@ -15,11 +15,11 @@ import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'account_form_screen.dart';
 import 'account_providers.dart';
 
@@ -98,7 +98,7 @@ class AccountsScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       color: context.colors.expense.withValues(alpha: 0.15),
-                      borderRadius: AppRadius.mediumAll,
+                      borderRadius: AppRadius.cardSmallAll,
                     ),
                     child: Icon(Icons.delete_outline, color: context.colors.expense),
                   ),
@@ -133,7 +133,7 @@ class _AccountCard extends ConsumerWidget {
 
     final bank = BankCatalog.byId(account.bankId);
 
-    return TerminalBox(
+    return PixelCard(
       label: account.name.toLowerCase(),
       labelColor: account.color,
       onTap: onTap,

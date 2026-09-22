@@ -192,12 +192,12 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
             AppSpacing.gapSm,
             InkWell(
               onTap: _pickDeadline,
-              borderRadius: AppRadius.mediumAll,
+              borderRadius: AppRadius.cardSmallAll,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
                   color: context.colors.surfaceVariant,
-                  borderRadius: AppRadius.mediumAll,
+                  borderRadius: AppRadius.cardSmallAll,
                 ),
                 child: Row(
                   children: [

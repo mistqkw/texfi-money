@@ -8,7 +8,7 @@ abstract final class AppPalettes {
   static const Color _accent = Color(0xFF4A7DFB);
 
   /// Тень под акцентной кнопкой в тёмных темах — глубокий синий.
-  static const Color _accentDeepDark = Color(0xFF2B4FB0);
+  static const Color _accentShadowDark = Color(0xFF2B4FB0);
   static const Color _onAccent = Color(0xFFFFFFFF);
 
   static const AppColorsExt dark = AppColorsExt(
@@ -17,7 +17,7 @@ abstract final class AppPalettes {
     surfaceVariant: Color(0xFF202026),
     divider: Color(0xFF2A2A31),
     accent: _accent,
-    accentDeep: _accentDeepDark,
+    accentShadow: _accentShadowDark,
     onAccent: _onAccent,
     textPrimary: Color(0xFFFFFFFF),
     textSecondary: Color(0xFF9A9AA5),
@@ -35,7 +35,7 @@ abstract final class AppPalettes {
     surfaceVariant: Color(0xFF0D0D0F),
     divider: Color(0xFF232327),
     accent: _accent,
-    accentDeep: _accentDeepDark,
+    accentShadow: _accentShadowDark,
     onAccent: _onAccent,
     textPrimary: Color(0xFFFFFFFF),
     textSecondary: Color(0xFF9A9AA5),
@@ -59,7 +59,7 @@ abstract final class AppPalettes {
     surfaceVariant: Color(0xFFF3E6D2),
     divider: Color(0xFFE0CDB0),
     accent: _accent,
-    accentDeep: Color(0xFFD98A2B),
+    accentShadow: Color(0xFFD98A2B),
     onAccent: _onAccent,
     textPrimary: Color(0xFF2A1F14),
     textSecondary: Color(0xFF6E5B45),

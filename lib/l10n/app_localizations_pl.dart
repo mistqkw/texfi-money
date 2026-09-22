@@ -1055,4 +1055,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get aboutLinkFailed => 'Nie ma czym otworzyć tego odnośnika';
+
+  @override
+  String get navPlan => 'Plan';
+
+  @override
+  String get navSummary => 'Podsumowanie';
 }

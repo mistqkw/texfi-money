@@ -13,10 +13,10 @@ import '../../domain/entities/subscription_period.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/staggered_entrance.dart';
-import '../shared/terminal_box.dart';
 import 'wealth_labels.dart';
 import 'wealth_providers.dart';
 
@@ -51,7 +51,7 @@ class SubscriptionsScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screenWithFab,
         children: [
-          TerminalBox(
+          PixelCard(
             label: l10n.subscriptionsMonthly.toLowerCase(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +115,7 @@ class _SubscriptionCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final overdue = sub.daysUntilCharge(now) < 0;
 
-    return TerminalBox(
+    return PixelCard(
       onTap: () => Navigator.of(context).push(
         pixelDissolveRoute(SubscriptionFormScreen(existing: sub)),
       ),
@@ -278,7 +278,7 @@ class _SubscriptionFormScreenState
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          TerminalBox(
+          PixelCard(
             label: l10n.subscriptionName.toLowerCase(),
             child: TextField(
               controller: _name,
@@ -287,7 +287,7 @@ class _SubscriptionFormScreenState
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.subscriptionAmount.toLowerCase(),
             child: TextField(
               controller: _amount,
@@ -298,7 +298,7 @@ class _SubscriptionFormScreenState
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.subscriptionPeriod.toLowerCase(),
             child: Column(
               children: [
@@ -339,7 +339,7 @@ class _SubscriptionFormScreenState
             ),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.subscriptionNextCharge.toLowerCase(),
             onTap: () async {
               final picked = await showDatePicker(
@@ -353,7 +353,7 @@ class _SubscriptionFormScreenState
             child: Text(formatDate(_next, context), style: context.text.body),
           ),
           AppSpacing.gapLg,
-          TerminalBox(
+          PixelCard(
             label: l10n.reportsCategory.toLowerCase(),
             child: Column(
               children: [
@@ -393,7 +393,7 @@ class _SubscriptionFormScreenState
           ),
           if (!_isNew) ...[
             AppSpacing.gapLg,
-            TerminalBox(
+            PixelCard(
               child: Row(
                 children: [
                   Expanded(
