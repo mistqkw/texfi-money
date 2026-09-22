@@ -1,0 +1,8 @@
+Version 1.0.0 — the first stable release
+
+* The light theme now uses the warm TexFi ecosystem palette
+* Buttons and cards press inward, the way the pixel language intends
+* Empty sections offer an action instead of only reporting emptiness
+* New About screen: version, source code, AGPL-3.0 license
+* Settings sections are numbered and ruled off — the long screen reads as chapters
+* The splash sits in a pixel frame, with the name set in the brand typeface
