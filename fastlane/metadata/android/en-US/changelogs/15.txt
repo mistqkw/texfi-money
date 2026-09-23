@@ -1,0 +1,11 @@
+Version 1.1.0 — the interface has been rebuilt
+
+* Fonts now ship inside the app. Typography used to be downloaded: on a fresh install with no internet everything fell back to the system font, pixel headings included
+* Card borders and shadows are visible again — in the dark theme they matched the background, so the pixel depth existed only in the code
+* Home screen: balance, income, spending and savings share are one card instead of four identical panels
+* Charts redrawn from scratch: cell-built bars and a share strip instead of rounded bars and a smooth ring
+* History: each day has a header with its own total, and rows no longer repeat the date
+* New transaction: the amount is now the main field, categories sit in two even columns
+* Every circle, Material toggle and spinner is gone — one language of shapes across the app
+* Budget and goal progress is built from cells in five-percent steps
+* Roboto and Manrope are gone from the font picker: they arrived over the network, so they worked only for some. An existing choice is migrated automatically
