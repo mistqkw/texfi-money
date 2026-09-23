@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import 'pixel_button.dart';
@@ -66,7 +67,7 @@ class EmptyState extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: colors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppRadius.cardMediumAll,
                   border: Border.all(color: colors.border, width: 2),
                 ),
                 child: PixelIcon(sprite, size: 32, color: colors.textTertiary),

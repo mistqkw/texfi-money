@@ -257,6 +257,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get budgetsLoadError => 'Не удалось загрузить бюджеты';
 
   @override
+  String budgetsLeft(String amount) {
+    return 'Осталось $amount';
+  }
+
+  @override
   String budgetsOverBy(String amount) {
     return 'Превышен на $amount';
   }

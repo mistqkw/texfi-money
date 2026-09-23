@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_radius.dart';
 import 'pixel_icon.dart';
 
 /// Плавающая кнопка добавления в пиксель-стиле экосистемы TexFi: квадрат
@@ -45,7 +46,7 @@ class _PixelFabState extends State<PixelFab> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colors.accent,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: AppRadius.cardMediumAll,
         border: Border.all(color: colors.onAccent, width: 2),
         boxShadow: [
           BoxShadow(color: colors.textPrimary.withValues(alpha: 0.45), offset: const Offset(shadowOffset, shadowOffset)),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_radius.dart';
 import 'pixel_icon.dart';
 
 /// Квадратный пиксельный переключатель вместо стандартного Material
@@ -31,7 +32,7 @@ class PixelSwitch extends StatelessWidget {
         decoration: BoxDecoration(
           color: value ? colors.accent.withValues(alpha: 0.22) : colors.surfaceVariant,
           border: Border.all(color: value ? colors.accent : colors.border, width: 2),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: AppRadius.controlSmallAll,
         ),
         alignment: value ? Alignment.centerRight : Alignment.centerLeft,
         child: AnimatedContainer(
@@ -41,7 +42,7 @@ class PixelSwitch extends StatelessWidget {
           height: knob,
           decoration: BoxDecoration(
             color: value ? colors.accent : colors.textTertiary,
-            borderRadius: BorderRadius.circular(2),
+            borderRadius: AppRadius.controlTinyAll,
           ),
         ),
       ),
@@ -71,7 +72,7 @@ class PixelCheckbox extends StatelessWidget {
         decoration: BoxDecoration(
           color: value ? colors.accent : Colors.transparent,
           border: Border.all(color: value ? colors.accent : colors.border, width: 2),
-          borderRadius: BorderRadius.circular(3),
+          borderRadius: AppRadius.controlSmallAll,
         ),
         child: value
             ? PixelIcon(PixelIcons.check, size: size * 0.75, color: colors.onAccent)

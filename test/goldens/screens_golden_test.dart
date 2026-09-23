@@ -15,7 +15,9 @@ import 'package:texfi_money/core/constants/app_theme_variant.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
 import 'package:texfi_money/data/local/database.dart';
 import 'package:texfi_money/data/providers/data_providers.dart';
+import 'package:texfi_money/data/repositories/budget_repository_impl.dart';
 import 'package:texfi_money/data/repositories/category_repository_impl.dart';
+import 'package:texfi_money/data/repositories/savings_goal_repository_impl.dart';
 import 'package:texfi_money/data/repositories/transaction_repository_impl.dart';
 import 'package:texfi_money/domain/entities/transaction_type.dart';
 import 'package:texfi_money/l10n/app_localizations.dart';
@@ -43,6 +45,21 @@ Future<AppDatabase> _seed() async {
   await repo.add(amount: 1250, type: TransactionType.expense, categoryId: 'cat_groceries', date: now.subtract(const Duration(days: 1)));
   await repo.add(amount: 380, type: TransactionType.expense, categoryId: 'cat_transport', date: now);
   await repo.add(amount: 2600, type: TransactionType.expense, categoryId: 'cat_cafe', date: now);
+
+  final budgets = BudgetRepositoryImpl(db, CategoryRepositoryImpl(db));
+  await budgets.setLimit(categoryId: 'cat_groceries', monthlyLimit: 8000);
+  await budgets.setLimit(categoryId: 'cat_cafe', monthlyLimit: 3000);
+  await budgets.setLimit(categoryId: 'cat_transport', monthlyLimit: 2000);
+
+  final goals = SavingsGoalRepositoryImpl(db);
+  final goalId = await goals.create(
+    title: 'Новый ноутбук',
+    targetAmount: 120000,
+    color: const Color(0xFF4A7DFB),
+    deadline: DateTime(now.year, now.month + 4),
+  );
+  await goals.addContribution(id: goalId, amount: 43500);
+
   return db;
 }
 

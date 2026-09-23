@@ -129,6 +129,14 @@
   "budgetsTitle": "Budgets",
   "budgetsEmpty": "No budgets yet. Set a monthly cap on a category and you will see yourself approaching it.",
   "budgetsLoadError": "Couldn't load budgets",
+  "budgetsLeft": "{amount} left",
+  "@budgetsLeft": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "budgetsOverBy": "Over by {amount}",
   "@budgetsOverBy": {
     "placeholders": {

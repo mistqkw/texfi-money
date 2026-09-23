@@ -552,6 +552,12 @@ abstract class AppLocalizations {
   /// **'Couldn\'t load budgets'**
   String get budgetsLoadError;
 
+  /// No description provided for @budgetsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left'**
+  String budgetsLeft(String amount);
+
   /// No description provided for @budgetsOverBy.
   ///
   /// In en, this message translates to:

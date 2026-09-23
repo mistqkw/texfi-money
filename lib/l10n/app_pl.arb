@@ -75,6 +75,7 @@
   "budgetsTitle": "Budżety",
   "budgetsEmpty": "Nie ma jeszcze budżetów. Ustaw miesięczny limit na kategorię, a zobaczysz, kiedy się do niego zbliżasz.",
   "budgetsLoadError": "Nie udało się wczytać budżetów",
+  "budgetsLeft": "Zostało {amount}",
   "budgetsOverBy": "Przekroczono o {amount}",
   "budgetsNearLimit": "Zbliża się do limitu",
   "setBudgetTitleEdit": "Edytuj budżet",

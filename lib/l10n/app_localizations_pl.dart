@@ -257,6 +257,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get budgetsLoadError => 'Nie udało się wczytać budżetów';
 
   @override
+  String budgetsLeft(String amount) {
+    return 'Zostało $amount';
+  }
+
+  @override
   String budgetsOverBy(String amount) {
     return 'Przekroczono o $amount';
   }

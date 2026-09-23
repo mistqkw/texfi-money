@@ -75,6 +75,7 @@
   "budgetsTitle": "Бюджеты",
   "budgetsEmpty": "Бюджетов пока нет. Задайте месячный лимит по категории — и станет видно, когда вы к нему подходите.",
   "budgetsLoadError": "Не удалось загрузить бюджеты",
+  "budgetsLeft": "Осталось {amount}",
   "budgetsOverBy": "Превышен на {amount}",
   "budgetsNearLimit": "Приближается к лимиту",
   "setBudgetTitleEdit": "Изменить бюджет",

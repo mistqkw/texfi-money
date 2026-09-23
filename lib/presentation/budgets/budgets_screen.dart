@@ -95,8 +95,13 @@ class _BudgetCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
+    // Метка карточки повторяла название категории слово в слово: «транспорт»
+    // в рамке и «Транспорт» строкой ниже. Вместо неё — остаток по бюджету,
+    // то есть ответ на вопрос, ради которого бюджет и заводят.
     return PixelCard(
-      label: categoryDisplayName(context, budget.category).toLowerCase(),
+      label: (budget.monthlyLimit - budget.spent) >= 0
+          ? l10n.budgetsLeft(formatAmount(budget.monthlyLimit - budget.spent, currency, context)).toUpperCase()
+          : l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)).toUpperCase(),
       labelColor: _barColor(context),
       onTap: () => Navigator.of(context).push(
         pixelDissolveRoute(SetBudgetScreen(existing: budget)),

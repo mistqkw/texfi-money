@@ -249,6 +249,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get budgetsLoadError => 'Couldn\'t load budgets';
 
   @override
+  String budgetsLeft(String amount) {
+    return '$amount left';
+  }
+
+  @override
   String budgetsOverBy(String amount) {
     return 'Over by $amount';
   }
