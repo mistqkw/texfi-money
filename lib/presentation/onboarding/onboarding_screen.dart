@@ -175,10 +175,12 @@ class _SlideView extends StatelessWidget {
             child: AnimatedOpacity(
               opacity: active ? 1.0 : 0.0,
               duration: AppMotion.normal,
+              // Карточка-иллюстрация была подписана служебным словом
+              // «texfi» — метка, которая ничего не сообщает о слайде и
+              // читалась как забытая заглушка. Знак говорит сам за себя.
               child: PixelCard(
-                label: 'texfi',
-                padding: const EdgeInsets.all(24),
-                child: PixelIcon(slide.icon, size: 56, color: context.colors.accent),
+                padding: const EdgeInsets.all(AppSpacing.xl),
+                child: PixelIcon(slide.icon, size: 72, color: context.colors.accent),
               ),
             ),
           ),
@@ -527,7 +529,10 @@ class _Dots extends StatelessWidget {
           height: 8,
           decoration: BoxDecoration(
             color: active ? context.colors.accent : context.colors.border,
-            borderRadius: BorderRadius.circular(4),
+            // Квадратные, а не капсульные: круглая точка-индикатор — Material
+            // по умолчанию, и это был единственный элемент приложения со
+            // скруглением «под половину высоты».
+            borderRadius: AppRadius.controlTinyAll,
           ),
         );
       }),
