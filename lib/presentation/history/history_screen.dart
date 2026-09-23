@@ -13,11 +13,11 @@ import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
+import '../settings/currency_provider.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_divider.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/staggered_entrance.dart';
@@ -212,19 +212,21 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   itemCount: grouped.length,
                   itemBuilder: (context, i) {
                     final item = grouped[i];
-                    if (item is DateTime) {
+                    if (item is _DayMarker) {
                       return StaggeredEntrance(
                         index: i,
                         child: Padding(
-                          padding: EdgeInsets.only(top: i == 0 ? 0 : 16, bottom: 8),
-                          child: PixelLabelDivider(label: formatDate(item, context)),
+                          padding: EdgeInsets.only(top: i == 0 ? 0 : AppSpacing.lg, bottom: AppSpacing.sm),
+                          child: _DayHeader(marker: item),
                         ),
                       );
                     }
                     final tx = item as TransactionEntity;
                     return StaggeredEntrance(
                       index: i,
-                      child: TransactionRow(transaction: tx),
+                      // Дата уже стоит в заголовке дня — во второй строке
+                      // остаётся только заметка, если она есть.
+                      child: TransactionRow(transaction: tx, showDate: false),
                     );
                   },
                 );
@@ -302,18 +304,74 @@ class _SheetOption extends StatelessWidget {
   }
 }
 
+/// Заголовок дня: дата слева, итог дня справа, линейка между ними.
+///
+/// Раньше здесь стояла центрированная метка с короткими линейками по бокам
+/// — единственный на всё приложение заголовок по центру, и без единого
+/// числа: день на экране был просто разделителем.
+class _DayHeader extends ConsumerWidget {
+  const _DayHeader({required this.marker});
+
+  final _DayMarker marker;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final currency = ref.watch(currencyProvider);
+    final positive = marker.net >= 0;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(formatDate(marker.day, context).toUpperCase(), style: context.text.mono),
+        AppSpacing.gapHMd,
+        Expanded(child: Container(height: 2, color: colors.divider)),
+        AppSpacing.gapHMd,
+        Text(
+          '${positive ? '+' : '−'}${formatAmount(marker.net.abs(), currency, context)}',
+          style: context.text.label.copyWith(
+            color: positive ? colors.income : colors.textSecondary,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Маркер дня в плоском списке — с итогом этого дня.
+///
+/// Итог считается здесь, а не в отдельном запросе: список уже разложен по
+/// дням, и второй проход по базе ради тех же чисел был бы лишним.
+class _DayMarker {
+  const _DayMarker(this.day, this.net);
+
+  final DateTime day;
+
+  /// Приход минус расход за день. Именно итог, а не сумма модулей: день с
+  /// зарплатой и день с крупной тратой иначе выглядели бы одинаково.
+  final double net;
+}
+
 /// Список отсортирован по дате убывания (см. `TransactionRepository.watchAll`).
-/// Разбивает его на плоский список [DateTime] (маркер дня) / [TransactionEntity].
+/// Разбивает его на плоский список [_DayMarker] / [TransactionEntity].
 List<Object> _groupByDay(List<TransactionEntity> transactions) {
   final result = <Object>[];
-  DateTime? lastDay;
+  final netByDay = <DateTime, double>{};
+  final markers = <DateTime, int>{};
+
   for (final tx in transactions) {
     final day = DateTime(tx.date.year, tx.date.month, tx.date.day);
-    if (lastDay == null || day != lastDay) {
+    if (!markers.containsKey(day)) {
+      markers[day] = result.length;
       result.add(day);
-      lastDay = day;
     }
+    netByDay[day] = (netByDay[day] ?? 0) +
+        (tx.type == TransactionType.income ? tx.amount : -tx.amount);
     result.add(tx);
+  }
+
+  for (final entry in markers.entries) {
+    result[entry.value] = _DayMarker(entry.key, netByDay[entry.key] ?? 0);
   }
   return result;
 }

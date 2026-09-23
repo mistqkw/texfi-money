@@ -19,9 +19,16 @@ import 'transaction_tile.dart';
 ///   свайп влево    — удалить;
 ///   свайп вправо   — повторить сегодняшним днём.
 class TransactionRow extends ConsumerWidget {
-  const TransactionRow({super.key, required this.transaction});
+  const TransactionRow({
+    super.key,
+    required this.transaction,
+    this.showDate = true,
+  });
 
   final TransactionEntity transaction;
+
+  /// См. [TransactionTile.showDate].
+  final bool showDate;
 
   void _edit(BuildContext context) {
     Haptics.select();
@@ -114,7 +121,7 @@ class TransactionRow extends ConsumerWidget {
       child: GestureDetector(
         onTap: () => _edit(context),
         onLongPress: () => _showMenu(context, ref),
-        child: TransactionTile(transaction: transaction),
+        child: TransactionTile(transaction: transaction, showDate: showDate),
       ),
     );
   }
