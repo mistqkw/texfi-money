@@ -159,6 +159,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeRecentTransactions => 'Recent transactions';
 
   @override
+  String get homeRecentShort => 'Recent';
+
+  @override
+  String get homeFactIncome => 'Income';
+
+  @override
+  String get homeFactExpense => 'Spent';
+
+  @override
+  String get homeFactSaved => 'Saved';
+
+  @override
   String get homeEmptyTransactions =>
       'Nothing here yet. The first entry takes about ten seconds.';
 

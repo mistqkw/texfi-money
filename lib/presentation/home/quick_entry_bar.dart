@@ -15,6 +15,7 @@ import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_spinner.dart';
 
 /// Фирменная фишка приложения: добавление транзакции одной командной
 /// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу.
@@ -113,16 +114,17 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
         children: [
           Row(
             children: [
-              Text(
-                '❯',
-                style: context.text.mono.copyWith(color: context.colors.accent, fontWeight: FontWeight.w700),
-              ),
+              // Здесь стоял терминальный промпт «❯». Приём был только в
+              // m0ney — ни в f0kus, ни в files его нет, и на экране рядом
+              // с пиксельными знаками он читался как ещё один визуальный
+              // язык поверх общего.
+              PixelIcon(PixelIcons.edit, size: 16, color: context.colors.accent),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: TextField(
                   controller: _controller,
                   enabled: !_submitting,
-                  style: context.text.mono.copyWith(color: context.colors.textPrimary, fontSize: 13),
+                  style: context.text.title,
                   decoration: InputDecoration(
                     isDense: true,
                     filled: false,
@@ -130,7 +132,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     hintText: l10n.quickEntryHint,
-                    hintStyle: context.text.mono.copyWith(color: context.colors.textTertiary, fontSize: 13),
+                    hintStyle: context.text.title.copyWith(color: context.colors.textTertiary),
                     contentPadding: EdgeInsets.zero,
                   ),
                   textInputAction: TextInputAction.done,
@@ -144,7 +146,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                 const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  child: PixelSpinner(size: 18),
                 )
               else
                 IconButton(
@@ -156,17 +158,24 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                 ),
             ],
           ),
+          // Подсказка про формат строки раньше висела здесь всегда — два
+          // абзаца инструкции под полем, которое уже показывает пример в
+          // плейсхолдере. Инструкция, которую читают один раз, не должна
+          // занимать место каждый день; остаётся только сообщение об
+          // ошибке разбора.
           AnimatedSize(
             duration: AppMotion.fast,
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 2),
-              child: Text(
-                _error ? l10n.quickEntryParseError : l10n.quickEntryHelp,
-                style: context.text.caption.copyWith(color: _error ? errorColor : null),
-                maxLines: 2,
-              ),
-            ),
+            child: _error
+                ? Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: 2),
+                    child: Text(
+                      l10n.quickEntryParseError,
+                      style: context.text.caption.copyWith(color: errorColor),
+                      maxLines: 2,
+                    ),
+                  )
+                : const SizedBox(width: double.infinity),
           ),
         ],
       ),

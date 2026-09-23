@@ -396,6 +396,30 @@ abstract class AppLocalizations {
   /// **'Recent transactions'**
   String get homeRecentTransactions;
 
+  /// No description provided for @homeRecentShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get homeRecentShort;
+
+  /// No description provided for @homeFactIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get homeFactIncome;
+
+  /// No description provided for @homeFactExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent'**
+  String get homeFactExpense;
+
+  /// No description provided for @homeFactSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get homeFactSaved;
+
   /// No description provided for @homeEmptyTransactions.
   ///
   /// In en, this message translates to:

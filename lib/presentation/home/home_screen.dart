@@ -8,6 +8,7 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
 import '../../domain/entities/account_entity.dart';
 import '../accounts/account_providers.dart';
@@ -21,9 +22,8 @@ import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
+import '../shared/pixel_button.dart';
 import '../shared/pixel_card.dart';
-import '../shared/pixel_divider.dart';
-import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/transaction_row.dart';
@@ -49,7 +49,7 @@ class HomeScreen extends ConsumerWidget {
         title: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(child: Text('TexFi m0ney', overflow: TextOverflow.ellipsis)),
+            Flexible(child: Text('m0ney', overflow: TextOverflow.ellipsis)),
             SizedBox(width: AppSpacing.sm),
             Flexible(child: _AccountMarks()),
           ],
@@ -78,49 +78,38 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: PixelFab(
-        heroTag: 'add_transaction_fab',
-        onPressed: () {
-          Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
-        },
-      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.md, AppSpacing.page, AppSpacing.fabSafeBottom),
           children: [
-            _BalanceCard(balance: balanceAsync.valueOrNull ?? 0),
-            AppSpacing.gapLg,
-            const _SavingsRateCard(),
-            const NudgeCard(),
-            summaryAsync.when(
-              data: (summary) => Row(
-                children: [
-                  Expanded(
-                    child: _StatTile(
-                      label: l10n.homeIncomeThisMonth,
-                      value: summary.income,
-                      color: context.colors.income,
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: _StatTile(
-                      label: l10n.homeExpenseThisMonth,
-                      value: summary.expense,
-                      color: context.colors.expense,
-                    ),
-                  ),
-                ],
-              ),
-              loading: () => const SizedBox(height: 92),
-              error: (e, st) => const SizedBox.shrink(),
+            // Баланс, доход, расход и доля сбережений — одна карточка, а не
+            // четыре. Раньше это были четыре одинаковые плашки подряд: экран
+            // открывался стопкой прямоугольников равного веса, и главное
+            // число ничем не выделялось среди второстепенных.
+            _HeroCard(
+              balance: balanceAsync.valueOrNull ?? 0,
+              summary: summaryAsync.valueOrNull,
             ),
-            const SizedBox(height: 20),
+            const NudgeCard(),
+            AppSpacing.gapLg,
             const QuickEntryBar(),
+            AppSpacing.gapLg,
+            // Главное действие экрана — кнопка во всю ширину, а не плавающий
+            // кружок в углу. Плавающая кнопка накрывала правый край последней
+            // строки списка: суммы выровнены по правому краю, и она садилась
+            // ровно на них. Широкая кнопка ещё и попадает под большой палец
+            // целиком, а не только углом.
+            PixelButton(
+              label: l10n.addTxTitle,
+              sprite: PixelIcons.add,
+              expand: true,
+              onPressed: () {
+                Haptics.select();
+                Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
+              },
+            ),
             AppSpacing.gapXl,
-            PixelLabelDivider(label: l10n.homeRecentTransactions),
-            AppSpacing.gapMd,
+            PixelSectionHeader(title: l10n.homeRecentShort, index: 1),
             recentAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
@@ -197,21 +186,108 @@ class _AccountMarks extends ConsumerWidget {
   }
 }
 
-class _BalanceCard extends StatelessWidget {
-  const _BalanceCard({required this.balance});
+/// Главная карточка экрана: баланс крупно, под ним три факта месяца
+/// в одну строку.
+///
+/// До этого баланс, доход, расход и доля сбережений жили в четырёх
+/// отдельных карточках подряд. Каждая была оформлена одинаково, и экран
+/// открывался стопкой прямоугольников равного веса — главное число
+/// терялось среди второстепенных. Здесь иерархия задана явно: одно
+/// крупное значение и подчинённая ему строка фактов.
+class _HeroCard extends ConsumerWidget {
+  const _HeroCard({required this.balance, required this.summary});
 
   final double balance;
+  final ({double income, double expense})? summary;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final colors = context.colors;
+    final rate = ref.watch(currentSavingsRateProvider).valueOrNull;
+    final currency = ref.watch(currencyProvider);
+
+    return PixelCard(
+      accent: true,
+      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.lg, AppSpacing.page, AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.homeBalance.toUpperCase(), style: context.text.mono),
+          AppSpacing.gapSm,
+          _PulsingBalance(value: balance, style: context.text.balance),
+          AppSpacing.gapLg,
+          Container(height: 2, color: colors.border),
+          AppSpacing.gapMd,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _Fact(
+                  label: l10n.homeFactIncome,
+                  value: summary == null ? null : formatAmount(summary!.income, currency, context),
+                  color: colors.income,
+                ),
+              ),
+              Expanded(
+                child: _Fact(
+                  label: l10n.homeFactExpense,
+                  value: summary == null ? null : formatAmount(summary!.expense, currency, context),
+                  color: colors.expense,
+                ),
+              ),
+              Expanded(
+                child: _Fact(
+                  label: l10n.homeFactSaved,
+                  // Месяц без дохода — не ноль процентов: делить не на что.
+                  // Прочерк честнее нуля, который смешал бы такой месяц с
+                  // месяцем, где всё потрачено подчистую.
+                  value: rate == null ? '—' : '${rate.toStringAsFixed(0)}%',
+                  color: rate != null && rate < 0 ? colors.expense : colors.textPrimary,
+                  onTap: () => Navigator.of(context)
+                      .push(pixelDissolveRoute(const CashFlowScreen())),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Один факт месяца в строке под балансом: подпись капслоком и значение.
+class _Fact extends StatelessWidget {
+  const _Fact({required this.label, required this.value, required this.color, this.onTap});
+
+  final String label;
+  final String? value;
+  final Color color;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return PixelCard(
-      label: context.l10n.homeBalance.toLowerCase(),
-      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.xl, AppSpacing.page, AppSpacing.page),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: _PulsingBalance(value: balance, style: context.text.balance),
-      ),
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: context.text.mono,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        AppSpacing.gapXs,
+        Text(
+          value ?? '—',
+          style: context.text.amountMedium.copyWith(color: color),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
+    if (onTap == null) return content;
+    return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: content);
   }
 }
 
@@ -293,89 +369,6 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
         );
       },
       child: amount,
-    );
-  }
-}
-
-class _StatTile extends StatelessWidget {
-  const _StatTile({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  final String label;
-  final double value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return PixelCard(
-      label: label.toLowerCase(),
-      labelColor: color,
-      padding: const EdgeInsets.fromLTRB(14, 18, 14, 14),
-      child: AnimatedAmount(value: value, style: context.text.amountMedium.copyWith(color: color)),
-    );
-  }
-}
-
-/// Процент сбережений за текущий месяц.
-///
-/// Тон нейтрально-информативный: приложение говорит, сколько осталось, и
-/// не сообщает, много это или мало. Оценивать чужие деньги — не его дело,
-/// и «у вас плохой процент» здесь не появится ни при каком значении.
-class _SavingsRateCard extends ConsumerWidget {
-  const _SavingsRateCard();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    final colors = context.colors;
-    final rate = ref.watch(currentSavingsRateProvider);
-
-    return rate.when(
-      data: (value) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-          child: PixelCard(
-            label: l10n.savingsRateTitle.toLowerCase(),
-            onTap: () => Navigator.of(context)
-                .push(pixelDissolveRoute(const CashFlowScreen())),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (value == null)
-                  // Месяц без дохода — это не ноль процентов: делить не на
-                  // что. Ноль смешал бы его с месяцем, где всё потрачено
-                  // подчистую.
-                  Text(
-                    l10n.savingsRateNoIncome,
-                    style:
-                        context.text.body.copyWith(color: colors.textSecondary),
-                  )
-                else ...[
-                  Text(
-                    '${value.toStringAsFixed(0)}%',
-                    style: context.text.amountLarge.copyWith(
-                      // Отрицательный процент — это перерасход, и цвет
-                      // говорит об этом раньше знака минуса.
-                      color: value < 0 ? colors.expense : colors.income,
-                    ),
-                  ),
-                  AppSpacing.gapSm,
-                  Text(
-                    l10n.savingsRateHint,
-                    style: context.text.caption
-                        .copyWith(color: colors.textTertiary),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        );
-      },
-      loading: () => const SizedBox.shrink(),
-      error: (e, st) => const SizedBox.shrink(),
     );
   }
 }

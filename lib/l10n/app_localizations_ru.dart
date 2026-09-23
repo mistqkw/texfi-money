@@ -159,6 +159,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get homeRecentTransactions => 'Последние транзакции';
 
   @override
+  String get homeRecentShort => 'Последние';
+
+  @override
+  String get homeFactIncome => 'Доход';
+
+  @override
+  String get homeFactExpense => 'Расход';
+
+  @override
+  String get homeFactSaved => 'Сбережено';
+
+  @override
   String get homeEmptyTransactions =>
       'Здесь пока пусто. Первая запись займёт секунд десять.';
 

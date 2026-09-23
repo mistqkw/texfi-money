@@ -159,6 +159,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get homeRecentTransactions => 'Останні транзакції';
 
   @override
+  String get homeRecentShort => 'Останні';
+
+  @override
+  String get homeFactIncome => 'Дохід';
+
+  @override
+  String get homeFactExpense => 'Витрати';
+
+  @override
+  String get homeFactSaved => 'Заощаджено';
+
+  @override
   String get homeEmptyTransactions =>
       'Тут поки порожньо. Перший запис займе секунд десять.';
 

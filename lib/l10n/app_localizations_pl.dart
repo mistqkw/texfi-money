@@ -159,6 +159,18 @@ class AppLocalizationsPl extends AppLocalizations {
   String get homeRecentTransactions => 'Ostatnie transakcje';
 
   @override
+  String get homeRecentShort => 'Ostatnie';
+
+  @override
+  String get homeFactIncome => 'Przychód';
+
+  @override
+  String get homeFactExpense => 'Wydatki';
+
+  @override
+  String get homeFactSaved => 'Oszczędności';
+
+  @override
   String get homeEmptyTransactions =>
       'Na razie pusto. Pierwszy wpis zajmie ze dziesięć sekund.';
 

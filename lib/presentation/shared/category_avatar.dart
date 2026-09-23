@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme/app_radius.dart';
 import '../../domain/entities/category_entity.dart';
 import 'pixel_icon.dart';
 
@@ -21,8 +22,12 @@ class CategoryAvatar extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: category.color.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(size * 0.2),
-        border: Border.all(color: category.color.withValues(alpha: 0.4), width: 1.5),
+        // Радиус и толщина рамки — из общей шкалы. Раньше здесь было
+        // скругление в пятую часть размера и рамка 1.5px: получался
+        // Material-чип, единственный в приложении элемент со своими
+        // собственными значениями.
+        borderRadius: AppRadius.controlSmallAll,
+        border: Border.all(color: category.color.withValues(alpha: 0.55), width: AppRadius.pixelBorder),
       ),
       child: PixelIcon(PixelIcons.forCategoryKey(category.iconKey), color: category.color, size: size * 0.5),
     );
