@@ -553,7 +553,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Twoje pieniądze zostają na tym urządzeniu. Potwierdź, że to Ty.';
 
   @override
-  String get securityUnlock => 'ODBLOKUJ';
+  String get securityUnlock => 'Odblokuj';
 
   @override
   String get backupExport => 'Eksportuj dane';
@@ -714,7 +714,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Dodaj to, co masz, i to, co jesteś winien. Wartości ustawiasz i aktualizujesz sam — nic nie jest nigdzie pobierane.';
 
   @override
-  String get wealthAddAsset => 'DODAJ AKTYWO';
+  String get wealthAddAsset => 'Dodaj aktywo';
 
   @override
   String get wealthYearChange => 'Przez ostatni rok';
@@ -776,7 +776,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get assetEdit => 'Edycja aktywa';
 
   @override
-  String get assetRevalue => 'ZAKTUALIZUJ WARTOŚĆ';
+  String get assetRevalue => 'Zaktualizuj wartość';
 
   @override
   String get assetRevalueTitle => 'Nowa wartość';
@@ -819,7 +819,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get riskAddLevel => 'DODAJ POZIOM';
+  String get riskAddLevel => 'Dodaj poziom';
 
   @override
   String get riskLevelName => 'Nazwa poziomu';
@@ -868,7 +868,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Na razie brak subskrypcji. Dodaj te, które odnawiają się same.';
 
   @override
-  String get subscriptionsAdd => 'DODAJ SUBSKRYPCJĘ';
+  String get subscriptionsAdd => 'Dodaj subskrypcję';
 
   @override
   String get subscriptionNew => 'Nowa subskrypcja';

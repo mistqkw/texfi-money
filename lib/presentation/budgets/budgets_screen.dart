@@ -37,12 +37,15 @@ class BudgetsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: embedded ? null : AppBar(title: Text(l10n.budgetsTitle)),
-      // Пока список пуст, действие предлагает само пустое состояние —
-      // плавающая кнопка рядом с ним была бы вторым «плюсом» на экране,
-      // делающим ровно то же самое.
-      floatingActionButton: (budgetsAsync.valueOrNull?.isEmpty ?? true)
-          ? null
-          : PixelFab(
+      // Плавающая кнопка видна всегда, даже когда список пуст.
+      //
+      // Была попытка прятать её на пустом списке — раз пустое состояние
+      // само предлагает действие, второй «плюс» рядом выглядит лишним. На
+      // экране подписок пустого состояния нет вовсе, и добавить первую
+      // подписку стало нечем: единственная кнопка исчезала ровно тогда,
+      // когда была нужнее всего. Небольшой повтор действия дешевле
+      // экрана, с которого нельзя уйти вперёд.
+      floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();
           Navigator.of(context).push(pixelDissolveRoute(const SetBudgetScreen()));

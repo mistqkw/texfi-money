@@ -1065,7 +1065,7 @@ abstract class AppLocalizations {
   /// No description provided for @securityUnlock.
   ///
   /// In en, this message translates to:
-  /// **'UNLOCK'**
+  /// **'Unlock'**
   String get securityUnlock;
 
   /// No description provided for @backupExport.
@@ -1365,7 +1365,7 @@ abstract class AppLocalizations {
   /// No description provided for @wealthAddAsset.
   ///
   /// In en, this message translates to:
-  /// **'ADD ASSET'**
+  /// **'Add asset'**
   String get wealthAddAsset;
 
   /// No description provided for @wealthYearChange.
@@ -1485,7 +1485,7 @@ abstract class AppLocalizations {
   /// No description provided for @assetRevalue.
   ///
   /// In en, this message translates to:
-  /// **'UPDATE VALUE'**
+  /// **'Update value'**
   String get assetRevalue;
 
   /// No description provided for @assetRevalueTitle.
@@ -1557,7 +1557,7 @@ abstract class AppLocalizations {
   /// No description provided for @riskAddLevel.
   ///
   /// In en, this message translates to:
-  /// **'ADD LEVEL'**
+  /// **'Add level'**
   String get riskAddLevel;
 
   /// No description provided for @riskLevelName.
@@ -1647,7 +1647,7 @@ abstract class AppLocalizations {
   /// No description provided for @subscriptionsAdd.
   ///
   /// In en, this message translates to:
-  /// **'ADD SUBSCRIPTION'**
+  /// **'Add subscription'**
   String get subscriptionsAdd;
 
   /// No description provided for @subscriptionNew.

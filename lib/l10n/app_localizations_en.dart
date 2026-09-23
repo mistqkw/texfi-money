@@ -542,7 +542,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your money stays on this device. Confirm it\'s you to open it.';
 
   @override
-  String get securityUnlock => 'UNLOCK';
+  String get securityUnlock => 'Unlock';
 
   @override
   String get backupExport => 'Export data';
@@ -701,7 +701,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Add what you own and what you owe. Values are yours to set and yours to update — nothing is fetched from anywhere.';
 
   @override
-  String get wealthAddAsset => 'ADD ASSET';
+  String get wealthAddAsset => 'Add asset';
 
   @override
   String get wealthYearChange => 'Over the last year';
@@ -763,7 +763,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get assetEdit => 'Edit asset';
 
   @override
-  String get assetRevalue => 'UPDATE VALUE';
+  String get assetRevalue => 'Update value';
 
   @override
   String get assetRevalueTitle => 'New value';
@@ -806,7 +806,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get riskAddLevel => 'ADD LEVEL';
+  String get riskAddLevel => 'Add level';
 
   @override
   String get riskLevelName => 'Level name';
@@ -854,7 +854,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'No subscriptions yet. Add the ones that renew on their own.';
 
   @override
-  String get subscriptionsAdd => 'ADD SUBSCRIPTION';
+  String get subscriptionsAdd => 'Add subscription';
 
   @override
   String get subscriptionNew => 'New subscription';

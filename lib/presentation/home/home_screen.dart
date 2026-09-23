@@ -22,8 +22,8 @@ import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_button.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../shared/transaction_row.dart';
@@ -78,6 +78,19 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
+      // Плавающая кнопка — главное действие приложения, и на главном
+      // экране она тоже нужна. Была попытка заменить её кнопкой во всю
+      // ширину после поля быстрого ввода: причина была в том, что круглая
+      // кнопка садилась на правый край последней строки списка, где
+      // выровнены суммы. Лечится это нижним отступом списка, а не отменой
+      // кнопки — рука ищет её в одном и том же углу на всех экранах.
+      floatingActionButton: PixelFab(
+        heroTag: 'add_transaction_fab',
+        onPressed: () {
+          Haptics.select();
+          Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
+        },
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.md, AppSpacing.page, AppSpacing.fabSafeBottom),
@@ -93,21 +106,6 @@ class HomeScreen extends ConsumerWidget {
             const NudgeCard(),
             AppSpacing.gapLg,
             const QuickEntryBar(),
-            AppSpacing.gapLg,
-            // Главное действие экрана — кнопка во всю ширину, а не плавающий
-            // кружок в углу. Плавающая кнопка накрывала правый край последней
-            // строки списка: суммы выровнены по правому краю, и она садилась
-            // ровно на них. Широкая кнопка ещё и попадает под большой палец
-            // целиком, а не только углом.
-            PixelButton(
-              label: l10n.addTxTitle,
-              sprite: PixelIcons.add,
-              expand: true,
-              onPressed: () {
-                Haptics.select();
-                Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
-              },
-            ),
             AppSpacing.gapXl,
             PixelSectionHeader(title: l10n.homeRecentShort, index: 1),
             recentAsync.when(

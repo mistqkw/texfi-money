@@ -553,7 +553,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Гроші залишаються на цьому пристрої. Підтвердьте, що це ви.';
 
   @override
-  String get securityUnlock => 'РОЗБЛОКУВАТИ';
+  String get securityUnlock => 'Розблокувати';
 
   @override
   String get backupExport => 'Експортувати дані';
@@ -714,7 +714,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Додайте те, чим володієте, і те, що винні. Вартість ставите ви самі і самі її оновлюєте — нічого нікуди не підтягується.';
 
   @override
-  String get wealthAddAsset => 'ДОДАТИ АКТИВ';
+  String get wealthAddAsset => 'Додати актив';
 
   @override
   String get wealthYearChange => 'За останній рік';
@@ -776,7 +776,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get assetEdit => 'Редагування активу';
 
   @override
-  String get assetRevalue => 'ОНОВИТИ ВАРТІСТЬ';
+  String get assetRevalue => 'Оновити вартість';
 
   @override
   String get assetRevalueTitle => 'Нова вартість';
@@ -819,7 +819,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get riskAddLevel => 'ДОДАТИ РІВЕНЬ';
+  String get riskAddLevel => 'Додати рівень';
 
   @override
   String get riskLevelName => 'Назва рівня';
@@ -868,7 +868,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Підписок поки немає. Додайте ті, що продовжуються самі.';
 
   @override
-  String get subscriptionsAdd => 'ДОДАТИ ПІДПИСКУ';
+  String get subscriptionsAdd => 'Додати підписку';
 
   @override
   String get subscriptionNew => 'Нова підписка';

@@ -1,0 +1,7 @@
+Version 1.1.1
+
+* Fixed: subscriptions could not be added. In 1.1.0 the floating button hid itself while the list was empty, and this screen has no empty state with an action — the only way to add a first subscription disappeared exactly when it was needed
+* The floating button is back on the home screen and stays visible on every list, empty ones included
+* The empty subscriptions list now has a glyph and an action, like every other screen
+* Button labels no longer get cut off: "Add subscription" was rendering as "ADD SUBSCRIPT…"
+* Button labels are written in sentence case instead of all caps

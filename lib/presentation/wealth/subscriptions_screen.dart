@@ -7,12 +7,14 @@ import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/subscription_entity.dart';
 import '../../domain/entities/subscription_period.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
+import '../shared/empty_state.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
@@ -43,12 +45,15 @@ class SubscriptionsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.subscriptionsTitle)),
-      // Пока список пуст, действие предлагает само пустое состояние —
-      // плавающая кнопка рядом с ним была бы вторым «плюсом» на экране,
-      // делающим ровно то же самое.
-      floatingActionButton: subs.isEmpty
-          ? null
-          : PixelFab(
+      // Плавающая кнопка видна всегда, даже когда список пуст.
+      //
+      // Была попытка прятать её на пустом списке — раз пустое состояние
+      // само предлагает действие, второй «плюс» рядом выглядит лишним. На
+      // экране подписок пустого состояния нет вовсе, и добавить первую
+      // подписку стало нечем: единственная кнопка исчезала ровно тогда,
+      // когда была нужнее всего. Небольшой повтор действия дешевле
+      // экрана, с которого нельзя уйти вперёд.
+      floatingActionButton: PixelFab(
         onPressed: () => Navigator.of(context)
             .push(pixelDissolveRoute(const SubscriptionFormScreen())),
         pattern: PixelIcons.add,
@@ -76,10 +81,20 @@ class SubscriptionsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapLg,
+          // Пустое состояние со знаком и действием, как на остальных
+          // экранах. Здесь был голый абзац текста — единственное место в
+          // приложении, где пустой список просто сообщал о своей пустоте
+          // и ничего не предлагал.
           if (subs.isEmpty)
-            Text(
-              l10n.subscriptionsEmpty,
-              style: context.text.body.copyWith(color: colors.textSecondary),
+            EmptyState(
+              sprite: PixelIcons.subscriptions,
+              message: l10n.subscriptionsEmpty,
+              actionLabel: l10n.subscriptionsAdd,
+              onAction: () {
+                Haptics.select();
+                Navigator.of(context)
+                    .push(pixelDissolveRoute(const SubscriptionFormScreen()));
+              },
             ),
           for (var i = 0; i < active.length; i++)
             StaggeredEntrance(

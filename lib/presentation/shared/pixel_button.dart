@@ -131,6 +131,11 @@ class _PixelButtonState extends State<PixelButton> {
           child: Text(
             widget.label,
             textAlign: TextAlign.center,
+            // Две строки, а не одна: «Добавить подписку» на кнопке пустого
+            // состояния обрезалось до «ДОБАВИТЬ ПОДПИ…». Кнопка, по
+            // надписи которой не понять, что она делает, бесполезна ровно
+            // там, где она единственная на экране.
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: text.titleMedium?.copyWith(color: foreground),
           ),
