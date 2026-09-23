@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:texfi_money/core/constants/app_font.dart';
@@ -86,7 +85,6 @@ Future<void> _loadFont(String family, List<String> paths) async {
 
 void main() {
   setUpAll(() async {
-    GoogleFonts.config.allowRuntimeFetching = false;
     await _loadFont('PressStart2P', ['assets/fonts/PressStart2P-Regular.ttf']);
     await _loadFont('Inter', [
       'assets/fonts/Inter-Regular.ttf',

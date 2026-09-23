@@ -26,7 +26,6 @@ dependencies:
   shared_preferences: ^2.3.3
 
   # UI / UX
-  google_fonts: ^6.2.1
   flutter_animate: ^4.5.2
   intl: ^0.20.2
   uuid: ^4.5.1

@@ -33,7 +33,7 @@ void main() {
 
     await _pumpPastSplash(tester);
 
-    expect(find.text('TexFi m0ney'), findsNothing);
+    expect(find.text('m0ney'), findsNothing);
     expect(find.byType(PageView), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox.shrink());
@@ -56,7 +56,7 @@ void main() {
 
     await _pumpPastSplash(tester);
 
-    expect(find.text('TexFi m0ney'), findsOneWidget);
+    expect(find.text('m0ney'), findsOneWidget);
     expect(find.byType(PageView), findsNothing);
 
     await tester.pumpWidget(const SizedBox.shrink());

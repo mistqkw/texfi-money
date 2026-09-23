@@ -110,7 +110,12 @@ class GoalsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: embedded ? null : AppBar(title: Text(l10n.goalsTitle)),
-      floatingActionButton: PixelFab(
+      // Пока список пуст, действие предлагает само пустое состояние —
+      // плавающая кнопка рядом с ним была бы вторым «плюсом» на экране,
+      // делающим ровно то же самое.
+      floatingActionButton: (goalsAsync.valueOrNull?.isEmpty ?? true)
+          ? null
+          : PixelFab(
         onPressed: () {
           Haptics.select();
           Navigator.of(context).push(pixelDissolveRoute(const GoalFormScreen()));

@@ -14,6 +14,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/local/backup_service.dart';
 import '../../data/providers/data_providers.dart';
@@ -57,8 +58,6 @@ class SettingsScreen extends ConsumerWidget {
 
   String _fontLabel(AppFont font, AppLocalizations l10n) => switch (font) {
         AppFont.inter => 'Inter',
-        AppFont.roboto => 'Roboto',
-        AppFont.manrope => 'Manrope',
         AppFont.system => l10n.fontSystem,
       };
 
@@ -201,8 +200,13 @@ class SettingsScreen extends ConsumerWidget {
           AppSpacing.gapXl,
           PixelSectionHeader(title: l10n.settingsFontSection, index: 3),
           AppSpacing.gapSm,
-          ...AppFont.values.map((f) => _OptionTile(
-                icon: PixelIcons.font,
+          // Название каждой гарнитуры набрано ею же: выбор шрифта — это
+          // единственная настройка, результат которой можно показать прямо
+          // в строке выбора. Раньше рядом с четырьмя вариантами стояли
+          // четыре одинаковые буквы «A» — значок, который ничего не
+          // различает, хуже отсутствия значка.
+          ...AppFont.values.map((f) => _FontTile(
+                font: f,
                 label: _fontLabel(f, l10n),
                 selected: f == font,
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
@@ -313,6 +317,36 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Строка выбора гарнитуры: название набрано самой гарнитурой.
+class _FontTile extends ConsumerWidget {
+  const _FontTile({
+    required this.font,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final AppFont font;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.colors;
+    final preview = buildAppTextTheme(font: font, colors: colors).titleMedium!;
+
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(label, style: preview),
+      trailing: selected
+          ? PixelIcon(PixelIcons.check, color: colors.accent)
+          : null,
+      onTap: onTap,
     );
   }
 }

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
 import 'brand_glyph.dart';
 
@@ -125,16 +125,15 @@ class _LaunchSplashState extends State<LaunchSplash>
   }
 }
 
-/// Название фирменным пиксельным шрифтом. Раньше здесь стоял родовой
-/// `fontFamily: 'monospace'` — системный моноширинный, который на каждом
-/// устройстве свой и ни на одном не фирменный.
-final TextStyle _nameStyle = GoogleFonts.pressStart2p(
-  textStyle: const TextStyle(
-    color: Colors.white,
-    fontSize: 13,
-    height: 1.4,
-    letterSpacing: 0.5,
-  ),
+/// Название фирменным пиксельным шрифтом. Шрифт вшит в сборку: на экране
+/// запуска сеть заведомо не успела бы ничего скачать, и заставка показывала
+/// бы название системной гарнитурой — то есть чужой.
+const TextStyle _nameStyle = TextStyle(
+  fontFamily: kPixelFamily,
+  color: Colors.white,
+  fontSize: 13,
+  height: 1.4,
+  letterSpacing: 0.5,
 );
 
 /// Сетка ячеек, зажигающихся волной по диагонали.

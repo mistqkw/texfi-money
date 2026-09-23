@@ -34,7 +34,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
     }
 
-    expect(find.text('TexFi m0ney'), findsOneWidget);
+    expect(find.text('m0ney'), findsOneWidget);
 
     // Даём drift-стримам время закрыться до финальной проверки таймеров.
     await tester.pumpWidget(const SizedBox.shrink());

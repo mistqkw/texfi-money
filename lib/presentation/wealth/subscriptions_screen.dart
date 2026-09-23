@@ -42,7 +42,12 @@ class SubscriptionsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.subscriptionsTitle)),
-      floatingActionButton: PixelFab(
+      // Пока список пуст, действие предлагает само пустое состояние —
+      // плавающая кнопка рядом с ним была бы вторым «плюсом» на экране,
+      // делающим ровно то же самое.
+      floatingActionButton: subs.isEmpty
+          ? null
+          : PixelFab(
         onPressed: () => Navigator.of(context)
             .push(pixelDissolveRoute(const SubscriptionFormScreen())),
         pattern: PixelIcons.add,

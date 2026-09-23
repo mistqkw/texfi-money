@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_font.dart';
 import 'app_colors_ext.dart';
@@ -46,13 +45,8 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
       fontFeatures: features ?? const [FontFeature.tabularFigures()],
       height: height,
     );
-    // Inter вшит; остальные варианты остаются через google_fonts — это
-    // необязательный выбор пользователя, и если сеть недоступна, он честно
-    // откатывается к системной гарнитуре, не ломая приложение.
     return switch (font) {
       AppFont.inter => base.copyWith(fontFamily: kBodyFamily),
-      AppFont.roboto => GoogleFonts.roboto(textStyle: base),
-      AppFont.manrope => GoogleFonts.manrope(textStyle: base),
       AppFont.system => base,
     };
   }
