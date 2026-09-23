@@ -144,10 +144,27 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                 children: [
                   GestureDetector(
                     onTap: _pickImage,
-                    child: CircleAvatar(
-                      radius: 44,
-                      backgroundColor: _color.withValues(alpha: 0.16),
-                      backgroundImage: _imagePath != null ? FileImage(File(_imagePath!)) : null,
+                    // Квадрат с рамкой вместо круглой аватарки: круг здесь
+                    // был чужим и в обложке цели, и в кнопке её снятия.
+                    child: Container(
+                      width: 88,
+                      height: 88,
+                      alignment: Alignment.center,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: _color.withValues(alpha: 0.16),
+                        borderRadius: AppRadius.cardSmallAll,
+                        border: Border.all(
+                          color: _color.withValues(alpha: 0.55),
+                          width: AppRadius.pixelBorder,
+                        ),
+                        image: _imagePath != null
+                            ? DecorationImage(
+                                image: FileImage(File(_imagePath!)),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                      ),
                       child: _imagePath == null
                           ? PixelIcon(PixelIcons.camera, color: _color, size: 28)
                           : null,
@@ -159,9 +176,14 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                       top: -4,
                       child: GestureDetector(
                         onTap: _removeImage,
-                        child: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: context.colors.expense,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.colors.expense,
+                            borderRadius: AppRadius.controlSmallAll,
+                          ),
                           child: const PixelIcon(PixelIcons.close, color: Colors.white, size: 16),
                         ),
                       ),

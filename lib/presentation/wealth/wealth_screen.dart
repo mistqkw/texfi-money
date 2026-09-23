@@ -124,7 +124,7 @@ class _TotalCard extends ConsumerWidget {
 
     if (assets.isEmpty) {
       return PixelCard(
-        label: l10n.wealthTitle.toLowerCase(),
+        label: l10n.wealthTitle.toUpperCase(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -140,7 +140,7 @@ class _TotalCard extends ConsumerWidget {
     }
 
     return PixelCard(
-      label: l10n.wealthTotal.toLowerCase(),
+      label: l10n.wealthTotal.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -221,7 +221,7 @@ class _YearChangeCard extends ConsumerWidget {
     // сравнить.
     if (change.from <= 0) {
       return PixelCard(
-        label: l10n.wealthYearChange.toLowerCase(),
+        label: l10n.wealthYearChange.toUpperCase(),
         child: Text(
           l10n.wealthYearChangeNoBase,
           style: context.text.body.copyWith(color: colors.textSecondary),
@@ -234,7 +234,7 @@ class _YearChangeCard extends ConsumerWidget {
     final percent = change.percent;
 
     return PixelCard(
-      label: l10n.wealthYearChange.toLowerCase(),
+      label: l10n.wealthYearChange.toUpperCase(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -281,7 +281,7 @@ class _RiskWarnings extends ConsumerWidget {
       children: [
         for (final breach in breaches) ...[
           PixelCard(
-            label: l10n.riskBreachTitle.toLowerCase(),
+            label: l10n.riskBreachTitle.toUpperCase(),
             borderColor: colors.warning,
             labelColor: colors.warning,
             child: Row(
@@ -327,7 +327,7 @@ class _AdviceCard extends ConsumerWidget {
     return Column(
       children: [
         PixelCard(
-          label: l10n.adviceSection.toLowerCase(),
+          label: l10n.adviceSection.toUpperCase(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -445,7 +445,7 @@ class _CategoryShares extends ConsumerWidget {
     final shares = ref.watch(categorySharesProvider);
 
     return PixelCard(
-      label: l10n.wealthByCategory.toLowerCase(),
+      label: l10n.wealthByCategory.toUpperCase(),
       child: Column(
         children: [
           for (final share in shares)
@@ -474,7 +474,7 @@ class _CashFlowShares extends ConsumerWidget {
     final shares = ref.watch(cashFlowSharesProvider);
 
     return PixelCard(
-      label: l10n.wealthByCashFlow.toLowerCase(),
+      label: l10n.wealthByCashFlow.toUpperCase(),
       child: Column(
         children: [
           for (final share in shares)
@@ -507,7 +507,7 @@ class _RiskShares extends ConsumerWidget {
     final shares = ref.watch(riskSharesProvider);
 
     return PixelCard(
-      label: l10n.wealthByRisk.toLowerCase(),
+      label: l10n.wealthByRisk.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -544,7 +544,7 @@ class _AssetList extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
 
     return PixelCard(
-      label: l10n.wealthAssetsList.toLowerCase(),
+      label: l10n.wealthAssetsList.toUpperCase(),
       child: Column(
         children: [
           for (var i = 0; i < assets.length; i++)

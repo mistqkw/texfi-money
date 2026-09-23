@@ -476,7 +476,7 @@ class _BankBadge extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                borderRadius: AppRadius.controlSmallAll,
                 border: Border.all(color: selected ? color : Colors.transparent, width: 2),
               ),
               child: bank != null
@@ -487,7 +487,7 @@ class _BankBadge extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.16),
-                        shape: BoxShape.circle,
+                        borderRadius: AppRadius.controlSmallAll,
                       ),
                       child: PixelIcon(PixelIcons.danger, size: 18, color: color),
                     ),

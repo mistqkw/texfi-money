@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/utils/haptics.dart';
 import 'pixel_icon.dart';
@@ -52,9 +53,12 @@ class ColorPickerRow extends StatelessWidget {
                   height: _dot,
                   decoration: BoxDecoration(
                     color: color,
-                    shape: BoxShape.circle,
+                    borderRadius: AppRadius.controlSmallAll,
                     border: isSelected
-                        ? Border.all(color: context.colors.textPrimary, width: 2)
+                        ? Border.all(
+                            color: context.colors.textPrimary,
+                            width: AppRadius.pixelBorder,
+                          )
                         : null,
                   ),
                   child: isSelected

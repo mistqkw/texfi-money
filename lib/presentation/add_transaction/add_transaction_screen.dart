@@ -459,7 +459,7 @@ class _AccountRow extends StatelessWidget {
             Container(
               width: 10,
               height: 10,
-              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+              decoration: BoxDecoration(color: color, borderRadius: AppRadius.controlSmallAll),
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(label, style: context.text.title),

@@ -3,8 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/constants/banks.dart';
+import '../../core/theme/app_radius.dart';
 
-/// Фирменный знак банка в круге.
+/// Фирменный знак банка в квадрате.
 ///
 /// По умолчанию рисуется собственная абстрактная графика TexFi. Если в
 /// `assets/banks/<id>.png` положен настоящий логотип — подставляется он
@@ -25,7 +26,7 @@ class BankMark extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: bank.color.withValues(alpha: 0.16),
-        shape: BoxShape.circle,
+        borderRadius: AppRadius.controlSmallAll,
       ),
       child: Image.asset(
         bank.assetPath,

@@ -190,8 +190,11 @@ class _GoalCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
 
+    // Метка рамки повторяла название цели слово в слово — «НОВЫЙ НОУТБУК»
+    // в рамке и «Новый ноутбук» строкой ниже. Вместо повтора — доля
+    // собранного: то, ради чего на карточку и смотрят.
     return PixelCard(
-      label: goal.title.toLowerCase(),
+      label: '${(goal.progress.clamp(0, 1) * 100).toStringAsFixed(0)}%',
       labelColor: goal.isCompleted ? context.colors.income : goal.color,
       onTap: onTap,
       child: Column(
@@ -199,14 +202,32 @@ class _GoalCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                backgroundColor: goal.color.withValues(alpha: 0.16),
-                backgroundImage: goal.imagePath != null ? FileImage(File(goal.imagePath!)) : null,
+              // Квадрат с рамкой, как у категорий: круглая аватарка была
+              // единственным круглым элементом на всё приложение.
+              Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: goal.color.withValues(alpha: 0.16),
+                  borderRadius: AppRadius.controlSmallAll,
+                  border: Border.all(
+                    color: goal.color.withValues(alpha: 0.55),
+                    width: AppRadius.pixelBorder,
+                  ),
+                  image: goal.imagePath != null
+                      ? DecorationImage(
+                          image: FileImage(File(goal.imagePath!)),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                ),
                 child: goal.imagePath == null
                     ? PixelIcon(
                         goal.isCompleted ? PixelIcons.check : PixelIcons.savings,
                         color: goal.color,
-                        size: 18,
+                        size: 20,
                       )
                     : null,
               ),

@@ -118,7 +118,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
         padding: AppSpacing.screen,
         children: [
           PixelCard(
-            label: l10n.assetName.toLowerCase(),
+            label: l10n.assetName.toUpperCase(),
             child: TextField(
               controller: _name,
               decoration: const InputDecoration(border: InputBorder.none),
@@ -128,7 +128,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           AppSpacing.gapLg,
           if (_isNew) ...[
             PixelCard(
-              label: l10n.assetValue.toLowerCase(),
+              label: l10n.assetValue.toUpperCase(),
               child: TextField(
                 controller: _value,
                 keyboardType:
@@ -139,7 +139,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
             AppSpacing.gapLg,
             PixelCard(
-              label: l10n.assetValuedAt.toLowerCase(),
+              label: l10n.assetValuedAt.toUpperCase(),
               onTap: _pickDate,
               child: Row(
                 children: [
@@ -160,7 +160,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             AppSpacing.gapLg,
           ],
           PixelCard(
-            label: l10n.assetFlow.toLowerCase(),
+            label: l10n.assetFlow.toUpperCase(),
             child: Column(
               children: [
                 for (final type in CashFlowType.values)
@@ -180,7 +180,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.assetCategory.toLowerCase(),
+            label: l10n.assetCategory.toUpperCase(),
             child: Column(
               children: [
                 for (final category in categories)
@@ -196,7 +196,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.assetRisk.toLowerCase(),
+            label: l10n.assetRisk.toUpperCase(),
             child: Column(
               children: [
                 for (final level in levels)
@@ -212,7 +212,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.assetNote.toLowerCase(),
+            label: l10n.assetNote.toUpperCase(),
             child: TextField(
               controller: _note,
               maxLines: 2,
@@ -320,7 +320,7 @@ class _HistorySection extends ConsumerWidget {
         ref.watch(assetHistoryProvider(asset.id)).valueOrNull ?? const [];
 
     return PixelCard(
-      label: l10n.assetHistory.toLowerCase(),
+      label: l10n.assetHistory.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

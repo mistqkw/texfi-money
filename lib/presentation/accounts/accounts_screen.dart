@@ -139,7 +139,7 @@ class _AccountCard extends ConsumerWidget {
     final bank = BankCatalog.byId(account.bankId);
 
     return PixelCard(
-      label: account.name.toLowerCase(),
+      label: account.name.toUpperCase(),
       labelColor: account.color,
       onTap: onTap,
       child: Row(
@@ -153,7 +153,7 @@ class _AccountCard extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: account.color.withValues(alpha: 0.16),
-                shape: BoxShape.circle,
+                borderRadius: AppRadius.controlSmallAll,
               ),
               child: PixelIcon(PixelIcons.creditCard, color: account.color, size: 18),
             ),

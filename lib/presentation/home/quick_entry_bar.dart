@@ -105,7 +105,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
     final errorColor = context.colors.expense;
 
     return PixelCard(
-      label: l10n.quickEntryLabel,
+      label: l10n.quickEntryLabel.toUpperCase(),
       borderColor: _error ? errorColor.withValues(alpha: 0.7) : null,
       padding: const EdgeInsets.fromLTRB(14, 18, 10, 10),
       child: Column(

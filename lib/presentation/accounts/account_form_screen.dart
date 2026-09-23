@@ -5,6 +5,7 @@ import '../../core/constants/banks.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
+import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
@@ -175,7 +176,7 @@ class _BankChip extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                borderRadius: AppRadius.controlSmallAll,
                 border: Border.all(
                   color: selected ? color : Colors.transparent,
                   width: 2,
@@ -189,7 +190,7 @@ class _BankChip extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.16),
-                        shape: BoxShape.circle,
+                        borderRadius: AppRadius.controlSmallAll,
                       ),
                       child: PixelIcon(PixelIcons.danger, size: 18, color: color),
                     ),

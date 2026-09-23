@@ -250,7 +250,7 @@ class _ColorPicker extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: color,
-              shape: BoxShape.circle,
+              borderRadius: AppRadius.controlSmallAll,
               border: isSelected
                   ? Border.all(color: context.colors.textPrimary, width: 2)
                   : null,

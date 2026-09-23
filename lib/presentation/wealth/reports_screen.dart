@@ -131,7 +131,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         padding: AppSpacing.screen,
         children: [
           PixelCard(
-            label: l10n.reportsPeriod.toLowerCase(),
+            label: l10n.reportsPeriod.toUpperCase(),
             onTap: () async {
               final picked = await showDateRangePicker(
                 context: context,
@@ -177,7 +177,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.reportsCategory.toLowerCase(),
+            label: l10n.reportsCategory.toUpperCase(),
             child: Column(
               children: [
                 _CategoryRow(
@@ -229,7 +229,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                   .reduce((a, b) => a > b ? a : b);
 
               return PixelCard(
-                label: l10n.reportsTotal.toLowerCase(),
+                label: l10n.reportsTotal.toUpperCase(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

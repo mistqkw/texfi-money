@@ -26,10 +26,12 @@ import 'package:texfi_money/presentation/home/home_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
 import 'package:texfi_money/presentation/add_transaction/add_transaction_screen.dart';
 import 'package:texfi_money/presentation/onboarding/onboarding_screen.dart';
+import 'package:texfi_money/presentation/goals/goals_screen.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/settings_screen.dart';
 import 'package:texfi_money/presentation/shared/grouped_tab.dart';
 import 'package:texfi_money/presentation/shared/root_shell.dart';
+import 'package:texfi_money/presentation/wealth/wealth_screen.dart';
 
 Future<void> _pumpSteps(WidgetTester tester, {int steps = 12, int stepMs = 120}) async {
   for (var i = 0; i < steps; i++) {
@@ -134,4 +136,6 @@ void main() {
   testWidgets('add_tx', (t) => _shoot(t, 'add_tx', const AddTransactionScreen()));
   testWidgets('onboarding', (t) => _shoot(t, 'onboarding', const OnboardingScreen()));
   testWidgets('about', (t) => _shoot(t, 'about', const AboutScreen()));
+  testWidgets('wealth', (t) => _shoot(t, 'wealth', const WealthScreen()));
+  testWidgets('goals', (t) => _shoot(t, 'goals', const GoalsScreen()));
 }

@@ -57,7 +57,7 @@ class SubscriptionsScreen extends ConsumerWidget {
         padding: AppSpacing.screenWithFab,
         children: [
           PixelCard(
-            label: l10n.subscriptionsMonthly.toLowerCase(),
+            label: l10n.subscriptionsMonthly.toUpperCase(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -284,7 +284,7 @@ class _SubscriptionFormScreenState
         padding: AppSpacing.screen,
         children: [
           PixelCard(
-            label: l10n.subscriptionName.toLowerCase(),
+            label: l10n.subscriptionName.toUpperCase(),
             child: TextField(
               controller: _name,
               decoration: const InputDecoration(border: InputBorder.none),
@@ -293,7 +293,7 @@ class _SubscriptionFormScreenState
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.subscriptionAmount.toLowerCase(),
+            label: l10n.subscriptionAmount.toUpperCase(),
             child: TextField(
               controller: _amount,
               keyboardType:
@@ -304,7 +304,7 @@ class _SubscriptionFormScreenState
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.subscriptionPeriod.toLowerCase(),
+            label: l10n.subscriptionPeriod.toUpperCase(),
             child: Column(
               children: [
                 for (final period in SubscriptionPeriod.values)
@@ -345,7 +345,7 @@ class _SubscriptionFormScreenState
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.subscriptionNextCharge.toLowerCase(),
+            label: l10n.subscriptionNextCharge.toUpperCase(),
             onTap: () async {
               final picked = await showDatePicker(
                 context: context,
@@ -359,7 +359,7 @@ class _SubscriptionFormScreenState
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.reportsCategory.toLowerCase(),
+            label: l10n.reportsCategory.toUpperCase(),
             child: Column(
               children: [
                 for (final category in categories)

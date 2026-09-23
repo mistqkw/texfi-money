@@ -193,7 +193,7 @@ class _ProfileCard extends ConsumerWidget {
             : l10n.profilesSettled;
 
     return PixelCard(
-      label: profile.name.toLowerCase(),
+      label: profile.name.toUpperCase(),
       labelColor: profile.color,
       onTap: onTap,
       child: Row(
@@ -201,7 +201,7 @@ class _ProfileCard extends ConsumerWidget {
           Container(
             width: 36,
             height: 36,
-            decoration: BoxDecoration(color: profile.color.withValues(alpha: 0.16), shape: BoxShape.circle),
+            decoration: BoxDecoration(color: profile.color.withValues(alpha: 0.16), borderRadius: AppRadius.controlSmallAll),
             child: PixelIcon(PixelIcons.person, color: profile.color, size: 18),
           ),
           const SizedBox(width: AppSpacing.md),

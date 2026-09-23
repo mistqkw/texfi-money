@@ -37,7 +37,7 @@ class CashFlowScreen extends ConsumerWidget {
         padding: AppSpacing.screen,
         children: [
           PixelCard(
-            label: l10n.reportsPeriod.toLowerCase(),
+            label: l10n.reportsPeriod.toUpperCase(),
             child: Text(
               '${formatDate(range.from, context)} — '
               '${formatDate(range.to, context)}',
@@ -77,7 +77,7 @@ class CashFlowScreen extends ConsumerWidget {
           ),
           AppSpacing.gapXl,
           PixelCard(
-            label: l10n.savingsRateHistory.toLowerCase(),
+            label: l10n.savingsRateHistory.toUpperCase(),
             child: rates.when(
               data: (months) => _SavingsHistory(months: months),
               loading: () => const Center(child: PixelSpinner()),
