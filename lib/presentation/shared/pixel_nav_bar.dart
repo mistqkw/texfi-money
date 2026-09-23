@@ -44,7 +44,7 @@ class PixelNavBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         border: Border(
-          top: BorderSide(color: colors.divider, width: AppRadius.pixelBorder),
+          top: BorderSide(color: colors.border, width: AppRadius.pixelBorder),
         ),
       ),
       child: SafeArea(

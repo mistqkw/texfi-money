@@ -30,7 +30,7 @@ class PixelSwitch extends StatelessWidget {
         padding: const EdgeInsets.all(inset),
         decoration: BoxDecoration(
           color: value ? colors.accent.withValues(alpha: 0.22) : colors.surfaceVariant,
-          border: Border.all(color: value ? colors.accent : colors.divider, width: 2),
+          border: Border.all(color: value ? colors.accent : colors.border, width: 2),
           borderRadius: BorderRadius.circular(4),
         ),
         alignment: value ? Alignment.centerRight : Alignment.centerLeft,
@@ -70,7 +70,7 @@ class PixelCheckbox extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           color: value ? colors.accent : Colors.transparent,
-          border: Border.all(color: value ? colors.accent : colors.divider, width: 2),
+          border: Border.all(color: value ? colors.accent : colors.border, width: 2),
           borderRadius: BorderRadius.circular(3),
         ),
         child: value

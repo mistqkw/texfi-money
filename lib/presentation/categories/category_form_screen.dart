@@ -214,7 +214,7 @@ class _IconPicker extends StatelessWidget {
               color: selected ? color.withValues(alpha: 0.18) : context.colors.surface,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: selected ? color : context.colors.divider,
+                color: selected ? color : context.colors.border,
                 width: selected ? 2 : 1.5,
               ),
             ),

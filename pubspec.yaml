@@ -57,6 +57,23 @@ flutter:
   uses-material-design: true
   generate: true
 
+  fonts:
+    # Шрифты лежат в сборке, а не тянутся по сети. m0ney — офлайн-приложение:
+    # на свежей установке без интернета google_fonts не успевал (и мог никогда
+    # не успеть) скачать гарнитуру, и весь интерфейс — включая пиксельные
+    # заголовки — рисовался системным Roboto. Стиль, который виден только
+    # при наличии сети, — это не стиль.
+    - family: PressStart2P
+      fonts:
+        - asset: assets/fonts/PressStart2P-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+
   assets:
     - assets/icon/
     # Пусто по умолчанию: приложение рисует собственные знаки банков.

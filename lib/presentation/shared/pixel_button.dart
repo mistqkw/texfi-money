@@ -84,7 +84,7 @@ class _PixelButtonState extends State<PixelButton> {
     if (!_enabled) {
       background = colors.surfaceVariant;
       foreground = colors.textTertiary;
-      border = colors.divider;
+      border = colors.border;
       shadowColor = Colors.transparent;
     } else if (widget.filled) {
       background = base;
@@ -95,7 +95,7 @@ class _PixelButtonState extends State<PixelButton> {
       background = colors.surface;
       foreground = base;
       border = base;
-      shadowColor = colors.divider;
+      shadowColor = colors.shadow;
     }
 
     if (widget.busy) {

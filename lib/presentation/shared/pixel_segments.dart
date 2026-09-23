@@ -86,7 +86,7 @@ class _Segment extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: AppRadius.controlSmallAll,
             border: Border.all(
-              color: selected ? colors.accent : colors.divider,
+              color: selected ? colors.accent : colors.border,
               width: AppRadius.pixelBorder,
             ),
           ),

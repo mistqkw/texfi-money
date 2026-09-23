@@ -67,7 +67,7 @@ class EmptyState extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.surfaceVariant,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: colors.divider, width: 2),
+                  border: Border.all(color: colors.border, width: 2),
                 ),
                 child: PixelIcon(sprite, size: 32, color: colors.textTertiary),
               ),

@@ -13,9 +13,16 @@ abstract final class AppPalettes {
 
   static const AppColorsExt dark = AppColorsExt(
     background: Color(0xFF0D0D10),
-    surface: Color(0xFF17171B),
-    surfaceVariant: Color(0xFF202026),
+    // Поверхность заметно светлее фона: раньше разница между #0D0D10 и
+    // #17171B была на грани различимого, и карточка читалась как пятно,
+    // а не как предмет.
+    surface: Color(0xFF1C1C22),
+    surfaceVariant: Color(0xFF26262E),
     divider: Color(0xFF2A2A31),
+    border: Color(0xFF45454F),
+    // Тень темнее фона — иначе на чёрном она превращается во вторую
+    // рамку и карточка выглядит обведённой дважды.
+    shadow: Color(0xFF000000),
     accent: _accent,
     accentShadow: _accentShadowDark,
     onAccent: _onAccent,
@@ -35,6 +42,10 @@ abstract final class AppPalettes {
     surface: Color(0xFF000000),
     surfaceVariant: Color(0xFF0D0D0F),
     divider: Color(0xFF232327),
+    // На чистом чёрном тень невидима по определению, поэтому объём здесь
+    // держит только рамка — и она ярче, чем в обычной тёмной теме.
+    border: Color(0xFF3E3E48),
+    shadow: Color(0xFF1A1A1F),
     accent: _accent,
     accentShadow: _accentShadowDark,
     onAccent: _onAccent,
@@ -60,6 +71,8 @@ abstract final class AppPalettes {
     surface: Color(0xFFFFFBF3),
     surfaceVariant: Color(0xFFF3E6D2),
     divider: Color(0xFFE0CDB0),
+    border: Color(0xFFB99C6E),
+    shadow: Color(0xFFD6BE99),
     accent: _accent,
     accentShadow: Color(0xFFD98A2B),
     onAccent: _onAccent,

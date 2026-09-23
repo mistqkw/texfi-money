@@ -33,7 +33,7 @@ class CategorySelectChip extends StatelessWidget {
           color: selected ? category.color.withValues(alpha: 0.16) : context.colors.surface,
           borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
-            color: selected ? category.color : context.colors.divider,
+            color: selected ? category.color : context.colors.border,
             width: selected ? 1.5 : 1,
           ),
         ),

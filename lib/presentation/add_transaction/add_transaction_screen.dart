@@ -362,7 +362,7 @@ class _CategoryGrid extends StatelessWidget {
             decoration: BoxDecoration(
               color: context.colors.surface,
               borderRadius: AppRadius.cardSmallAll,
-              border: Border.all(color: context.colors.divider, style: BorderStyle.solid),
+              border: Border.all(color: context.colors.border, style: BorderStyle.solid),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -409,7 +409,7 @@ class _AccountRow extends StatelessWidget {
           color: selected ? color.withValues(alpha: 0.16) : context.colors.surface,
           borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
-            color: selected ? color : context.colors.divider,
+            color: selected ? color : context.colors.border,
             width: selected ? 1.5 : 1,
           ),
         ),
@@ -504,7 +504,7 @@ class _UsefulnessRow extends StatelessWidget {
                       border: Border.all(
                         color: value == item
                             ? colorFor(item)
-                            : colors.divider,
+                            : colors.border,
                         width: 2,
                       ),
                       color: value == item

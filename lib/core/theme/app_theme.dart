@@ -24,7 +24,7 @@ abstract final class AppTheme {
       error: colors.expense,
       onError: colors.onAccent,
       surfaceContainerHighest: colors.surfaceVariant,
-      outline: colors.divider,
+      outline: colors.border,
     );
 
     return ThemeData(
@@ -106,14 +106,14 @@ abstract final class AppTheme {
         border: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
-            color: colors.divider,
+            color: colors.border,
             width: AppRadius.pixelBorder,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
-            color: colors.divider,
+            color: colors.border,
             width: AppRadius.pixelBorder,
           ),
         ),

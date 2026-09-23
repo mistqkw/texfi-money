@@ -258,7 +258,7 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: active ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surfaceVariant,
           borderRadius: AppRadius.controlSmallAll,
-          border: Border.all(color: active ? context.colors.accent : context.colors.divider, width: active ? 2 : 1.5),
+          border: Border.all(color: active ? context.colors.accent : context.colors.border, width: active ? 2 : 1.5),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

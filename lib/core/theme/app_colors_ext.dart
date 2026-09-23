@@ -8,6 +8,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     required this.surface,
     required this.surfaceVariant,
     required this.divider,
+    required this.border,
+    required this.shadow,
     required this.accent,
     required this.accentShadow,
     required this.onAccent,
@@ -24,6 +26,21 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
   final Color surface;
   final Color surfaceVariant;
   final Color divider;
+
+  /// Рамка карточек, кнопок и полей — отдельно от [divider].
+  ///
+  /// Раньше и то и другое было одним тусклым серым. На тёмном фоне
+  /// рамка 2px цветом `#2A2A31` не видна вовсе: весь пиксельный «объём»
+  /// существовал в коде и не доходил до экрана. Разделительная линия
+  /// внутри списка обязана быть тихой, а контур карточки — заметным,
+  /// это разные задачи и разные цвета.
+  final Color border;
+
+  /// Сплошная тень со смещением под обычной карточкой или кнопкой.
+  /// Ещё темнее фона в тёмных темах и тёплая коричневая в светлой —
+  /// тень должна читаться как тень, а не как вторая рамка.
+  final Color shadow;
+
   final Color accent;
 
   /// Цвет сплошной тени под акцентным элементом. Отдельный токен, а не
@@ -50,6 +67,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     Color? surface,
     Color? surfaceVariant,
     Color? divider,
+    Color? border,
+    Color? shadow,
     Color? accent,
     Color? accentShadow,
     Color? onAccent,
@@ -66,6 +85,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       surface: surface ?? this.surface,
       surfaceVariant: surfaceVariant ?? this.surfaceVariant,
       divider: divider ?? this.divider,
+      border: border ?? this.border,
+      shadow: shadow ?? this.shadow,
       accent: accent ?? this.accent,
       accentShadow: accentShadow ?? this.accentShadow,
       onAccent: onAccent ?? this.onAccent,
@@ -87,6 +108,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       surface: Color.lerp(surface, other.surface, t)!,
       surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
       divider: Color.lerp(divider, other.divider, t)!,
+      border: Color.lerp(border, other.border, t)!,
+      shadow: Color.lerp(shadow, other.shadow, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
       accentShadow: Color.lerp(accentShadow, other.accentShadow, t)!,
       onAccent: Color.lerp(onAccent, other.onAccent, t)!,

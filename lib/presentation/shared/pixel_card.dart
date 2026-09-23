@@ -63,7 +63,7 @@ class PixelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final border = borderColor ?? (accent ? colors.accent : colors.divider);
+    final border = borderColor ?? (accent ? colors.accent : colors.border);
 
     final label = this.label;
     final body = label == null || label.isEmpty
@@ -115,7 +115,7 @@ class PixelCard extends StatelessWidget {
     // везде, но не превращает список в лес одинаковых плашек.
     return PixelShadowBox(
       shadowColor:
-          accent ? colors.accentShadow : (borderColor ?? colors.divider),
+          accent ? colors.accentShadow : (borderColor ?? colors.shadow),
       borderRadius: AppRadius.cardMediumAll,
       child: tappable,
     );

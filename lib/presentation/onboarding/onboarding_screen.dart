@@ -279,7 +279,7 @@ class _CurrencyStepView extends ConsumerWidget {
                 color: selected ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surface,
                 borderRadius: AppRadius.cardSmallAll,
                 border: Border.all(
-                  color: selected ? context.colors.accent : context.colors.divider,
+                  color: selected ? context.colors.accent : context.colors.border,
                   width: selected ? 1.5 : 1,
                 ),
               ),
@@ -526,7 +526,7 @@ class _Dots extends StatelessWidget {
           width: active ? 24 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: active ? context.colors.accent : context.colors.divider,
+            color: active ? context.colors.accent : context.colors.border,
             borderRadius: BorderRadius.circular(4),
           ),
         );
