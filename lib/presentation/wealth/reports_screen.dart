@@ -15,7 +15,9 @@ import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_segments.dart';
 import '../shared/pixel_spinner.dart';
+import '../shared/pixel_switch.dart';
 
 /// Параметры отчёта.
 class ReportQuery {
@@ -147,33 +149,23 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
-            child: Row(
-              children: [
-                Expanded(
-                  child: SegmentedButton<TransactionType>(
-                    segments: [
-                      ButtonSegment(
-                        value: TransactionType.expense,
-                        label: Text(l10n.commonExpense),
-                      ),
-                      ButtonSegment(
-                        value: TransactionType.income,
-                        label: Text(l10n.commonIncome),
-                      ),
-                    ],
-                    selected: {_type},
-                    onSelectionChanged: (value) => setState(() {
-                      _type = value.first;
-                      // Категория относится к типу: оставить её при смене
-                      // значило бы показать отчёт, в который заведомо
-                      // ничего не попадёт.
-                      _categoryId = null;
-                    }),
-                  ),
-                ),
-              ],
-            ),
+          // Здесь стоял Material SegmentedButton — капсула со скруглением
+          // в половину высоты и сплошной заливкой, единственная на всё
+          // приложение. Тот же переключатель, что на вкладках-группах и в
+          // форме транзакции, с семантическим цветом выбора.
+          PixelSegments(
+            padding: EdgeInsets.zero,
+            labels: [l10n.commonExpense, l10n.commonIncome],
+            currentIndex: _type == TransactionType.expense ? 0 : 1,
+            selectedColor: _type == TransactionType.expense
+                ? context.colors.expense
+                : context.colors.income,
+            onSelected: (index) => setState(() {
+              _type = index == 0 ? TransactionType.expense : TransactionType.income;
+              // Категория относится к типу: оставить её при смене значило бы
+              // показать отчёт, в который заведомо ничего не попадёт.
+              _categoryId = null;
+            }),
           ),
           AppSpacing.gapLg,
           PixelCard(
@@ -205,7 +197,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                     style: context.text.title,
                   ),
                 ),
-                Switch(
+                PixelSwitch(
                   value: _byYear,
                   onChanged: (value) => setState(() => _byYear = value),
                 ),

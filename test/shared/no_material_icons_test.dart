@@ -55,4 +55,40 @@ void main() {
         .toList();
     expect(hits, isEmpty, reason: 'Используйте PixelCard:\n${hits.join('\n')}');
   });
+
+  test('в presentation нет Material-контролов с чужой геометрией', () {
+    // Каждый из этих виджетов приносит свою геометрию: капсулу со
+    // скруглением в половину высоты, сглаженную дугу спиннера, круглую
+    // аватарку. По отдельности ни один не выглядит ошибкой — вместе они
+    // и составляли ту смесь, из-за которой приложение читалось как
+    // собранное из чужих деталей. У каждого есть пиксельная замена.
+    const replacements = {
+      r'SegmentedButton<': 'PixelSegments',
+      r'ToggleButtons(': 'PixelSegments',
+      r'CircularProgressIndicator(': 'PixelSpinner',
+      r'LinearProgressIndicator(': 'AnimatedProgressBar',
+      r'CircleAvatar(': 'Container с AppRadius',
+      r'BoxShape.circle': 'AppRadius.controlSmallAll',
+    };
+
+    final hits = <String>[];
+    for (final file in files) {
+      final source = file.readAsStringSync();
+      for (final entry in replacements.entries) {
+        if (source.contains(entry.key)) {
+          hits.add('${file.path}: ${entry.key} → ${entry.value}');
+        }
+      }
+      // `Switch(` ловится отдельно: `PixelSwitch(` оканчивается так же.
+      if (RegExp(r'(?<![A-Za-z])Switch\(').hasMatch(source)) {
+        hits.add('${file.path}: Switch( → PixelSwitch');
+      }
+    }
+
+    expect(
+      hits,
+      isEmpty,
+      reason: 'Material-контролы вернулись в интерфейс:\n${hits.join('\n')}',
+    );
+  });
 }

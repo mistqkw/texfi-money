@@ -16,6 +16,7 @@ import '../shared/category_providers.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_switch.dart';
 import '../shared/staggered_entrance.dart';
 import 'wealth_labels.dart';
 import 'wealth_providers.dart';
@@ -405,7 +406,7 @@ class _SubscriptionFormScreenState
                     child: Text(l10n.subscriptionActive,
                         style: context.text.title),
                   ),
-                  Switch(
+                  PixelSwitch(
                     value: _active,
                     onChanged: (value) => setState(() => _active = value),
                   ),

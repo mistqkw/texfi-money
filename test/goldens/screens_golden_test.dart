@@ -21,16 +21,21 @@ import 'package:texfi_money/data/repositories/savings_goal_repository_impl.dart'
 import 'package:texfi_money/data/repositories/transaction_repository_impl.dart';
 import 'package:texfi_money/domain/entities/transaction_type.dart';
 import 'package:texfi_money/l10n/app_localizations.dart';
+import 'package:texfi_money/presentation/accounts/accounts_screen.dart';
+import 'package:texfi_money/presentation/add_transaction/add_transaction_screen.dart';
+import 'package:texfi_money/presentation/categories/categories_screen.dart';
+import 'package:texfi_money/presentation/goals/goals_screen.dart';
 import 'package:texfi_money/presentation/history/history_screen.dart';
 import 'package:texfi_money/presentation/home/home_screen.dart';
-import 'package:texfi_money/presentation/settings/currency_provider.dart';
-import 'package:texfi_money/presentation/add_transaction/add_transaction_screen.dart';
 import 'package:texfi_money/presentation/onboarding/onboarding_screen.dart';
-import 'package:texfi_money/presentation/goals/goals_screen.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
+import 'package:texfi_money/presentation/settings/currency_provider.dart';
 import 'package:texfi_money/presentation/settings/settings_screen.dart';
 import 'package:texfi_money/presentation/shared/grouped_tab.dart';
 import 'package:texfi_money/presentation/shared/root_shell.dart';
+import 'package:texfi_money/presentation/wealth/cash_flow_screen.dart';
+import 'package:texfi_money/presentation/wealth/reports_screen.dart';
+import 'package:texfi_money/presentation/wealth/subscriptions_screen.dart';
 import 'package:texfi_money/presentation/wealth/wealth_screen.dart';
 
 Future<void> _pumpSteps(WidgetTester tester, {int steps = 12, int stepMs = 120}) async {
@@ -138,4 +143,9 @@ void main() {
   testWidgets('about', (t) => _shoot(t, 'about', const AboutScreen()));
   testWidgets('wealth', (t) => _shoot(t, 'wealth', const WealthScreen()));
   testWidgets('goals', (t) => _shoot(t, 'goals', const GoalsScreen()));
+  testWidgets('accounts', (t) => _shoot(t, 'accounts', const AccountsScreen()));
+  testWidgets('categories', (t) => _shoot(t, 'categories', const CategoriesScreen()));
+  testWidgets('cash_flow', (t) => _shoot(t, 'cash_flow', const CashFlowScreen()));
+  testWidgets('reports', (t) => _shoot(t, 'reports', const ReportsScreen()));
+  testWidgets('subscriptions', (t) => _shoot(t, 'subscriptions', const SubscriptionsScreen()));
 }
