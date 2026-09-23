@@ -37,7 +37,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
       ..groupBy([_db.budgets.id]);
 
     return query.watch().map((rows) {
-      return rows.map((row) {
+      final budgets = rows.map((row) {
         final budget = row.readTable(_db.budgets);
         final category = row.readTable(_db.categories);
         final spent = row.read(spentSum) ?? 0;
@@ -48,6 +48,18 @@ class BudgetRepositoryImpl implements BudgetRepository {
           spent: spent,
         );
       }).toList();
+
+      // Без явного порядка SQLite возвращает строки как ему удобно, и
+      // список бюджетов переставлялся между запусками приложения сам
+      // собой. Порядок — по доле потраченного, от самого «горящего»
+      // бюджета к спокойному: первым видно то, где вот-вот кончатся
+      // деньги. Совпадающие доли разводятся по идентификатору, иначе
+      // перестановка вернулась бы на них.
+      budgets.sort((a, b) {
+        final byProgress = b.progress.compareTo(a.progress);
+        return byProgress != 0 ? byProgress : a.id.compareTo(b.id);
+      });
+      return budgets;
     });
   }
 
