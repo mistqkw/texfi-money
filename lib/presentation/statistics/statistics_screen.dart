@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,10 +10,10 @@ import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
 import '../../domain/entities/spend_usefulness.dart';
 import '../settings/currency_provider.dart';
-import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
+import '../shared/pixel_charts.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
 import '../wealth/wealth_labels.dart';
@@ -44,7 +43,7 @@ class StatisticsScreen extends ConsumerWidget {
           // отдельная строка над карточкой здесь была единственным местом,
           // выпадавшим из общего языка.
           PixelCard(
-            label: l10n.statisticsMonthlyChartTitle.toLowerCase(),
+            label: l10n.statisticsMonthlyChartTitle.toUpperCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.sm,
               AppSpacing.xl,
@@ -54,11 +53,11 @@ class StatisticsScreen extends ConsumerWidget {
             child: monthlyAsync.when(
               data: (months) => _MonthlyBarChart(months: months),
               loading: () => const SizedBox(
-                height: 208,
+                height: 150,
                 child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => SizedBox(
-                height: 208,
+                height: 150,
                 child: Center(
                   child: Text(l10n.statisticsLoadError, style: context.text.body),
                 ),
@@ -67,7 +66,7 @@ class StatisticsScreen extends ConsumerWidget {
           ),
           AppSpacing.gapLg,
           PixelCard(
-            label: l10n.statisticsCategoryChartTitle.toLowerCase(),
+            label: l10n.statisticsCategoryChartTitle.toUpperCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.lg,
               AppSpacing.xl,
@@ -77,11 +76,11 @@ class StatisticsScreen extends ConsumerWidget {
             child: categoryAsync.when(
               data: (categories) => _CategoryPie(categories: categories),
               loading: () => const SizedBox(
-                height: 208,
+                height: 150,
                 child: Center(child: PixelSpinner()),
               ),
               error: (e, st) => SizedBox(
-                height: 208,
+                height: 150,
                 child: Center(
                   child: Text(l10n.statisticsLoadError, style: context.text.body),
                 ),
@@ -142,7 +141,7 @@ class _UsefulnessSection extends ConsumerWidget {
         };
 
     return PixelCard(
-      label: l10n.usefulnessSection.toLowerCase(),
+      label: l10n.usefulnessSection.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -192,66 +191,17 @@ class _MonthlyBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxValue = months.fold<double>(
-      0,
-      (max, m) => [max, m.income, m.expense].reduce((a, b) => a > b ? a : b),
-    );
-    final maxY = maxValue <= 0 ? 100.0 : maxValue * 1.2;
-
-    return SizedBox(
-      height: 208,
-      child: BarChart(
-        BarChartData(
-          maxY: maxY,
-          alignment: BarChartAlignment.spaceAround,
-          gridData: const FlGridData(show: false),
-          borderData: FlBorderData(show: false),
-          barTouchData: BarTouchData(enabled: false),
-          titlesData: FlTitlesData(
-            leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 28,
-                getTitlesWidget: (value, meta) {
-                  final index = value.toInt();
-                  if (index < 0 || index >= months.length) return const SizedBox.shrink();
-                  final label = formatMonthShort(months[index].month, context);
-                  return Padding(
-                    padding: const EdgeInsets.only(top: AppSpacing.sm),
-                    // Подписи осей — моноширинные, как и вся служебная
-                    // типографика приложения.
-                    child: Text(label, style: context.text.mono),
-                  );
-                },
-              ),
-            ),
+    return PixelBarChart(
+      groups: [
+        for (final month in months)
+          (
+            label: formatMonthShort(month.month, context),
+            income: month.income,
+            expense: month.expense,
           ),
-          barGroups: [
-            for (int i = 0; i < months.length; i++)
-              BarChartGroupData(
-                x: i,
-                barsSpace: AppSpacing.xs,
-                barRods: [
-                  BarChartRodData(
-                    toY: months[i].income,
-                    color: context.colors.income,
-                    width: AppSpacing.sm,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  BarChartRodData(
-                    toY: months[i].expense,
-                    color: context.colors.expense,
-                    width: AppSpacing.sm,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ],
-              ),
-          ],
-        ),
-      ),
+      ],
+      incomeColor: context.colors.income,
+      expenseColor: context.colors.expense,
     );
   }
 }
@@ -275,51 +225,41 @@ class _CategoryPie extends ConsumerWidget {
     final total = categories.fold<double>(0, (sum, c) => sum + c.total);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(
-          height: 180,
-          child: PieChart(
-            PieChartData(
-              sectionsSpace: 2,
-              centerSpaceRadius: 48,
-              sections: categories.map((c) {
-                final percent = total <= 0 ? 0 : c.total / total * 100;
-                return PieChartSectionData(
-                  value: c.total,
-                  color: c.category.color,
-                  showTitle: percent >= 8,
-                  title: '${percent.toStringAsFixed(0)}%',
-                  titleStyle: context.text.pixelAccent.copyWith(color: context.colors.onAccent),
-                );
-              }).toList(),
-            ),
-          ),
+        PixelShareBar(
+          shares: [
+            for (final c in categories) (value: c.total, color: c.category.color),
+          ],
         ),
         AppSpacing.gapLg,
-        Column(
-          children: categories.map((c) {
-            final percent = total <= 0 ? 0 : c.total / total * 100;
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-              child: Row(
-                children: [
-                  CategoryAvatar(category: c.category, size: 28),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: Text(
-                      categoryDisplayName(context, c.category),
-                      style: context.text.title,
-                    ),
+        for (final c in categories)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+            child: Row(
+              children: [
+                PixelSwatch(color: c.category.color),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    categoryDisplayName(context, c.category),
+                    style: context.text.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    '${percent.toStringAsFixed(0)}% · ${formatAmount(c.total, currency, context)}',
-                    style: context.text.caption,
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
+                ),
+                Text(
+                  total <= 0 ? '0%' : '${(c.total / total * 100).toStringAsFixed(0)}%',
+                  style: context.text.mono,
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Text(
+                  formatAmount(c.total, currency, context),
+                  style: context.text.amountMedium,
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
