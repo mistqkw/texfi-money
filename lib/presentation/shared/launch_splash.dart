@@ -19,11 +19,17 @@ const _bg = Color(0xFF0D0D10);
 /// files, ни на сайте ничего подобного нет. Кадр, который видят каждый
 /// запуск, обещал одно приложение, а за ним открывалось другое.
 ///
-/// Теперь это пиксельная сборка: ячейки знака зажигаются не все сразу, а
-/// волной по диагонали, каждая — мгновенно, без плавного проявления.
-/// Порядок задан целочисленным хешем, тем же, что у перехода между
-/// экранами: узор обязан быть одинаковым на каждом запуске, иначе сборка
-/// читается как сбой отрисовки.
+/// Теперь это пиксельная сборка: монета набирается из собственных ячеек
+/// волной по диагонали, каждая появляется мгновенно, без плавного
+/// проявления. Порядок задан целочисленным хешем, тем же, что у перехода
+/// между экранами: узор обязан быть одинаковым на каждом запуске, иначе
+/// сборка читается как сбой отрисовки.
+///
+/// Раньше собиралась абстрактная сетка 8×8, а под ней проявлялся знак из
+/// трёх столбиков — логотип ранних сборок. Иконку приложения с тех пор
+/// перерисовали в монету, и первое, что видел пользователь при запуске,
+/// не совпадало с тем, по чему он только что ткнул на домашнем экране.
+/// Теперь собирается ровно та же монета, ячейка в ячейку.
 class LaunchSplash extends StatefulWidget {
   const LaunchSplash({super.key, required this.onFinished});
 
@@ -48,7 +54,7 @@ class _LaunchSplashState extends State<LaunchSplash>
     // успеть произойти, а не задержать.
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1300),
+      duration: const Duration(milliseconds: 1200),
     );
     _assemble = CurvedAnimation(
       parent: _controller,
@@ -56,11 +62,14 @@ class _LaunchSplashState extends State<LaunchSplash>
       // коротком интервале волна проскакивала за пару кадров, знак
       // появлялся раньше, чем её успевали прочитать, и «пиксельная
       // сборка» превращалась в обычное проявление.
-      curve: const Interval(0, 0.82, curve: Curves.linear),
+      curve: const Interval(0, 0.78, curve: Curves.linear),
     );
     _name = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.78, 1, curve: Curves.easeOut),
+      // Название начинает проступать, пока знак ещё дособирается: раньше
+      // между готовой монетой и появлением надписи висела треть заставки,
+      // на которой не происходило ничего.
+      curve: const Interval(0.62, 0.92, curve: Curves.easeOut),
     );
 
     // Короткий тик на каждой четверти сборки: знак не просто появляется,
@@ -99,16 +108,10 @@ class _LaunchSplashState extends State<LaunchSplash>
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  width: 96,
-                  height: 96,
+                  width: 112,
+                  height: 112,
                   child: CustomPaint(
                     painter: _AssemblePainter(progress: _assemble.value),
-                    child: Opacity(
-                      // Знак проступает на последней четверти сборки —
-                      // ячейки складываются в него, а не подменяются им.
-                      opacity: ((_assemble.value - 0.6) / 0.3).clamp(0.0, 1.0),
-                      child: const Center(child: BrandGlyph(height: 56)),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -136,14 +139,22 @@ const TextStyle _nameStyle = TextStyle(
   letterSpacing: 0.5,
 );
 
-/// Сетка ячеек, зажигающихся волной по диагонали.
+/// Монета, набирающаяся из собственных ячеек волной по диагонали.
+///
+/// Это не отдельная анимация поверх знака, а сам знак в процессе
+/// появления: painter рисует те же ячейки [kBrandMark], просто ещё не
+/// все. Когда сборка доходит до единицы, на экране остаётся ровно то же,
+/// что рисует [BrandMarkPainter] — иконка приложения.
 class _AssemblePainter extends CustomPainter {
   const _AssemblePainter({required this.progress});
 
   /// 0..1 — доля собранных ячеек.
   final double progress;
 
-  static const int _grid = 8;
+  /// Сколько сборка держит ячейку подсвеченной, прежде чем та примет свой
+  /// настоящий цвет. Вспышка нужна белым ячейкам знака валюты: без неё
+  /// они просто возникают белыми и выпадают из общей волны.
+  static const double _flash = 0.08;
 
   /// Тот же целочисленный хеш, что у перехода между экранами: узор должен
   /// быть одним и тем же на каждом запуске.
@@ -157,34 +168,28 @@ class _AssemblePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (progress <= 0) return;
-    final cell = size.width / _grid;
+    final cell = size.shortestSide / kBrandMarkGrid;
     final paint = Paint();
 
-    for (var y = 0; y < _grid; y++) {
-      for (var x = 0; x < _grid; x++) {
+    for (var y = 0; y < kBrandMarkGrid; y++) {
+      final row = kBrandMark[y];
+      for (var x = 0; x < kBrandMarkGrid; x++) {
+        final code = row[x];
+        if (code == '.') continue;
+
         // Волна идёт по диагонали, хеш только слегка сбивает её ровность —
-        // иначе видно марширующую линию, а не сборку.
-        //
-        // Порог укладывается в 0..0.65, а не в 0..1, и догорание занимает
-        // ещё 0.25: последняя ячейка обязана погаснуть до конца анимации.
-        // При пороге почти в единицу она начинала гаснуть ровно тогда,
-        // когда всё заканчивалось, и оставалась висеть рядом со знаком
-        // недогоревшим огрызком — на самом заметном кадре.
-        final wave = (x + y) / (2 * (_grid - 1));
-        final threshold = wave * 0.5 + _noise(x, y) * 0.15;
+        // иначе видно марширующую линию, а не сборку. Порог укладывается
+        // в 0..0.85, чтобы последняя ячейка успела встать на место и
+        // отгореть до конца анимации, а не осталась висеть вспышкой на
+        // самом заметном кадре.
+        final (first, last) = kBrandMarkDiagonalRange;
+        final wave = (x + y - first) / (last - first);
+        final threshold = wave * 0.78 + _noise(x, y) * 0.12;
         if (progress < threshold) continue;
 
-        // Ячейка гаснет до конца, а не до остаточной прозрачности.
-        //
-        // Сначала здесь стояло `1 - fade * 0.85`, и каждая отработавшая
-        // ячейка навсегда оставалась видна на 15%. По отдельности это
-        // незаметно, но все шестьдесят четыре вместе складывались в
-        // тёмный квадрат за знаком — подложку, которой в кадре быть не
-        // должно: сборка обязана исчезнуть, оставив только знак.
-        final fade = ((progress - threshold) / 0.25).clamp(0.0, 1.0);
-        if (fade >= 1) continue;
-        paint.color = Color.lerp(_accent, _accentShadow, fade)!
-            .withValues(alpha: 1 - fade);
+        final settled = ((progress - threshold) / _flash).clamp(0.0, 1.0);
+        final target = code == 'W' ? Colors.white : _accent;
+        paint.color = Color.lerp(_accentShadow, target, settled)!;
 
         // Рисуем с нахлёстом, а не с зазором: на субпиксельном рендере
         // между ячейками иначе появляются щели и контур рассыпается.
