@@ -56,6 +56,7 @@
   "homeEmptyTransactions": "Тут поки порожньо. Перший запис займе секунд десять.",
   "homeLoadTransactionsError": "Не вдалося завантажити транзакції",
   "homeBalance": "Баланс",
+  "addTxAmountLabel": "Сума",
   "addTxTitle": "Нова транзакція",
   "addTxTitleEdit": "Змінити транзакцію",
   "txActionRepeat": "Повторити сьогодні",

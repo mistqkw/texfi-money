@@ -168,7 +168,11 @@ class PixelSectionHeader extends StatelessWidget {
             ),
           ),
           AppSpacing.gapHMd,
-          Expanded(child: Container(height: 2, color: colors.divider)),
+          // Линейка фиксированной длины, а не Expanded. Раньше заголовок и
+          // линейка были двумя гибкими детьми одного Row с одинаковым
+          // весом — и делили ширину пополам, из-за чего «Открытый код»
+          // обрезалось до «Открытый …» на половине пустого экрана.
+          const SizedBox(width: 56, child: _HeaderRule()),
           if (trailing != null) ...[
             AppSpacing.gapHMd,
             trailing!,
@@ -176,5 +180,15 @@ class PixelSectionHeader extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Короткая линейка справа от заголовка раздела.
+class _HeaderRule extends StatelessWidget {
+  const _HeaderRule();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(height: 2, color: context.colors.divider);
   }
 }

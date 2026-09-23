@@ -181,6 +181,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get homeBalance => 'Saldo';
 
   @override
+  String get addTxAmountLabel => 'Kwota';
+
+  @override
   String get addTxTitle => 'Nowa transakcja';
 
   @override

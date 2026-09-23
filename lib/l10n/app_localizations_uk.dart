@@ -181,6 +181,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get homeBalance => 'Баланс';
 
   @override
+  String get addTxAmountLabel => 'Сума';
+
+  @override
   String get addTxTitle => 'Нова транзакція';
 
   @override

@@ -24,7 +24,9 @@ import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_button.dart';
+import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
+import '../shared/pixel_segments.dart';
 import '../shared/pixel_spinner.dart';
 import '../wealth/wealth_labels.dart';
 
@@ -183,7 +185,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             AppSpacing.gapXl,
             _AmountField(controller: _amountController, onChanged: () => setState(() {})),
             AppSpacing.gapXl,
-            Text(l10n.commonCategory, style: context.text.label),
+            Text(l10n.commonCategory.toUpperCase(), style: context.text.mono),
             AppSpacing.gapSm,
             categoriesAsync.when(
               data: (categories) => _CategoryGrid(
@@ -205,7 +207,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacing.gapXl,
-                    Text(l10n.addTxAccountLabel, style: context.text.label),
+                    Text(l10n.addTxAccountLabel.toUpperCase(), style: context.text.mono),
                     AppSpacing.gapSm,
                     _AccountRow(
                       accounts: accounts,
@@ -251,6 +253,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 }
 
+/// Расход/доход. Тот же переключатель, что и на вкладках-группах, а не
+/// собственная реализация: здесь была своя, со скруглением 8 и сплошной
+/// синей заливкой выбранного сегмента — на экран приходилось два разных
+/// переключателя, различающихся ровно ничем по смыслу.
+///
+/// Цвет выбранного сегмента семантический: расход красный, доход зелёный.
+/// Подменять это фирменным синим значило бы прятать то, что пользователь
+/// читает по цвету быстрее, чем по слову.
 class _TypeToggle extends StatelessWidget {
   const _TypeToggle({required this.type, required this.onChanged});
 
@@ -259,42 +269,16 @@ class _TypeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: context.colors.surfaceVariant,
-        borderRadius: AppRadius.cardSmallAll,
-      ),
-      child: Row(
-        children: [
-          _segment(context, TransactionType.expense, context.l10n.commonExpense),
-          _segment(context, TransactionType.income, context.l10n.commonIncome),
-        ],
-      ),
-    );
-  }
+    final colors = context.colors;
+    final isExpense = type == TransactionType.expense;
 
-  Widget _segment(BuildContext context, TransactionType value, String label) {
-    final selected = value == type;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => onChanged(value),
-        child: AnimatedContainer(
-          duration: AppMotion.fast,
-          curve: AppMotion.standard,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: selected ? context.colors.accent : Colors.transparent,
-            borderRadius: AppRadius.controlSmallAll,
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: context.text.title.copyWith(
-              color: selected ? context.colors.onAccent : context.colors.textSecondary,
-            ),
-          ),
-        ),
+    return PixelSegments(
+      padding: EdgeInsets.zero,
+      labels: [context.l10n.commonExpense, context.l10n.commonIncome],
+      currentIndex: isExpense ? 0 : 1,
+      selectedColor: isExpense ? colors.expense : colors.income,
+      onSelected: (index) => onChanged(
+        index == 0 ? TransactionType.expense : TransactionType.income,
       ),
     );
   }
@@ -310,22 +294,43 @@ class _AmountField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyProvider);
 
-    return TextField(
-      controller: controller,
-      onChanged: (_) => onChanged(),
-      autofocus: true,
-      textAlign: TextAlign.center,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-      style: context.text.balance,
-      decoration: InputDecoration(
-        hintText: '0 ${currency.symbol}',
-        hintStyle: context.text.balance.copyWith(color: context.colors.textTertiary),
-        filled: false,
-        border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        contentPadding: EdgeInsets.zero,
+    // Сумма — главное поле экрана, и раньше оно им не выглядело: число
+    // стояло по центру пустоты, без рамки и подписи, так что поле читалось
+    // как случайный «0» посреди экрана. Теперь это карточка с меткой, как
+    // баланс на главной.
+    return PixelCard(
+      accent: true,
+      label: context.l10n.addTxAmountLabel.toUpperCase(),
+      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.lg, AppSpacing.page, AppSpacing.lg),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Expanded(
+            child: TextField(
+              controller: controller,
+              onChanged: (_) => onChanged(),
+              autofocus: true,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+              style: context.text.balance,
+              decoration: InputDecoration(
+                hintText: '0',
+                hintStyle: context.text.balance.copyWith(color: context.colors.textTertiary),
+                filled: false,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ),
+          AppSpacing.gapHMd,
+          Text(
+            currency.symbol,
+            style: context.text.balance.copyWith(color: context.colors.textSecondary),
+          ),
+        ],
       ),
     );
   }
@@ -346,34 +351,69 @@ class _CategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: [
-        ...categories.map((category) => CategorySelectChip(
-              category: category,
-              selected: category.id == selectedId,
-              onTap: () => onSelected(category.id),
-            )),
-        GestureDetector(
-          onTap: onAddCategory,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: context.colors.surface,
-              borderRadius: AppRadius.cardSmallAll,
-              border: Border.all(color: context.colors.border, style: BorderStyle.solid),
+    // Сетка в две равные колонки вместо свободного переноса. Чипы
+    // шириной по длине названия давали рваный правый край и строки то из
+    // одного, то из двух элементов — список из десяти категорий выглядел
+    // так, будто его собрали не глядя.
+    final cells = <Widget>[
+      for (final category in categories)
+        CategorySelectChip(
+          category: category,
+          selected: category.id == selectedId,
+          onTap: () => onSelected(category.id),
+        ),
+      GestureDetector(
+        onTap: onAddCategory,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: context.colors.surface,
+            borderRadius: AppRadius.cardSmallAll,
+            border: Border.all(
+              color: context.colors.border,
+              width: AppRadius.pixelBorder,
             ),
+          ),
+          child: Row(
+            children: [
+              PixelIcon(PixelIcons.add, size: 20, color: context.colors.textSecondary),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  context.l10n.addTxAddCategory,
+                  style: context.text.label.copyWith(color: context.colors.textPrimary),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+
+    return Column(
+      children: [
+        for (var row = 0; row < (cells.length + 1) ~/ 2; row++) ...[
+          if (row > 0) AppSpacing.gapMd,
+          IntrinsicHeight(
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                PixelIcon(PixelIcons.add, size: 20, color: context.colors.textSecondary),
-                const SizedBox(width: AppSpacing.xs),
-                Text(context.l10n.addTxAddCategory, style: context.text.title),
+                Expanded(child: cells[row * 2]),
+                AppSpacing.gapHMd,
+                // Нечётный хвост: пустая ячейка вместо растягивания
+                // последнего чипа на всю ширину — иначе он читался бы как
+                // выделенный, хотя ничем не отличается от соседей.
+                Expanded(
+                  child: row * 2 + 1 < cells.length
+                      ? cells[row * 2 + 1]
+                      : const SizedBox.shrink(),
+                ),
               ],
             ),
           ),
-        ),
+        ],
       ],
     );
   }

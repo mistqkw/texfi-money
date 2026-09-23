@@ -438,6 +438,12 @@ abstract class AppLocalizations {
   /// **'Balance'**
   String get homeBalance;
 
+  /// No description provided for @addTxAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get addTxAmountLabel;
+
   /// No description provided for @addTxTitle.
   ///
   /// In en, this message translates to:

@@ -22,6 +22,9 @@ import 'package:texfi_money/l10n/app_localizations.dart';
 import 'package:texfi_money/presentation/history/history_screen.dart';
 import 'package:texfi_money/presentation/home/home_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
+import 'package:texfi_money/presentation/add_transaction/add_transaction_screen.dart';
+import 'package:texfi_money/presentation/onboarding/onboarding_screen.dart';
+import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/settings_screen.dart';
 import 'package:texfi_money/presentation/shared/grouped_tab.dart';
 import 'package:texfi_money/presentation/shared/root_shell.dart';
@@ -85,6 +88,18 @@ Future<void> _loadFont(String family, List<String> paths) async {
 
 void main() {
   setUpAll(() async {
+    // Экран «О приложении» спрашивает версию у платформы — в тестовой
+    // среде плагина нет, и без заглушки снимок падает на MissingPlugin.
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('dev.fluttercommunity.plus/package_info'),
+      (call) async => <String, dynamic>{
+        'appName': 'TexFi m0ney',
+        'packageName': 'com.texfi.money',
+        'version': '1.1.0',
+        'buildNumber': '15',
+      },
+    );
     await _loadFont('PressStart2P', ['assets/fonts/PressStart2P-Regular.ttf']);
     await _loadFont('Inter', [
       'assets/fonts/Inter-Regular.ttf',
@@ -99,4 +114,7 @@ void main() {
   testWidgets('summary', (t) => _shoot(t, 'summary', const SummaryTab()));
   testWidgets('settings', (t) => _shoot(t, 'settings', const SettingsScreen()));
   testWidgets('shell', (t) => _shoot(t, 'shell', const RootShell()));
+  testWidgets('add_tx', (t) => _shoot(t, 'add_tx', const AddTransactionScreen()));
+  testWidgets('onboarding', (t) => _shoot(t, 'onboarding', const OnboardingScreen()));
+  testWidgets('about', (t) => _shoot(t, 'about', const AboutScreen()));
 }

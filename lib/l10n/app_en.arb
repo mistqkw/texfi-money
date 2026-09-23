@@ -63,6 +63,7 @@
   "homeEmptyTransactions": "Nothing here yet. The first entry takes about ten seconds.",
   "homeLoadTransactionsError": "Couldn't load transactions",
   "homeBalance": "Balance",
+  "addTxAmountLabel": "Amount",
   "addTxTitle": "New transaction",
   "addTxTitleEdit": "Edit transaction",
   "txActionRepeat": "Repeat today",

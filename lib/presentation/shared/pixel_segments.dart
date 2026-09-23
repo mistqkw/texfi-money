@@ -19,21 +19,32 @@ class PixelSegments extends StatelessWidget {
     required this.labels,
     required this.currentIndex,
     required this.onSelected,
+    this.padding = const EdgeInsets.fromLTRB(
+      AppSpacing.page,
+      0,
+      AppSpacing.page,
+      AppSpacing.sm,
+    ),
+    this.selectedColor,
   });
 
   final List<String> labels;
   final int currentIndex;
   final ValueChanged<int> onSelected;
 
+  /// Поля вокруг переключателя. По умолчанию — поля экрана: чаще всего он
+  /// стоит под шапкой вкладки. Внутри формы его задаёт сама форма.
+  final EdgeInsets padding;
+
+  /// Цвет выбранного сегмента. По умолчанию фирменный синий; переопределяют
+  /// там, где выбор сам по себе имеет цвет, — расход красный, доход
+  /// зелёный, и подменять это синим значило бы прятать смысл.
+  final Color? selectedColor;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.page,
-        0,
-        AppSpacing.page,
-        AppSpacing.sm,
-      ),
+      padding: padding,
       child: Row(
         children: [
           for (var i = 0; i < labels.length; i++) ...[
@@ -42,6 +53,7 @@ class PixelSegments extends StatelessWidget {
               child: _Segment(
                 label: labels[i],
                 selected: i == currentIndex,
+                selectedColor: selectedColor,
                 onTap: () {
                   if (i == currentIndex) return;
                   Haptics.select();
@@ -61,15 +73,18 @@ class _Segment extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    this.selectedColor,
   });
 
   final String label;
   final bool selected;
   final VoidCallback onTap;
+  final Color? selectedColor;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final active = selectedColor ?? colors.accent;
 
     return Semantics(
       selected: selected,
@@ -82,11 +97,11 @@ class _Segment extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           decoration: BoxDecoration(
             color: selected
-                ? colors.accent.withValues(alpha: 0.16)
+                ? active.withValues(alpha: 0.16)
                 : Colors.transparent,
             borderRadius: AppRadius.controlSmallAll,
             border: Border.all(
-              color: selected ? colors.accent : colors.border,
+              color: selected ? active : colors.border,
               width: AppRadius.pixelBorder,
             ),
           ),
@@ -95,7 +110,7 @@ class _Segment extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: context.text.mono.copyWith(
-              color: selected ? colors.accent : colors.textSecondary,
+              color: selected ? active : colors.textSecondary,
             ),
           ),
         ),
