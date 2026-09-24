@@ -122,48 +122,39 @@ class PixelCard extends StatelessWidget {
   }
 }
 
-/// Заголовок раздела пиксельным шрифтом с «линейкой» справа.
+/// Заголовок раздела: мелкий капслок с разрядкой и короткая «линейка».
 ///
-/// Номер раздела ([index]) — добавка m0ney поверх f0kus: экраны здесь
-/// длиннее, и по номеру при прокрутке видно, сколько глав уже прошло.
-/// Тот же приём применён на сайте экосистемы.
+/// Раньше это был крупный пиксельный заголовок с номером раздела («01»,
+/// «02») — приём, перенесённый с сайта. На сайте он работает: там длинная
+/// маркетинговая страница из нескольких глав. В приложении разделы на
+/// экране два-три, нумеровать нечего, а bitmap-заголовок над списком из
+/// трёх строк — декорация ради декорации.
+///
+/// Теперь заголовок раздела набран тем же стилем, что и служебные метки
+/// внутри карточек («БАЛАНС», «ПЕРИОД»): один язык мелких подписей на всё
+/// приложение вместо двух конкурирующих.
 class PixelSectionHeader extends StatelessWidget {
   const PixelSectionHeader({
     super.key,
     required this.title,
-    this.index,
     this.trailing,
   });
 
   final String title;
 
-  /// Порядковый номер раздела на экране, с единицы. `null` — раздел
-  /// единственный или порядок для него бессмыслен.
-  final int? index;
-
   final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final number = index;
-
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (number != null) ...[
-            Text(
-              number.toString().padLeft(2, '0'),
-              style: context.text.pixelAccent.copyWith(color: colors.accent),
-            ),
-            AppSpacing.gapHMd,
-          ],
           Flexible(
             child: Text(
-              title,
-              style: context.text.headline,
+              title.toUpperCase(),
+              style: context.text.mono.copyWith(color: context.colors.textSecondary),
               overflow: TextOverflow.ellipsis,
             ),
           ),

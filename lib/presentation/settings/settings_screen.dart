@@ -177,7 +177,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelSectionHeader(title: l10n.settingsLanguageSection, index: 1),
+          PixelSectionHeader(title: l10n.settingsLanguageSection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.language,
@@ -189,7 +189,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsThemeSection, index: 2),
+          PixelSectionHeader(title: l10n.settingsThemeSection,),
           AppSpacing.gapSm,
           ...AppThemeVariant.values.map((variant) => _OptionTile(
                 icon: _themeIcon(variant),
@@ -198,7 +198,7 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
               )),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsFontSection, index: 3),
+          PixelSectionHeader(title: l10n.settingsFontSection,),
           AppSpacing.gapSm,
           // Название каждой гарнитуры набрано ею же: выбор шрифта — это
           // единственная настройка, результат которой можно показать прямо
@@ -212,7 +212,7 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => ref.read(fontProvider.notifier).setFont(f),
               )),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsHapticsSection, index: 4),
+          PixelSectionHeader(title: l10n.settingsHapticsSection,),
           AppSpacing.gapSm,
           _SwitchTile(
             label: l10n.hapticsEnabled,
@@ -223,7 +223,7 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsCurrencySection, index: 5),
+          PixelSectionHeader(title: l10n.settingsCurrencySection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.money,
@@ -235,7 +235,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsManageSection, index: 6),
+          PixelSectionHeader(title: l10n.settingsManageSection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.wallet,
@@ -256,7 +256,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.riskSection, index: 7),
+          PixelSectionHeader(title: l10n.riskSection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.risk,
@@ -269,11 +269,11 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const _AnalysisRangeTile(),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsSecuritySection, index: 8),
+          PixelSectionHeader(title: l10n.settingsSecuritySection,),
           AppSpacing.gapSm,
           const _SecuritySection(),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsBackupSection, index: 9),
+          PixelSectionHeader(title: l10n.settingsBackupSection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.backupUp,
@@ -293,7 +293,7 @@ class SettingsScreen extends ConsumerWidget {
           // «О приложении» стоит перед опасной зоной, а не после: сброс
           // данных должен оставаться последним пунктом экрана, к которому
           // не промахиваются по дороге к чему-то безобидному.
-          PixelSectionHeader(title: l10n.aboutTitle, index: 10),
+          PixelSectionHeader(title: l10n.aboutTitle,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.info,
@@ -305,7 +305,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsDangerSection, index: 11),
+          PixelSectionHeader(title: l10n.settingsDangerSection,),
           AppSpacing.gapSm,
           _OptionTile(
             icon: PixelIcons.danger,

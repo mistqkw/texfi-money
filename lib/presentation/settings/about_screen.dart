@@ -68,7 +68,7 @@ class _AboutScreenState extends State<AboutScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelSectionHeader(title: l10n.aboutSectionApp, index: 1),
+          PixelSectionHeader(title: l10n.aboutSectionApp,),
           PixelCard(
             label: 'texfi m0ney',
             child: Column(
@@ -102,7 +102,7 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           AppSpacing.gapXl,
 
-          PixelSectionHeader(title: l10n.aboutSectionOpen, index: 2),
+          PixelSectionHeader(title: l10n.aboutSectionOpen,),
           _LinkTile(
             icon: PixelIcons.code,
             title: l10n.aboutSourceTitle,
@@ -125,7 +125,7 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           AppSpacing.gapXl,
 
-          PixelSectionHeader(title: l10n.aboutSectionSupport, index: 3),
+          PixelSectionHeader(title: l10n.aboutSectionSupport,),
           PixelCard(
             label: l10n.aboutSectionSupport,
             borderColor: colors.accent,

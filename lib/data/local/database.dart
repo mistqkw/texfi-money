@@ -37,7 +37,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -79,6 +79,22 @@ class AppDatabase extends _$AppDatabase {
               batch.insertAll(assetCategories, buildDefaultAssetCategories());
               batch.insertAll(riskLevels, buildDefaultRiskLevels());
             });
+          }
+          if (from < 5) {
+            // Перекраска палитры категорий. Цвет лежит в строке таблицы, а
+            // не вычисляется на лету, поэтому смена `AppColors.categoryPalette`
+            // сама по себе достаётся только свежим установкам: у всех, кто
+            // уже пользуется приложением, в базе остались старые насыщенные
+            // значения, и радуга никуда бы не делась.
+            //
+            // Трогаем только предустановленные категории (`isCustom = false`)
+            // и в том же порядке, в каком их создаёт `buildDefaultCategories`,
+            // — цвет, выбранный пользователем вручную, остаётся его выбором.
+            for (final row in buildDefaultCategories()) {
+              await (update(categories)
+                    ..where((t) => t.id.equals(row.id.value) & t.isCustom.equals(false)))
+                  .write(CategoriesCompanion(colorValue: row.colorValue));
+            }
           }
         },
       );

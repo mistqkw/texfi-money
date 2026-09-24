@@ -24,10 +24,15 @@ const String kBodyFamily = 'Inter';
 /// headline→headlineMedium, pixelAccent→titleLarge, title→titleMedium,
 /// body→bodyMedium, caption→bodySmall, label→labelMedium, mono→labelSmall.
 ///
-/// Пиксельный шрифт — заголовки экранов и секций, крупные акцентные числа
-/// и короткие акцентные метки. Остальные суммы (история, счета, цели,
-/// бюджеты) — обычной гарнитурой: bitmap на 13-16px читается медленнее, а
-/// колонку сумм именно читают.
+/// Зона пиксельного шрифта сужена до опознавательного знака: словесный
+/// знак «m0ney» в шапке, заставка и редкие короткие латинские бейджи.
+///
+/// Раньше bitmap стоял на заголовках экранов и на балансе. Проблема не в
+/// читаемости — кириллица в гарнитуре есть, — а в том, какой это сигнал:
+/// самый крупный элемент финансового экрана, набранный шрифтом из аркады,
+/// читается как счёт очков, а не как остаток на счету. Стиль экосистемы
+/// держат рамка 2px, офсетная тень, квадратная геометрия и синий #4a7dfb;
+/// они остаются нетронутыми. Гарнитура содержания — гротеск.
 TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
   TextStyle style({
     required double size,
@@ -69,11 +74,24 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
   }
 
   return TextTheme(
-    displayLarge: pixel(size: 28, color: colors.textPrimary, height: 1.25),
+    displayLarge: style(
+      size: 34,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      letterSpacing: -1.2,
+      height: 1.08,
+    ),
     displayMedium: style(size: 26, weight: FontWeight.w600, color: colors.textPrimary, letterSpacing: -0.5),
     displaySmall: style(size: 17, weight: FontWeight.w600, color: colors.textPrimary),
-    headlineMedium: pixel(size: 13, color: colors.textPrimary, letterSpacing: 0.5),
+    headlineMedium: style(
+      size: 21,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      letterSpacing: -0.4,
+      height: 1.2,
+    ),
     titleLarge: pixel(size: 10, color: colors.textPrimary, height: 1.2),
+    titleSmall: pixel(size: 15, color: colors.textPrimary, height: 1.1),
     titleMedium: style(size: 16, weight: FontWeight.w500, color: colors.textPrimary),
     bodyMedium: style(size: 14, weight: FontWeight.w400, color: colors.textSecondary, height: 1.35),
     bodySmall: style(

@@ -46,12 +46,18 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(child: Text('m0ney', overflow: TextOverflow.ellipsis)),
-            SizedBox(width: AppSpacing.sm),
-            Flexible(child: _AccountMarks()),
+            Flexible(
+              child: Text(
+                'm0ney',
+                style: context.text.wordmark,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            const Flexible(child: _AccountMarks()),
           ],
         ),
         actions: [
@@ -107,7 +113,7 @@ class HomeScreen extends ConsumerWidget {
             AppSpacing.gapLg,
             const QuickEntryBar(),
             AppSpacing.gapXl,
-            PixelSectionHeader(title: l10n.homeRecentShort, index: 1),
+            PixelSectionHeader(title: l10n.homeRecentShort,),
             recentAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
