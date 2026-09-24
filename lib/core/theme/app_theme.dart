@@ -18,10 +18,12 @@ abstract final class AppTheme {
     bool beta = false,
   }) {
     final colors = beta ? AppPalettes.beta : AppPalettes.forVariant(variant);
-    final style = beta ? AppStyleExt.soft : AppStyleExt.pixel;
+    final style = beta ? AppStyleExt.paper : AppStyleExt.pixel;
     final textTheme = buildAppTextTheme(font: font, colors: colors, beta: beta);
-    final brightness =
-        !beta && variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
+    // Бета — светлая бумага, какая бы тема ни была выбрана.
+    final brightness = beta || variant == AppThemeVariant.light
+        ? Brightness.light
+        : Brightness.dark;
     final controlRadius = style.controlRadius;
     final borderWidth = style.borderWidth;
 
@@ -63,6 +65,34 @@ abstract final class AppTheme {
           TargetPlatform.macOS: PixelDissolvePageTransitionsBuilder(),
         },
       ),
+      // Диалог в бете — лист, а не всплывающая капсула: почти прямые углы,
+      // та же бумага, что под ним.
+      dialogTheme: beta
+          ? DialogThemeData(
+              backgroundColor: colors.surface,
+              surfaceTintColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: controlRadius,
+                side: BorderSide(color: colors.textPrimary),
+              ),
+            )
+          : null,
+      bottomSheetTheme: beta
+          ? BottomSheetThemeData(
+              backgroundColor: colors.surface,
+              surfaceTintColor: Colors.transparent,
+              shape: Border(top: BorderSide(color: colors.textPrimary)),
+            )
+          : null,
+      snackBarTheme: beta
+          ? SnackBarThemeData(
+              backgroundColor: colors.textPrimary,
+              contentTextStyle: textTheme.bodyMedium?.copyWith(
+                color: colors.background,
+              ),
+              shape: RoundedRectangleBorder(borderRadius: controlRadius),
+            )
+          : null,
       dividerTheme: DividerThemeData(
         color: colors.divider,
         thickness: 1,

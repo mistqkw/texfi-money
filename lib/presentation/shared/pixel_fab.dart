@@ -41,22 +41,13 @@ class _PixelFabState extends State<PixelFab> {
     const size = 56.0;
     const shadowOffset = 4.0;
 
-    // В бета-стиле — мягкая плитка на размытой тени, без белой рамки и
-    // сдвинутого блока.
+    // В бета-стиле — круглый оттиск тушью без тени, как печать на
+    // полях: единственное тёмное пятно на странице и так заметно.
     final beta = context.style.beta;
     final decoration = beta
         ? BoxDecoration(
-            color: colors.accent,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              // Тёмная тень, а не акцентная: коричневая под бежевой
-              // плиткой читалась как второй, сдвинутый вниз слой.
-              BoxShadow(
-                color: colors.shadow.withValues(alpha: 0.75),
-                blurRadius: 22,
-                offset: const Offset(0, 8),
-              ),
-            ],
+            color: colors.textPrimary,
+            borderRadius: const BorderRadius.all(Radius.circular(size / 2)),
           )
         : null;
 
@@ -72,7 +63,11 @@ class _PixelFabState extends State<PixelFab> {
           BoxShadow(color: colors.textPrimary.withValues(alpha: 0.45), offset: const Offset(shadowOffset, shadowOffset)),
         ],
       ),
-      child: PixelIcon(widget.pattern, size: beta ? 24 : 22, color: colors.onAccent),
+      child: PixelIcon(
+        widget.pattern,
+        size: beta ? 24 : 22,
+        color: beta ? colors.background : colors.onAccent,
+      ),
     );
 
     button = GestureDetector(

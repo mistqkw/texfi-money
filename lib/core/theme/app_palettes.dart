@@ -91,31 +91,49 @@ abstract final class AppPalettes {
     noise: Color(0x0F8A6A3D),
   );
 
-  /// Бета-стиль из меню разработчика. Ключ взят с рисунка: заливка
-  /// `#D6B28E` — тёплый бежевый с рук, обводка `#E8CDAA` — на тон светлее.
-  /// Фон — тёмная обжаренная коричневая, а не чёрный: полупрозрачный
-  /// бежевый на чистом чёрном сереет, на тёплом тёмном остаётся бежевым.
+  /// Бета-стиль «бумага и чернила». Фон — некрашеная бумага, текст —
+  /// тёплая чёрная тушь, а бежевый с рисунка (`#D6B28E`) остаётся в
+  /// знаке и в отметках, а не заливает весь экран: бумага, целиком
+  /// окрашенная в бежевый, — это уже не бумага, а тема.
   ///
-  /// Доход и расход приглушены под палитру, но остаются зелёным и
-  /// красным: сумму читают по цвету раньше, чем по знаку.
+  /// Акцент — тот же бежевый, опущенный до тона, который читается
+  /// текстом на бумаге: сам `#D6B28E` на ней почти не виден. Доход и
+  /// расход — зелёные и красные чернила, а не экранные неоновые цвета.
   static const AppColorsExt beta = AppColorsExt(
-    background: Color(0xFF16120E),
-    surface: Color(0xFF201A15),
-    surfaceVariant: Color(0xFF2B231C),
-    divider: Color(0xFF3A3027),
-    border: Color(0xFF4F4135),
-    shadow: Color(0xFF0A0806),
-    accent: betaFill,
-    accentShadow: Color(0xFF8C6A48),
-    onAccent: Color(0xFF1C150F),
-    textPrimary: Color(0xFFF4E8D8),
-    textSecondary: Color(0xFFC3AC90),
-    textTertiary: Color(0xFF85725D),
-    income: Color(0xFF9FC79B),
-    expense: Color(0xFFE38D7A),
-    warning: Color(0xFFE6B566),
-    noise: Color(0x00000000),
+    background: Color(0xFFF3EEE4),
+    surface: Color(0xFFF7F3EB),
+    surfaceVariant: Color(0xFFE9E2D5),
+    divider: Color(0xFFD9CFBE),
+    border: Color(0xFFB9AD99),
+    shadow: Color(0x00000000),
+    accent: Color(0xFF8A5B34),
+    accentShadow: betaFill,
+    onAccent: Color(0xFFF7F3EB),
+    textPrimary: betaInk,
+    textSecondary: Color(0xFF574D42),
+    textTertiary: Color(0xFF8E8373),
+    income: Color(0xFF2F6B3F),
+    expense: Color(0xFFA63A28),
+    warning: Color(0xFF9C6A14),
+    noise: Color(0x0D1D1915),
   );
+
+  /// Цвет категории, пересчитанный для бумаги: наполовину приглушённый
+  /// и смешанный с тушью. Палитра категорий подобрана под экран — на
+  /// тёмном фоне неоновый зелёный и электрический синий хороши, на
+  /// бумаге они выглядят наклейками. Оттенок остаётся узнаваемым, так
+  /// что категорию по-прежнему находят по цвету.
+  static Color inkify(Color color) {
+    final hsl = HSLColor.fromColor(color);
+    final muted = hsl
+        .withSaturation(hsl.saturation * 0.62)
+        .withLightness((hsl.lightness * 0.72).clamp(0.0, 1.0))
+        .toColor();
+    return Color.lerp(muted, betaInk, 0.18)!;
+  }
+
+  /// Тушь бета-стиля — текст, линейки, кнопки.
+  static const Color betaInk = Color(0xFF1D1915);
 
   /// Заливка знака бета-стиля (без прозрачности — её задаёт сам знак).
   static const Color betaFill = Color(0xFFD6B28E);

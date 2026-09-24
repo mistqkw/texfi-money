@@ -156,10 +156,11 @@ class _PixelNavTab extends StatelessWidget {
   }
 }
 
-/// Навигация бета-стиля: плоскость со скруглённым верхом, которая лежит
-/// на мягкой тени, а не отрезана рамкой. Активная вкладка отмечена
-/// короткой чертой над знаком и антиквой в подписи — как активный пункт
-/// оглавления, а не как нажатая клавиша.
+/// Навигация бета-стиля — строка слов под линейкой, как рубрики на
+/// верхнем поле газеты. Знаков нет: на странице, где всё держит
+/// типографика, ряд иконок над подписями был бы единственным местом,
+/// где интерфейс объясняет себя картинками. Активный раздел — чернилами
+/// и подчёркнут, остальные — серым карандашом.
 class _BetaNavBar extends StatelessWidget {
   const _BetaNavBar({
     required this.items,
@@ -176,26 +177,15 @@ class _BetaNavBar extends StatelessWidget {
     final colors = context.colors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
-        boxShadow: [
-          BoxShadow(
-            color: colors.shadow.withValues(alpha: 0.6),
-            blurRadius: 24,
-            offset: const Offset(0, -6),
-          ),
-        ],
+        color: colors.background,
+        border: Border(top: BorderSide(color: colors.textPrimary)),
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          // Отступ сверху уводит черту активной вкладки с закругления
-          // кромки — на самом краю она висела в воздухе.
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.sm,
-            AppSpacing.sm,
-            AppSpacing.sm,
-            AppSpacing.sm,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.md,
           ),
           child: Row(
             children: [
@@ -229,7 +219,7 @@ class _BetaNavTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final color = selected ? colors.accent : colors.textTertiary;
+    final color = selected ? colors.textPrimary : colors.textTertiary;
 
     return Semantics(
       selected: selected,
@@ -238,46 +228,39 @@ class _BetaNavTab extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Черта растёт из точки: переход между вкладками виден, даже
-            // если смотреть не на подпись.
-            AnimatedContainer(
-              duration: AppMotion.normal,
-              curve: AppMotion.standard,
-              width: selected ? 22 : 0,
-              height: 3,
-              decoration: BoxDecoration(
-                color: colors.accent,
-                borderRadius: const BorderRadius.all(Radius.circular(2)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedDefaultTextStyle(
+                duration: AppMotion.normal,
+                style: TextStyle(
+                  fontFamily: kSerifFamily,
+                  fontSize: 16,
+                  height: 1.2,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: color,
+                ),
+                child: Text(
+                  item.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            AnimatedScale(
-              scale: selected ? 1.08 : 1,
-              duration: AppMotion.normal,
-              curve: AppMotion.standard,
-              child: PixelIcon(item.sprite, size: 23, color: color),
-            ),
-            const SizedBox(height: 6),
-            AnimatedDefaultTextStyle(
-              duration: AppMotion.normal,
-              style: TextStyle(
-                fontFamily: kSerifFamily,
-                fontSize: 13,
-                height: 1.1,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: color,
+              const SizedBox(height: 5),
+              // Подчёркивание — чернилами, во всю ширину слова не
+              // растягивается: короткий штрих читается как пометка пером.
+              AnimatedContainer(
+                duration: AppMotion.normal,
+                curve: AppMotion.standard,
+                width: selected ? 28 : 0,
+                height: 2,
+                color: colors.textPrimary,
               ),
-              child: Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

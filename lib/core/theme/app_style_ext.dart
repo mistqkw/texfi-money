@@ -15,7 +15,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
     required this.cardRadius,
     required this.controlRadius,
     required this.borderWidth,
-    required this.softShadows,
+    required this.flat,
   });
 
   /// Пиксельный стиль — основной.
@@ -24,17 +24,18 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
     cardRadius: BorderRadius.all(Radius.circular(10)),
     controlRadius: BorderRadius.all(Radius.circular(4)),
     borderWidth: 2,
-    softShadows: false,
+    flat: false,
   );
 
-  /// Бета-стиль: мягкая плоскость вместо рубленого блока, волосяная
-  /// рамка и размытая тень вместо сдвинутой копии.
-  static const AppStyleExt soft = AppStyleExt(
+  /// Бета-стиль «бумага и чернила»: у печатной страницы нет ни
+  /// скруглённых плашек, ни теней — блоки отделяются линейками, а
+  /// объём держит только типографика.
+  static const AppStyleExt paper = AppStyleExt(
     beta: true,
-    cardRadius: BorderRadius.all(Radius.circular(18)),
-    controlRadius: BorderRadius.all(Radius.circular(12)),
+    cardRadius: BorderRadius.zero,
+    controlRadius: BorderRadius.all(Radius.circular(3)),
     borderWidth: 1,
-    softShadows: true,
+    flat: true,
   );
 
   final bool beta;
@@ -42,8 +43,8 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
   final BorderRadius controlRadius;
   final double borderWidth;
 
-  /// Тень размытием вместо сплошного блока со смещением.
-  final bool softShadows;
+  /// Плоский стиль: элементы не отбрасывают тени вовсе.
+  final bool flat;
 
   @override
   AppStyleExt copyWith({
@@ -51,14 +52,14 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
     BorderRadius? cardRadius,
     BorderRadius? controlRadius,
     double? borderWidth,
-    bool? softShadows,
+    bool? flat,
   }) {
     return AppStyleExt(
       beta: beta ?? this.beta,
       cardRadius: cardRadius ?? this.cardRadius,
       controlRadius: controlRadius ?? this.controlRadius,
       borderWidth: borderWidth ?? this.borderWidth,
-      softShadows: softShadows ?? this.softShadows,
+      flat: flat ?? this.flat,
     );
   }
 
@@ -70,7 +71,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
       cardRadius: BorderRadius.lerp(cardRadius, other.cardRadius, t)!,
       controlRadius: BorderRadius.lerp(controlRadius, other.controlRadius, t)!,
       borderWidth: borderWidth + (other.borderWidth - borderWidth) * t,
-      softShadows: t < 0.5 ? softShadows : other.softShadows,
+      flat: t < 0.5 ? flat : other.flat,
     );
   }
 }

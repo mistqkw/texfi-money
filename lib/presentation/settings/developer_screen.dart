@@ -175,8 +175,11 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
     );
     if (confirmed != true || !mounted) return;
 
+    // Включение идёт через занавес тушью: знак по эталону рисовался на
+    // тёмном, и на бумаге его светлая обводка пропала бы. Занавес потом
+    // растворяется в бумагу. Выключение — волной фона возвращаемой темы.
     final target = enabling
-        ? AppPalettes.beta.background
+        ? AppPalettes.betaInk
         : AppPalettes.forVariant(ref.read(themeVariantProvider)).background;
 
     await playBetaStyleReveal(
@@ -525,7 +528,7 @@ class _BetaStyleTile extends StatelessWidget {
               height: 64,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppPalettes.beta.background,
+                color: AppPalettes.betaInk,
                 borderRadius: style.controlRadius,
                 border: Border.all(
                   color: AppPalettes.betaStroke.withValues(alpha: 0.35),

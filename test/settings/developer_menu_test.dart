@@ -169,8 +169,14 @@ void main() {
     expect(theme.textTheme.displayLarge!.fontFamily, kSerifFamily);
     expect(theme.textTheme.displayLarge!.fontWeight, FontWeight.w600);
     expect(theme.extension<AppStyleExt>()!.beta, isTrue);
-    // Бета перекрывает выбранную тему: светлая тема под ней не просвечивает.
-    expect(theme.brightness, Brightness.dark);
+    // Бета перекрывает выбранную тему: даже поверх тёмной она — бумага.
+    expect(theme.brightness, Brightness.light);
+    final overDark = AppTheme.build(
+      variant: AppThemeVariant.dark,
+      font: AppFont.inter,
+      beta: true,
+    );
+    expect(overDark.brightness, Brightness.light);
 
     final pixel = AppTheme.build(variant: AppThemeVariant.dark, font: AppFont.inter);
     expect(pixel.textTheme.displayLarge!.fontFamily, kPixelFamily);

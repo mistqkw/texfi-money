@@ -135,10 +135,10 @@ class _Segment extends StatelessWidget {
   }
 }
 
-/// Переключатель бета-стиля: одна утопленная дорожка и бегунок, который
-/// переезжает к выбранному разделу. В пиксельном стиле сегменты
-/// переключаются шагом — здесь, наоборот, видно движение: мягкий стиль
-/// держится на плавности так же, как пиксельный на её отсутствии.
+/// Переключатель бета-стиля — рубрики на общей линейке: слова в ряд,
+/// выбранное набрано полужирным и подчёркнуто жирной чертой, которая
+/// переезжает под новый раздел. Ни дорожки, ни бегунка — на странице
+/// раздел выбирают так же, как в оглавлении.
 class _BetaSegments extends StatelessWidget {
   const _BetaSegments({
     required this.labels,
@@ -152,58 +152,34 @@ class _BetaSegments extends StatelessWidget {
   final ValueChanged<int> onSelected;
   final Color? selectedColor;
 
-  static const double _height = 40;
-  static const double _inset = 3;
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final tinted = selectedColor;
+    final ink = selectedColor ?? colors.textPrimary;
     final count = labels.length;
     if (count == 0) return const SizedBox.shrink();
 
-    return Container(
-      height: _height,
-      padding: const EdgeInsets.all(_inset),
-      decoration: BoxDecoration(
-        color: colors.surfaceVariant,
-        borderRadius: const BorderRadius.all(Radius.circular(_height / 2)),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth / count;
-          return Stack(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth / count;
+        return SizedBox(
+          height: 40,
+          child: Stack(
             children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(height: 1, color: colors.divider),
+              ),
               AnimatedPositioned(
                 duration: AppMotion.slow,
                 curve: AppMotion.standard,
                 left: width * currentIndex.clamp(0, count - 1),
-                top: 0,
-                bottom: 0,
                 width: width,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: tinted == null
-                        ? colors.surface
-                        : Color.alphaBlend(
-                            tinted.withValues(alpha: 0.2),
-                            colors.surface,
-                          ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(_height / 2 - _inset),
-                    ),
-                    border: Border.all(
-                      color: (tinted ?? colors.border).withValues(alpha: 0.6),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: colors.shadow.withValues(alpha: 0.35),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                ),
+                bottom: 0,
+                height: 2,
+                child: ColoredBox(color: ink),
               ),
               Row(
                 children: [
@@ -220,14 +196,14 @@ class _BetaSegments extends StatelessWidget {
                               duration: AppMotion.normal,
                               style: TextStyle(
                                 fontFamily: kSerifFamily,
-                                fontSize: 14,
+                                fontSize: 16,
                                 height: 1.1,
                                 fontWeight: i == currentIndex
                                     ? FontWeight.w600
                                     : FontWeight.w400,
                                 color: i == currentIndex
-                                    ? (tinted ?? colors.textPrimary)
-                                    : colors.textSecondary,
+                                    ? ink
+                                    : colors.textTertiary,
                               ),
                               child: Text(
                                 labels[i],
@@ -242,9 +218,9 @@ class _BetaSegments extends StatelessWidget {
                 ],
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

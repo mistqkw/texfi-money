@@ -34,11 +34,10 @@ class AnimatedProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    // В бета-стиле шкала сплошная и скруглённая, заливка течёт плавно:
-    // ячейки — пиксельный приём, рядом с антиквой они выглядят сеткой.
+    // В бета-стиле шкала — черта пером по волосяной линейке: толстая
+    // заливка на тонкой дорожке, без скруглений; заполнение течёт плавно.
     if (context.style.beta) {
-      final h = height * 0.8;
-      final radius = BorderRadius.all(Radius.circular(h / 2));
+      const h = 3.0;
       return TweenAnimationBuilder<double>(
         tween: Tween(begin: 0, end: progress.clamp(0, 1)),
         duration: AppMotion.count,
@@ -46,17 +45,16 @@ class AnimatedProgressBar extends StatelessWidget {
         builder: (context, value, child) => Container(
           height: h,
           decoration: BoxDecoration(
-            color: colors.surfaceVariant,
-            borderRadius: radius,
+            border: Border(
+              bottom: BorderSide(color: colors.divider),
+            ),
           ),
           alignment: Alignment.centerLeft,
           child: FractionallySizedBox(
             // Ненулевой прогресс виден хотя бы точкой.
             widthFactor: value <= 0 ? 0 : value.clamp(0.03, 1.0),
             heightFactor: 1,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: color, borderRadius: radius),
-            ),
+            child: ColoredBox(color: color),
           ),
         ),
       );

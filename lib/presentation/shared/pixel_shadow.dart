@@ -52,9 +52,10 @@ class PixelShadowBox extends StatelessWidget {
       child: child,
     );
 
-    if (!enabled) return body;
-
-    final soft = context.style.softShadows;
+    // Бета-стиль плоский, как печатная страница: тени нет ни в покое,
+    // ни при нажатии. Место под неё всё равно резервируется, чтобы
+    // раскладка не зависела от стиля.
+    if (!enabled || context.style.flat) return body;
 
     // Сдвиг содержимого и убыль тени идут от одного значения.
     //
@@ -76,7 +77,6 @@ class PixelShadowBox extends StatelessWidget {
             offset: offset,
             // Тень не просто исчезает — её съедает опускающийся элемент.
             visible: 1 - t,
-            soft: soft,
           ),
           child: Transform.translate(
             offset: Offset(shift, shift),
@@ -95,7 +95,6 @@ class _PixelShadowPainter extends CustomPainter {
     required this.radius,
     required this.offset,
     this.visible = 1,
-    this.soft = false,
   });
 
   final Color color;
@@ -107,29 +106,9 @@ class _PixelShadowPainter extends CustomPainter {
   /// в интерфейсе, где «объём» размывается.
   final double visible;
 
-  /// Бета-стиль: размытая тень под самим элементом вместо сдвинутого
-  /// блока. Место под тень резервируется то же, раскладка не меняется.
-  final bool soft;
-
   @override
   void paint(Canvas canvas, Size size) {
     if (visible <= 0) return;
-    if (soft) {
-      final rect = Rect.fromLTWH(
-        offset * 0.5,
-        offset,
-        size.width - offset * 1.5,
-        size.height - offset * 1.5,
-      );
-      if (rect.isEmpty) return;
-      canvas.drawRRect(
-        radius.toRRect(rect),
-        Paint()
-          ..color = color.withValues(alpha: color.a * 0.55 * visible)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
-      );
-      return;
-    }
     final shown = offset * visible;
     final rect = Rect.fromLTWH(
       offset,
@@ -149,6 +128,5 @@ class _PixelShadowPainter extends CustomPainter {
       oldDelegate.color != color ||
       oldDelegate.radius != radius ||
       oldDelegate.offset != offset ||
-      oldDelegate.visible != visible ||
-      oldDelegate.soft != soft;
+      oldDelegate.visible != visible;
 }

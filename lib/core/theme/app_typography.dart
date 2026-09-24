@@ -33,14 +33,13 @@ const String kSerifFamily = 'SourceSerif4';
 /// бюджеты) — обычной гарнитурой: bitmap на 13-16px читается медленнее, а
 /// колонку сумм именно читают.
 ///
-/// [beta] — бета-стиль: пиксельные слоты набираются антиквой. Кегль при
-/// этом крупнее: у Press Start 2P очко занимает почти весь кегль, у
-/// антиквы — около половины, и тот же размер читался бы вдвое мельче.
+/// [beta] — бета-стиль «бумага и чернила», см. [_buildPaperTextTheme].
 TextTheme buildAppTextTheme({
   required AppFont font,
   required AppColorsExt colors,
   bool beta = false,
 }) {
+  if (beta) return _buildPaperTextTheme(colors);
   TextStyle style({
     required double size,
     required FontWeight weight,
@@ -69,17 +68,6 @@ TextTheme buildAppTextTheme({
     double letterSpacing = 0,
     double height = 1.4,
   }) {
-    if (beta) {
-      return TextStyle(
-        fontFamily: kSerifFamily,
-        fontSize: size * 1.45,
-        fontWeight: FontWeight.w600,
-        color: color,
-        letterSpacing: -0.2,
-        fontFeatures: const [FontFeature.tabularFigures()],
-        height: 1.15,
-      );
-    }
     return TextStyle(
       fontFamily: kPixelFamily,
       fontSize: size,
@@ -122,6 +110,100 @@ TextTheme buildAppTextTheme({
       color: colors.textTertiary,
       letterSpacing: 1.2,
       height: 1.2,
+    ),
+  );
+}
+
+/// Типографика бета-стиля: всё набрано одной антиквой, как страница.
+///
+/// Иерархию держат кегль и начертание, а не цвет плашек и не капс с
+/// разрядкой. Мелкие служебные подписи — настоящие капители шрифта
+/// (`c2sc`/`smcp`), а не прописные, растянутые трекингом: капители
+/// нарисованы под свой размер и не кричат. В тексте — старостильные
+/// цифры, в суммах — выровненные табличные, чтобы колонка читалась.
+TextTheme _buildPaperTextTheme(AppColorsExt colors) {
+  const amounts = [
+    FontFeature.liningFigures(),
+    FontFeature.tabularFigures(),
+  ];
+  const prose = [FontFeature.oldstyleFigures()];
+  const smallCaps = [
+    FontFeature('c2sc'),
+    FontFeature('smcp'),
+    FontFeature.oldstyleFigures(),
+  ];
+
+  TextStyle serif({
+    required double size,
+    FontWeight weight = FontWeight.w400,
+    required Color color,
+    double height = 1.3,
+    double letterSpacing = 0,
+    List<FontFeature> features = prose,
+  }) {
+    return TextStyle(
+      fontFamily: kSerifFamily,
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFeatures: features,
+    );
+  }
+
+  return TextTheme(
+    // Баланс — главное число страницы, набранное как заголовок полосы.
+    displayLarge: serif(
+      size: 52,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.0,
+      letterSpacing: -1.2,
+      features: amounts,
+    ),
+    displayMedium: serif(
+      size: 30,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.1,
+      letterSpacing: -0.5,
+      features: amounts,
+    ),
+    displaySmall: serif(
+      size: 18,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      features: amounts,
+    ),
+    // В заголовках — обычные цифры: старостильный ноль похож на «о», и
+    // «m0ney» в шапке читался как «money».
+    headlineMedium: serif(
+      size: 24,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.15,
+      letterSpacing: -0.3,
+      features: const [FontFeature.liningFigures()],
+    ),
+    titleLarge: serif(
+      size: 15,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.2,
+      features: amounts,
+    ),
+    titleMedium: serif(size: 17, color: colors.textPrimary, height: 1.25),
+    bodyMedium: serif(size: 15, color: colors.textSecondary, height: 1.45),
+    bodySmall: serif(size: 13, color: colors.textTertiary, height: 1.35),
+    labelMedium: serif(size: 14, color: colors.textSecondary),
+    labelSmall: serif(
+      size: 13,
+      weight: FontWeight.w600,
+      color: colors.textTertiary,
+      height: 1.2,
+      letterSpacing: 0.4,
+      features: smallCaps,
     ),
   );
 }

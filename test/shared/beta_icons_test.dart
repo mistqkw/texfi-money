@@ -54,9 +54,9 @@ void main() {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PixelSprite(pattern: pattern, size: 24, color: const Color(0xFF85725D)),
+              PixelSprite(pattern: pattern, size: 24, color: const Color(0xFF8E8373)),
               const SizedBox(width: 6),
-              BetaIcon(pattern: pattern, size: 32, color: AppPalettes.betaStroke),
+              BetaIcon(pattern: pattern, size: 32, color: AppPalettes.betaInk),
             ],
           ),
         );

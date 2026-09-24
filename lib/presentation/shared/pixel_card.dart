@@ -77,14 +77,36 @@ class PixelCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: labelColor == null
-                    ? context.text.caption
-                    : context.text.caption.copyWith(color: labelColor),
+                // В бете подпись блока — рубрика капителями.
+                style: (style.beta ? context.text.mono : context.text.caption)
+                    .copyWith(color: labelColor),
               ),
               AppSpacing.gapSm,
               child,
             ],
           );
+
+    // Бета-стиль — страница, а не набор плашек: блок отделён линейкой
+    // сверху, фона, рамки и тени у него нет, текст стоит на бумаге.
+    // Выделенный блок получает двойную линейку, как раздел в газете.
+    if (style.beta) {
+      final rule = BorderSide(
+        color: accent || borderColor != null
+            ? (borderColor ?? colors.textPrimary)
+            : colors.textPrimary.withValues(alpha: 0.85),
+        width: accent || borderColor != null ? 2 : 1,
+      );
+      final page = Container(
+        padding: padding.copyWith(left: 0, right: 0),
+        decoration: BoxDecoration(
+          color: background,
+          border: Border(top: rule),
+        ),
+        child: Material(type: MaterialType.transparency, child: body),
+      );
+      if (onTap == null && onLongPress == null) return page;
+      return InkWell(onTap: onTap, onLongPress: onLongPress, child: page);
+    }
 
     final content = Container(
       padding: padding,

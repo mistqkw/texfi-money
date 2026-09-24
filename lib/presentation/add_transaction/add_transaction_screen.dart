@@ -567,15 +567,17 @@ class _UsefulnessRow extends StatelessWidget {
                           ? colorFor(item).withValues(alpha: 0.12)
                           : (context.style.beta ? colors.surface : null),
                     ),
-                    child: Text(
-                      usefulnessLabel(l10n, item),
-                      textAlign: TextAlign.center,
-                      maxLines: context.style.beta ? 1 : null,
-                      overflow: context.style.beta ? TextOverflow.ellipsis : null,
-                      style: context.text.caption.copyWith(
-                        color: value == item
-                            ? colorFor(item)
-                            : colors.textSecondary,
+                    child: _fitInBeta(
+                      context,
+                      Text(
+                        usefulnessLabel(l10n, item),
+                        textAlign: TextAlign.center,
+                        maxLines: context.style.beta ? 1 : null,
+                        style: context.text.caption.copyWith(
+                          color: value == item
+                              ? colorFor(item)
+                              : colors.textSecondary,
+                        ),
                       ),
                     ),
                   ),
@@ -594,3 +596,9 @@ class _UsefulnessRow extends StatelessWidget {
 /// управления беты, в пиксельном — малая карточка.
 BorderRadius _chipRadius(BuildContext context) =>
     context.style.beta ? context.style.controlRadius : AppRadius.cardSmallAll;
+
+/// В бета-стиле подпись в капсуле ужимается, а не обрезается:
+/// «Ни то ни дру…» — уже не вариант ответа.
+Widget _fitInBeta(BuildContext context, Widget child) => context.style.beta
+    ? FittedBox(fit: BoxFit.scaleDown, child: child)
+    : child;

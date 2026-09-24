@@ -1,3 +1,5 @@
+import 'dart:ui' show PointMode;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
@@ -77,12 +79,11 @@ class BetaGlyph extends StatelessWidget {
   }
 }
 
-/// Фон бета-стиля: сплошная тёплая заливка и крупный знак, наполовину
-/// уходящий за правый нижний край. Вместо пиксельного крапа — один
-/// предмет, и он же напоминает, что включена бета.
+/// Фон бета-стиля: некрашеная бумага с зерном.
 ///
-/// Знак приглушён целиком ([Opacity] поверх его собственных 27/78%):
-/// в полную силу он спорил бы со списком операций, который лежит сверху.
+/// Зерно — редкие точки в пиксель тушью с непрозрачностью в несколько
+/// процентов. Без него ровная заливка читается как экран, а не как лист;
+/// с водяным знаком, который здесь был раньше, — как заставка.
 class BetaBackground extends StatelessWidget {
   const BetaBackground({super.key, required this.child});
 
@@ -90,24 +91,15 @@ class BetaBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Не scaffoldBackgroundColor: в бета-стиле он прозрачный как раз
-    // ради этого фона.
-    final background = context.colors.background;
+    final colors = context.colors;
     return DecoratedBox(
-      decoration: BoxDecoration(color: background),
+      decoration: BoxDecoration(color: colors.background),
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned(
-            right: -90,
-            bottom: -170,
-            child: IgnorePointer(
-              child: ExcludeSemantics(
-                child: Opacity(
-                  opacity: 0.22,
-                  child: RepaintBoundary(child: BetaGlyph(size: 520)),
-                ),
-              ),
+          IgnorePointer(
+            child: RepaintBoundary(
+              child: CustomPaint(painter: _PaperGrainPainter(colors.noise)),
             ),
           ),
           child,
@@ -115,4 +107,47 @@ class BetaBackground extends StatelessWidget {
       ),
     );
   }
+}
+
+class _PaperGrainPainter extends CustomPainter {
+  const _PaperGrainPainter(this.color);
+
+  final Color color;
+
+  static const double _cell = 3;
+
+  /// Тот же целочисленный хеш, что у пиксельного крапа: зерно обязано
+  /// стоять на месте между кадрами, иначе бумага «кипит».
+  double _noise(int x, int y) {
+    var h = x * 73856093 ^ y * 19349663;
+    h = (h ^ (h >> 13)) * 1274126177;
+    h = h ^ (h >> 16);
+    return (h & 0xFFFF) / 0xFFFF;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final points = <Offset>[];
+    final cols = (size.width / _cell).ceil();
+    final rows = (size.height / _cell).ceil();
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        final n = _noise(x, y);
+        if (n > 0.3) continue;
+        // Сдвиг внутри ячейки — чтобы зерно не складывалось в сетку.
+        points.add(Offset(x * _cell + n * 7 % _cell, y * _cell + n * 11 % _cell));
+      }
+    }
+    canvas.drawPoints(
+      PointMode.points,
+      points,
+      Paint()
+        ..color = color
+        ..strokeWidth = 1,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_PaperGrainPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

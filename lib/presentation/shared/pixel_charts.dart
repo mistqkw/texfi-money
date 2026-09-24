@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
+import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_style_ext.dart';
@@ -60,7 +61,7 @@ class PixelBarChart extends StatelessWidget {
                       groups: groups,
                       incomeColor: incomeColor,
                       expenseColor: expenseColor,
-                      baseline: colors.border,
+                      baseline: colors.textPrimary,
                       grid: colors.divider,
                       progress: t,
                     ),
@@ -190,8 +191,8 @@ class _BarPainter extends CustomPainter {
       old.baseline != baseline;
 }
 
-/// Столбцы бета-стиля: сплошные, со скруглённой верхушкой, на тонкой
-/// сетке из трёх линий.
+/// Столбцы бета-стиля: узкие сплошные колонки на тонкой сетке из трёх
+/// линий, ось — чернилами.
 class _BetaBarPainter extends CustomPainter {
   _BetaBarPainter({
     required this.groups,
@@ -223,9 +224,12 @@ class _BetaBarPainter extends CustomPainter {
     final gridPaint = Paint()
       ..color = grid
       ..strokeWidth = 1;
+    // Сетка пунктиром: сплошные линии сетки спорили бы с осью.
     for (final f in const [0.25, 0.5, 0.75]) {
       final y = axisY * (1 - f);
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+      for (var x = 0.0; x < size.width; x += 5) {
+        canvas.drawLine(Offset(x, y), Offset(x + 2, y), gridPaint);
+      }
     }
     canvas.drawLine(
       Offset(0, axisY),
@@ -242,20 +246,17 @@ class _BetaBarPainter extends CustomPainter {
     if (maxValue <= 0) return;
 
     final slot = size.width / groups.length;
-    final barWidth = (slot * 0.22).clamp(6.0, 14.0);
+    // Столбцы узкие, как колонки в таблице на полосе: широкая плита
+    // на бумаге читается как клякса.
+    final barWidth = (slot * 0.14).clamp(4.0, 9.0);
     final usable = axisY - 4;
 
     void bar(double left, double value, Color color) {
       if (value <= 0) return;
       final h = math.max(_minHeight, value / maxValue * usable) * progress;
       if (h <= 0) return;
-      final radius = Radius.circular(math.min(barWidth / 2, 5));
-      canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(left, axisY - h, barWidth, h),
-          topLeft: radius,
-          topRight: radius,
-        ),
+      canvas.drawRect(
+        Rect.fromLTWH(left, axisY - h, barWidth, h),
         Paint()..color = color,
       );
     }
@@ -295,12 +296,11 @@ class PixelShareBar extends StatelessWidget {
     final total = shares.fold<double>(0, (sum, s) => sum + s.value);
     if (total <= 0) return SizedBox(height: height);
 
-    // В бета-стиле — тонкая скруглённая лента без рамки; доли разделены
-    // просветом, а не линией цвета рамки.
+    // В бета-стиле — тонкая лента без рамки, как полоса в инфографике на
+    // полосе газеты; доли разделены просветом бумаги.
     if (context.style.beta) {
-      const bandHeight = 12.0;
-      return ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(bandHeight / 2)),
+      const bandHeight = 8.0;
+      return ClipRect(
         child: SizedBox(
           height: bandHeight,
           child: Row(
@@ -310,7 +310,7 @@ class PixelShareBar extends StatelessWidget {
                 if (i > 0) const SizedBox(width: 2),
                 Expanded(
                   flex: math.max(1, (shares[i].value / total * 1000).round()),
-                  child: ColoredBox(color: shares[i].color),
+                  child: ColoredBox(color: AppPalettes.inkify(shares[i].color)),
                 ),
               ],
             ],
@@ -362,7 +362,7 @@ class PixelSwatch extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: color,
+        color: context.style.beta ? AppPalettes.inkify(color) : color,
         // В бета-стиле образец круглый — как точка в легенде, а не плитка.
         borderRadius: context.style.beta
             ? BorderRadius.all(Radius.circular(size / 2))
