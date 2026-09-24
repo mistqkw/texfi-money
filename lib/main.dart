@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_motion.dart';
+import 'core/theme/app_page_transitions.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
@@ -19,6 +20,9 @@ import 'presentation/shared/restart_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Лист бета-стиля для перелистывания: каждая страница лежит на своём.
+  PixelDissolveTransition.betaSheetBuilder =
+      (child) => BetaBackground(child: child);
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   runApp(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../onboarding/onboarding_screen.dart';
 import '../settings/developer_provider.dart';
 import '../settings/onboarding_provider.dart';
+import 'beta_launch_splash.dart';
 import 'launch_splash.dart';
 import 'lock_gate.dart';
 import 'root_shell.dart';
@@ -24,7 +25,12 @@ class _AppEntryState extends ConsumerState<AppEntry> {
   @override
   Widget build(BuildContext context) {
     if (!_splashDone) {
-      return LaunchSplash(onFinished: () => setState(() => _splashDone = true));
+      void done() => setState(() => _splashDone = true);
+      // Заставка меняется вместе со стилем: первое, что видно при запуске,
+      // обязано быть тем же приложением, что откроется за ней.
+      return ref.watch(betaStyleProvider)
+          ? BetaLaunchSplash(onFinished: done)
+          : LaunchSplash(onFinished: done);
     }
 
     final hasSeenOnboarding = ref.watch(hasSeenOnboardingProvider);

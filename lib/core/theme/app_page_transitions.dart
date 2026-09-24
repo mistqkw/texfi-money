@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'app_colors_ext.dart';
@@ -48,10 +50,20 @@ class PixelDissolveTransition extends StatelessWidget {
   final Animation<double> animation;
 
   /// Анимация экрана, который открывают поверх этого. Нужна только
-  /// бета-стилю: там экраны прозрачные, и уходящий обязан погаснуть сам,
-  /// иначе два экрана на мгновение лягут друг на друга.
+  /// бета-стилю: там уходящая страница чуть отъезжает под новую.
   final Animation<double>? secondaryAnimation;
   final Widget child;
+
+  /// Лист, на котором лежит страница в бета-стиле, — фон с зерном и
+  /// знаком «$». Задаётся из `main.dart`: сам лист — виджет слоя
+  /// представления, и тема не должна о нём знать.
+  ///
+  /// Лист нужен каждой странице свой. В бете экраны прозрачные, и при
+  /// перелистывании старая страница просвечивала бы сквозь новую; с
+  /// собственным листом новая честно её закрывает. Знак на всех листах
+  /// стоит в одном и том же месте, поэтому по окончании перехода разницы
+  /// с общим фоном не видно.
+  static Widget Function(Widget child)? betaSheetBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -62,28 +74,15 @@ class PixelDissolveTransition extends StatelessWidget {
       reverseCurve: AppMotion.exit,
     );
 
-    // В бета-стиле блоков и сканлайнов нет: пиксельный распад поверх
-    // антиквы и мягких плоскостей читался бы как сбой отрисовки. Экран
-    // просто всплывает — чуть выше и чуть прозрачнее, чем встанет.
+    // В бета-стиле — перелистывание, а не пиксельный распад: блоки и
+    // сканлайны поверх антиквы читались бы как сбой отрисовки.
     if (context.style.beta) {
-      Widget page = FadeTransition(
-        opacity: curved,
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 0.025),
-            end: Offset.zero,
-          ).animate(curved),
-          child: child,
-        ),
+      return _PageTurn(
+        animation: animation,
+        secondaryAnimation: secondaryAnimation,
+        sheet: betaSheetBuilder,
+        child: child,
       );
-      final covering = secondaryAnimation;
-      if (covering != null) {
-        page = FadeTransition(
-          opacity: ReverseAnimation(covering),
-          child: page,
-        );
-      }
-      return page;
     }
 
     return AnimatedBuilder(
@@ -208,4 +207,110 @@ PageRoute<T> pixelDissolveRoute<T>(
           child: child,
         ),
   );
+}
+
+/// Перелистывание бета-стиля: новая страница задвигается справа поверх
+/// старой, по её краю идёт чернильная линейка; содержимое старой
+/// страницы отъезжает влево и бледнеет. Назад — то же в обратную сторону.
+///
+/// Двигается только содержимое, лист со знаком «$» стоит на месте: знак
+/// нарисован на каждом листе в одной и той же точке, и если бы листы
+/// ехали целиком, на переходе было бы видно два разъехавшихся знака.
+/// Так страницы скользят по неподвижной бумаге.
+class _PageTurn extends StatelessWidget {
+  const _PageTurn({
+    required this.animation,
+    required this.secondaryAnimation,
+    required this.sheet,
+    required this.child,
+  });
+
+  final Animation<double> animation;
+  final Animation<double>? secondaryAnimation;
+  final Widget Function(Widget child)? sheet;
+  final Widget child;
+
+  static const Curve _curve = Curves.easeInOutCubic;
+
+  @override
+  Widget build(BuildContext context) {
+    final ink = context.colors.textPrimary;
+    final covering = secondaryAnimation;
+    final onSheet = sheet ?? (Widget c) => c;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        return AnimatedBuilder(
+          animation: Listenable.merge([animation, ?covering]),
+          child: child,
+          builder: (context, child) {
+            final t = _curve.transform(animation.value);
+            final s = covering == null ? 0.0 : _curve.transform(covering.value);
+
+            // Содержимое страницы, которую накрывают, — отъезжает на
+            // треть ширины и бледнеет, уступая место новой.
+            Widget content = child!;
+            if (s > 0) {
+              content = Opacity(
+                opacity: 1 - 0.6 * s,
+                child: Transform.translate(
+                  offset: Offset(-width * 0.3 * s, 0),
+                  child: content,
+                ),
+              );
+            }
+
+            if (t >= 1) return onSheet(content);
+
+            final edge = width * (1 - t);
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                ClipRect(
+                  clipper: _FromEdgeClipper(edge),
+                  child: onSheet(
+                    Transform.translate(
+                      offset: Offset(edge, 0),
+                      child: content,
+                    ),
+                  ),
+                ),
+                if (t > 0)
+                  Positioned(
+                    left: edge - 0.75,
+                    top: 0,
+                    bottom: 0,
+                    width: 1.5,
+                    child: IgnorePointer(
+                      // Линейка видна в движении и гаснет к концам: в
+                      // покое на краю экрана ей делать нечего.
+                      child: ColoredBox(
+                        color: ink.withValues(
+                          alpha: 0.8 * math.sin(math.pi * t),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+/// Оставляет видимой часть страницы правее [left].
+class _FromEdgeClipper extends CustomClipper<Rect> {
+  const _FromEdgeClipper(this.left);
+
+  final double left;
+
+  @override
+  Rect getClip(Size size) =>
+      Rect.fromLTRB(left.clamp(0.0, size.width), 0, size.width, size.height);
+
+  @override
+  bool shouldReclip(_FromEdgeClipper oldClipper) => oldClipper.left != left;
 }
