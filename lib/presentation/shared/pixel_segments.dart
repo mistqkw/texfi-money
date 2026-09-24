@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
 
 /// Переключатель разделов внутри одной вкладки.
@@ -41,8 +44,25 @@ class PixelSegments extends StatelessWidget {
   /// зелёный, и подменять это синим значило бы прятать смысл.
   final Color? selectedColor;
 
+  void _select(int i) {
+    if (i == currentIndex) return;
+    Haptics.select();
+    onSelected(i);
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (context.style.beta) {
+      return Padding(
+        padding: padding,
+        child: _BetaSegments(
+          labels: labels,
+          currentIndex: currentIndex,
+          onSelected: _select,
+          selectedColor: selectedColor,
+        ),
+      );
+    }
     return Padding(
       padding: padding,
       child: Row(
@@ -54,11 +74,7 @@ class PixelSegments extends StatelessWidget {
                 label: labels[i],
                 selected: i == currentIndex,
                 selectedColor: selectedColor,
-                onTap: () {
-                  if (i == currentIndex) return;
-                  Haptics.select();
-                  onSelected(i);
-                },
+                onTap: () => _select(i),
               ),
             ),
           ],
@@ -114,6 +130,120 @@ class _Segment extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Переключатель бета-стиля: одна утопленная дорожка и бегунок, который
+/// переезжает к выбранному разделу. В пиксельном стиле сегменты
+/// переключаются шагом — здесь, наоборот, видно движение: мягкий стиль
+/// держится на плавности так же, как пиксельный на её отсутствии.
+class _BetaSegments extends StatelessWidget {
+  const _BetaSegments({
+    required this.labels,
+    required this.currentIndex,
+    required this.onSelected,
+    this.selectedColor,
+  });
+
+  final List<String> labels;
+  final int currentIndex;
+  final ValueChanged<int> onSelected;
+  final Color? selectedColor;
+
+  static const double _height = 40;
+  static const double _inset = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final tinted = selectedColor;
+    final count = labels.length;
+    if (count == 0) return const SizedBox.shrink();
+
+    return Container(
+      height: _height,
+      padding: const EdgeInsets.all(_inset),
+      decoration: BoxDecoration(
+        color: colors.surfaceVariant,
+        borderRadius: const BorderRadius.all(Radius.circular(_height / 2)),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth / count;
+          return Stack(
+            children: [
+              AnimatedPositioned(
+                duration: AppMotion.slow,
+                curve: AppMotion.standard,
+                left: width * currentIndex.clamp(0, count - 1),
+                top: 0,
+                bottom: 0,
+                width: width,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: tinted == null
+                        ? colors.surface
+                        : Color.alphaBlend(
+                            tinted.withValues(alpha: 0.2),
+                            colors.surface,
+                          ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(_height / 2 - _inset),
+                    ),
+                    border: Border.all(
+                      color: (tinted ?? colors.border).withValues(alpha: 0.6),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colors.shadow.withValues(alpha: 0.35),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  for (var i = 0; i < count; i++)
+                    Expanded(
+                      child: Semantics(
+                        selected: i == currentIndex,
+                        button: true,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => onSelected(i),
+                          child: Center(
+                            child: AnimatedDefaultTextStyle(
+                              duration: AppMotion.normal,
+                              style: TextStyle(
+                                fontFamily: kSerifFamily,
+                                fontSize: 14,
+                                height: 1.1,
+                                fontWeight: i == currentIndex
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color: i == currentIndex
+                                    ? (tinted ?? colors.textPrimary)
+                                    : colors.textSecondary,
+                              ),
+                              child: Text(
+                                labels[i],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

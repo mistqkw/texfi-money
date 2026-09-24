@@ -161,5 +161,10 @@ void main() {
   testWidgets('shell_beta', (t) => _shoot(t, 'shell_beta', const RootShell(), beta: true));
   testWidgets('history_beta', (t) => _shoot(t, 'history_beta', const HistoryScreen(), beta: true));
   testWidgets('settings_beta', (t) => _shoot(t, 'settings_beta', const SettingsScreen(), beta: true));
+  testWidgets('plan_beta', (t) => _shoot(t, 'plan_beta', const PlanTab(), beta: true));
+  testWidgets('summary_beta', (t) => _shoot(t, 'summary_beta', const SummaryTab(), beta: true));
+  testWidgets('wealth_beta', (t) => _shoot(t, 'wealth_beta', const WealthScreen(), beta: true));
+  testWidgets('cash_flow_beta', (t) => _shoot(t, 'cash_flow_beta', const CashFlowScreen(), beta: true));
+  testWidgets('add_tx_beta', (t) => _shoot(t, 'add_tx_beta', const AddTransactionScreen(), beta: true));
   testWidgets('developer_beta', (t) => _shoot(t, 'developer_beta', const DeveloperScreen(), beta: true));
 }

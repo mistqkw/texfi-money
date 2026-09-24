@@ -3,8 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 
 /// Графики, нарисованные своими руками вместо fl_chart.
@@ -45,14 +47,33 @@ class PixelBarChart extends StatelessWidget {
       children: [
         SizedBox(
           height: height,
-          child: CustomPaint(
-            painter: _BarPainter(
-              groups: groups,
-              incomeColor: incomeColor,
-              expenseColor: expenseColor,
-              baseline: colors.border,
-            ),
-          ),
+          child: context.style.beta
+              // В бета-стиле столбцы сплошные, со скруглённой верхушкой,
+              // и вырастают из оси при появлении: мягкому стилю шкала из
+              // ячеек так же чужда, как пиксельному — капсулы.
+              ? TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: AppMotion.count,
+                  curve: AppMotion.standard,
+                  builder: (context, t, _) => CustomPaint(
+                    painter: _BetaBarPainter(
+                      groups: groups,
+                      incomeColor: incomeColor,
+                      expenseColor: expenseColor,
+                      baseline: colors.border,
+                      grid: colors.divider,
+                      progress: t,
+                    ),
+                  ),
+                )
+              : CustomPaint(
+                  painter: _BarPainter(
+                    groups: groups,
+                    incomeColor: incomeColor,
+                    expenseColor: expenseColor,
+                    baseline: colors.border,
+                  ),
+                ),
         ),
         AppSpacing.gapSm,
         Row(
@@ -169,6 +190,93 @@ class _BarPainter extends CustomPainter {
       old.baseline != baseline;
 }
 
+/// Столбцы бета-стиля: сплошные, со скруглённой верхушкой, на тонкой
+/// сетке из трёх линий.
+class _BetaBarPainter extends CustomPainter {
+  _BetaBarPainter({
+    required this.groups,
+    required this.incomeColor,
+    required this.expenseColor,
+    required this.baseline,
+    required this.grid,
+    required this.progress,
+  });
+
+  final List<({String label, double income, double expense})> groups;
+  final Color incomeColor;
+  final Color expenseColor;
+  final Color baseline;
+  final Color grid;
+
+  /// 0..1 — насколько столбцы выросли из оси.
+  final double progress;
+
+  static const double _gap = 3;
+
+  /// Ненулевое значение не бывает ниже этой высоты — по той же причине,
+  /// что и минимальная ячейка в пиксельных столбцах.
+  static const double _minHeight = 3;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final axisY = size.height - 0.5;
+    final gridPaint = Paint()
+      ..color = grid
+      ..strokeWidth = 1;
+    for (final f in const [0.25, 0.5, 0.75]) {
+      final y = axisY * (1 - f);
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+    }
+    canvas.drawLine(
+      Offset(0, axisY),
+      Offset(size.width, axisY),
+      Paint()
+        ..color = baseline
+        ..strokeWidth = 1,
+    );
+
+    final maxValue = groups.fold<double>(
+      0,
+      (max, g) => math.max(max, math.max(g.income, g.expense)),
+    );
+    if (maxValue <= 0) return;
+
+    final slot = size.width / groups.length;
+    final barWidth = (slot * 0.22).clamp(6.0, 14.0);
+    final usable = axisY - 4;
+
+    void bar(double left, double value, Color color) {
+      if (value <= 0) return;
+      final h = math.max(_minHeight, value / maxValue * usable) * progress;
+      if (h <= 0) return;
+      final radius = Radius.circular(math.min(barWidth / 2, 5));
+      canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(left, axisY - h, barWidth, h),
+          topLeft: radius,
+          topRight: radius,
+        ),
+        Paint()..color = color,
+      );
+    }
+
+    for (var i = 0; i < groups.length; i++) {
+      final centre = slot * i + slot / 2;
+      bar(centre - barWidth - _gap / 2, groups[i].income, incomeColor);
+      bar(centre + _gap / 2, groups[i].expense, expenseColor);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _BetaBarPainter old) =>
+      old.groups != groups ||
+      old.progress != progress ||
+      old.incomeColor != incomeColor ||
+      old.expenseColor != expenseColor ||
+      old.baseline != baseline ||
+      old.grid != grid;
+}
+
 /// Доли в общей сумме — одной горизонтальной полосой вместо кольца.
 ///
 /// Кольцо fl_chart занимало 180px высоты ради двух чисел и всё равно
@@ -186,6 +294,30 @@ class PixelShareBar extends StatelessWidget {
     final colors = context.colors;
     final total = shares.fold<double>(0, (sum, s) => sum + s.value);
     if (total <= 0) return SizedBox(height: height);
+
+    // В бета-стиле — тонкая скруглённая лента без рамки; доли разделены
+    // просветом, а не линией цвета рамки.
+    if (context.style.beta) {
+      const bandHeight = 12.0;
+      return ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(bandHeight / 2)),
+        child: SizedBox(
+          height: bandHeight,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < shares.length; i++) ...[
+                if (i > 0) const SizedBox(width: 2),
+                Expanded(
+                  flex: math.max(1, (shares[i].value / total * 1000).round()),
+                  child: ColoredBox(color: shares[i].color),
+                ),
+              ],
+            ],
+          ),
+        ),
+      );
+    }
 
     return Container(
       height: height,
@@ -231,7 +363,10 @@ class PixelSwatch extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: AppRadius.controlTinyAll,
+        // В бета-стиле образец круглый — как точка в легенде, а не плитка.
+        borderRadius: context.style.beta
+            ? BorderRadius.all(Radius.circular(size / 2))
+            : AppRadius.controlTinyAll,
       ),
     );
   }

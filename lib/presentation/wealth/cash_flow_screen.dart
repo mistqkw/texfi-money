@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../settings/analysis_range_provider.dart';
@@ -157,7 +158,16 @@ class _SavingsHistory extends StatelessWidget {
                     if (entry.rate case final rate?)
                       Container(
                         height: (rate.clamp(0, 100) / 100 * 110).toDouble(),
-                        color: rate < 0 ? colors.expense : colors.accent,
+                        decoration: BoxDecoration(
+                          color: rate < 0 ? colors.expense : colors.accent,
+                          // В бета-стиле столбец со скруглённой верхушкой,
+                          // как в статистике.
+                          borderRadius: context.style.beta
+                              ? const BorderRadius.vertical(
+                                  top: Radius.circular(4),
+                                )
+                              : null,
+                        ),
                       )
                     else
                       // Месяца без дохода не было бы честно рисовать

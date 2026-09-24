@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/utils/haptics.dart';
 import 'pixel_icon.dart';
 
@@ -53,7 +54,10 @@ class ColorPickerRow extends StatelessWidget {
                   height: _dot,
                   decoration: BoxDecoration(
                     color: color,
-                    borderRadius: AppRadius.controlSmallAll,
+                    // В бета-стиле образец — круглая точка.
+                    borderRadius: context.style.beta
+                        ? const BorderRadius.all(Radius.circular(_dot / 2))
+                        : AppRadius.controlSmallAll,
                     border: isSelected
                         ? Border.all(
                             color: context.colors.textPrimary,
