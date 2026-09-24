@@ -11,6 +11,7 @@ import '../../core/utils/haptics.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
+import '../shared/app_title.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
@@ -36,7 +37,7 @@ class BudgetsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: embedded ? null : AppBar(title: Text(l10n.budgetsTitle)),
+      appBar: embedded ? null : AppBar(title: AppTitle(l10n.budgetsTitle)),
       // Плавающая кнопка видна всегда, даже когда список пуст.
       //
       // Была попытка прятать её на пустом списке — раз пустое состояние

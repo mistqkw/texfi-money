@@ -1126,6 +1126,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get devSectionData => 'Данные';
 
   @override
+  String get devSectionExperimental => 'Эксперименты';
+
+  @override
   String get devInfoVersion => 'Версия';
 
   @override
@@ -1265,6 +1268,109 @@ class AppLocalizationsRu extends AppLocalizations {
   String get devHideMenuDesc => 'Вернуть — снова пять нажатий на версию';
 
   @override
+  String get devBetaStyle => 'Бета-стиль';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, цвета аватарки, большой знак на фоне';
+
+  @override
+  String get devBetaOn => 'Включён';
+
+  @override
+  String get devBetaOff => 'Выключен';
+
+  @override
+  String get devBetaEnableTitle => 'Включить бета-стиль?';
+
+  @override
+  String get devBetaEnableBody =>
+      'Приложение сменит шрифт, цвета и форму элементов. Это бета: где-то стиль может выглядеть недоделанным. Выключить можно здесь же.';
+
+  @override
+  String get devBetaEnableAction => 'Включить';
+
+  @override
+  String get devBetaDisableTitle => 'Выключить бета-стиль?';
+
+  @override
+  String get devBetaDisableBody => 'Вернётся привычный пиксельный стиль.';
+
+  @override
+  String get devBetaDisableAction => 'Выключить';
+
+  @override
+  String get devSectionBeta => 'Бета-стиль';
+
+  @override
+  String get devBetaOnlyHint => 'Работает, когда бета-стиль включён';
+
+  @override
+  String get devBetaGlyph => 'Знак на фоне';
+
+  @override
+  String get devBetaGlyphDesc => 'Большой знак за экранами';
+
+  @override
+  String get devBetaGlyphNone => 'Нет';
+
+  @override
+  String get devBetaGlyphStrength => 'Заметность знака';
+
+  @override
+  String get devStrengthQuiet => 'Тихо';
+
+  @override
+  String get devStrengthNormal => 'Обычно';
+
+  @override
+  String get devStrengthBold => 'Ярко';
+
+  @override
+  String get devStrengthFull => 'Эталон';
+
+  @override
+  String get devBetaGlyphSize => 'Размер знака';
+
+  @override
+  String get devSizeSmall => 'Меньше';
+
+  @override
+  String get devSizeNormal => 'Обычный';
+
+  @override
+  String get devSizeLarge => 'Больше';
+
+  @override
+  String get devBetaTransition => 'Переход между экранами';
+
+  @override
+  String get devTransitionPageTurn => 'Листать';
+
+  @override
+  String get devTransitionFade => 'Проявлять';
+
+  @override
+  String get devTransitionInstant => 'Сразу';
+
+  @override
+  String get devBetaGrain => 'Зерно бумаги';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Едва заметные точки, из-за которых фон читается как лист';
+
+  @override
+  String get devBetaSerifBody => 'Текст антиквой';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Выключено — основной текст Inter, антиква только в заголовках и суммах';
+
+  @override
+  String get devBetaReplay => 'Проиграть анимацию включения';
+
+  @override
   String get devTextScale => 'Масштаб текста';
 
   @override
@@ -1285,4 +1391,46 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Кружки под пальцем — для записи экрана';
+
+  @override
+  String get devBetaKind => 'Вариант беты';
+
+  @override
+  String get devBetaKindDesc => 'Бумага и чернила или коллаж TexFi Style';
+
+  @override
+  String get devKindPaper => 'Бумага';
+
+  @override
+  String get devKindCollage => 'Коллаж';
+
+  @override
+  String get devCollageBlobs => 'Синие пятна';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Сплошные, как на картинке, приглушённые — чтобы текст читался легче, или без них';
+
+  @override
+  String get devBlobsBold => 'Сплошные';
+
+  @override
+  String get devBlobsSoft => 'Тише';
+
+  @override
+  String get devCollageRemix => 'Смешивать шрифты';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Заголовки собраны из разных шрифтов прямо внутри слова';
+
+  @override
+  String get devCollageShuffle => 'Перебор шрифтов';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'Заголовок экрана при появлении примеряет шрифты и встаёт на свой';
+
+  @override
+  String get devTransitionCut => 'Вырезать';
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme/app_style_ext.dart';
+import 'beta_icons.dart';
+
 /// Пиксельные силуэты экосистемы TexFi (как `PixelSprite`/`PixelIcon`
 /// в TexFi f0kus): узнаваемые формы без сглаживания и лишней
 /// детализации — категории, таббар, иконки настроек.
@@ -1317,6 +1320,14 @@ class PixelSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final resolvedColor = color ?? IconTheme.of(context).color ?? Theme.of(context).colorScheme.onSurface;
+    // В бета-стиле тот же спрайт рисуется пером — см. [BetaIcons]; в
+    // коллаже — пером с синим оттиском, см. [CollageIcon].
+    if (context.style.isCollage) {
+      return CollageIcon(pattern: pattern, size: size, color: resolvedColor);
+    }
+    if (context.style.beta) {
+      return BetaIcon(pattern: pattern, size: size, color: resolvedColor);
+    }
     return SizedBox(
       width: size,
       height: size,

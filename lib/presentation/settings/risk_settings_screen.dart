@@ -7,6 +7,7 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../wealth/wealth_providers.dart';
@@ -36,7 +37,7 @@ class RiskSettingsScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.riskSection)),
+      appBar: AppBar(title: AppTitle(l10n.riskSection)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

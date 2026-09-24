@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_style_ext.dart';
 
 /// Прогресс бюджета или цели — набран отдельными ячейками.
 ///
@@ -32,6 +33,51 @@ class AnimatedProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+
+    // В бета-стиле шкала — черта пером по волосяной линейке: толстая
+    // заливка на тонкой дорожке, без скруглений; заполнение течёт плавно.
+    // Коллаж: толстая сплошная полоса без скруглений — вырезанная лента
+    // поверх бледной дорожки, заливка течёт плавно.
+    if (context.style.isCollage) {
+      return TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: progress.clamp(0, 1)),
+        duration: AppMotion.count,
+        curve: AppMotion.standard,
+        builder: (context, value, child) => Container(
+          height: 8,
+          color: colors.surfaceVariant,
+          alignment: Alignment.centerLeft,
+          child: FractionallySizedBox(
+            widthFactor: value <= 0 ? 0 : value.clamp(0.03, 1.0),
+            heightFactor: 1,
+            child: ColoredBox(color: color),
+          ),
+        ),
+      );
+    }
+    if (context.style.beta) {
+      const h = 3.0;
+      return TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: progress.clamp(0, 1)),
+        duration: AppMotion.count,
+        curve: AppMotion.standard,
+        builder: (context, value, child) => Container(
+          height: h,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: colors.divider),
+            ),
+          ),
+          alignment: Alignment.centerLeft,
+          child: FractionallySizedBox(
+            // Ненулевой прогресс виден хотя бы точкой.
+            widthFactor: value <= 0 ? 0 : value.clamp(0.03, 1.0),
+            heightFactor: 1,
+            child: ColoredBox(color: color),
+          ),
+        ),
+      );
+    }
 
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: progress.clamp(0, 1)),

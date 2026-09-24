@@ -12,6 +12,7 @@ import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
@@ -128,7 +129,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.reportsTitle)),
+      appBar: AppBar(title: AppTitle(l10n.reportsTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

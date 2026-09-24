@@ -17,6 +17,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
+import '../shared/app_title.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
@@ -109,7 +110,7 @@ class GoalsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: embedded ? null : AppBar(title: Text(l10n.goalsTitle)),
+      appBar: embedded ? null : AppBar(title: AppTitle(l10n.goalsTitle)),
       // Плавающая кнопка видна всегда, даже когда список пуст.
       //
       // Была попытка прятать её на пустом списке — раз пустое состояние

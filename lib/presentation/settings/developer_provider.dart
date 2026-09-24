@@ -2,13 +2,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/theme/app_style_ext.dart';
+import '../../core/theme/beta_options.dart';
 import 'currency_provider.dart';
 
 /// Настройки меню разработчика.
 ///
 /// Меню спрятано за пятью нажатиями на номер версии — как в Android, —
-/// потому что всё здесь — диагностика. Обычному пользователю эти
-/// переключатели ничего не дают.
+/// потому что всё здесь либо диагностика, либо эксперимент. Обычному
+/// пользователю эти переключатели ничего не дают, а бета-стиль ещё и
+/// меняет приложение до неузнаваемости.
 ///
 /// Каждый флаг хранится в SharedPreferences под своим ключом с префиксом
 /// `dev_`: так «сбросить настройки разработчика» чистит ровно их и не
@@ -44,6 +47,9 @@ const String devPrefsPrefix = 'dev_';
 /// Меню разработчика открыто (версию уже нажали пять раз).
 final devMenuUnlockedProvider = _boolPref('${devPrefsPrefix}menu_unlocked');
 
+/// Бета-стиль: антиква, тёплая бежевая палитра, мягкая геометрия.
+final betaStyleProvider = _boolPref('${devPrefsPrefix}beta_style');
+
 /// Графики времени кадра поверх приложения.
 final perfOverlayProvider = _boolPref('${devPrefsPrefix}perf_overlay');
 
@@ -68,6 +74,64 @@ final backgroundNoiseProvider =
 
 /// Лента «DEV» в углу — чтобы на скриншоте было видно, что меню открыто.
 final devBannerProvider = _boolPref('${devPrefsPrefix}banner');
+
+/// Строковая настройка — для выборов из нескольких вариантов (enum по
+/// имени). `null` — значение по умолчанию, ключ в хранилище не пишется.
+class StringPrefNotifier extends StateNotifier<String?> {
+  StringPrefNotifier(this._prefs, this.key) : super(_prefs.getString(key));
+
+  final SharedPreferences _prefs;
+  final String key;
+
+  Future<void> set(String value) async {
+    state = value;
+    await _prefs.setString(key, value);
+  }
+}
+
+StateNotifierProvider<StringPrefNotifier, String?> _stringPref(String key) {
+  return StateNotifierProvider<StringPrefNotifier, String?>((ref) {
+    return StringPrefNotifier(ref.watch(sharedPreferencesProvider), key);
+  });
+}
+
+// --- Бета-стиль ------------------------------------------------------
+
+/// Вариант беты: `paper` («бумага и чернила») или `collage` (TexFi Style).
+final betaKindProvider = _stringPref('${devPrefsPrefix}beta_kind');
+
+/// Коллаж: пятна на фоне — bold / soft / none.
+final collageBlobsProvider = _stringPref('${devPrefsPrefix}collage_blobs');
+
+/// Коллаж: смешивать шрифты в заголовках.
+final collageRemixProvider =
+    _boolPref('${devPrefsPrefix}collage_remix', fallback: true);
+
+/// Коллаж: перебор шрифтов при появлении заголовка.
+final collageShuffleProvider =
+    _boolPref('${devPrefsPrefix}collage_shuffle', fallback: true);
+
+/// Знак на фоне беты: `dollar`, `m` или `none` (см. BetaGlyphChoice).
+final betaGlyphProvider = _stringPref('${devPrefsPrefix}beta_glyph');
+
+/// Заметность знака: quiet / normal / bold / full.
+final betaGlyphStrengthProvider =
+    _stringPref('${devPrefsPrefix}beta_glyph_strength');
+
+/// Размер знака: small / normal / large.
+final betaGlyphSizeProvider = _stringPref('${devPrefsPrefix}beta_glyph_size');
+
+/// Переход между экранами в бете: pageTurn / fade / instant.
+final betaTransitionProvider =
+    _stringPref('${devPrefsPrefix}beta_transition');
+
+/// Зерно бумаги на фоне беты.
+final betaGrainProvider =
+    _boolPref('${devPrefsPrefix}beta_grain', fallback: true);
+
+/// Основной текст беты антиквой (выключено — Inter).
+final betaSerifBodyProvider =
+    _boolPref('${devPrefsPrefix}beta_serif_body', fallback: true);
 
 // --- Отладка интерфейса ----------------------------------------------
 
@@ -138,6 +202,7 @@ Future<void> resetDeveloperSettings(WidgetRef ref) async {
   }
   timeDilation = 1;
   for (final provider in [
+    betaStyleProvider,
     perfOverlayProvider,
     rasterCheckerboardProvider,
     layerCheckerboardProvider,
@@ -146,6 +211,16 @@ Future<void> resetDeveloperSettings(WidgetRef ref) async {
     backgroundNoiseProvider,
     devBannerProvider,
     animationSpeedProvider,
+    betaKindProvider,
+    collageBlobsProvider,
+    collageRemixProvider,
+    collageShuffleProvider,
+    betaGlyphProvider,
+    betaGlyphStrengthProvider,
+    betaGlyphSizeProvider,
+    betaTransitionProvider,
+    betaGrainProvider,
+    betaSerifBodyProvider,
     layoutGridProvider,
     touchIndicatorsProvider,
     textScaleOverrideProvider,
@@ -153,3 +228,25 @@ Future<void> resetDeveloperSettings(WidgetRef ref) async {
     ref.invalidate(provider);
   }
 }
+
+/// Настройки беты, собранные для темы.
+final betaOptionsProvider = Provider<BetaOptions>((ref) {
+  return BetaOptions(
+    glyph: BetaGlyphChoice.fromName(ref.watch(betaGlyphProvider)),
+    strength: BetaGlyphStrength.fromName(ref.watch(betaGlyphStrengthProvider)),
+    size: BetaGlyphSize.fromName(ref.watch(betaGlyphSizeProvider)),
+    transition: BetaTransition.fromName(ref.watch(betaTransitionProvider)),
+    grain: ref.watch(betaGrainProvider),
+    serifBody: ref.watch(betaSerifBodyProvider),
+    collageBlobs: CollageBlobs.fromName(ref.watch(collageBlobsProvider)),
+    collageRemix: ref.watch(collageRemixProvider),
+    collageShuffle: ref.watch(collageShuffleProvider),
+  );
+});
+
+/// Вариант беты как вид стиля темы.
+final betaKindStyleProvider = Provider<StyleKind>((ref) {
+  return ref.watch(betaKindProvider) == 'collage'
+      ? StyleKind.collage
+      : StyleKind.paper;
+});

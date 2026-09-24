@@ -18,6 +18,15 @@ import 'app_colors_ext.dart';
 const String kPixelFamily = 'PressStart2P';
 const String kBodyFamily = 'Inter';
 
+/// Антиква бета-стиля: Source Serif 4 SemiBold. В бета-стиле она занимает
+/// все слоты, где в основном стиле стоит пиксель.
+const String kSerifFamily = 'SourceSerif4';
+
+/// Моноширинный и широкий гротеск беты «коллаж». Оба переменные:
+/// толщина задаётся осью `wght` через [FontVariation].
+const String kMonoFamily = 'JetBrainsMono';
+const String kWideFamily = 'Unbounded';
+
 /// Строит [TextTheme] под выбранный шрифт и палитру. Слоты сопоставлены
 /// с именованными стилями приложения (см. `AppTextStyles`):
 /// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
@@ -28,7 +37,15 @@ const String kBodyFamily = 'Inter';
 /// и короткие акцентные метки. Остальные суммы (история, счета, цели,
 /// бюджеты) — обычной гарнитурой: bitmap на 13-16px читается медленнее, а
 /// колонку сумм именно читают.
-TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
+///
+/// [beta] — бета-стиль «бумага и чернила», см. [_buildPaperTextTheme].
+TextTheme buildAppTextTheme({
+  required AppFont font,
+  required AppColorsExt colors,
+  bool beta = false,
+  bool serifBody = true,
+}) {
+  if (beta) return _buildPaperTextTheme(colors, serifBody: serifBody);
   TextStyle style({
     required double size,
     required FontWeight weight,
@@ -100,5 +117,183 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
       letterSpacing: 1.2,
       height: 1.2,
     ),
+  );
+}
+
+/// Типографика бета-стиля: всё набрано одной антиквой, как страница.
+///
+/// Иерархию держат кегль и начертание, а не цвет плашек и не капс с
+/// разрядкой. Мелкие служебные подписи — настоящие капители шрифта
+/// (`c2sc`/`smcp`), а не прописные, растянутые трекингом: капители
+/// нарисованы под свой размер и не кричат. В тексте — старостильные
+/// цифры, в суммах — выровненные табличные, чтобы колонка читалась.
+///
+/// [serifBody] выключен — основной текст (подписи, абзацы, строки
+/// списков) набран Inter, антиква остаётся в заголовках и суммах.
+TextTheme _buildPaperTextTheme(AppColorsExt colors, {bool serifBody = true}) {
+  const amounts = [
+    FontFeature.liningFigures(),
+    FontFeature.tabularFigures(),
+  ];
+  const prose = [FontFeature.oldstyleFigures()];
+  const smallCaps = [
+    FontFeature('c2sc'),
+    FontFeature('smcp'),
+    FontFeature.oldstyleFigures(),
+  ];
+
+  TextStyle serif({
+    required double size,
+    FontWeight weight = FontWeight.w400,
+    required Color color,
+    double height = 1.3,
+    double letterSpacing = 0,
+    List<FontFeature> features = prose,
+    bool body = false,
+  }) {
+    final sans = body && !serifBody;
+    return TextStyle(
+      fontFamily: sans ? kBodyFamily : kSerifFamily,
+      // У Inter очко крупнее, чем у антиквы того же кегля: без поправки
+      // основной текст перерастал бы заголовки.
+      fontSize: sans ? size * 0.92 : size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFeatures: features,
+    );
+  }
+
+  return TextTheme(
+    // Баланс — главное число страницы, набранное как заголовок полосы.
+    displayLarge: serif(
+      size: 52,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.0,
+      letterSpacing: -1.2,
+      features: amounts,
+    ),
+    displayMedium: serif(
+      size: 30,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.1,
+      letterSpacing: -0.5,
+      features: amounts,
+    ),
+    displaySmall: serif(
+      size: 18,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      features: amounts,
+    ),
+    // В заголовках — обычные цифры: старостильный ноль похож на «о», и
+    // «m0ney» в шапке читался как «money».
+    headlineMedium: serif(
+      size: 24,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.15,
+      letterSpacing: -0.3,
+      features: const [FontFeature.liningFigures()],
+    ),
+    titleLarge: serif(
+      size: 15,
+      weight: FontWeight.w600,
+      color: colors.textPrimary,
+      height: 1.2,
+      features: amounts,
+    ),
+    titleMedium: serif(
+      size: 17,
+      color: colors.textPrimary,
+      height: 1.25,
+      body: true,
+    ),
+    bodyMedium: serif(
+      size: 15,
+      color: colors.textSecondary,
+      height: 1.45,
+      body: true,
+    ),
+    bodySmall: serif(
+      size: 13,
+      color: colors.textTertiary,
+      height: 1.35,
+      body: true,
+    ),
+    labelMedium: serif(size: 14, color: colors.textSecondary, body: true),
+    labelSmall: serif(
+      size: 13,
+      weight: FontWeight.w600,
+      color: colors.textTertiary,
+      height: 1.2,
+      letterSpacing: 0.4,
+      features: smallCaps,
+    ),
+  );
+}
+
+/// Типографика беты «коллаж» (TexFi Style).
+///
+/// Сама смесь шрифтов внутри слова — дело `CollageText`: тема задаёт
+/// только основу, из которой он начинает. Основа — гротеск Inter, как
+/// «be», «like» на картинке автора; служебные подписи — моноширинным,
+/// как «TexFi» и «scure»; главное число — широким гротеском, как
+/// «ABSTR». Суммы в строках — ровным Inter с табличными цифрами: их
+/// читают колонкой, и смешение шрифтов там мешало бы, а не выражало.
+TextTheme buildCollageTextTheme(AppColorsExt colors) {
+  const tabular = [FontFeature.tabularFigures()];
+
+  TextStyle grotesk(
+    double size, {
+    FontWeight weight = FontWeight.w400,
+    required Color color,
+    double height = 1.25,
+    double letterSpacing = 0,
+  }) {
+    return TextStyle(
+      fontFamily: kBodyFamily,
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFeatures: tabular,
+    );
+  }
+
+  TextStyle mono(double size, {required Color color, double weight = 400}) {
+    return TextStyle(
+      fontFamily: kMonoFamily,
+      fontSize: size,
+      color: color,
+      height: 1.2,
+      letterSpacing: 0.3,
+      fontVariations: [FontVariation('wght', weight)],
+    );
+  }
+
+  return TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: kWideFamily,
+      fontSize: 34,
+      height: 1.05,
+      letterSpacing: -0.5,
+      color: colors.textPrimary,
+      fontVariations: const [FontVariation('wght', 350)],
+      fontFeatures: tabular,
+    ),
+    displayMedium: grotesk(26, weight: FontWeight.w600, color: colors.textPrimary, letterSpacing: -0.5),
+    displaySmall: grotesk(17, weight: FontWeight.w600, color: colors.textPrimary),
+    headlineMedium: grotesk(26, color: colors.textPrimary, height: 1.1, letterSpacing: -0.4),
+    titleLarge: mono(13, color: colors.textPrimary, weight: 500),
+    titleMedium: grotesk(16, weight: FontWeight.w500, color: colors.textPrimary),
+    bodyMedium: grotesk(14, color: colors.textSecondary, height: 1.4),
+    bodySmall: grotesk(12, color: colors.textTertiary, height: 1.3),
+    labelMedium: grotesk(13, weight: FontWeight.w500, color: colors.textSecondary),
+    labelSmall: mono(11, color: colors.textTertiary, weight: 400),
   );
 }

@@ -1110,6 +1110,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devSectionData => 'Data';
 
   @override
+  String get devSectionExperimental => 'Experimental';
+
+  @override
   String get devInfoVersion => 'Version';
 
   @override
@@ -1248,6 +1251,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devHideMenuDesc => 'Tap the version five times to bring it back';
 
   @override
+  String get devBetaStyle => 'Beta style';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, avatar colours, a big mark behind the screens';
+
+  @override
+  String get devBetaOn => 'On';
+
+  @override
+  String get devBetaOff => 'Off';
+
+  @override
+  String get devBetaEnableTitle => 'Turn on beta style?';
+
+  @override
+  String get devBetaEnableBody =>
+      'The app will change its typeface, colours and shapes. It\'s a beta: some screens may look unfinished. You can turn it off right here.';
+
+  @override
+  String get devBetaEnableAction => 'Turn on';
+
+  @override
+  String get devBetaDisableTitle => 'Turn off beta style?';
+
+  @override
+  String get devBetaDisableBody => 'The familiar pixel style comes back.';
+
+  @override
+  String get devBetaDisableAction => 'Turn off';
+
+  @override
+  String get devSectionBeta => 'Beta style';
+
+  @override
+  String get devBetaOnlyHint => 'Takes effect while the beta style is on';
+
+  @override
+  String get devBetaGlyph => 'Background mark';
+
+  @override
+  String get devBetaGlyphDesc => 'The big letter behind the screens';
+
+  @override
+  String get devBetaGlyphNone => 'None';
+
+  @override
+  String get devBetaGlyphStrength => 'Mark strength';
+
+  @override
+  String get devStrengthQuiet => 'Quiet';
+
+  @override
+  String get devStrengthNormal => 'Normal';
+
+  @override
+  String get devStrengthBold => 'Bold';
+
+  @override
+  String get devStrengthFull => 'Original';
+
+  @override
+  String get devBetaGlyphSize => 'Mark size';
+
+  @override
+  String get devSizeSmall => 'Smaller';
+
+  @override
+  String get devSizeNormal => 'Normal';
+
+  @override
+  String get devSizeLarge => 'Larger';
+
+  @override
+  String get devBetaTransition => 'Screen transition';
+
+  @override
+  String get devTransitionPageTurn => 'Turn';
+
+  @override
+  String get devTransitionFade => 'Fade';
+
+  @override
+  String get devTransitionInstant => 'Instant';
+
+  @override
+  String get devBetaGrain => 'Paper grain';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Faint speckle that makes the background read as a sheet';
+
+  @override
+  String get devBetaSerifBody => 'Serif body text';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Off — body text in Inter, serif only in headings and amounts';
+
+  @override
+  String get devBetaReplay => 'Replay the switch animation';
+
+  @override
   String get devTextScale => 'Text scale';
 
   @override
@@ -1270,4 +1376,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get devTouchesDesc =>
       'Circles under your finger — for screen recordings';
+
+  @override
+  String get devBetaKind => 'Beta variant';
+
+  @override
+  String get devBetaKindDesc => 'Paper and ink, or the TexFi Style collage';
+
+  @override
+  String get devKindPaper => 'Paper';
+
+  @override
+  String get devKindCollage => 'Collage';
+
+  @override
+  String get devCollageBlobs => 'Blue cut-outs';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Solid like the original, softened so text reads easier, or none';
+
+  @override
+  String get devBlobsBold => 'Solid';
+
+  @override
+  String get devBlobsSoft => 'Soft';
+
+  @override
+  String get devCollageRemix => 'Mix typefaces';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Headings built from several typefaces inside one word';
+
+  @override
+  String get devCollageShuffle => 'Typeface shuffle';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'A screen title tries on typefaces before settling';
+
+  @override
+  String get devTransitionCut => 'Cut';
 }

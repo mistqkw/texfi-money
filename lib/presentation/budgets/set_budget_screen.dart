@@ -10,6 +10,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
@@ -77,7 +78,7 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
+        title: AppTitle(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),

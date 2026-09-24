@@ -1126,6 +1126,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get devSectionData => 'Dane';
 
   @override
+  String get devSectionExperimental => 'Eksperymenty';
+
+  @override
   String get devInfoVersion => 'Wersja';
 
   @override
@@ -1264,6 +1267,109 @@ class AppLocalizationsPl extends AppLocalizations {
   String get devHideMenuDesc => 'Aby przywrócić — znów pięć dotknięć wersji';
 
   @override
+  String get devBetaStyle => 'Styl beta';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, kolory awatara, duży znak w tle';
+
+  @override
+  String get devBetaOn => 'Włączony';
+
+  @override
+  String get devBetaOff => 'Wyłączony';
+
+  @override
+  String get devBetaEnableTitle => 'Włączyć styl beta?';
+
+  @override
+  String get devBetaEnableBody =>
+      'Aplikacja zmieni krój pisma, kolory i kształty. To beta: niektóre ekrany mogą wyglądać na niedokończone. Wyłączysz ją tutaj.';
+
+  @override
+  String get devBetaEnableAction => 'Włącz';
+
+  @override
+  String get devBetaDisableTitle => 'Wyłączyć styl beta?';
+
+  @override
+  String get devBetaDisableBody => 'Wróci znany styl pikselowy.';
+
+  @override
+  String get devBetaDisableAction => 'Wyłącz';
+
+  @override
+  String get devSectionBeta => 'Styl beta';
+
+  @override
+  String get devBetaOnlyHint => 'Działa, gdy styl beta jest włączony';
+
+  @override
+  String get devBetaGlyph => 'Znak w tle';
+
+  @override
+  String get devBetaGlyphDesc => 'Duży znak za ekranami';
+
+  @override
+  String get devBetaGlyphNone => 'Brak';
+
+  @override
+  String get devBetaGlyphStrength => 'Widoczność znaku';
+
+  @override
+  String get devStrengthQuiet => 'Cicho';
+
+  @override
+  String get devStrengthNormal => 'Zwykle';
+
+  @override
+  String get devStrengthBold => 'Mocno';
+
+  @override
+  String get devStrengthFull => 'Wzorzec';
+
+  @override
+  String get devBetaGlyphSize => 'Rozmiar znaku';
+
+  @override
+  String get devSizeSmall => 'Mniejszy';
+
+  @override
+  String get devSizeNormal => 'Zwykły';
+
+  @override
+  String get devSizeLarge => 'Większy';
+
+  @override
+  String get devBetaTransition => 'Przejście między ekranami';
+
+  @override
+  String get devTransitionPageTurn => 'Kartkuj';
+
+  @override
+  String get devTransitionFade => 'Wyłaniaj';
+
+  @override
+  String get devTransitionInstant => 'Od razu';
+
+  @override
+  String get devBetaGrain => 'Ziarno papieru';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Ledwo widoczne kropki, dzięki którym tło wygląda jak kartka';
+
+  @override
+  String get devBetaSerifBody => 'Tekst szeryfowy';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Wyłączone — tekst w Inter, szeryf tylko w nagłówkach i kwotach';
+
+  @override
+  String get devBetaReplay => 'Odtwórz animację włączania';
+
+  @override
   String get devTextScale => 'Skala tekstu';
 
   @override
@@ -1284,4 +1390,46 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Kółka pod palcem — do nagrań ekranu';
+
+  @override
+  String get devBetaKind => 'Wariant bety';
+
+  @override
+  String get devBetaKindDesc => 'Papier i tusz albo kolaż TexFi Style';
+
+  @override
+  String get devKindPaper => 'Papier';
+
+  @override
+  String get devKindCollage => 'Kolaż';
+
+  @override
+  String get devCollageBlobs => 'Niebieskie wycinki';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Pełne jak na obrazku, przygaszone — żeby tekst czytał się łatwiej, albo bez nich';
+
+  @override
+  String get devBlobsBold => 'Pełne';
+
+  @override
+  String get devBlobsSoft => 'Ciszej';
+
+  @override
+  String get devCollageRemix => 'Mieszaj kroje';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Nagłówki złożone z różnych krojów wewnątrz słowa';
+
+  @override
+  String get devCollageShuffle => 'Tasowanie krojów';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'Tytuł ekranu przymierza kroje, zanim się ustali';
+
+  @override
+  String get devTransitionCut => 'Wytnij';
 }

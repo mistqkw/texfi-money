@@ -13,6 +13,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_icon.dart';
 
@@ -86,7 +87,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
+        title: AppTitle(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),

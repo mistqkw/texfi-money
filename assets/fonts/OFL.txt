@@ -1,6 +1,9 @@
 Copyright 2017 The Inter Project Authors (https://github.com/rsms/inter)
 Copyright (c) 2012, Cody "CodeMan38" Boisclair (cody@zone38.net),
 with Reserved Font Name "Press Start 2P".
+Copyright 2014 - 2023 Adobe (http://www.adobe.com/), with Reserved Font Name ‘Source’.
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+Copyright 2019 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

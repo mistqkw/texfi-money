@@ -17,6 +17,7 @@ import '../../core/utils/image_storage.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_icon.dart';
@@ -127,7 +128,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
+        title: AppTitle(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),

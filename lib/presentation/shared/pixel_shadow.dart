@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_style_ext.dart';
 
 /// Ретро-«тень»: не размытие, а тот же самый прямоугольник, сдвинутый на
 /// несколько пикселей вниз-вправо. Ровно так тень рисовали интерфейсы, у
@@ -51,7 +52,10 @@ class PixelShadowBox extends StatelessWidget {
       child: child,
     );
 
-    if (!enabled) return body;
+    // Бета-стиль плоский, как печатная страница: тени нет ни в покое,
+    // ни при нажатии. Место под неё всё равно резервируется, чтобы
+    // раскладка не зависела от стиля.
+    if (!enabled || context.style.flat) return body;
 
     // Сдвиг содержимого и убыль тени идут от одного значения.
     //

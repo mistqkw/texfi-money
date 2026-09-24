@@ -5,11 +5,40 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
+import 'package:texfi_money/core/theme/app_colors_ext.dart';
+import 'package:texfi_money/core/theme/app_palettes.dart';
+import 'package:texfi_money/core/theme/app_style_ext.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
+import 'package:texfi_money/core/theme/app_typography.dart';
+import 'package:texfi_money/core/theme/beta_options.dart';
 import 'package:texfi_money/l10n/app_localizations.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
+import 'package:texfi_money/presentation/settings/developer_provider.dart';
 import 'package:texfi_money/presentation/settings/developer_screen.dart';
+import 'package:texfi_money/presentation/shared/beta_glyph.dart';
+
+/// Приложение с темой, которая, как в main.dart, следит за бета-стилем.
+class _App extends ConsumerWidget {
+  const _App({required this.home});
+
+  final Widget home;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp(
+      theme: AppTheme.build(
+        variant: AppThemeVariant.dark,
+        font: AppFont.system,
+        beta: ref.watch(betaStyleProvider),
+      ),
+      locale: const Locale('ru'),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      home: home,
+    );
+  }
+}
 
 Future<SharedPreferences> _pump(
   WidgetTester tester,
@@ -24,13 +53,7 @@ Future<SharedPreferences> _pump(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [sharedPreferencesProvider.overrideWithValue(instance)],
-      child: MaterialApp(
-        theme: AppTheme.build(variant: AppThemeVariant.dark, font: AppFont.system),
-        locale: const Locale('ru'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: home,
-      ),
+      child: _App(home: home),
     ),
   );
   await tester.pumpAndSettle();
@@ -93,26 +116,172 @@ void main() {
     expect(tile, findsOneWidget);
   });
 
-  testWidgets('меню разработчика собирается без переполнений', (tester) async {
+  testWidgets('бета-стиль включается после подтверждения и анимации',
+      (tester) async {
+    final prefs = await _pump(tester, const DeveloperScreen());
+
+    // Плитку ищем по описанию: «Бета-стиль» — ещё и заголовок раздела.
+    final tile = find.textContaining('Source Serif 4');
+    await tester.scrollUntilVisible(tile, 300);
+    await tester.pumpAndSettle();
+    await tester.tap(tile);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Включить бета-стиль?'), findsOneWidget);
+    await tester.tap(find.text('Включить'));
+    // Середина анимации: занавес уже закрыл экран, тема сменилась.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(prefs.getBool('dev_beta_style'), isTrue);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+
+    final context = tester.element(find.byType(DeveloperScreen));
+    expect(context.style.beta, isTrue);
+    expect(
+      Theme.of(context).textTheme.headlineMedium!.fontFamily,
+      kSerifFamily,
+    );
+  });
+
+  testWidgets('отмена в диалоге стиль не трогает', (tester) async {
+    final prefs = await _pump(tester, const DeveloperScreen());
+    // Плитку ищем по описанию: «Бета-стиль» — ещё и заголовок раздела.
+    final tile = find.textContaining('Source Serif 4');
+    await tester.scrollUntilVisible(tile, 300);
+    await tester.pumpAndSettle();
+    await tester.tap(tile);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Отмена'));
+    await tester.pumpAndSettle();
+    expect(prefs.getBool('dev_beta_style'), isNot(true));
+  });
+
+  testWidgets('меню собирается в бета-стиле без переполнений', (tester) async {
     await _pump(
       tester,
       const DeveloperScreen(),
-      prefs: {'dev_menu_unlocked': true},
+      prefs: {'dev_beta_style': true, 'dev_menu_unlocked': true},
     );
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('переключатель в меню сохраняет настройку', (tester) async {
+  test('бета-тема: антиква в заголовках, своя палитра и геометрия', () {
+    final theme = AppTheme.build(
+      variant: AppThemeVariant.light,
+      font: AppFont.inter,
+      beta: true,
+    );
+    expect(theme.textTheme.displayLarge!.fontFamily, kSerifFamily);
+    expect(theme.textTheme.displayLarge!.fontWeight, FontWeight.w600);
+    expect(theme.extension<AppStyleExt>()!.beta, isTrue);
+    // Бета следует выбранной теме: светлая — бумага, тёмная — тёмный лист.
+    expect(theme.brightness, Brightness.light);
+    final overDark = AppTheme.build(
+      variant: AppThemeVariant.dark,
+      font: AppFont.inter,
+      beta: true,
+    );
+    expect(overDark.brightness, Brightness.dark);
+    expect(
+      overDark.extension<AppColorsExt>()!.background,
+      AppPalettes.betaNight.background,
+    );
+
+    final pixel = AppTheme.build(variant: AppThemeVariant.dark, font: AppFont.inter);
+    expect(pixel.textTheme.displayLarge!.fontFamily, kPixelFamily);
+    expect(pixel.extension<AppStyleExt>()!.beta, isFalse);
+  });
+
+  group('знак на фоне беты', () {
+    Future<void> pumpBackground(WidgetTester tester, BetaOptions options) {
+      return tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.build(
+            variant: AppThemeVariant.dark,
+            font: AppFont.system,
+            beta: true,
+            betaOptions: options,
+          ),
+          home: const BetaBackground(child: SizedBox.expand()),
+        ),
+      );
+    }
+
+    testWidgets('по умолчанию — «\$»', (tester) async {
+      await pumpBackground(tester, const BetaOptions());
+      expect(
+        tester.widget<BetaGlyph>(find.byType(BetaGlyph)).glyph,
+        r'$',
+      );
+    });
+
+    testWidgets('можно выбрать «m»', (tester) async {
+      await pumpBackground(
+        tester,
+        const BetaOptions(glyph: BetaGlyphChoice.m),
+      );
+      expect(tester.widget<BetaGlyph>(find.byType(BetaGlyph)).glyph, 'm');
+    });
+
+    testWidgets('«Нет» убирает знак с фона', (tester) async {
+      await pumpBackground(
+        tester,
+        const BetaOptions(glyph: BetaGlyphChoice.none),
+      );
+      expect(find.byType(BetaGlyph), findsNothing);
+    });
+
+    test('без знака на фоне анимации всё равно берут «\$»', () {
+      expect(BetaGlyphChoice.none.animationGlyph, r'$');
+      expect(BetaGlyphChoice.m.animationGlyph, 'm');
+    });
+  });
+
+  testWidgets('выбор знака в меню сохраняется', (tester) async {
     final prefs = await _pump(
       tester,
       const DeveloperScreen(),
       prefs: {'dev_menu_unlocked': true},
     );
-    final grid = find.text('Сетка 8dp');
-    await tester.scrollUntilVisible(grid, 300);
+    // В пиксельном стиле сегменты набраны капсом.
+    final none = find.text('НЕТ');
+    await tester.scrollUntilVisible(none, 300);
     await tester.pumpAndSettle();
-    await tester.tap(grid);
+    await tester.tap(none);
     await tester.pumpAndSettle();
-    expect(prefs.getBool('dev_layout_grid'), isTrue);
+    expect(prefs.getString('dev_beta_glyph'), 'none');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('вариант беты «Коллаж» выбирается и сохраняется', (tester) async {
+    final prefs = await _pump(
+      tester,
+      const DeveloperScreen(),
+      prefs: {'dev_menu_unlocked': true},
+    );
+    // В пиксельном стиле сегменты набраны капсом.
+    final collage = find.text('КОЛЛАЖ');
+    await tester.scrollUntilVisible(collage, 300);
+    await tester.pumpAndSettle();
+    await tester.tap(collage);
+    await tester.pumpAndSettle();
+    expect(prefs.getString('dev_beta_kind'), 'collage');
+    // У коллажа свои настройки — пятна вместо знака на фоне.
+    expect(find.text('Синие пятна'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  test('тема коллажа: белый лист, синий акцент, свой стиль', () {
+    final theme = AppTheme.build(
+      variant: AppThemeVariant.light,
+      font: AppFont.inter,
+      beta: true,
+      betaKind: StyleKind.collage,
+    );
+    final colors = theme.extension<AppColorsExt>()!;
+    expect(colors.background, const Color(0xFFFFFFFF));
+    expect(colors.accent, const Color(0xFF4A7DFB));
+    expect(theme.extension<AppStyleExt>()!.isCollage, isTrue);
   });
 }
