@@ -1,0 +1,8 @@
+Version 1.4.0
+
+* The main pixel style is redrawn: a deep midnight palette, gold in the balance, light edges and hard shadows instead of outlines
+* Every icon is drawn anew on a 16×16 grid, with highlight, shade and halftone
+* New launch screen: a coin drops with a pixel spin, lands, a shine runs across it and gold sparks flash
+* Pages have a dot-grid background that travels with the page during screen transitions
+* Switches, category tiles, the "+" button and the bottom bar follow the new style
+* The "Paper" and "Collage" beta styles stay in the developer menu
