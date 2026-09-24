@@ -7,6 +7,7 @@ import 'app_palettes.dart';
 import 'app_radius.dart';
 import 'app_style_ext.dart';
 import 'app_typography.dart';
+import 'beta_options.dart';
 
 abstract final class AppTheme {
   /// [beta] — бета-стиль из меню разработчика: заменяет палитру на
@@ -16,10 +17,16 @@ abstract final class AppTheme {
     required AppThemeVariant variant,
     required AppFont font,
     bool beta = false,
+    BetaOptions betaOptions = const BetaOptions(),
   }) {
     final colors = beta ? AppPalettes.betaFor(variant) : AppPalettes.forVariant(variant);
     final style = beta ? AppStyleExt.paper : AppStyleExt.pixel;
-    final textTheme = buildAppTextTheme(font: font, colors: colors, beta: beta);
+    final textTheme = buildAppTextTheme(
+      font: font,
+      colors: colors,
+      beta: beta,
+      serifBody: betaOptions.serifBody,
+    );
     final brightness =
         variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
     final controlRadius = style.controlRadius;
@@ -51,7 +58,7 @@ abstract final class AppTheme {
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       dividerColor: colors.divider,
-      extensions: [colors, style],
+      extensions: [colors, style, betaOptions],
       // iOS оставлен системным намеренно: там свайп-назад от края —
       // часть жеста, а не украшение, и подменять его на распад значило
       // бы сломать навигацию ради стиля.

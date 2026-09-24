@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'app_colors_ext.dart';
 import 'app_motion.dart';
 import 'app_style_ext.dart';
+import 'beta_options.dart';
 
 /// Переход между экранами в духе ретро-игр: новый экран «проявляется»
 /// пиксельными блоками (dissolve), поверх один раз пробегают сканлайны.
@@ -77,12 +78,33 @@ class PixelDissolveTransition extends StatelessWidget {
     // В бета-стиле — перелистывание, а не пиксельный распад: блоки и
     // сканлайны поверх антиквы читались бы как сбой отрисовки.
     if (context.style.beta) {
-      return _PageTurn(
-        animation: animation,
-        secondaryAnimation: secondaryAnimation,
-        sheet: betaSheetBuilder,
-        child: child,
-      );
+      final sheet = betaSheetBuilder ?? (Widget c) => c;
+      switch (context.betaOptions.transition) {
+        case BetaTransition.pageTurn:
+          return _PageTurn(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            sheet: betaSheetBuilder,
+            child: child,
+          );
+        case BetaTransition.fade:
+          // Проявление: страница всплывает на своём листе. Лист нужен и
+          // здесь — иначе старая страница просвечивала бы сквозь новую.
+          return FadeTransition(
+            opacity: curved,
+            child: sheet(
+              SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.02),
+                  end: Offset.zero,
+                ).animate(curved),
+                child: child,
+              ),
+            ),
+          );
+        case BetaTransition.instant:
+          return sheet(child);
+      }
     }
 
     return AnimatedBuilder(

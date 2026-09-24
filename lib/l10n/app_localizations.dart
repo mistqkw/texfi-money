@@ -2379,7 +2379,7 @@ abstract class AppLocalizations {
   /// No description provided for @devBetaStyleDesc.
   ///
   /// In en, this message translates to:
-  /// **'Source Serif 4, warm beige palette, soft shapes'**
+  /// **'Source Serif 4, avatar colours, a big mark behind the screens'**
   String get devBetaStyleDesc;
 
   /// No description provided for @devBetaOn.
@@ -2429,6 +2429,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn off'**
   String get devBetaDisableAction;
+
+  /// No description provided for @devSectionBeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta style'**
+  String get devSectionBeta;
+
+  /// No description provided for @devBetaOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes effect while the beta style is on'**
+  String get devBetaOnlyHint;
+
+  /// No description provided for @devBetaGlyph.
+  ///
+  /// In en, this message translates to:
+  /// **'Background mark'**
+  String get devBetaGlyph;
+
+  /// No description provided for @devBetaGlyphDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The big letter behind the screens'**
+  String get devBetaGlyphDesc;
+
+  /// No description provided for @devBetaGlyphNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get devBetaGlyphNone;
+
+  /// No description provided for @devBetaGlyphStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark strength'**
+  String get devBetaGlyphStrength;
+
+  /// No description provided for @devStrengthQuiet.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet'**
+  String get devStrengthQuiet;
+
+  /// No description provided for @devStrengthNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get devStrengthNormal;
+
+  /// No description provided for @devStrengthBold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get devStrengthBold;
+
+  /// No description provided for @devStrengthFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Original'**
+  String get devStrengthFull;
+
+  /// No description provided for @devBetaGlyphSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark size'**
+  String get devBetaGlyphSize;
+
+  /// No description provided for @devSizeSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'Smaller'**
+  String get devSizeSmall;
+
+  /// No description provided for @devSizeNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get devSizeNormal;
+
+  /// No description provided for @devSizeLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Larger'**
+  String get devSizeLarge;
+
+  /// No description provided for @devBetaTransition.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen transition'**
+  String get devBetaTransition;
+
+  /// No description provided for @devTransitionPageTurn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn'**
+  String get devTransitionPageTurn;
+
+  /// No description provided for @devTransitionFade.
+  ///
+  /// In en, this message translates to:
+  /// **'Fade'**
+  String get devTransitionFade;
+
+  /// No description provided for @devTransitionInstant.
+  ///
+  /// In en, this message translates to:
+  /// **'Instant'**
+  String get devTransitionInstant;
+
+  /// No description provided for @devBetaGrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Paper grain'**
+  String get devBetaGrain;
+
+  /// No description provided for @devBetaGrainDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Faint speckle that makes the background read as a sheet'**
+  String get devBetaGrainDesc;
+
+  /// No description provided for @devBetaSerifBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Serif body text'**
+  String get devBetaSerifBody;
+
+  /// No description provided for @devBetaSerifBodyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Off — body text in Inter, serif only in headings and amounts'**
+  String get devBetaSerifBodyDesc;
+
+  /// No description provided for @devBetaReplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay the switch animation'**
+  String get devBetaReplay;
+
+  /// No description provided for @devTextScale.
+  ///
+  /// In en, this message translates to:
+  /// **'Text scale'**
+  String get devTextScale;
+
+  /// No description provided for @devTextScaleDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Overrides the system setting — check that screens don\'t break'**
+  String get devTextScaleDesc;
+
+  /// No description provided for @devTextScaleSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get devTextScaleSystem;
+
+  /// No description provided for @devLayoutGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'8dp grid'**
+  String get devLayoutGrid;
+
+  /// No description provided for @devLayoutGridDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid and screen margins on top of the interface'**
+  String get devLayoutGridDesc;
+
+  /// No description provided for @devTouches.
+  ///
+  /// In en, this message translates to:
+  /// **'Show touches'**
+  String get devTouches;
+
+  /// No description provided for @devTouchesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Circles under your finger — for screen recordings'**
+  String get devTouchesDesc;
 }
 
 class _AppLocalizationsDelegate

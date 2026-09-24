@@ -27,6 +27,7 @@ Future<void> playBetaStyleReveal(
   required bool enabling,
   required Color targetBackground,
   required VoidCallback onSwitch,
+  String glyph = r'$',
 }) {
   final overlay = Overlay.of(context, rootOverlay: true);
   final done = Completer<void>();
@@ -37,6 +38,7 @@ Future<void> playBetaStyleReveal(
       enabling: enabling,
       background: targetBackground,
       onSwitch: onSwitch,
+      glyph: glyph,
       onDone: () {
         entry.remove();
         if (!done.isCompleted) done.complete();
@@ -54,7 +56,11 @@ class _BetaReveal extends StatefulWidget {
     required this.background,
     required this.onSwitch,
     required this.onDone,
+    required this.glyph,
   });
+
+  /// Знак на занавесе.
+  final String glyph;
 
   final Offset origin;
   final bool enabling;
@@ -165,6 +171,7 @@ class _BetaRevealState extends State<_BetaReveal>
                         child: Opacity(
                           opacity: stroke.clamp(0.0, 1.0),
                           child: BetaGlyph(
+                            glyph: widget.glyph,
                             size: glyphSize,
                             strokeProgress: stroke,
                             fillOpacity: BetaGlyph.fillAlpha * fill,

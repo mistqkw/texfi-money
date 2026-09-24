@@ -1271,7 +1271,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get devBetaStyleDesc =>
-      'Source Serif 4, ciepła beżowa paleta, miękkie kształty';
+      'Source Serif 4, kolory awatara, duży znak w tle';
 
   @override
   String get devBetaOn => 'Włączony';
@@ -1297,4 +1297,97 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get devBetaDisableAction => 'Wyłącz';
+
+  @override
+  String get devSectionBeta => 'Styl beta';
+
+  @override
+  String get devBetaOnlyHint => 'Działa, gdy styl beta jest włączony';
+
+  @override
+  String get devBetaGlyph => 'Znak w tle';
+
+  @override
+  String get devBetaGlyphDesc => 'Duży znak za ekranami';
+
+  @override
+  String get devBetaGlyphNone => 'Brak';
+
+  @override
+  String get devBetaGlyphStrength => 'Widoczność znaku';
+
+  @override
+  String get devStrengthQuiet => 'Cicho';
+
+  @override
+  String get devStrengthNormal => 'Zwykle';
+
+  @override
+  String get devStrengthBold => 'Mocno';
+
+  @override
+  String get devStrengthFull => 'Wzorzec';
+
+  @override
+  String get devBetaGlyphSize => 'Rozmiar znaku';
+
+  @override
+  String get devSizeSmall => 'Mniejszy';
+
+  @override
+  String get devSizeNormal => 'Zwykły';
+
+  @override
+  String get devSizeLarge => 'Większy';
+
+  @override
+  String get devBetaTransition => 'Przejście między ekranami';
+
+  @override
+  String get devTransitionPageTurn => 'Kartkuj';
+
+  @override
+  String get devTransitionFade => 'Wyłaniaj';
+
+  @override
+  String get devTransitionInstant => 'Od razu';
+
+  @override
+  String get devBetaGrain => 'Ziarno papieru';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Ledwo widoczne kropki, dzięki którym tło wygląda jak kartka';
+
+  @override
+  String get devBetaSerifBody => 'Tekst szeryfowy';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Wyłączone — tekst w Inter, szeryf tylko w nagłówkach i kwotach';
+
+  @override
+  String get devBetaReplay => 'Odtwórz animację włączania';
+
+  @override
+  String get devTextScale => 'Skala tekstu';
+
+  @override
+  String get devTextScaleDesc =>
+      'Zamiast systemowej — sprawdź, czy ekrany się nie psują';
+
+  @override
+  String get devTextScaleSystem => 'System';
+
+  @override
+  String get devLayoutGrid => 'Siatka 8dp';
+
+  @override
+  String get devLayoutGridDesc => 'Siatka i marginesy na wierzchu interfejsu';
+
+  @override
+  String get devTouches => 'Pokazuj dotknięcia';
+
+  @override
+  String get devTouchesDesc => 'Kółka pod palcem — do nagrań ekranu';
 }

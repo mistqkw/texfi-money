@@ -15,6 +15,7 @@ import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
 import 'presentation/shared/beta_glyph.dart';
+import 'presentation/shared/dev_overlays.dart';
 import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
 
@@ -51,11 +52,19 @@ class TexFiMoneyApp extends ConsumerWidget {
     final beta = ref.watch(betaStyleProvider);
     final noise = ref.watch(backgroundNoiseProvider);
     final devBanner = ref.watch(devBannerProvider);
+    final textScale = ref.watch(textScaleOverrideProvider);
+    final grid = ref.watch(layoutGridProvider);
+    final touches = ref.watch(touchIndicatorsProvider);
 
     return MaterialApp(
       title: 'TexFi m0ney',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.build(variant: variant, font: font, beta: beta),
+      theme: AppTheme.build(
+        variant: variant,
+        font: font,
+        beta: beta,
+        betaOptions: ref.watch(betaOptionsProvider),
+      ),
       themeAnimationDuration: AppMotion.normal,
       showPerformanceOverlay: ref.watch(perfOverlayProvider),
       checkerboardRasterCacheImages: ref.watch(rasterCheckerboardProvider),
@@ -69,12 +78,25 @@ class TexFiMoneyApp extends ConsumerWidget {
       // заливки, не мешая читать: точки в 2 логических пикселя с альфой
       // около 5% глаз считывает как фактуру, а не как шум под текстом.
       //
-      // В бета-стиле крапа нет: его место занимает водяной знак.
+      // В бета-стиле крапа нет: его место занимает лист со знаком.
+      //
+      // Поверх — отладочные слои из меню разработчика: масштаб текста,
+      // сетка, кружки под пальцем, лента в углу.
       builder: (context, child) {
-        final content = child ?? const SizedBox.shrink();
-        final Widget body = beta
+        var content = child ?? const SizedBox.shrink();
+        if (textScale > 0) {
+          content = MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: TextScaler.linear(textScale),
+            ),
+            child: content,
+          );
+        }
+        Widget body = beta
             ? BetaBackground(child: content)
             : PixelBackground(density: noise ? 0.06 : 0, child: content);
+        if (grid) body = LayoutGridOverlay(child: body);
+        if (touches) body = TouchIndicatorOverlay(child: body);
         if (!devBanner) return body;
         return Banner(
           message: beta ? 'BETA' : 'DEV',

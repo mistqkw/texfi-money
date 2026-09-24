@@ -11,6 +11,7 @@ import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/theme/beta_options.dart';
 import '../../core/utils/haptics.dart';
 import '../shared/beta_glyph.dart';
 import '../shared/pixel_button.dart';
@@ -192,6 +193,24 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
       enabling: enabling,
       targetBackground: target,
       onSwitch: () => ref.read(betaStyleProvider.notifier).set(enabling),
+      glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
+    );
+  }
+
+  /// Та же анимация, что при включении беты, но без смены стиля — чтобы
+  /// посмотреть её ещё раз, не выключая бету.
+  Future<void> _replayReveal() async {
+    final variant = ref.read(themeVariantProvider);
+    final size = MediaQuery.sizeOf(context);
+    await playBetaStyleReveal(
+      context,
+      origin: Offset(size.width / 2, size.height * 0.8),
+      enabling: true,
+      targetBackground: variant == AppThemeVariant.light
+          ? AppPalettes.betaInk
+          : AppPalettes.betaFor(variant).background,
+      onSwitch: () {},
+      glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
     );
   }
 
@@ -215,6 +234,43 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
         onChanged: (value) => ref.read(provider.notifier).set(value),
       );
     }
+
+    /// Выбор из нескольких вариантов: подпись, пояснение, сегменты.
+    Widget choice({
+      required String label,
+      String? subtitle,
+      required List<String> labels,
+      required int index,
+      required ValueChanged<int> onSelected,
+    }) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(label, style: context.text.title),
+            if (subtitle != null) ...[
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: context.text.caption.copyWith(color: colors.textTertiary),
+              ),
+            ],
+            AppSpacing.gapSm,
+            PixelSegments(
+              padding: EdgeInsets.zero,
+              labels: labels,
+              currentIndex: index < 0 ? 0 : index,
+              onSelected: onSelected,
+            ),
+          ],
+        ),
+      );
+    }
+
+    final beta = ref.watch(betaStyleProvider);
+    final options = ref.watch(betaOptionsProvider);
+    final textScale = ref.watch(textScaleOverrideProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.devTitle)),
@@ -288,6 +344,22 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
             l10n.devBackgroundNoiseDesc,
           ),
           flag(devBannerProvider, l10n.devBanner, l10n.devBannerDesc),
+          flag(layoutGridProvider, l10n.devLayoutGrid, l10n.devLayoutGridDesc),
+          flag(touchIndicatorsProvider, l10n.devTouches, l10n.devTouchesDesc),
+          choice(
+            label: l10n.devTextScale,
+            subtitle: l10n.devTextScaleDesc,
+            labels: [
+              for (final option in TextScaleNotifier.options)
+                option == 0
+                    ? l10n.devTextScaleSystem
+                    : '${(option * 100).round()}%',
+            ],
+            index: TextScaleNotifier.options.indexOf(textScale),
+            onSelected: (i) => ref
+                .read(textScaleOverrideProvider.notifier)
+                .set(TextScaleNotifier.options[i]),
+          ),
           AppSpacing.gapXl,
 
           PixelSectionHeader(title: l10n.devSectionHaptics, index: 5),
@@ -347,8 +419,81 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
 
           PixelSectionHeader(title: l10n.devSectionExperimental, index: 7),
           _BetaStyleTile(
-            enabled: ref.watch(betaStyleProvider),
+            enabled: beta,
+            glyph: options.glyph.animationGlyph,
             onTap: _toggleBeta,
+          ),
+          AppSpacing.gapXl,
+
+          // Настройки беты видны всегда: их удобно выставить до включения,
+          // чтобы бета сразу открылась такой, как нужно.
+          PixelSectionHeader(title: l10n.devSectionBeta, index: 8),
+          if (!beta)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: Text(
+                l10n.devBetaOnlyHint,
+                style: context.text.caption.copyWith(color: colors.textTertiary),
+              ),
+            ),
+          choice(
+            label: l10n.devBetaGlyph,
+            subtitle: l10n.devBetaGlyphDesc,
+            labels: [r'$', 'm', l10n.devBetaGlyphNone],
+            index: BetaGlyphChoice.values.indexOf(options.glyph),
+            onSelected: (i) => ref
+                .read(betaGlyphProvider.notifier)
+                .set(BetaGlyphChoice.values[i].name),
+          ),
+          if (options.glyph != BetaGlyphChoice.none) ...[
+            choice(
+              label: l10n.devBetaGlyphStrength,
+              labels: [
+                l10n.devStrengthQuiet,
+                l10n.devStrengthNormal,
+                l10n.devStrengthBold,
+                l10n.devStrengthFull,
+              ],
+              index: BetaGlyphStrength.values.indexOf(options.strength),
+              onSelected: (i) => ref
+                  .read(betaGlyphStrengthProvider.notifier)
+                  .set(BetaGlyphStrength.values[i].name),
+            ),
+            choice(
+              label: l10n.devBetaGlyphSize,
+              labels: [
+                l10n.devSizeSmall,
+                l10n.devSizeNormal,
+                l10n.devSizeLarge,
+              ],
+              index: BetaGlyphSize.values.indexOf(options.size),
+              onSelected: (i) => ref
+                  .read(betaGlyphSizeProvider.notifier)
+                  .set(BetaGlyphSize.values[i].name),
+            ),
+          ],
+          choice(
+            label: l10n.devBetaTransition,
+            labels: [
+              l10n.devTransitionPageTurn,
+              l10n.devTransitionFade,
+              l10n.devTransitionInstant,
+            ],
+            index: BetaTransition.values.indexOf(options.transition),
+            onSelected: (i) => ref
+                .read(betaTransitionProvider.notifier)
+                .set(BetaTransition.values[i].name),
+          ),
+          flag(betaGrainProvider, l10n.devBetaGrain, l10n.devBetaGrainDesc),
+          flag(
+            betaSerifBodyProvider,
+            l10n.devBetaSerifBody,
+            l10n.devBetaSerifBodyDesc,
+          ),
+          _DevAction(
+            icon: PixelIcons.replay,
+            label: l10n.devBetaReplay,
+            onTap: _replayReveal,
           ),
         ],
       ),
@@ -507,9 +652,16 @@ class _HapticChip extends StatelessWidget {
 /// превью стиля, а не иконка: по нему видно, во что превратится
 /// приложение, ещё до того, как на пункт нажали.
 class _BetaStyleTile extends StatelessWidget {
-  const _BetaStyleTile({required this.enabled, required this.onTap});
+  const _BetaStyleTile({
+    required this.enabled,
+    required this.glyph,
+    required this.onTap,
+  });
 
   final bool enabled;
+
+  /// Знак превью — тот, что выбран для беты.
+  final String glyph;
   final ValueChanged<Offset> onTap;
 
   @override
@@ -539,7 +691,7 @@ class _BetaStyleTile extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              child: const ClipRect(child: BetaGlyph(size: 52)),
+              child: ClipRect(child: BetaGlyph(glyph: glyph, size: 52)),
             ),
             AppSpacing.gapHMd,
             Expanded(

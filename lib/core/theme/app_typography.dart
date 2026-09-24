@@ -38,8 +38,9 @@ TextTheme buildAppTextTheme({
   required AppFont font,
   required AppColorsExt colors,
   bool beta = false,
+  bool serifBody = true,
 }) {
-  if (beta) return _buildPaperTextTheme(colors);
+  if (beta) return _buildPaperTextTheme(colors, serifBody: serifBody);
   TextStyle style({
     required double size,
     required FontWeight weight,
@@ -121,7 +122,10 @@ TextTheme buildAppTextTheme({
 /// (`c2sc`/`smcp`), а не прописные, растянутые трекингом: капители
 /// нарисованы под свой размер и не кричат. В тексте — старостильные
 /// цифры, в суммах — выровненные табличные, чтобы колонка читалась.
-TextTheme _buildPaperTextTheme(AppColorsExt colors) {
+///
+/// [serifBody] выключен — основной текст (подписи, абзацы, строки
+/// списков) набран Inter, антиква остаётся в заголовках и суммах.
+TextTheme _buildPaperTextTheme(AppColorsExt colors, {bool serifBody = true}) {
   const amounts = [
     FontFeature.liningFigures(),
     FontFeature.tabularFigures(),
@@ -140,10 +144,14 @@ TextTheme _buildPaperTextTheme(AppColorsExt colors) {
     double height = 1.3,
     double letterSpacing = 0,
     List<FontFeature> features = prose,
+    bool body = false,
   }) {
+    final sans = body && !serifBody;
     return TextStyle(
-      fontFamily: kSerifFamily,
-      fontSize: size,
+      fontFamily: sans ? kBodyFamily : kSerifFamily,
+      // У Inter очко крупнее, чем у антиквы того же кегля: без поправки
+      // основной текст перерастал бы заголовки.
+      fontSize: sans ? size * 0.92 : size,
       fontWeight: weight,
       color: color,
       height: height,
@@ -193,10 +201,25 @@ TextTheme _buildPaperTextTheme(AppColorsExt colors) {
       height: 1.2,
       features: amounts,
     ),
-    titleMedium: serif(size: 17, color: colors.textPrimary, height: 1.25),
-    bodyMedium: serif(size: 15, color: colors.textSecondary, height: 1.45),
-    bodySmall: serif(size: 13, color: colors.textTertiary, height: 1.35),
-    labelMedium: serif(size: 14, color: colors.textSecondary),
+    titleMedium: serif(
+      size: 17,
+      color: colors.textPrimary,
+      height: 1.25,
+      body: true,
+    ),
+    bodyMedium: serif(
+      size: 15,
+      color: colors.textSecondary,
+      height: 1.45,
+      body: true,
+    ),
+    bodySmall: serif(
+      size: 13,
+      color: colors.textTertiary,
+      height: 1.35,
+      body: true,
+    ),
+    labelMedium: serif(size: 14, color: colors.textSecondary, body: true),
     labelSmall: serif(
       size: 13,
       weight: FontWeight.w600,

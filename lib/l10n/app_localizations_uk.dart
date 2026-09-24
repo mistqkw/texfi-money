@@ -1273,7 +1273,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get devBetaStyleDesc =>
-      'Source Serif 4, тепла бежева палітра, м\'які форми';
+      'Source Serif 4, кольори аватарки, великий знак на тлі';
 
   @override
   String get devBetaOn => 'Увімкнено';
@@ -1299,4 +1299,97 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get devBetaDisableAction => 'Вимкнути';
+
+  @override
+  String get devSectionBeta => 'Бета-стиль';
+
+  @override
+  String get devBetaOnlyHint => 'Діє, коли бета-стиль увімкнено';
+
+  @override
+  String get devBetaGlyph => 'Знак на тлі';
+
+  @override
+  String get devBetaGlyphDesc => 'Великий знак за екранами';
+
+  @override
+  String get devBetaGlyphNone => 'Немає';
+
+  @override
+  String get devBetaGlyphStrength => 'Помітність знака';
+
+  @override
+  String get devStrengthQuiet => 'Тихо';
+
+  @override
+  String get devStrengthNormal => 'Звично';
+
+  @override
+  String get devStrengthBold => 'Яскраво';
+
+  @override
+  String get devStrengthFull => 'Еталон';
+
+  @override
+  String get devBetaGlyphSize => 'Розмір знака';
+
+  @override
+  String get devSizeSmall => 'Менший';
+
+  @override
+  String get devSizeNormal => 'Звичайний';
+
+  @override
+  String get devSizeLarge => 'Більший';
+
+  @override
+  String get devBetaTransition => 'Перехід між екранами';
+
+  @override
+  String get devTransitionPageTurn => 'Гортати';
+
+  @override
+  String get devTransitionFade => 'Проявляти';
+
+  @override
+  String get devTransitionInstant => 'Одразу';
+
+  @override
+  String get devBetaGrain => 'Зерно паперу';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Ледь помітні точки, завдяки яким тло читається як аркуш';
+
+  @override
+  String get devBetaSerifBody => 'Текст антиквою';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Вимкнено — основний текст Inter, антиква лише в заголовках і сумах';
+
+  @override
+  String get devBetaReplay => 'Програти анімацію увімкнення';
+
+  @override
+  String get devTextScale => 'Масштаб тексту';
+
+  @override
+  String get devTextScaleDesc =>
+      'Поверх системного — перевірити, що екрани не ламаються';
+
+  @override
+  String get devTextScaleSystem => 'Система';
+
+  @override
+  String get devLayoutGrid => 'Сітка 8dp';
+
+  @override
+  String get devLayoutGridDesc => 'Сітка й поля екрана поверх інтерфейсу';
+
+  @override
+  String get devTouches => 'Показувати дотики';
+
+  @override
+  String get devTouchesDesc => 'Кружечки під пальцем — для запису екрана';
 }

@@ -10,11 +10,13 @@ import 'package:texfi_money/core/theme/app_palettes.dart';
 import 'package:texfi_money/core/theme/app_style_ext.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
 import 'package:texfi_money/core/theme/app_typography.dart';
+import 'package:texfi_money/core/theme/beta_options.dart';
 import 'package:texfi_money/l10n/app_localizations.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
 import 'package:texfi_money/presentation/settings/developer_provider.dart';
 import 'package:texfi_money/presentation/settings/developer_screen.dart';
+import 'package:texfi_money/presentation/shared/beta_glyph.dart';
 
 /// Приложение с темой, которая, как в main.dart, следит за бета-стилем.
 class _App extends ConsumerWidget {
@@ -118,7 +120,8 @@ void main() {
       (tester) async {
     final prefs = await _pump(tester, const DeveloperScreen());
 
-    final tile = find.text('Бета-стиль');
+    // Плитку ищем по описанию: «Бета-стиль» — ещё и заголовок раздела.
+    final tile = find.textContaining('Source Serif 4');
     await tester.scrollUntilVisible(tile, 300);
     await tester.pumpAndSettle();
     await tester.tap(tile);
@@ -143,7 +146,8 @@ void main() {
 
   testWidgets('отмена в диалоге стиль не трогает', (tester) async {
     final prefs = await _pump(tester, const DeveloperScreen());
-    final tile = find.text('Бета-стиль');
+    // Плитку ищем по описанию: «Бета-стиль» — ещё и заголовок раздела.
+    final tile = find.textContaining('Source Serif 4');
     await tester.scrollUntilVisible(tile, 300);
     await tester.pumpAndSettle();
     await tester.tap(tile);
@@ -187,5 +191,66 @@ void main() {
     final pixel = AppTheme.build(variant: AppThemeVariant.dark, font: AppFont.inter);
     expect(pixel.textTheme.displayLarge!.fontFamily, kPixelFamily);
     expect(pixel.extension<AppStyleExt>()!.beta, isFalse);
+  });
+
+  group('знак на фоне беты', () {
+    Future<void> pumpBackground(WidgetTester tester, BetaOptions options) {
+      return tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.build(
+            variant: AppThemeVariant.dark,
+            font: AppFont.system,
+            beta: true,
+            betaOptions: options,
+          ),
+          home: const BetaBackground(child: SizedBox.expand()),
+        ),
+      );
+    }
+
+    testWidgets('по умолчанию — «\$»', (tester) async {
+      await pumpBackground(tester, const BetaOptions());
+      expect(
+        tester.widget<BetaGlyph>(find.byType(BetaGlyph)).glyph,
+        r'$',
+      );
+    });
+
+    testWidgets('можно выбрать «m»', (tester) async {
+      await pumpBackground(
+        tester,
+        const BetaOptions(glyph: BetaGlyphChoice.m),
+      );
+      expect(tester.widget<BetaGlyph>(find.byType(BetaGlyph)).glyph, 'm');
+    });
+
+    testWidgets('«Нет» убирает знак с фона', (tester) async {
+      await pumpBackground(
+        tester,
+        const BetaOptions(glyph: BetaGlyphChoice.none),
+      );
+      expect(find.byType(BetaGlyph), findsNothing);
+    });
+
+    test('без знака на фоне анимации всё равно берут «\$»', () {
+      expect(BetaGlyphChoice.none.animationGlyph, r'$');
+      expect(BetaGlyphChoice.m.animationGlyph, 'm');
+    });
+  });
+
+  testWidgets('выбор знака в меню сохраняется', (tester) async {
+    final prefs = await _pump(
+      tester,
+      const DeveloperScreen(),
+      prefs: {'dev_menu_unlocked': true},
+    );
+    // В пиксельном стиле сегменты набраны капсом.
+    final none = find.text('НЕТ');
+    await tester.scrollUntilVisible(none, 300);
+    await tester.pumpAndSettle();
+    await tester.tap(none);
+    await tester.pumpAndSettle();
+    expect(prefs.getString('dev_beta_glyph'), 'none');
+    expect(tester.takeException(), isNull);
   });
 }

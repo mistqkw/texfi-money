@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/theme/beta_options.dart';
 import '../../core/utils/haptics.dart';
 import 'beta_glyph.dart';
 
@@ -117,6 +118,7 @@ class _BetaLaunchSplashState extends State<BetaLaunchSplash>
                     ).createShader(rect);
                   },
                   child: BetaGlyph(
+                    glyph: context.betaOptions.glyph.animationGlyph,
                     size: glyphSize,
                     fillOpacity: BetaGlyph.fillAlpha * _fill.value,
                     strokeColor:

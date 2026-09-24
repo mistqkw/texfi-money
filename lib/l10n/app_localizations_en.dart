@@ -1255,7 +1255,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devBetaStyleDesc =>
-      'Source Serif 4, warm beige palette, soft shapes';
+      'Source Serif 4, avatar colours, a big mark behind the screens';
 
   @override
   String get devBetaOn => 'On';
@@ -1281,4 +1281,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devBetaDisableAction => 'Turn off';
+
+  @override
+  String get devSectionBeta => 'Beta style';
+
+  @override
+  String get devBetaOnlyHint => 'Takes effect while the beta style is on';
+
+  @override
+  String get devBetaGlyph => 'Background mark';
+
+  @override
+  String get devBetaGlyphDesc => 'The big letter behind the screens';
+
+  @override
+  String get devBetaGlyphNone => 'None';
+
+  @override
+  String get devBetaGlyphStrength => 'Mark strength';
+
+  @override
+  String get devStrengthQuiet => 'Quiet';
+
+  @override
+  String get devStrengthNormal => 'Normal';
+
+  @override
+  String get devStrengthBold => 'Bold';
+
+  @override
+  String get devStrengthFull => 'Original';
+
+  @override
+  String get devBetaGlyphSize => 'Mark size';
+
+  @override
+  String get devSizeSmall => 'Smaller';
+
+  @override
+  String get devSizeNormal => 'Normal';
+
+  @override
+  String get devSizeLarge => 'Larger';
+
+  @override
+  String get devBetaTransition => 'Screen transition';
+
+  @override
+  String get devTransitionPageTurn => 'Turn';
+
+  @override
+  String get devTransitionFade => 'Fade';
+
+  @override
+  String get devTransitionInstant => 'Instant';
+
+  @override
+  String get devBetaGrain => 'Paper grain';
+
+  @override
+  String get devBetaGrainDesc =>
+      'Faint speckle that makes the background read as a sheet';
+
+  @override
+  String get devBetaSerifBody => 'Serif body text';
+
+  @override
+  String get devBetaSerifBodyDesc =>
+      'Off — body text in Inter, serif only in headings and amounts';
+
+  @override
+  String get devBetaReplay => 'Replay the switch animation';
+
+  @override
+  String get devTextScale => 'Text scale';
+
+  @override
+  String get devTextScaleDesc =>
+      'Overrides the system setting — check that screens don\'t break';
+
+  @override
+  String get devTextScaleSystem => 'System';
+
+  @override
+  String get devLayoutGrid => '8dp grid';
+
+  @override
+  String get devLayoutGridDesc =>
+      'Grid and screen margins on top of the interface';
+
+  @override
+  String get devTouches => 'Show touches';
+
+  @override
+  String get devTouchesDesc =>
+      'Circles under your finger — for screen recordings';
 }

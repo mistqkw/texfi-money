@@ -188,7 +188,12 @@ class PixelSectionHeader extends StatelessWidget {
           Flexible(
             child: Text(
               title,
-              style: context.text.headline,
+              // В бете заголовок раздела на ступень мельче заголовка
+              // экрана: 24 кегля антиквы обрезали «Сборка и устройство»
+              // до «Сборка и устройс…».
+              style: context.style.beta
+                  ? context.text.headline.copyWith(fontSize: 20)
+                  : context.text.headline,
               overflow: TextOverflow.ellipsis,
             ),
           ),

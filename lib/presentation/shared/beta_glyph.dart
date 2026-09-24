@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/theme/beta_options.dart';
 
 /// Знак бета-стиля — «$» антиквой с полупрозрачной заливкой и светлой
 /// обводкой, тот же, что на аватарке автора. Параметры сняты с эталона
@@ -92,7 +93,7 @@ class BetaGlyph extends StatelessWidget {
   }
 }
 
-/// Фон бета-стиля: лист с зерном и большой «$» посередине — та же
+/// Фон бета-стиля: лист с зерном и большой знак посередине — та же
 /// композиция, что на аватарке: знак кеглем 600/736 от ширины, по центру.
 ///
 /// На тёмном листе знак эталонный, как на аватарке. На светлом эталонный
@@ -100,52 +101,61 @@ class BetaGlyph extends StatelessWidget {
 /// с бумагой, — поэтому там тот же рецепт (заливка плюс более плотная
 /// обводка) набран тёмно-синими чернилами.
 ///
-/// Знак дополнительно приглушён целиком: на аватарке он лежит поверх
-/// картинки, а здесь — под текстом, который нужно читать.
+/// Какой знак (`$`, `m` или никакого), насколько он заметен, какого
+/// размера и есть ли зерно — настройки беты из меню разработчика, см.
+/// [BetaOptions]. По умолчанию знак приглушён: на аватарке он лежит
+/// поверх картинки, а здесь — под текстом, который нужно читать.
 class BetaBackground extends StatelessWidget {
   const BetaBackground({super.key, required this.child});
 
   final Widget child;
 
-  /// Кегль знака к ширине экрана — как 600 к 736 на аватарке.
-  static const double glyphToWidth = 600 / 736;
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final options = context.betaOptions;
     final dark = Theme.of(context).brightness == Brightness.dark;
+    final glyph = options.glyph.glyph;
+    final light = options.strength.lightFactor;
+
     return DecoratedBox(
       decoration: BoxDecoration(color: colors.background),
       child: Stack(
         fit: StackFit.expand,
         children: [
-          IgnorePointer(
-            child: RepaintBoundary(
-              child: CustomPaint(painter: _PaperGrainPainter(colors.noise)),
+          if (options.grain)
+            IgnorePointer(
+              child: RepaintBoundary(
+                child: CustomPaint(painter: _PaperGrainPainter(colors.noise)),
+              ),
             ),
-          ),
-          IgnorePointer(
-            child: ExcludeSemantics(
-              child: LayoutBuilder(
-                builder: (context, constraints) => Center(
-                  child: Opacity(
-                    opacity: dark ? 0.45 : 1,
-                    child: RepaintBoundary(
-                      child: dark
-                          ? BetaGlyph(size: constraints.maxWidth * glyphToWidth)
-                          : BetaGlyph(
-                              size: constraints.maxWidth * glyphToWidth,
-                              fillColor: colors.textPrimary,
-                              strokeColor: colors.textPrimary,
-                              fillOpacity: 0.035,
-                              strokeOpacity: 0.12,
-                            ),
-                    ),
-                  ),
+          if (glyph != null)
+            IgnorePointer(
+              child: ExcludeSemantics(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final size = constraints.maxWidth * options.size.toWidth;
+                    return Center(
+                      child: RepaintBoundary(
+                        child: dark
+                            ? Opacity(
+                                opacity: options.strength.darkLayer,
+                                child: BetaGlyph(glyph: glyph, size: size),
+                              )
+                            : BetaGlyph(
+                                glyph: glyph,
+                                size: size,
+                                fillColor: colors.textPrimary,
+                                strokeColor: colors.textPrimary,
+                                fillOpacity: (0.035 * light).clamp(0.0, 1.0),
+                                strokeOpacity: (0.12 * light).clamp(0.0, 1.0),
+                              ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-          ),
           child,
         ],
       ),
