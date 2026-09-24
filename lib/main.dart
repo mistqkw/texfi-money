@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_motion.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/page_sheet.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
 import 'presentation/settings/developer_provider.dart';
@@ -14,7 +15,6 @@ import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
 import 'presentation/shared/dev_overlays.dart';
-import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
 
 void main() async {
@@ -44,7 +44,8 @@ class TexFiMoneyApp extends ConsumerWidget {
     ref.watch(hapticsEnabledProvider);
     // То же для замедления анимаций из меню разработчика.
     ref.watch(animationSpeedProvider);
-    final noise = ref.watch(backgroundNoiseProvider);
+    // Фактура листа — выключатель из меню разработчика.
+    PageSheet.texture = ref.watch(backgroundNoiseProvider);
     final devBanner = ref.watch(devBannerProvider);
     final textScale = ref.watch(textScaleOverrideProvider);
     final grid = ref.watch(layoutGridProvider);
@@ -79,8 +80,7 @@ class TexFiMoneyApp extends ConsumerWidget {
             child: content,
           );
         }
-        Widget body =
-            PixelBackground(density: noise ? 0.06 : 0, child: content);
+        Widget body = PageSheet(child: content);
         if (grid) body = LayoutGridOverlay(child: body);
         if (touches) body = TouchIndicatorOverlay(child: body);
         if (!devBanner) return body;

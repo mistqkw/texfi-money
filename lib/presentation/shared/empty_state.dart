@@ -30,7 +30,7 @@ class EmptyState extends StatelessWidget {
     this.onAction,
   });
 
-  /// Спрайт из [PixelIcons] — 12×12, как все остальные знаки приложения.
+  /// Спрайт из [PixelIcons] — 16×16, как все остальные знаки приложения.
   final List<String> sprite;
 
   final String message;

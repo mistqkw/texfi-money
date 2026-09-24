@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_radius.dart';
 import '../../domain/entities/category_entity.dart';
+import 'pixel_card.dart';
 import 'pixel_icon.dart';
 
 class CategoryAvatar extends StatelessWidget {
@@ -16,20 +17,30 @@ class CategoryAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Без рамки, со светлой кромкой сверху. Цветная рамка у каждой плитки
+    // в списке операций давала лес обведённых квадратов, и сумма справа
+    // терялась среди них; плитка без обводки держится тоном и кромкой,
+    // как и карточки.
     return Container(
       width: size,
       height: size,
-      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: category.color.withValues(alpha: 0.16),
-        // Радиус и толщина рамки — из общей шкалы. Раньше здесь было
-        // скругление в пятую часть размера и рамка 1.5px: получался
-        // Material-чип, единственный в приложении элемент со своими
-        // собственными значениями.
+        color: category.color.withValues(alpha: 0.14),
         borderRadius: AppRadius.controlSmallAll,
-        border: Border.all(color: category.color.withValues(alpha: 0.55), width: AppRadius.pixelBorder),
       ),
-      child: PixelIcon(PixelIcons.forCategoryKey(category.iconKey), color: category.color, size: size * 0.5),
+      child: CustomPaint(
+        foregroundPainter: BevelPainter(
+          category.color.withValues(alpha: 0.4),
+          inset: 3,
+        ),
+        child: Center(
+          child: PixelIcon(
+            PixelIcons.forCategoryKey(category.iconKey),
+            color: category.color,
+            size: size * 0.56,
+          ),
+        ),
+      ),
     );
   }
 }

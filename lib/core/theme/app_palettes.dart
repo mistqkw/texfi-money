@@ -11,51 +11,60 @@ abstract final class AppPalettes {
   static const Color _accentShadowDark = Color(0xFF2B4FB0);
   static const Color _onAccent = Color(0xFFFFFFFF);
 
+  /// Тёмная тема — полуночный синий, а не нейтральный серый.
+  ///
+  /// Прежний набор (#0D0D10 / #1C1C22 / рамки #45454F) был корректным, но
+  /// плоским: серые плашки в серых рамках, и все одного веса. Деньги в
+  /// таком интерфейсе выглядят как счёт в игре. Здесь фон уходит в
+  /// глубокий синий, поверхности поднимаются над ним ступенями, а рамки
+  /// стали тише — объём теперь держат светлая кромка сверху и сплошная
+  /// тень снизу, как у освещённого предмета, а не обводка у каждого.
   static const AppColorsExt dark = AppColorsExt(
-    background: Color(0xFF0D0D10),
-    // Поверхность заметно светлее фона: раньше разница между #0D0D10 и
-    // #17171B была на грани различимого, и карточка читалась как пятно,
-    // а не как предмет.
-    surface: Color(0xFF1C1C22),
-    surfaceVariant: Color(0xFF26262E),
-    divider: Color(0xFF2A2A31),
-    border: Color(0xFF45454F),
-    // Тень темнее фона — иначе на чёрном она превращается во вторую
+    background: Color(0xFF090B11),
+    surface: Color(0xFF12151E),
+    surfaceVariant: Color(0xFF1A1E2A),
+    divider: Color(0xFF1F2331),
+    border: Color(0xFF2A3043),
+    // Тень темнее фона — иначе на тёмном она превращается во вторую
     // рамку и карточка выглядит обведённой дважды.
-    shadow: Color(0xFF000000),
+    shadow: Color(0xFF030408),
     accent: _accent,
     accentShadow: _accentShadowDark,
     onAccent: _onAccent,
-    textPrimary: Color(0xFFFFFFFF),
-    textSecondary: Color(0xFF9A9AA5),
-    textTertiary: Color(0xFF5C5C66),
-    income: Color(0xFF3ED598),
-    expense: Color(0xFFFF6B6B),
+    textPrimary: Color(0xFFF3F5FA),
+    textSecondary: Color(0xFF9CA3B6),
+    textTertiary: Color(0xFF5F6679),
+    income: Color(0xFF45D6A0),
+    expense: Color(0xFFFF6F72),
     warning: Color(0xFFFFB648),
-    noise: Color(0x0DFFFFFF),
+    noise: Color(0x0AFFFFFF),
+    gold: Color(0xFFEBBE52),
+    highlight: Color(0x12FFFFFF),
   );
 
   /// Чистый чёрный OLED: та же тёмная тема, но фон и поверхности — #000000
   /// (экономия батареи на AMOLED-экранах), карточки отделяются рамкой.
   static const AppColorsExt oled = AppColorsExt(
     background: Color(0xFF000000),
-    surface: Color(0xFF000000),
-    surfaceVariant: Color(0xFF0D0D0F),
-    divider: Color(0xFF232327),
+    surface: Color(0xFF07080C),
+    surfaceVariant: Color(0xFF0E1017),
+    divider: Color(0xFF181B25),
     // На чистом чёрном тень невидима по определению, поэтому объём здесь
-    // держит только рамка — и она ярче, чем в обычной тёмной теме.
-    border: Color(0xFF3E3E48),
-    shadow: Color(0xFF1A1A1F),
+    // держат рамка и кромка — обе ярче, чем в обычной тёмной теме.
+    border: Color(0xFF2A3043),
+    shadow: Color(0xFF151926),
     accent: _accent,
     accentShadow: _accentShadowDark,
     onAccent: _onAccent,
-    textPrimary: Color(0xFFFFFFFF),
-    textSecondary: Color(0xFF9A9AA5),
-    textTertiary: Color(0xFF5C5C66),
-    income: Color(0xFF3ED598),
-    expense: Color(0xFFFF6B6B),
+    textPrimary: Color(0xFFF3F5FA),
+    textSecondary: Color(0xFF9CA3B6),
+    textTertiary: Color(0xFF5F6679),
+    income: Color(0xFF45D6A0),
+    expense: Color(0xFFFF6F72),
     warning: Color(0xFFFFB648),
-    noise: Color(0x0DFFFFFF),
+    noise: Color(0x0AFFFFFF),
+    gold: Color(0xFFEBBE52),
+    highlight: Color(0x16FFFFFF),
   );
 
   /// «Ретро-бумага, Game Boy на солнце» — та же светлая палитра, что в
@@ -88,7 +97,10 @@ abstract final class AppPalettes {
     warning: Color(0xFFD98A2B),
     // Тёплая крапинка под цвет бумаги: белая на кремовом фоне не видна
     // вовсе, а серая делает его грязным.
-    noise: Color(0x0F8A6A3D),
+    noise: Color(0x148A6A3D),
+    // На кремовом золото темнее — светлое на светлом не читается.
+    gold: Color(0xFFB8841E),
+    highlight: Color(0xB3FFFFFF),
   );
 
   static AppColorsExt forVariant(AppThemeVariant variant) => switch (variant) {

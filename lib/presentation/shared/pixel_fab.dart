@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import 'pixel_card.dart';
 import 'pixel_icon.dart';
 
 /// Плавающая кнопка добавления в пиксель-стиле экосистемы TexFi: квадрат
@@ -47,12 +48,21 @@ class _PixelFabState extends State<PixelFab> {
       decoration: BoxDecoration(
         color: colors.accent,
         borderRadius: AppRadius.cardMediumAll,
-        border: Border.all(color: colors.onAccent, width: 2),
         boxShadow: [
-          BoxShadow(color: colors.textPrimary.withValues(alpha: 0.45), offset: const Offset(shadowOffset, shadowOffset)),
+          BoxShadow(color: colors.shadow, offset: const Offset(shadowOffset, shadowOffset)),
         ],
       ),
-      child: PixelIcon(widget.pattern, size: 22, color: colors.onAccent),
+      // Кромка сверху, тёмная грань снизу и твёрдая тень вместо белой
+      // рамки: белая обводка вокруг синего блока делала кнопку игрушечной.
+      child: CustomPaint(
+        foregroundPainter: BevelPainter(
+          const Color(0x55FFFFFF),
+          bottom: colors.accentShadow,
+        ),
+        child: Center(
+          child: PixelIcon(widget.pattern, size: 22, color: colors.onAccent),
+        ),
+      ),
     );
 
     button = GestureDetector(

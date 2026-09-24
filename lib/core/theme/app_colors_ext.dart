@@ -20,6 +20,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     required this.expense,
     required this.warning,
     required this.noise,
+    required this.gold,
+    required this.highlight,
   });
 
   final Color background;
@@ -61,6 +63,17 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
   /// но не как шум под текстом.
   final Color noise;
 
+  /// Золото — «металл денег». Второй акцент, строго дозированный:
+  /// монета, знак валюты у баланса, достигнутая цель. Если им красить
+  /// всё подряд, он перестаёт значить «деньги» и становится ещё одним
+  /// цветом интерфейса.
+  final Color gold;
+
+  /// Светлая кромка скоса — верхний край карточек и кнопок. Пиксельная
+  /// графика передаёт объём не размытием, а освещённой гранью: свет
+  /// сверху, тень — сплошным блоком снизу справа.
+  final Color highlight;
+
   @override
   AppColorsExt copyWith({
     Color? background,
@@ -79,6 +92,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
     Color? expense,
     Color? warning,
     Color? noise,
+    Color? gold,
+    Color? highlight,
   }) {
     return AppColorsExt(
       background: background ?? this.background,
@@ -97,6 +112,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       expense: expense ?? this.expense,
       warning: warning ?? this.warning,
       noise: noise ?? this.noise,
+      gold: gold ?? this.gold,
+      highlight: highlight ?? this.highlight,
     );
   }
 
@@ -120,6 +137,8 @@ class AppColorsExt extends ThemeExtension<AppColorsExt> {
       expense: Color.lerp(expense, other.expense, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       noise: Color.lerp(noise, other.noise, t)!,
+      gold: Color.lerp(gold, other.gold, t)!,
+      highlight: Color.lerp(highlight, other.highlight, t)!,
     );
   }
 }

@@ -75,14 +75,14 @@ void main() {
       }
     });
 
-    test('в сетке только заливка, полутон и пустота', () {
+    test('в сетке только четыре тона и пустота', () {
       // Любой другой символ рисовальщик молча считает пустотой — то есть
       // опечатка не упала бы, а просто выела бы кусок иконки.
       for (final entry in all.entries) {
         for (final row in entry.value) {
           for (final char in row.split('')) {
             expect(
-              const {'#', '+', '.'},
+              const {'#', '*', 'o', '+', '.'},
               contains(char),
               reason: '${entry.key}: неизвестный символ "$char"',
             );

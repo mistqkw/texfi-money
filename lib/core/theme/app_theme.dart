@@ -31,7 +31,9 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: colors.background,
+      // Экраны прозрачные: фон и сетку каждой странице подкладывает лист
+      // (PageSheet) — иначе заливка Scaffold закрывала бы фактуру.
+      scaffoldBackgroundColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       dividerColor: colors.divider,
@@ -45,6 +47,7 @@ abstract final class AppTheme {
           TargetPlatform.linux: PixelDissolvePageTransitionsBuilder(),
           TargetPlatform.windows: PixelDissolvePageTransitionsBuilder(),
           TargetPlatform.macOS: PixelDissolvePageTransitionsBuilder(),
+          TargetPlatform.iOS: SheetedCupertinoPageTransitionsBuilder(),
         },
       ),
       dividerTheme: DividerThemeData(
@@ -53,7 +56,7 @@ abstract final class AppTheme {
         space: 1,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: colors.background,
+        backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,

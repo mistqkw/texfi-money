@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
@@ -109,24 +110,19 @@ class _PixelNavTab extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Подложка активной вкладки — квадрат с рамкой, а не
-              // material-«пилюля».
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.xs + 2,
-                ),
-                decoration: BoxDecoration(
-                  color: selected
-                      ? colors.accent.withValues(alpha: 0.16)
-                      : Colors.transparent,
-                  border: Border.all(
-                    color: selected ? colors.accent : Colors.transparent,
-                    width: AppRadius.pixelBorder,
-                  ),
-                ),
-                child: PixelIcon(item.sprite, size: 20, color: color),
+              // Активная вкладка отмечена короткой насечкой над знаком, а
+              // не рамкой вокруг него. Рамка вокруг активной вкладки была
+              // ещё одной обведённой плашкой среди десятка таких же — у
+              // главного элемента навигации не было своего жеста.
+              AnimatedContainer(
+                duration: AppMotion.fast,
+                curve: AppMotion.standard,
+                width: selected ? 18 : 0,
+                height: 3,
+                color: colors.accent,
               ),
+              const SizedBox(height: 6),
+              PixelIcon(item.sprite, size: 22, color: color),
               AppSpacing.gapXs,
               Text(
                 item.label,

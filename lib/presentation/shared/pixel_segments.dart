@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
+import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
+import 'pixel_card.dart';
 
 /// Переключатель разделов внутри одной вкладки.
 ///
@@ -43,26 +45,40 @@ class PixelSegments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    // Утопленная дорожка, в которой выбранный раздел — приподнятая
+    // клавиша. Раньше каждый сегмент был отдельной рамкой: два-три
+    // одинаковых прямоугольника рядом читались как кнопки, а не как один
+    // переключатель с положением.
     return Padding(
       padding: padding,
-      child: Row(
-        children: [
-          for (var i = 0; i < labels.length; i++) ...[
-            if (i > 0) AppSpacing.gapHSm,
-            Expanded(
-              child: _Segment(
-                label: labels[i],
-                selected: i == currentIndex,
-                selectedColor: selectedColor,
-                onTap: () {
-                  if (i == currentIndex) return;
-                  Haptics.select();
-                  onSelected(i);
-                },
+      child: Container(
+        padding: const EdgeInsets.all(3),
+        decoration: BoxDecoration(
+          color: colors.background,
+          borderRadius: AppRadius.controlSmallAll,
+          border: Border.all(
+            color: colors.divider,
+            width: AppRadius.pixelBorder,
+          ),
+        ),
+        child: Row(
+          children: [
+            for (var i = 0; i < labels.length; i++)
+              Expanded(
+                child: _Segment(
+                  label: labels[i],
+                  selected: i == currentIndex,
+                  selectedColor: selectedColor,
+                  onTap: () {
+                    if (i == currentIndex) return;
+                    Haptics.select();
+                    onSelected(i);
+                  },
+                ),
               ),
-            ),
           ],
-        ],
+        ),
       ),
     );
   }
@@ -92,29 +108,52 @@ class _Segment extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          decoration: BoxDecoration(
-            color: selected
-                ? active.withValues(alpha: 0.16)
-                : Colors.transparent,
-            borderRadius: AppRadius.controlSmallAll,
-            border: Border.all(
-              color: selected ? active : colors.border,
-              width: AppRadius.pixelBorder,
+        // Выбранная клавиша — с освещённой кромкой сверху и тенью снизу:
+        // приподнята над дорожкой.
+        child: _Raised(
+          raised: selected,
+          child: AnimatedContainer(
+            duration: AppMotion.fast,
+            curve: AppMotion.standard,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm - 1),
+            decoration: BoxDecoration(
+              color: selected ? colors.surfaceVariant : Colors.transparent,
+              borderRadius: AppRadius.controlTinyAll,
             ),
-          ),
-          child: Text(
-            label.toUpperCase(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.text.mono.copyWith(
-              color: selected ? active : colors.textSecondary,
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.mono.copyWith(
+                color: selected ? active : colors.textTertiary,
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Кромки приподнятой клавиши: свет сверху, тень снизу.
+class _Raised extends StatelessWidget {
+  const _Raised({required this.raised, required this.child});
+
+  final bool raised;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!raised) return child;
+    final colors = context.colors;
+    return CustomPaint(
+      foregroundPainter: BevelPainter(
+        colors.highlight,
+        inset: 2,
+        bottom: colors.shadow,
+      ),
+      child: child,
     );
   }
 }

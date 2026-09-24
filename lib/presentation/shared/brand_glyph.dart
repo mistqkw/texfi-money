@@ -36,28 +36,9 @@ const List<String> kBrandMark = [
 /// Сторона сетки знака в ячейках.
 const int kBrandMarkGrid = 12;
 
-/// Наименьшая и наибольшая диагональ `x + y` среди заполненных ячеек.
-///
-/// Нужны сборке на заставке: углы сетки пустые, и если считать волну от
-/// нуля до `2 * (grid - 1)`, она заканчивается задолго до конца отведённого
-/// интервала — знак успевал собраться, и дальше треть заставки на экране
-/// ничего не происходило.
-final (int, int) kBrandMarkDiagonalRange = () {
-  var min = kBrandMarkGrid * 2, max = 0;
-  for (var y = 0; y < kBrandMarkGrid; y++) {
-    for (var x = 0; x < kBrandMarkGrid; x++) {
-      if (kBrandMark[y][x] == '.') continue;
-      final d = x + y;
-      if (d < min) min = d;
-      if (d > max) max = d;
-    }
-  }
-  return (min, max);
-}();
-
 const Color kBrandBlue = Color(0xFF4A7DFB);
 
-/// Знак целиком. Для собирающейся по ячейкам версии — `LaunchSplash`.
+/// Знак целиком. Чеканка монеты на запуске — `LaunchSplash`.
 class BrandGlyph extends StatelessWidget {
   const BrandGlyph({super.key, this.size = 96, this.bodyColor, this.faceColor});
 

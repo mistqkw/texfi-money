@@ -31,7 +31,7 @@ void main() {
     await _loadFont('Inter', ['assets/fonts/Inter-Regular.ttf']);
   });
 
-  testWidgets('кадры сборки знака', (tester) async {
+  testWidgets('кадры чеканки монеты', (tester) async {
     tester.view.physicalSize = const Size(1080, 1200);
     tester.view.devicePixelRatio = 3.0;
     addTearDown(tester.view.reset);
@@ -40,9 +40,9 @@ void main() {
       MaterialApp(home: LaunchSplash(onFinished: () {})),
     );
 
-    // Шаг 130мс при длительности 1300мс — десять кадров на всю заставку.
+    // Шаг 145мс при длительности 1450мс — десять кадров на всю заставку.
     for (var frame = 1; frame <= 10; frame++) {
-      await tester.pump(const Duration(milliseconds: 120));
+      await tester.pump(const Duration(milliseconds: 145));
       await expectLater(
         find.byType(LaunchSplash),
         matchesGoldenFile('splash/frame_$frame.png'),

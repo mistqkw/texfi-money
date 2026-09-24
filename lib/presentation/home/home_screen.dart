@@ -341,7 +341,13 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     final flashColor = _increased ? context.colors.income : context.colors.expense;
-    final amount = AnimatedAmount(value: widget.value, style: widget.style);
+    final amount = AnimatedAmount(
+      value: widget.value,
+      style: widget.style,
+      // Знак валюты у баланса — золотом: это единственное место на экране,
+      // где число означает «все мои деньги».
+      symbolColor: context.colors.gold,
+    );
 
     return AnimatedBuilder(
       animation: _controller,

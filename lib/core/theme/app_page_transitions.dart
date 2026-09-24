@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 
 import 'app_colors_ext.dart';
 import 'app_motion.dart';
+import 'page_sheet.dart';
 
 /// Переход между экранами в духе ретро-игр: новый экран «проявляется»
 /// пиксельными блоками (dissolve), поверх один раз пробегают сканлайны.
@@ -32,6 +34,35 @@ class PixelDissolvePageTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
+/// Системный переход iOS (свайп от края — часть жеста, его не трогаем),
+/// но страница — на своём листе: экраны прозрачные, и без листа при
+/// свайпе сквозь уходящую страницу просвечивала бы предыдущая.
+class SheetedCupertinoPageTransitionsBuilder extends PageTransitionsBuilder {
+  const SheetedCupertinoPageTransitionsBuilder();
+
+  static const _system = CupertinoPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T>? route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    // Маршрута может не быть (переход собирают вне Navigator) — тогда и
+    // системного перехода нет, только лист.
+    if (route == null) return PageSheet(child: child);
+    return _system.buildTransitions(
+      route,
+      context,
+      animation,
+      secondaryAnimation,
+      PageSheet(child: child),
+    );
+  }
+}
+
 class PixelDissolveTransition extends StatelessWidget {
   const PixelDissolveTransition({
     super.key,
@@ -53,7 +84,9 @@ class PixelDissolveTransition extends StatelessWidget {
 
     return AnimatedBuilder(
       animation: curved,
-      child: child,
+      // Страница — на своём листе: экраны прозрачные, фон и сетку им
+      // подкладывает лист, см. [PageSheet].
+      child: PageSheet(child: child),
       builder: (context, child) {
         final t = curved.value;
         return Stack(
