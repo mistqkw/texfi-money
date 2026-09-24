@@ -1081,4 +1081,220 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get navSummary => 'Podsumowanie';
+
+  @override
+  String aboutDevTapsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Jeszcze $count dotknięć do menu dewelopera',
+      many: 'Jeszcze $count dotknięć do menu dewelopera',
+      few: 'Jeszcze $count dotknięcia do menu dewelopera',
+      one: 'Jeszcze $count dotknięcie do menu dewelopera',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutDevUnlocked => 'Menu dewelopera odblokowane';
+
+  @override
+  String get aboutDevMenu => 'Menu dewelopera';
+
+  @override
+  String get aboutDevMenuHint => 'Diagnostyka i eksperymenty';
+
+  @override
+  String get devTitle => 'Dla dewelopera';
+
+  @override
+  String get devSectionBuild => 'Kompilacja i urządzenie';
+
+  @override
+  String get devSectionRendering => 'Renderowanie';
+
+  @override
+  String get devSectionMotion => 'Animacja';
+
+  @override
+  String get devSectionInterface => 'Interfejs';
+
+  @override
+  String get devSectionHaptics => 'Wibracje';
+
+  @override
+  String get devSectionData => 'Dane';
+
+  @override
+  String get devSectionExperimental => 'Eksperymenty';
+
+  @override
+  String get devInfoVersion => 'Wersja';
+
+  @override
+  String get devInfoPackage => 'Pakiet';
+
+  @override
+  String get devInfoMode => 'Tryb kompilacji';
+
+  @override
+  String get devInfoPlatform => 'Platforma';
+
+  @override
+  String get devInfoScreen => 'Ekran';
+
+  @override
+  String get devInfoPixelRatio => 'Gęstość';
+
+  @override
+  String get devInfoTextScale => 'Skala tekstu';
+
+  @override
+  String get devInfoLocale => 'Język';
+
+  @override
+  String get devInfoStyle => 'Styl';
+
+  @override
+  String get devCopyInfo => 'Kopiuj do zgłoszenia błędu';
+
+  @override
+  String get devCopied => 'Skopiowano';
+
+  @override
+  String get devPerfOverlay => 'Wykres klatek';
+
+  @override
+  String get devPerfOverlayDesc => 'Czas wątków UI i GPU na wierzchu aplikacji';
+
+  @override
+  String get devRasterCheckerboard => 'Podświetl buforowane obrazy';
+
+  @override
+  String get devRasterCheckerboardDesc =>
+      'Szachownica na obrazach z bufora rastrowego';
+
+  @override
+  String get devLayerCheckerboard => 'Podświetl warstwy poza ekranem';
+
+  @override
+  String get devLayerCheckerboardDesc =>
+      'Szachownica na warstwach rysowanych przez saveLayer';
+
+  @override
+  String get devSemanticsDebugger => 'Drzewo dostępności';
+
+  @override
+  String get devSemanticsDebuggerDesc =>
+      'Pokazuje to, co widzi czytnik ekranu. Wyłącza się tutaj';
+
+  @override
+  String get devAnimationSpeed => 'Szybkość animacji';
+
+  @override
+  String get devAnimationSpeedDesc =>
+      'Spowalnia wszystkie animacje, by obejrzeć je klatka po klatce';
+
+  @override
+  String get devSkipSplash => 'Pomiń ekran startowy';
+
+  @override
+  String get devSkipSplashDesc => 'Od razu otwieraj aplikację przy starcie';
+
+  @override
+  String get devBackgroundNoise => 'Tekstura tła';
+
+  @override
+  String get devBackgroundNoiseDesc => 'Pikselowy szum pod całą aplikacją';
+
+  @override
+  String get devBanner => 'Wstęga w rogu';
+
+  @override
+  String get devBannerDesc => 'Oznacza zrzuty ekranu z ustawieniami dewelopera';
+
+  @override
+  String get devHapticsTest => 'Dotknij, by poczuć rytm';
+
+  @override
+  String get devHapticSelect => 'Tyk';
+
+  @override
+  String get devHapticSuccess => 'Gotowe';
+
+  @override
+  String get devHapticIncome => 'Przychód';
+
+  @override
+  String get devHapticExpense => 'Wydatek';
+
+  @override
+  String get devHapticError => 'Błąd';
+
+  @override
+  String get devHapticCelebrate => 'Cel';
+
+  @override
+  String get devReplayOnboarding => 'Pokaż wprowadzenie ponownie';
+
+  @override
+  String get devReplayOnboardingDesc =>
+      'Dane zostaną, aplikacja uruchomi się ponownie';
+
+  @override
+  String get devShowPrefs => 'Zapisane ustawienia';
+
+  @override
+  String get devShowPrefsDesc =>
+      'Wszystkie klucze, które aplikacja trzyma w SharedPreferences';
+
+  @override
+  String get devRestart => 'Uruchom ponownie';
+
+  @override
+  String get devRestartDesc => 'Przebudowuje wszystko od zera bez zamykania';
+
+  @override
+  String get devReset => 'Resetuj ustawienia dewelopera';
+
+  @override
+  String get devResetDone => 'Ustawienia dewelopera zresetowane';
+
+  @override
+  String get devHideMenu => 'Ukryj menu dewelopera';
+
+  @override
+  String get devHideMenuDesc => 'Aby przywrócić — znów pięć dotknięć wersji';
+
+  @override
+  String get devBetaStyle => 'Styl beta';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, ciepła beżowa paleta, miękkie kształty';
+
+  @override
+  String get devBetaOn => 'Włączony';
+
+  @override
+  String get devBetaOff => 'Wyłączony';
+
+  @override
+  String get devBetaEnableTitle => 'Włączyć styl beta?';
+
+  @override
+  String get devBetaEnableBody =>
+      'Aplikacja zmieni krój pisma, kolory i kształty. To beta: niektóre ekrany mogą wyglądać na niedokończone. Wyłączysz ją tutaj.';
+
+  @override
+  String get devBetaEnableAction => 'Włącz';
+
+  @override
+  String get devBetaDisableTitle => 'Wyłączyć styl beta?';
+
+  @override
+  String get devBetaDisableBody => 'Wróci znany styl pikselowy.';
+
+  @override
+  String get devBetaDisableAction => 'Wyłącz';
 }

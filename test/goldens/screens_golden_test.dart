@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
@@ -30,7 +29,9 @@ import 'package:texfi_money/presentation/home/home_screen.dart';
 import 'package:texfi_money/presentation/onboarding/onboarding_screen.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
+import 'package:texfi_money/presentation/settings/developer_screen.dart';
 import 'package:texfi_money/presentation/settings/settings_screen.dart';
+import 'package:texfi_money/presentation/shared/beta_glyph.dart';
 import 'package:texfi_money/presentation/shared/grouped_tab.dart';
 import 'package:texfi_money/presentation/shared/root_shell.dart';
 import 'package:texfi_money/presentation/wealth/cash_flow_screen.dart';
@@ -70,7 +71,7 @@ Future<AppDatabase> _seed() async {
   return db;
 }
 
-Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVariant variant = AppThemeVariant.dark}) async {
+Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVariant variant = AppThemeVariant.dark, bool beta = false}) async {
   SharedPreferences.setMockInitialValues({'has_seen_onboarding': true});
   final prefs = await SharedPreferences.getInstance();
   final db = await _seed();
@@ -84,7 +85,10 @@ Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVa
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
       child: MaterialApp(
-        theme: AppTheme.build(variant: variant, font: AppFont.inter),
+        theme: AppTheme.build(variant: variant, font: AppFont.inter, beta: beta),
+        // В бета-стиле экраны прозрачные, фон лежит под навигатором —
+        // как в main.dart.
+        builder: beta ? (context, child) => BetaBackground(child: child!) : null,
         locale: const Locale('ru'),
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -130,6 +134,10 @@ void main() {
       'assets/fonts/Inter-Medium.ttf',
       'assets/fonts/Inter-SemiBold.ttf',
     ]);
+    await _loadFont('SourceSerif4', [
+      'assets/fonts/SourceSerif4-Regular.ttf',
+      'assets/fonts/SourceSerif4-Semibold.ttf',
+    ]);
   });
   testWidgets('home', (t) => _shoot(t, 'home', const HomeScreen()));
   testWidgets('home_light', (t) => _shoot(t, 'home_light', const HomeScreen(), variant: AppThemeVariant.light));
@@ -148,4 +156,10 @@ void main() {
   testWidgets('cash_flow', (t) => _shoot(t, 'cash_flow', const CashFlowScreen()));
   testWidgets('reports', (t) => _shoot(t, 'reports', const ReportsScreen()));
   testWidgets('subscriptions', (t) => _shoot(t, 'subscriptions', const SubscriptionsScreen()));
+  testWidgets('developer', (t) => _shoot(t, 'developer', const DeveloperScreen()));
+  // Бета-стиль из меню разработчика.
+  testWidgets('shell_beta', (t) => _shoot(t, 'shell_beta', const RootShell(), beta: true));
+  testWidgets('history_beta', (t) => _shoot(t, 'history_beta', const HistoryScreen(), beta: true));
+  testWidgets('settings_beta', (t) => _shoot(t, 'settings_beta', const SettingsScreen(), beta: true));
+  testWidgets('developer_beta', (t) => _shoot(t, 'developer_beta', const DeveloperScreen(), beta: true));
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors_ext.dart';
-import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/utils/haptics.dart';
 import 'pixel_icon.dart';
 import 'pixel_shadow.dart';
@@ -178,15 +178,15 @@ class _PixelButtonState extends State<PixelButton> {
         // приложении и разъезжался на пиксель между элементами.
         child: PixelShadowBox(
           shadowColor: shadowColor,
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: context.style.controlRadius,
           pressed: _pressed,
           enabled: _enabled,
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             decoration: BoxDecoration(
               color: background,
-              borderRadius: AppRadius.controlSmallAll,
-              border: Border.all(color: border, width: AppRadius.pixelBorder),
+              borderRadius: context.style.controlRadius,
+              border: Border.all(color: border, width: context.style.borderWidth),
             ),
             child: child,
           ),

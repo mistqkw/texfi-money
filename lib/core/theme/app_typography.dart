@@ -18,6 +18,10 @@ import 'app_colors_ext.dart';
 const String kPixelFamily = 'PressStart2P';
 const String kBodyFamily = 'Inter';
 
+/// Антиква бета-стиля: Source Serif 4 SemiBold. В бета-стиле она занимает
+/// все слоты, где в основном стиле стоит пиксель.
+const String kSerifFamily = 'SourceSerif4';
+
 /// Строит [TextTheme] под выбранный шрифт и палитру. Слоты сопоставлены
 /// с именованными стилями приложения (см. `AppTextStyles`):
 /// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
@@ -28,7 +32,15 @@ const String kBodyFamily = 'Inter';
 /// и короткие акцентные метки. Остальные суммы (история, счета, цели,
 /// бюджеты) — обычной гарнитурой: bitmap на 13-16px читается медленнее, а
 /// колонку сумм именно читают.
-TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors}) {
+///
+/// [beta] — бета-стиль: пиксельные слоты набираются антиквой. Кегль при
+/// этом крупнее: у Press Start 2P очко занимает почти весь кегль, у
+/// антиквы — около половины, и тот же размер читался бы вдвое мельче.
+TextTheme buildAppTextTheme({
+  required AppFont font,
+  required AppColorsExt colors,
+  bool beta = false,
+}) {
   TextStyle style({
     required double size,
     required FontWeight weight,
@@ -57,6 +69,17 @@ TextTheme buildAppTextTheme({required AppFont font, required AppColorsExt colors
     double letterSpacing = 0,
     double height = 1.4,
   }) {
+    if (beta) {
+      return TextStyle(
+        fontFamily: kSerifFamily,
+        fontSize: size * 1.45,
+        fontWeight: FontWeight.w600,
+        color: color,
+        letterSpacing: -0.2,
+        fontFeatures: const [FontFeature.tabularFigures()],
+        height: 1.15,
+      );
+    }
     return TextStyle(
       fontFamily: kPixelFamily,
       fontSize: size,

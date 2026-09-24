@@ -1081,4 +1081,222 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get navSummary => 'Підсумки';
+
+  @override
+  String aboutDevTapsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ще $count натискань — і відкриється меню розробника',
+      many: 'Ще $count натискань — і відкриється меню розробника',
+      few: 'Ще $count натискання — і відкриється меню розробника',
+      one: 'Ще $count натискання — і відкриється меню розробника',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutDevUnlocked => 'Меню розробника відкрито';
+
+  @override
+  String get aboutDevMenu => 'Меню розробника';
+
+  @override
+  String get aboutDevMenuHint => 'Діагностика та експерименти';
+
+  @override
+  String get devTitle => 'Для розробника';
+
+  @override
+  String get devSectionBuild => 'Збірка і пристрій';
+
+  @override
+  String get devSectionRendering => 'Відмальовування';
+
+  @override
+  String get devSectionMotion => 'Анімація';
+
+  @override
+  String get devSectionInterface => 'Інтерфейс';
+
+  @override
+  String get devSectionHaptics => 'Вібрація';
+
+  @override
+  String get devSectionData => 'Дані';
+
+  @override
+  String get devSectionExperimental => 'Експерименти';
+
+  @override
+  String get devInfoVersion => 'Версія';
+
+  @override
+  String get devInfoPackage => 'Пакет';
+
+  @override
+  String get devInfoMode => 'Режим збірки';
+
+  @override
+  String get devInfoPlatform => 'Платформа';
+
+  @override
+  String get devInfoScreen => 'Екран';
+
+  @override
+  String get devInfoPixelRatio => 'Щільність';
+
+  @override
+  String get devInfoTextScale => 'Масштаб тексту';
+
+  @override
+  String get devInfoLocale => 'Мова';
+
+  @override
+  String get devInfoStyle => 'Стиль';
+
+  @override
+  String get devCopyInfo => 'Скопіювати для багрепорту';
+
+  @override
+  String get devCopied => 'Скопійовано';
+
+  @override
+  String get devPerfOverlay => 'Графік кадрів';
+
+  @override
+  String get devPerfOverlayDesc => 'Час потоків UI і GPU поверх застосунку';
+
+  @override
+  String get devRasterCheckerboard => 'Підсвітити кеш зображень';
+
+  @override
+  String get devRasterCheckerboardDesc =>
+      'Шахівниця поверх зображень із растрового кешу';
+
+  @override
+  String get devLayerCheckerboard => 'Підсвітити шари поза екраном';
+
+  @override
+  String get devLayerCheckerboardDesc =>
+      'Шахівниця поверх шарів, намальованих через saveLayer';
+
+  @override
+  String get devSemanticsDebugger => 'Дерево доступності';
+
+  @override
+  String get devSemanticsDebuggerDesc =>
+      'Показує те, що бачить екранний диктор. Вимикається тут же';
+
+  @override
+  String get devAnimationSpeed => 'Швидкість анімацій';
+
+  @override
+  String get devAnimationSpeedDesc =>
+      'Сповільнює всі анімації, щоб роздивитися їх по кадрах';
+
+  @override
+  String get devSkipSplash => 'Без заставки';
+
+  @override
+  String get devSkipSplashDesc =>
+      'Під час запуску одразу відкривати застосунок';
+
+  @override
+  String get devBackgroundNoise => 'Фонова фактура';
+
+  @override
+  String get devBackgroundNoiseDesc => 'Піксельний крап під усім застосунком';
+
+  @override
+  String get devBanner => 'Стрічка в куті';
+
+  @override
+  String get devBannerDesc =>
+      'Позначає скриншоти, зроблені з налаштуваннями розробника';
+
+  @override
+  String get devHapticsTest => 'Натисніть, щоб відчути ритм';
+
+  @override
+  String get devHapticSelect => 'Тік';
+
+  @override
+  String get devHapticSuccess => 'Готово';
+
+  @override
+  String get devHapticIncome => 'Дохід';
+
+  @override
+  String get devHapticExpense => 'Витрата';
+
+  @override
+  String get devHapticError => 'Помилка';
+
+  @override
+  String get devHapticCelebrate => 'Ціль';
+
+  @override
+  String get devReplayOnboarding => 'Показати онбординг знову';
+
+  @override
+  String get devReplayOnboardingDesc =>
+      'Дані залишаться, застосунок перезапуститься';
+
+  @override
+  String get devShowPrefs => 'Збережені налаштування';
+
+  @override
+  String get devShowPrefsDesc =>
+      'Усі ключі, які застосунок тримає в SharedPreferences';
+
+  @override
+  String get devRestart => 'Перезапустити застосунок';
+
+  @override
+  String get devRestartDesc => 'Перебудовує все з нуля, не закриваючись';
+
+  @override
+  String get devReset => 'Скинути налаштування розробника';
+
+  @override
+  String get devResetDone => 'Налаштування розробника скинуто';
+
+  @override
+  String get devHideMenu => 'Сховати меню розробника';
+
+  @override
+  String get devHideMenuDesc => 'Повернути — знову п\'ять натискань на версію';
+
+  @override
+  String get devBetaStyle => 'Бета-стиль';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, тепла бежева палітра, м\'які форми';
+
+  @override
+  String get devBetaOn => 'Увімкнено';
+
+  @override
+  String get devBetaOff => 'Вимкнено';
+
+  @override
+  String get devBetaEnableTitle => 'Увімкнути бета-стиль?';
+
+  @override
+  String get devBetaEnableBody =>
+      'Застосунок змінить шрифт, кольори й форму елементів. Це бета: подекуди стиль може виглядати недоробленим. Вимкнути можна тут же.';
+
+  @override
+  String get devBetaEnableAction => 'Увімкнути';
+
+  @override
+  String get devBetaDisableTitle => 'Вимкнути бета-стиль?';
+
+  @override
+  String get devBetaDisableBody => 'Повернеться звичний піксельний стиль.';
+
+  @override
+  String get devBetaDisableAction => 'Вимкнути';
 }

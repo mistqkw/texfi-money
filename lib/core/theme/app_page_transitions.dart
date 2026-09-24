@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_colors_ext.dart';
 import 'app_motion.dart';
+import 'app_style_ext.dart';
 
 /// Переход между экранами в духе ретро-игр: новый экран «проявляется»
 /// пиксельными блоками (dissolve), поверх один раз пробегают сканлайны.
@@ -28,7 +29,11 @@ class PixelDissolvePageTransitionsBuilder extends PageTransitionsBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return PixelDissolveTransition(animation: animation, child: child);
+    return PixelDissolveTransition(
+      animation: animation,
+      secondaryAnimation: secondaryAnimation,
+      child: child,
+    );
   }
 }
 
@@ -36,10 +41,16 @@ class PixelDissolveTransition extends StatelessWidget {
   const PixelDissolveTransition({
     super.key,
     required this.animation,
+    this.secondaryAnimation,
     required this.child,
   });
 
   final Animation<double> animation;
+
+  /// Анимация экрана, который открывают поверх этого. Нужна только
+  /// бета-стилю: там экраны прозрачные, и уходящий обязан погаснуть сам,
+  /// иначе два экрана на мгновение лягут друг на друга.
+  final Animation<double>? secondaryAnimation;
   final Widget child;
 
   @override
@@ -50,6 +61,30 @@ class PixelDissolveTransition extends StatelessWidget {
       curve: AppMotion.enter,
       reverseCurve: AppMotion.exit,
     );
+
+    // В бета-стиле блоков и сканлайнов нет: пиксельный распад поверх
+    // антиквы и мягких плоскостей читался бы как сбой отрисовки. Экран
+    // просто всплывает — чуть выше и чуть прозрачнее, чем встанет.
+    if (context.style.beta) {
+      Widget page = FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.025),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+      final covering = secondaryAnimation;
+      if (covering != null) {
+        page = FadeTransition(
+          opacity: ReverseAnimation(covering),
+          child: page,
+        );
+      }
+      return page;
+    }
 
     return AnimatedBuilder(
       animation: curved,
@@ -167,6 +202,10 @@ PageRoute<T> pixelDissolveRoute<T>(
     reverseTransitionDuration: AppMotion.route,
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-        PixelDissolveTransition(animation: animation, child: child),
+        PixelDissolveTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
   );
 }

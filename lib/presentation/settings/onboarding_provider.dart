@@ -14,6 +14,12 @@ class OnboardingNotifier extends StateNotifier<bool> {
     state = true;
     await _prefs.setBool(_prefsKey, true);
   }
+
+  /// Показать онбординг снова — пункт меню разработчика.
+  Future<void> reset() async {
+    state = false;
+    await _prefs.setBool(_prefsKey, false);
+  }
 }
 
 final hasSeenOnboardingProvider = StateNotifierProvider<OnboardingNotifier, bool>((ref) {

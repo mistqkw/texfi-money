@@ -7,11 +7,13 @@ import 'core/theme/app_motion.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
+import 'presentation/settings/developer_provider.dart';
 import 'presentation/settings/font_provider.dart';
 import 'presentation/settings/haptics_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
+import 'presentation/shared/beta_glyph.dart';
 import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
 
@@ -40,12 +42,21 @@ class TexFiMoneyApp extends ConsumerWidget {
     // Синхронизирует Haptics.enabled с настройкой при самом первом кадре —
     // не только когда пользователь открывает Settings.
     ref.watch(hapticsEnabledProvider);
+    // То же для замедления анимаций из меню разработчика.
+    ref.watch(animationSpeedProvider);
+    final beta = ref.watch(betaStyleProvider);
+    final noise = ref.watch(backgroundNoiseProvider);
+    final devBanner = ref.watch(devBannerProvider);
 
     return MaterialApp(
       title: 'TexFi m0ney',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.build(variant: variant, font: font),
+      theme: AppTheme.build(variant: variant, font: font, beta: beta),
       themeAnimationDuration: AppMotion.normal,
+      showPerformanceOverlay: ref.watch(perfOverlayProvider),
+      checkerboardRasterCacheImages: ref.watch(rasterCheckerboardProvider),
+      checkerboardOffscreenLayers: ref.watch(layerCheckerboardProvider),
+      showSemanticsDebugger: ref.watch(semanticsDebuggerProvider),
       locale: locale,
       supportedLocales: supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -53,9 +64,20 @@ class TexFiMoneyApp extends ConsumerWidget {
       // и как `PixelNoise` на сайте. Убирает ощущение пустой плоской
       // заливки, не мешая читать: точки в 2 логических пикселя с альфой
       // около 5% глаз считывает как фактуру, а не как шум под текстом.
-      builder: (context, child) => PixelBackground(
-        child: child ?? const SizedBox.shrink(),
-      ),
+      //
+      // В бета-стиле крапа нет: его место занимает водяной знак.
+      builder: (context, child) {
+        final content = child ?? const SizedBox.shrink();
+        final Widget body = beta
+            ? BetaBackground(child: content)
+            : PixelBackground(density: noise ? 0.06 : 0, child: content);
+        if (!devBanner) return body;
+        return Banner(
+          message: beta ? 'BETA' : 'DEV',
+          location: BannerLocation.topEnd,
+          child: body,
+        );
+      },
       home: const AppEntry(),
     );
   }

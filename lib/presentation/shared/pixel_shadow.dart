@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_style_ext.dart';
 
 /// Ретро-«тень»: не размытие, а тот же самый прямоугольник, сдвинутый на
 /// несколько пикселей вниз-вправо. Ровно так тень рисовали интерфейсы, у
@@ -53,6 +54,8 @@ class PixelShadowBox extends StatelessWidget {
 
     if (!enabled) return body;
 
+    final soft = context.style.softShadows;
+
     // Сдвиг содержимого и убыль тени идут от одного значения.
     //
     // Раньше содержимое уезжало за [AppMotion.instant], а тень пропадала
@@ -73,6 +76,7 @@ class PixelShadowBox extends StatelessWidget {
             offset: offset,
             // Тень не просто исчезает — её съедает опускающийся элемент.
             visible: 1 - t,
+            soft: soft,
           ),
           child: Transform.translate(
             offset: Offset(shift, shift),
@@ -91,6 +95,7 @@ class _PixelShadowPainter extends CustomPainter {
     required this.radius,
     required this.offset,
     this.visible = 1,
+    this.soft = false,
   });
 
   final Color color;
@@ -102,9 +107,29 @@ class _PixelShadowPainter extends CustomPainter {
   /// в интерфейсе, где «объём» размывается.
   final double visible;
 
+  /// Бета-стиль: размытая тень под самим элементом вместо сдвинутого
+  /// блока. Место под тень резервируется то же, раскладка не меняется.
+  final bool soft;
+
   @override
   void paint(Canvas canvas, Size size) {
     if (visible <= 0) return;
+    if (soft) {
+      final rect = Rect.fromLTWH(
+        offset * 0.5,
+        offset,
+        size.width - offset * 1.5,
+        size.height - offset * 1.5,
+      );
+      if (rect.isEmpty) return;
+      canvas.drawRRect(
+        radius.toRRect(rect),
+        Paint()
+          ..color = color.withValues(alpha: color.a * 0.55 * visible)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+      );
+      return;
+    }
     final shown = offset * visible;
     final rect = Rect.fromLTWH(
       offset,
@@ -124,5 +149,6 @@ class _PixelShadowPainter extends CustomPainter {
       oldDelegate.color != color ||
       oldDelegate.radius != radius ||
       oldDelegate.offset != offset ||
-      oldDelegate.visible != visible;
+      oldDelegate.visible != visible ||
+      oldDelegate.soft != soft;
 }

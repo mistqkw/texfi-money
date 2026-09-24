@@ -2033,6 +2033,402 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Totals'**
   String get navSummary;
+
+  /// No description provided for @aboutDevTapsLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {One more tap to open the developer menu} other {{count} more taps to open the developer menu}}'**
+  String aboutDevTapsLeft(int count);
+
+  /// No description provided for @aboutDevUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer menu unlocked'**
+  String get aboutDevUnlocked;
+
+  /// No description provided for @aboutDevMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer menu'**
+  String get aboutDevMenu;
+
+  /// No description provided for @aboutDevMenuHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics and experiments'**
+  String get aboutDevMenuHint;
+
+  /// No description provided for @devTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get devTitle;
+
+  /// No description provided for @devSectionBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Build & device'**
+  String get devSectionBuild;
+
+  /// No description provided for @devSectionRendering.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendering'**
+  String get devSectionRendering;
+
+  /// No description provided for @devSectionMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion'**
+  String get devSectionMotion;
+
+  /// No description provided for @devSectionInterface.
+  ///
+  /// In en, this message translates to:
+  /// **'Interface'**
+  String get devSectionInterface;
+
+  /// No description provided for @devSectionHaptics.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptics'**
+  String get devSectionHaptics;
+
+  /// No description provided for @devSectionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get devSectionData;
+
+  /// No description provided for @devSectionExperimental.
+  ///
+  /// In en, this message translates to:
+  /// **'Experimental'**
+  String get devSectionExperimental;
+
+  /// No description provided for @devInfoVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get devInfoVersion;
+
+  /// No description provided for @devInfoPackage.
+  ///
+  /// In en, this message translates to:
+  /// **'Package'**
+  String get devInfoPackage;
+
+  /// No description provided for @devInfoMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Build mode'**
+  String get devInfoMode;
+
+  /// No description provided for @devInfoPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform'**
+  String get devInfoPlatform;
+
+  /// No description provided for @devInfoScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen'**
+  String get devInfoScreen;
+
+  /// No description provided for @devInfoPixelRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Pixel ratio'**
+  String get devInfoPixelRatio;
+
+  /// No description provided for @devInfoTextScale.
+  ///
+  /// In en, this message translates to:
+  /// **'Text scale'**
+  String get devInfoTextScale;
+
+  /// No description provided for @devInfoLocale.
+  ///
+  /// In en, this message translates to:
+  /// **'Locale'**
+  String get devInfoLocale;
+
+  /// No description provided for @devInfoStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get devInfoStyle;
+
+  /// No description provided for @devCopyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy for a bug report'**
+  String get devCopyInfo;
+
+  /// No description provided for @devCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get devCopied;
+
+  /// No description provided for @devPerfOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame timing overlay'**
+  String get devPerfOverlay;
+
+  /// No description provided for @devPerfOverlayDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU and UI thread time on top of the app'**
+  String get devPerfOverlayDesc;
+
+  /// No description provided for @devRasterCheckerboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight cached images'**
+  String get devRasterCheckerboard;
+
+  /// No description provided for @devRasterCheckerboardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkerboard over raster-cached images'**
+  String get devRasterCheckerboardDesc;
+
+  /// No description provided for @devLayerCheckerboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight offscreen layers'**
+  String get devLayerCheckerboard;
+
+  /// No description provided for @devLayerCheckerboardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkerboard over layers drawn with saveLayer'**
+  String get devLayerCheckerboardDesc;
+
+  /// No description provided for @devSemanticsDebugger.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility tree'**
+  String get devSemanticsDebugger;
+
+  /// No description provided for @devSemanticsDebuggerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows what a screen reader sees. Turn off here to get the app back'**
+  String get devSemanticsDebuggerDesc;
+
+  /// No description provided for @devAnimationSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Animation speed'**
+  String get devAnimationSpeed;
+
+  /// No description provided for @devAnimationSpeedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow every animation down to inspect it frame by frame'**
+  String get devAnimationSpeedDesc;
+
+  /// No description provided for @devSkipSplash.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip splash screen'**
+  String get devSkipSplash;
+
+  /// No description provided for @devSkipSplashDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Open straight to the app on launch'**
+  String get devSkipSplashDesc;
+
+  /// No description provided for @devBackgroundNoise.
+  ///
+  /// In en, this message translates to:
+  /// **'Background texture'**
+  String get devBackgroundNoise;
+
+  /// No description provided for @devBackgroundNoiseDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pixel speckle under the whole app'**
+  String get devBackgroundNoiseDesc;
+
+  /// No description provided for @devBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Corner ribbon'**
+  String get devBanner;
+
+  /// No description provided for @devBannerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks screenshots taken with developer settings on'**
+  String get devBannerDesc;
+
+  /// No description provided for @devHapticsTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to feel each rhythm'**
+  String get devHapticsTest;
+
+  /// No description provided for @devHapticSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick'**
+  String get devHapticSelect;
+
+  /// No description provided for @devHapticSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get devHapticSuccess;
+
+  /// No description provided for @devHapticIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get devHapticIncome;
+
+  /// No description provided for @devHapticExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get devHapticExpense;
+
+  /// No description provided for @devHapticError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get devHapticError;
+
+  /// No description provided for @devHapticCelebrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get devHapticCelebrate;
+
+  /// No description provided for @devReplayOnboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay onboarding'**
+  String get devReplayOnboarding;
+
+  /// No description provided for @devReplayOnboardingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data stays; the app restarts'**
+  String get devReplayOnboardingDesc;
+
+  /// No description provided for @devShowPrefs.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored preferences'**
+  String get devShowPrefs;
+
+  /// No description provided for @devShowPrefsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Every key the app keeps in SharedPreferences'**
+  String get devShowPrefsDesc;
+
+  /// No description provided for @devRestart.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart app'**
+  String get devRestart;
+
+  /// No description provided for @devRestartDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebuilds everything from scratch without closing'**
+  String get devRestartDesc;
+
+  /// No description provided for @devReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset developer settings'**
+  String get devReset;
+
+  /// No description provided for @devResetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer settings reset'**
+  String get devResetDone;
+
+  /// No description provided for @devHideMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide developer menu'**
+  String get devHideMenu;
+
+  /// No description provided for @devHideMenuDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the version five times to bring it back'**
+  String get devHideMenuDesc;
+
+  /// No description provided for @devBetaStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta style'**
+  String get devBetaStyle;
+
+  /// No description provided for @devBetaStyleDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Source Serif 4, warm beige palette, soft shapes'**
+  String get devBetaStyleDesc;
+
+  /// No description provided for @devBetaOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get devBetaOn;
+
+  /// No description provided for @devBetaOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get devBetaOff;
+
+  /// No description provided for @devBetaEnableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on beta style?'**
+  String get devBetaEnableTitle;
+
+  /// No description provided for @devBetaEnableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app will change its typeface, colours and shapes. It\'s a beta: some screens may look unfinished. You can turn it off right here.'**
+  String get devBetaEnableBody;
+
+  /// No description provided for @devBetaEnableAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get devBetaEnableAction;
+
+  /// No description provided for @devBetaDisableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off beta style?'**
+  String get devBetaDisableTitle;
+
+  /// No description provided for @devBetaDisableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The familiar pixel style comes back.'**
+  String get devBetaDisableBody;
+
+  /// No description provided for @devBetaDisableAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get devBetaDisableAction;
 }
 
 class _AppLocalizationsDelegate

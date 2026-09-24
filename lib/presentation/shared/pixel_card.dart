@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import 'pixel_shadow.dart';
 
@@ -63,6 +64,8 @@ class PixelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final style = context.style;
+    final radius = style.beta ? style.cardRadius : AppRadius.cardMediumAll;
     final border = borderColor ?? (accent ? colors.accent : colors.border);
 
     final label = this.label;
@@ -87,8 +90,8 @@ class PixelCard extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: background ?? colors.surface,
-        borderRadius: AppRadius.cardMediumAll,
-        border: Border.all(color: border, width: AppRadius.pixelBorder),
+        borderRadius: radius,
+        border: Border.all(color: border, width: style.borderWidth),
       ),
       // ListTile и прочие Material-виджеты рисуют фон и отклик на ближайшем
       // Material-предке. Без этой прослойки они оказались бы под заливкой
@@ -104,7 +107,7 @@ class PixelCard extends StatelessWidget {
         : InkWell(
             onTap: onTap,
             onLongPress: onLongPress,
-            borderRadius: AppRadius.cardMediumAll,
+            borderRadius: radius,
             child: content,
           );
 
@@ -116,7 +119,7 @@ class PixelCard extends StatelessWidget {
     return PixelShadowBox(
       shadowColor:
           accent ? colors.accentShadow : (borderColor ?? colors.shadow),
-      borderRadius: AppRadius.cardMediumAll,
+      borderRadius: radius,
       child: tappable,
     );
   }
@@ -189,6 +192,9 @@ class _HeaderRule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(height: 2, color: context.colors.divider);
+    final style = context.style;
+    // В бета-стиле линейка — волосок: двухпиксельный брусок рядом с
+    // антиквой смотрится обломком пиксельного интерфейса.
+    return Container(height: style.borderWidth, color: context.colors.divider);
   }
 }

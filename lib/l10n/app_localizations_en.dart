@@ -1067,4 +1067,218 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navSummary => 'Totals';
+
+  @override
+  String aboutDevTapsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count more taps to open the developer menu',
+      one: 'One more tap to open the developer menu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutDevUnlocked => 'Developer menu unlocked';
+
+  @override
+  String get aboutDevMenu => 'Developer menu';
+
+  @override
+  String get aboutDevMenuHint => 'Diagnostics and experiments';
+
+  @override
+  String get devTitle => 'Developer';
+
+  @override
+  String get devSectionBuild => 'Build & device';
+
+  @override
+  String get devSectionRendering => 'Rendering';
+
+  @override
+  String get devSectionMotion => 'Motion';
+
+  @override
+  String get devSectionInterface => 'Interface';
+
+  @override
+  String get devSectionHaptics => 'Haptics';
+
+  @override
+  String get devSectionData => 'Data';
+
+  @override
+  String get devSectionExperimental => 'Experimental';
+
+  @override
+  String get devInfoVersion => 'Version';
+
+  @override
+  String get devInfoPackage => 'Package';
+
+  @override
+  String get devInfoMode => 'Build mode';
+
+  @override
+  String get devInfoPlatform => 'Platform';
+
+  @override
+  String get devInfoScreen => 'Screen';
+
+  @override
+  String get devInfoPixelRatio => 'Pixel ratio';
+
+  @override
+  String get devInfoTextScale => 'Text scale';
+
+  @override
+  String get devInfoLocale => 'Locale';
+
+  @override
+  String get devInfoStyle => 'Style';
+
+  @override
+  String get devCopyInfo => 'Copy for a bug report';
+
+  @override
+  String get devCopied => 'Copied';
+
+  @override
+  String get devPerfOverlay => 'Frame timing overlay';
+
+  @override
+  String get devPerfOverlayDesc => 'GPU and UI thread time on top of the app';
+
+  @override
+  String get devRasterCheckerboard => 'Highlight cached images';
+
+  @override
+  String get devRasterCheckerboardDesc =>
+      'Checkerboard over raster-cached images';
+
+  @override
+  String get devLayerCheckerboard => 'Highlight offscreen layers';
+
+  @override
+  String get devLayerCheckerboardDesc =>
+      'Checkerboard over layers drawn with saveLayer';
+
+  @override
+  String get devSemanticsDebugger => 'Accessibility tree';
+
+  @override
+  String get devSemanticsDebuggerDesc =>
+      'Shows what a screen reader sees. Turn off here to get the app back';
+
+  @override
+  String get devAnimationSpeed => 'Animation speed';
+
+  @override
+  String get devAnimationSpeedDesc =>
+      'Slow every animation down to inspect it frame by frame';
+
+  @override
+  String get devSkipSplash => 'Skip splash screen';
+
+  @override
+  String get devSkipSplashDesc => 'Open straight to the app on launch';
+
+  @override
+  String get devBackgroundNoise => 'Background texture';
+
+  @override
+  String get devBackgroundNoiseDesc => 'Pixel speckle under the whole app';
+
+  @override
+  String get devBanner => 'Corner ribbon';
+
+  @override
+  String get devBannerDesc =>
+      'Marks screenshots taken with developer settings on';
+
+  @override
+  String get devHapticsTest => 'Tap to feel each rhythm';
+
+  @override
+  String get devHapticSelect => 'Tick';
+
+  @override
+  String get devHapticSuccess => 'Done';
+
+  @override
+  String get devHapticIncome => 'Income';
+
+  @override
+  String get devHapticExpense => 'Expense';
+
+  @override
+  String get devHapticError => 'Error';
+
+  @override
+  String get devHapticCelebrate => 'Goal';
+
+  @override
+  String get devReplayOnboarding => 'Replay onboarding';
+
+  @override
+  String get devReplayOnboardingDesc => 'Your data stays; the app restarts';
+
+  @override
+  String get devShowPrefs => 'Stored preferences';
+
+  @override
+  String get devShowPrefsDesc => 'Every key the app keeps in SharedPreferences';
+
+  @override
+  String get devRestart => 'Restart app';
+
+  @override
+  String get devRestartDesc =>
+      'Rebuilds everything from scratch without closing';
+
+  @override
+  String get devReset => 'Reset developer settings';
+
+  @override
+  String get devResetDone => 'Developer settings reset';
+
+  @override
+  String get devHideMenu => 'Hide developer menu';
+
+  @override
+  String get devHideMenuDesc => 'Tap the version five times to bring it back';
+
+  @override
+  String get devBetaStyle => 'Beta style';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, warm beige palette, soft shapes';
+
+  @override
+  String get devBetaOn => 'On';
+
+  @override
+  String get devBetaOff => 'Off';
+
+  @override
+  String get devBetaEnableTitle => 'Turn on beta style?';
+
+  @override
+  String get devBetaEnableBody =>
+      'The app will change its typeface, colours and shapes. It\'s a beta: some screens may look unfinished. You can turn it off right here.';
+
+  @override
+  String get devBetaEnableAction => 'Turn on';
+
+  @override
+  String get devBetaDisableTitle => 'Turn off beta style?';
+
+  @override
+  String get devBetaDisableBody => 'The familiar pixel style comes back.';
+
+  @override
+  String get devBetaDisableAction => 'Turn off';
 }

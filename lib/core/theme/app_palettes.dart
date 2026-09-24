@@ -91,6 +91,38 @@ abstract final class AppPalettes {
     noise: Color(0x0F8A6A3D),
   );
 
+  /// Бета-стиль из меню разработчика. Ключ взят с рисунка: заливка
+  /// `#D6B28E` — тёплый бежевый с рук, обводка `#E8CDAA` — на тон светлее.
+  /// Фон — тёмная обжаренная коричневая, а не чёрный: полупрозрачный
+  /// бежевый на чистом чёрном сереет, на тёплом тёмном остаётся бежевым.
+  ///
+  /// Доход и расход приглушены под палитру, но остаются зелёным и
+  /// красным: сумму читают по цвету раньше, чем по знаку.
+  static const AppColorsExt beta = AppColorsExt(
+    background: Color(0xFF16120E),
+    surface: Color(0xFF201A15),
+    surfaceVariant: Color(0xFF2B231C),
+    divider: Color(0xFF3A3027),
+    border: Color(0xFF4F4135),
+    shadow: Color(0xFF0A0806),
+    accent: betaFill,
+    accentShadow: Color(0xFF8C6A48),
+    onAccent: Color(0xFF1C150F),
+    textPrimary: Color(0xFFF4E8D8),
+    textSecondary: Color(0xFFC3AC90),
+    textTertiary: Color(0xFF85725D),
+    income: Color(0xFF9FC79B),
+    expense: Color(0xFFE38D7A),
+    warning: Color(0xFFE6B566),
+    noise: Color(0x00000000),
+  );
+
+  /// Заливка знака бета-стиля (без прозрачности — её задаёт сам знак).
+  static const Color betaFill = Color(0xFFD6B28E);
+
+  /// Обводка знака бета-стиля.
+  static const Color betaStroke = Color(0xFFE8CDAA);
+
   static AppColorsExt forVariant(AppThemeVariant variant) => switch (variant) {
         AppThemeVariant.dark => dark,
         AppThemeVariant.light => light,

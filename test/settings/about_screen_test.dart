@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
 import 'package:texfi_money/l10n/app_localizations.dart';
 import 'package:texfi_money/presentation/settings/about_screen.dart';
+import 'package:texfi_money/presentation/settings/currency_provider.dart';
+
+late SharedPreferences _prefs;
 
 Widget _wrap({AppThemeVariant variant = AppThemeVariant.dark, Locale? locale}) {
+  return ProviderScope(
+    overrides: [sharedPreferencesProvider.overrideWithValue(_prefs)],
+    child: _app(variant: variant, locale: locale),
+  );
+}
+
+Widget _app({required AppThemeVariant variant, Locale? locale}) {
   return MaterialApp(
     theme: AppTheme.build(variant: variant, font: AppFont.system),
     locale: locale,
@@ -23,6 +35,11 @@ Widget _wrap({AppThemeVariant variant = AppThemeVariant.dark, Locale? locale}) {
 }
 
 void main() {
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    _prefs = await SharedPreferences.getInstance();
+  });
+
   testWidgets('экран «О приложении» рендерится без переполнений',
       (tester) async {
     await tester.pumpWidget(_wrap());

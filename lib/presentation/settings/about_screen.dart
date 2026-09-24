@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
+import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
+import '../../core/utils/haptics.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
+import 'developer_provider.dart';
+import 'developer_screen.dart';
 
 /// Экран «О приложении»: версия, исходники, лицензия и донат.
 ///
@@ -15,7 +22,7 @@ import '../shared/pixel_icon.dart';
 /// ничего: ни какая это версия, ни где лежит код, ни под какой лицензией.
 /// Для проекта, который построен на «проверяется по исходникам», это была
 /// самая заметная дыра: обещание есть, а дойти до кода неоткуда.
-class AboutScreen extends StatefulWidget {
+class AboutScreen extends ConsumerStatefulWidget {
   const AboutScreen({super.key});
 
   static const String repoUrl = 'https://github.com/mistqkw/texfi-money';
@@ -25,11 +32,20 @@ class AboutScreen extends StatefulWidget {
       'https://github.com/mistqkw/texfi-money/blob/main/LICENSE';
 
   @override
-  State<AboutScreen> createState() => _AboutScreenState();
+  ConsumerState<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _AboutScreenState extends State<AboutScreen> {
+class _AboutScreenState extends ConsumerState<AboutScreen> {
   PackageInfo? _info;
+
+  /// Сколько раз подряд нажали на версию. Серия рвётся, если между
+  /// нажатиями прошло больше [_tapWindow], — иначе меню открывалось бы
+  /// от пяти случайных касаний за неделю.
+  int _versionTaps = 0;
+  Timer? _tapSeries;
+
+  static const int _tapsToUnlock = 5;
+  static const Duration _tapWindow = Duration(milliseconds: 1500);
 
   @override
   void initState() {
@@ -40,6 +56,12 @@ class _AboutScreenState extends State<AboutScreen> {
     PackageInfo.fromPlatform().then((info) {
       if (mounted) setState(() => _info = info);
     });
+  }
+
+  @override
+  void dispose() {
+    _tapSeries?.cancel();
+    super.dispose();
   }
 
   Future<void> _open(String url) async {
@@ -57,11 +79,55 @@ class _AboutScreenState extends State<AboutScreen> {
     }
   }
 
+  void _openDeveloperMenu() {
+    Navigator.of(context).push(pixelDissolveRoute(const DeveloperScreen()));
+  }
+
+  /// Пять нажатий на версию — как «номер сборки» в настройках Android.
+  /// Последние три нажатия подсказывают, сколько осталось: иначе о
+  /// счётчике не догадаться, пока он не сработал.
+  Future<void> _onVersionTap() async {
+    if (ref.read(devMenuUnlockedProvider)) {
+      _openDeveloperMenu();
+      return;
+    }
+
+    _versionTaps++;
+    _tapSeries?.cancel();
+    _tapSeries = Timer(_tapWindow, () => _versionTaps = 0);
+
+    final messenger = ScaffoldMessenger.of(context)..hideCurrentSnackBar();
+    final left = _tapsToUnlock - _versionTaps;
+    if (left > 0) {
+      Haptics.select();
+      if (left <= 3) {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.aboutDevTapsLeft(left)),
+            duration: const Duration(milliseconds: 900),
+          ),
+        );
+      }
+      return;
+    }
+
+    _versionTaps = 0;
+    _tapSeries?.cancel();
+    await ref.read(devMenuUnlockedProvider.notifier).set(true);
+    Haptics.celebrate();
+    if (!mounted) return;
+    messenger.showSnackBar(
+      SnackBar(content: Text(context.l10n.aboutDevUnlocked)),
+    );
+    _openDeveloperMenu();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final colors = context.colors;
     final info = _info;
+    final devUnlocked = ref.watch(devMenuUnlockedProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.aboutTitle)),
@@ -74,16 +140,27 @@ class _AboutScreenState extends State<AboutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  info == null ? '—' : 'v${info.version}',
-                  style: context.text.balance.copyWith(fontSize: 22),
-                ),
-                AppSpacing.gapXs,
-                Text(
-                  info == null
-                      ? ''
-                      : '${l10n.aboutBuildLabel} ${info.buildNumber}',
-                  style: context.text.mono,
+                // Номер версии и сборки — одна мишень для нажатий: попасть
+                // пять раз подряд в строку высотой 10px неудобно.
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: _onVersionTap,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        info == null ? '—' : 'v${info.version}',
+                        style: context.text.balance.copyWith(fontSize: 22),
+                      ),
+                      AppSpacing.gapXs,
+                      Text(
+                        info == null
+                            ? ''
+                            : '${l10n.aboutBuildLabel} ${info.buildNumber}',
+                        style: context.text.mono,
+                      ),
+                    ],
+                  ),
                 ),
                 AppSpacing.gapMd,
                 Text(l10n.aboutTagline, style: context.text.title),
@@ -123,6 +200,16 @@ class _AboutScreenState extends State<AboutScreen> {
             subtitle: 'texfi-hub.vercel.app',
             onTap: () => _open(AboutScreen.hubUrl),
           ),
+          if (devUnlocked) ...[
+            AppSpacing.gapMd,
+            _LinkTile(
+              icon: PixelIcons.terminal,
+              title: l10n.aboutDevMenu,
+              subtitle: l10n.aboutDevMenuHint,
+              trailing: PixelIcons.chevronRight,
+              onTap: _openDeveloperMenu,
+            ),
+          ],
           AppSpacing.gapXl,
 
           PixelSectionHeader(title: l10n.aboutSectionSupport, index: 3),
@@ -192,12 +279,16 @@ class _LinkTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.trailing = PixelIcons.linkOut,
   });
 
   final List<String> icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+
+  /// Знак справа: наружу (ссылка) или вглубь приложения.
+  final List<String> trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +309,7 @@ class _LinkTile extends StatelessWidget {
               ],
             ),
           ),
-          PixelIcon(PixelIcons.linkOut, size: 16, color: colors.textTertiary),
+          PixelIcon(trailing, size: 16, color: colors.textTertiary),
         ],
       ),
     );

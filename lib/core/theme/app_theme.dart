@@ -5,13 +5,25 @@ import '../constants/app_theme_variant.dart';
 import 'app_page_transitions.dart';
 import 'app_palettes.dart';
 import 'app_radius.dart';
+import 'app_style_ext.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
-  static ThemeData build({required AppThemeVariant variant, required AppFont font}) {
-    final colors = AppPalettes.forVariant(variant);
-    final textTheme = buildAppTextTheme(font: font, colors: colors);
-    final brightness = variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
+  /// [beta] — бета-стиль из меню разработчика. Он заменяет палитру
+  /// целиком (выбранная тема при этом не забывается и вернётся, когда
+  /// бету выключат), гарнитуру заголовков и геометрию примитивов.
+  static ThemeData build({
+    required AppThemeVariant variant,
+    required AppFont font,
+    bool beta = false,
+  }) {
+    final colors = beta ? AppPalettes.beta : AppPalettes.forVariant(variant);
+    final style = beta ? AppStyleExt.soft : AppStyleExt.pixel;
+    final textTheme = buildAppTextTheme(font: font, colors: colors, beta: beta);
+    final brightness =
+        !beta && variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
+    final controlRadius = style.controlRadius;
+    final borderWidth = style.borderWidth;
 
     final colorScheme = ColorScheme(
       brightness: brightness,
@@ -31,11 +43,15 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: colors.background,
+      // В бета-стиле экраны прозрачные: фон с водяным знаком лежит один
+      // под всем приложением (см. `BetaBackground`), и непрозрачный
+      // Scaffold его бы закрыл. Уходящий экран при переходе гаснет сам —
+      // см. PixelDissolveTransition.
+      scaffoldBackgroundColor: beta ? Colors.transparent : colors.background,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       dividerColor: colors.divider,
-      extensions: [colors],
+      extensions: [colors, style],
       // iOS оставлен системным намеренно: там свайп-назад от края —
       // часть жеста, а не украшение, и подменять его на распад значило
       // бы сломать навигацию ради стиля.
@@ -53,7 +69,7 @@ abstract final class AppTheme {
         space: 1,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: colors.background,
+        backgroundColor: beta ? Colors.transparent : colors.background,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -65,7 +81,9 @@ abstract final class AppTheme {
         color: colors.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardSmallAll),
+        shape: RoundedRectangleBorder(
+          borderRadius: beta ? style.cardRadius : AppRadius.cardSmallAll,
+        ),
       ),
       textTheme: textTheme,
       iconTheme: IconThemeData(
@@ -79,10 +97,10 @@ abstract final class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: AppRadius.controlSmallAll,
+            borderRadius: controlRadius,
             side: BorderSide(
               color: colors.accentShadow,
-              width: AppRadius.pixelBorder,
+              width: borderWidth,
             ),
           ),
           textStyle: textTheme.titleMedium,
@@ -104,38 +122,38 @@ abstract final class AppTheme {
         fillColor: colors.surfaceVariant,
         contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
         border: OutlineInputBorder(
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: controlRadius,
           borderSide: BorderSide(
             color: colors.border,
-            width: AppRadius.pixelBorder,
+            width: borderWidth,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: controlRadius,
           borderSide: BorderSide(
             color: colors.border,
-            width: AppRadius.pixelBorder,
+            width: borderWidth,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: controlRadius,
           borderSide: BorderSide(
             color: colors.accent,
-            width: AppRadius.pixelBorder,
+            width: borderWidth,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: controlRadius,
           borderSide: BorderSide(
             color: colors.expense,
-            width: AppRadius.pixelBorder,
+            width: borderWidth,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.controlSmallAll,
+          borderRadius: controlRadius,
           borderSide: BorderSide(
             color: colors.expense,
-            width: AppRadius.pixelBorder,
+            width: borderWidth,
           ),
         ),
         hintStyle: textTheme.bodyMedium,

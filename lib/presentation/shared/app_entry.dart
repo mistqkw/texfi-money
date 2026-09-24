@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../onboarding/onboarding_screen.dart';
+import '../settings/developer_provider.dart';
 import '../settings/onboarding_provider.dart';
 import 'launch_splash.dart';
 import 'lock_gate.dart';
@@ -16,7 +17,9 @@ class AppEntry extends ConsumerStatefulWidget {
 }
 
 class _AppEntryState extends ConsumerState<AppEntry> {
-  bool _splashDone = false;
+  // Заставку можно пропустить из меню разработчика: при сотом
+  // перезапуске подряд полторы секунды анимации — уже не стиль, а помеха.
+  late bool _splashDone = ref.read(skipSplashProvider);
 
   @override
   Widget build(BuildContext context) {

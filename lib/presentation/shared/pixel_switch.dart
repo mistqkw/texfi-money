@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_style_ext.dart';
 import 'pixel_icon.dart';
 
 /// Квадратный пиксельный переключатель вместо стандартного Material
@@ -21,6 +22,16 @@ class PixelSwitch extends StatelessWidget {
     const height = 24.0;
     const knob = 16.0;
     const inset = 2.0;
+    // В бета-стиле переключатель — капсула с круглой ручкой: квадратный
+    // рычажок среди мягких карточек остался бы единственной рубленой
+    // деталью на экране.
+    final beta = context.style.beta;
+    final track = beta
+        ? const BorderRadius.all(Radius.circular(height / 2))
+        : AppRadius.controlSmallAll;
+    final knobRadius = beta
+        ? const BorderRadius.all(Radius.circular(knob / 2))
+        : AppRadius.controlTinyAll;
 
     return GestureDetector(
       onTap: () => onChanged(!value),
@@ -31,8 +42,11 @@ class PixelSwitch extends StatelessWidget {
         padding: const EdgeInsets.all(inset),
         decoration: BoxDecoration(
           color: value ? colors.accent.withValues(alpha: 0.22) : colors.surfaceVariant,
-          border: Border.all(color: value ? colors.accent : colors.border, width: 2),
-          borderRadius: AppRadius.controlSmallAll,
+          border: Border.all(
+            color: value ? colors.accent : colors.border,
+            width: beta ? 1.5 : 2,
+          ),
+          borderRadius: track,
         ),
         alignment: value ? Alignment.centerRight : Alignment.centerLeft,
         child: AnimatedContainer(
@@ -42,7 +56,7 @@ class PixelSwitch extends StatelessWidget {
           height: knob,
           decoration: BoxDecoration(
             color: value ? colors.accent : colors.textTertiary,
-            borderRadius: AppRadius.controlTinyAll,
+            borderRadius: knobRadius,
           ),
         ),
       ),

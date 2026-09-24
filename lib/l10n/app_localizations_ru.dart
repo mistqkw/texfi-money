@@ -1081,4 +1081,221 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get navSummary => 'Итоги';
+
+  @override
+  String aboutDevTapsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ещё $count нажатий — и откроется меню разработчика',
+      many: 'Ещё $count нажатий — и откроется меню разработчика',
+      few: 'Ещё $count нажатия — и откроется меню разработчика',
+      one: 'Ещё $count нажатие — и откроется меню разработчика',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutDevUnlocked => 'Меню разработчика открыто';
+
+  @override
+  String get aboutDevMenu => 'Меню разработчика';
+
+  @override
+  String get aboutDevMenuHint => 'Диагностика и эксперименты';
+
+  @override
+  String get devTitle => 'Для разработчика';
+
+  @override
+  String get devSectionBuild => 'Сборка и устройство';
+
+  @override
+  String get devSectionRendering => 'Отрисовка';
+
+  @override
+  String get devSectionMotion => 'Анимация';
+
+  @override
+  String get devSectionInterface => 'Интерфейс';
+
+  @override
+  String get devSectionHaptics => 'Вибрация';
+
+  @override
+  String get devSectionData => 'Данные';
+
+  @override
+  String get devSectionExperimental => 'Эксперименты';
+
+  @override
+  String get devInfoVersion => 'Версия';
+
+  @override
+  String get devInfoPackage => 'Пакет';
+
+  @override
+  String get devInfoMode => 'Режим сборки';
+
+  @override
+  String get devInfoPlatform => 'Платформа';
+
+  @override
+  String get devInfoScreen => 'Экран';
+
+  @override
+  String get devInfoPixelRatio => 'Плотность';
+
+  @override
+  String get devInfoTextScale => 'Масштаб текста';
+
+  @override
+  String get devInfoLocale => 'Язык';
+
+  @override
+  String get devInfoStyle => 'Стиль';
+
+  @override
+  String get devCopyInfo => 'Скопировать для багрепорта';
+
+  @override
+  String get devCopied => 'Скопировано';
+
+  @override
+  String get devPerfOverlay => 'График кадров';
+
+  @override
+  String get devPerfOverlayDesc => 'Время потоков UI и GPU поверх приложения';
+
+  @override
+  String get devRasterCheckerboard => 'Подсветить кэш картинок';
+
+  @override
+  String get devRasterCheckerboardDesc =>
+      'Шахматка поверх картинок из растрового кэша';
+
+  @override
+  String get devLayerCheckerboard => 'Подсветить слои вне экрана';
+
+  @override
+  String get devLayerCheckerboardDesc =>
+      'Шахматка поверх слоёв, нарисованных через saveLayer';
+
+  @override
+  String get devSemanticsDebugger => 'Дерево доступности';
+
+  @override
+  String get devSemanticsDebuggerDesc =>
+      'Показывает то, что видит экранный диктор. Выключается здесь же';
+
+  @override
+  String get devAnimationSpeed => 'Скорость анимаций';
+
+  @override
+  String get devAnimationSpeedDesc =>
+      'Замедляет все анимации, чтобы разглядеть их по кадрам';
+
+  @override
+  String get devSkipSplash => 'Без заставки';
+
+  @override
+  String get devSkipSplashDesc => 'При запуске сразу открывать приложение';
+
+  @override
+  String get devBackgroundNoise => 'Фоновая фактура';
+
+  @override
+  String get devBackgroundNoiseDesc => 'Пиксельный крап под всем приложением';
+
+  @override
+  String get devBanner => 'Лента в углу';
+
+  @override
+  String get devBannerDesc =>
+      'Помечает скриншоты, снятые с настройками разработчика';
+
+  @override
+  String get devHapticsTest => 'Нажмите, чтобы почувствовать ритм';
+
+  @override
+  String get devHapticSelect => 'Тик';
+
+  @override
+  String get devHapticSuccess => 'Готово';
+
+  @override
+  String get devHapticIncome => 'Доход';
+
+  @override
+  String get devHapticExpense => 'Расход';
+
+  @override
+  String get devHapticError => 'Ошибка';
+
+  @override
+  String get devHapticCelebrate => 'Цель';
+
+  @override
+  String get devReplayOnboarding => 'Показать онбординг снова';
+
+  @override
+  String get devReplayOnboardingDesc =>
+      'Данные останутся, приложение перезапустится';
+
+  @override
+  String get devShowPrefs => 'Сохранённые настройки';
+
+  @override
+  String get devShowPrefsDesc =>
+      'Все ключи, которые приложение держит в SharedPreferences';
+
+  @override
+  String get devRestart => 'Перезапустить приложение';
+
+  @override
+  String get devRestartDesc => 'Пересобирает всё с нуля, не закрываясь';
+
+  @override
+  String get devReset => 'Сбросить настройки разработчика';
+
+  @override
+  String get devResetDone => 'Настройки разработчика сброшены';
+
+  @override
+  String get devHideMenu => 'Скрыть меню разработчика';
+
+  @override
+  String get devHideMenuDesc => 'Вернуть — снова пять нажатий на версию';
+
+  @override
+  String get devBetaStyle => 'Бета-стиль';
+
+  @override
+  String get devBetaStyleDesc =>
+      'Source Serif 4, тёплая бежевая палитра, мягкие формы';
+
+  @override
+  String get devBetaOn => 'Включён';
+
+  @override
+  String get devBetaOff => 'Выключен';
+
+  @override
+  String get devBetaEnableTitle => 'Включить бета-стиль?';
+
+  @override
+  String get devBetaEnableBody =>
+      'Приложение сменит шрифт, цвета и форму элементов. Это бета: где-то стиль может выглядеть недоделанным. Выключить можно здесь же.';
+
+  @override
+  String get devBetaEnableAction => 'Включить';
+
+  @override
+  String get devBetaDisableTitle => 'Выключить бета-стиль?';
+
+  @override
+  String get devBetaDisableBody => 'Вернётся привычный пиксельный стиль.';
+
+  @override
+  String get devBetaDisableAction => 'Выключить';
 }
