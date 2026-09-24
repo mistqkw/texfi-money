@@ -417,5 +417,18 @@
   "devLayoutGrid": "Сетка 8dp",
   "devLayoutGridDesc": "Сетка и поля экрана поверх интерфейса",
   "devTouches": "Показывать касания",
-  "devTouchesDesc": "Кружки под пальцем — для записи экрана"
+  "devTouchesDesc": "Кружки под пальцем — для записи экрана",
+  "devBetaKind": "Вариант беты",
+  "devBetaKindDesc": "Бумага и чернила или коллаж TexFi Style",
+  "devKindPaper": "Бумага",
+  "devKindCollage": "Коллаж",
+  "devCollageBlobs": "Синие пятна",
+  "devCollageBlobsDesc": "Сплошные, как на картинке, приглушённые — чтобы текст читался легче, или без них",
+  "devBlobsBold": "Сплошные",
+  "devBlobsSoft": "Тише",
+  "devCollageRemix": "Смешивать шрифты",
+  "devCollageRemixDesc": "Заголовки собраны из разных шрифтов прямо внутри слова",
+  "devCollageShuffle": "Перебор шрифтов",
+  "devCollageShuffleDesc": "Заголовок экрана при появлении примеряет шрифты и встаёт на свой",
+  "devTransitionCut": "Вырезать"
 }

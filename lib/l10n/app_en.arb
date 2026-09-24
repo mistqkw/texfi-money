@@ -699,5 +699,18 @@
   "devLayoutGrid": "8dp grid",
   "devLayoutGridDesc": "Grid and screen margins on top of the interface",
   "devTouches": "Show touches",
-  "devTouchesDesc": "Circles under your finger — for screen recordings"
+  "devTouchesDesc": "Circles under your finger — for screen recordings",
+  "devBetaKind": "Beta variant",
+  "devBetaKindDesc": "Paper and ink, or the TexFi Style collage",
+  "devKindPaper": "Paper",
+  "devKindCollage": "Collage",
+  "devCollageBlobs": "Blue cut-outs",
+  "devCollageBlobsDesc": "Solid like the original, softened so text reads easier, or none",
+  "devBlobsBold": "Solid",
+  "devBlobsSoft": "Soft",
+  "devCollageRemix": "Mix typefaces",
+  "devCollageRemixDesc": "Headings built from several typefaces inside one word",
+  "devCollageShuffle": "Typeface shuffle",
+  "devCollageShuffleDesc": "A screen title tries on typefaces before settling",
+  "devTransitionCut": "Cut"
 }

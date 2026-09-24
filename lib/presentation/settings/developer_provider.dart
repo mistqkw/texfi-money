@@ -2,6 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/beta_options.dart';
 import 'currency_provider.dart';
 
@@ -95,6 +96,20 @@ StateNotifierProvider<StringPrefNotifier, String?> _stringPref(String key) {
 }
 
 // --- Бета-стиль ------------------------------------------------------
+
+/// Вариант беты: `paper` («бумага и чернила») или `collage` (TexFi Style).
+final betaKindProvider = _stringPref('${devPrefsPrefix}beta_kind');
+
+/// Коллаж: пятна на фоне — bold / soft / none.
+final collageBlobsProvider = _stringPref('${devPrefsPrefix}collage_blobs');
+
+/// Коллаж: смешивать шрифты в заголовках.
+final collageRemixProvider =
+    _boolPref('${devPrefsPrefix}collage_remix', fallback: true);
+
+/// Коллаж: перебор шрифтов при появлении заголовка.
+final collageShuffleProvider =
+    _boolPref('${devPrefsPrefix}collage_shuffle', fallback: true);
 
 /// Знак на фоне беты: `dollar`, `m` или `none` (см. BetaGlyphChoice).
 final betaGlyphProvider = _stringPref('${devPrefsPrefix}beta_glyph');
@@ -196,6 +211,10 @@ Future<void> resetDeveloperSettings(WidgetRef ref) async {
     backgroundNoiseProvider,
     devBannerProvider,
     animationSpeedProvider,
+    betaKindProvider,
+    collageBlobsProvider,
+    collageRemixProvider,
+    collageShuffleProvider,
     betaGlyphProvider,
     betaGlyphStrengthProvider,
     betaGlyphSizeProvider,
@@ -219,5 +238,15 @@ final betaOptionsProvider = Provider<BetaOptions>((ref) {
     transition: BetaTransition.fromName(ref.watch(betaTransitionProvider)),
     grain: ref.watch(betaGrainProvider),
     serifBody: ref.watch(betaSerifBodyProvider),
+    collageBlobs: CollageBlobs.fromName(ref.watch(collageBlobsProvider)),
+    collageRemix: ref.watch(collageRemixProvider),
+    collageShuffle: ref.watch(collageShuffleProvider),
   );
+});
+
+/// Вариант беты как вид стиля темы.
+final betaKindStyleProvider = Provider<StyleKind>((ref) {
+  return ref.watch(betaKindProvider) == 'collage'
+      ? StyleKind.collage
+      : StyleKind.paper;
 });

@@ -13,6 +13,7 @@ import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/theme/beta_options.dart';
 import '../../core/utils/haptics.dart';
+import '../shared/app_title.dart';
 import '../shared/beta_glyph.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_card.dart';
@@ -191,9 +192,10 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
       context,
       origin: origin,
       enabling: enabling,
-      targetBackground: target,
+      targetBackground: enabling && _collage ? AppPalettes.collageBlue : target,
       onSwitch: () => ref.read(betaStyleProvider.notifier).set(enabling),
       glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
+      collage: _collage,
     );
   }
 
@@ -206,13 +208,18 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
       context,
       origin: Offset(size.width / 2, size.height * 0.8),
       enabling: true,
-      targetBackground: variant == AppThemeVariant.light
-          ? AppPalettes.betaInk
-          : AppPalettes.betaFor(variant).background,
+      targetBackground: _collage
+          ? AppPalettes.collageBlue
+          : variant == AppThemeVariant.light
+              ? AppPalettes.betaInk
+              : AppPalettes.betaFor(variant).background,
       onSwitch: () {},
       glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
+      collage: _collage,
     );
   }
+
+  bool get _collage => ref.read(betaKindStyleProvider) == StyleKind.collage;
 
   @override
   Widget build(BuildContext context) {
@@ -270,10 +277,11 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
 
     final beta = ref.watch(betaStyleProvider);
     final options = ref.watch(betaOptionsProvider);
+    final collage = ref.watch(betaKindStyleProvider) == StyleKind.collage;
     final textScale = ref.watch(textScaleOverrideProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.devTitle)),
+      appBar: AppBar(title: AppTitle(l10n.devTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [
@@ -437,45 +445,87 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
               ),
             ),
           choice(
-            label: l10n.devBetaGlyph,
-            subtitle: l10n.devBetaGlyphDesc,
-            labels: [r'$', 'm', l10n.devBetaGlyphNone],
-            index: BetaGlyphChoice.values.indexOf(options.glyph),
+            label: l10n.devBetaKind,
+            subtitle: l10n.devBetaKindDesc,
+            labels: [l10n.devKindPaper, l10n.devKindCollage],
+            index: collage ? 1 : 0,
             onSelected: (i) => ref
-                .read(betaGlyphProvider.notifier)
-                .set(BetaGlyphChoice.values[i].name),
+                .read(betaKindProvider.notifier)
+                .set(i == 1 ? 'collage' : 'paper'),
           ),
-          if (options.glyph != BetaGlyphChoice.none) ...[
+          if (!collage) ...[
             choice(
-              label: l10n.devBetaGlyphStrength,
-              labels: [
-                l10n.devStrengthQuiet,
-                l10n.devStrengthNormal,
-                l10n.devStrengthBold,
-                l10n.devStrengthFull,
-              ],
-              index: BetaGlyphStrength.values.indexOf(options.strength),
+              label: l10n.devBetaGlyph,
+              subtitle: l10n.devBetaGlyphDesc,
+              labels: [r'$', 'm', l10n.devBetaGlyphNone],
+              index: BetaGlyphChoice.values.indexOf(options.glyph),
               onSelected: (i) => ref
-                  .read(betaGlyphStrengthProvider.notifier)
-                  .set(BetaGlyphStrength.values[i].name),
+                  .read(betaGlyphProvider.notifier)
+                  .set(BetaGlyphChoice.values[i].name),
             ),
+            if (options.glyph != BetaGlyphChoice.none) ...[
+              choice(
+                label: l10n.devBetaGlyphStrength,
+                labels: [
+                  l10n.devStrengthQuiet,
+                  l10n.devStrengthNormal,
+                  l10n.devStrengthBold,
+                  l10n.devStrengthFull,
+                ],
+                index: BetaGlyphStrength.values.indexOf(options.strength),
+                onSelected: (i) => ref
+                    .read(betaGlyphStrengthProvider.notifier)
+                    .set(BetaGlyphStrength.values[i].name),
+              ),
+              choice(
+                label: l10n.devBetaGlyphSize,
+                labels: [
+                  l10n.devSizeSmall,
+                  l10n.devSizeNormal,
+                  l10n.devSizeLarge,
+                ],
+                index: BetaGlyphSize.values.indexOf(options.size),
+                onSelected: (i) => ref
+                    .read(betaGlyphSizeProvider.notifier)
+                    .set(BetaGlyphSize.values[i].name),
+              ),
+            ],
+            flag(betaGrainProvider, l10n.devBetaGrain, l10n.devBetaGrainDesc),
+            flag(
+              betaSerifBodyProvider,
+              l10n.devBetaSerifBody,
+              l10n.devBetaSerifBodyDesc,
+            ),
+          ],
+          if (collage) ...[
             choice(
-              label: l10n.devBetaGlyphSize,
+              label: l10n.devCollageBlobs,
+              subtitle: l10n.devCollageBlobsDesc,
               labels: [
-                l10n.devSizeSmall,
-                l10n.devSizeNormal,
-                l10n.devSizeLarge,
+                l10n.devBlobsBold,
+                l10n.devBlobsSoft,
+                l10n.devBetaGlyphNone,
               ],
-              index: BetaGlyphSize.values.indexOf(options.size),
+              index: CollageBlobs.values.indexOf(options.collageBlobs),
               onSelected: (i) => ref
-                  .read(betaGlyphSizeProvider.notifier)
-                  .set(BetaGlyphSize.values[i].name),
+                  .read(collageBlobsProvider.notifier)
+                  .set(CollageBlobs.values[i].name),
+            ),
+            flag(
+              collageRemixProvider,
+              l10n.devCollageRemix,
+              l10n.devCollageRemixDesc,
+            ),
+            flag(
+              collageShuffleProvider,
+              l10n.devCollageShuffle,
+              l10n.devCollageShuffleDesc,
             ),
           ],
           choice(
             label: l10n.devBetaTransition,
             labels: [
-              l10n.devTransitionPageTurn,
+              collage ? l10n.devTransitionCut : l10n.devTransitionPageTurn,
               l10n.devTransitionFade,
               l10n.devTransitionInstant,
             ],
@@ -483,12 +533,6 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
             onSelected: (i) => ref
                 .read(betaTransitionProvider.notifier)
                 .set(BetaTransition.values[i].name),
-          ),
-          flag(betaGrainProvider, l10n.devBetaGrain, l10n.devBetaGrainDesc),
-          flag(
-            betaSerifBodyProvider,
-            l10n.devBetaSerifBody,
-            l10n.devBetaSerifBodyDesc,
           ),
           _DevAction(
             icon: PixelIcons.replay,

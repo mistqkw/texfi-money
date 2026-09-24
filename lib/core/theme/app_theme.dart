@@ -18,15 +18,27 @@ abstract final class AppTheme {
     required AppFont font,
     bool beta = false,
     BetaOptions betaOptions = const BetaOptions(),
+    StyleKind betaKind = StyleKind.paper,
   }) {
-    final colors = beta ? AppPalettes.betaFor(variant) : AppPalettes.forVariant(variant);
-    final style = beta ? AppStyleExt.paper : AppStyleExt.pixel;
-    final textTheme = buildAppTextTheme(
-      font: font,
-      colors: colors,
-      beta: beta,
-      serifBody: betaOptions.serifBody,
-    );
+    final collage = beta && betaKind == StyleKind.collage;
+    final colors = !beta
+        ? AppPalettes.forVariant(variant)
+        : collage
+            ? AppPalettes.collageFor(variant)
+            : AppPalettes.betaFor(variant);
+    final style = !beta
+        ? AppStyleExt.pixel
+        : collage
+            ? AppStyleExt.collage
+            : AppStyleExt.paper;
+    final textTheme = collage
+        ? buildCollageTextTheme(colors)
+        : buildAppTextTheme(
+            font: font,
+            colors: colors,
+            beta: beta,
+            serifBody: betaOptions.serifBody,
+          );
     final brightness =
         variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
     final controlRadius = style.controlRadius;

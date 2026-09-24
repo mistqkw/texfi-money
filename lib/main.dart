@@ -14,7 +14,7 @@ import 'presentation/settings/haptics_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
-import 'presentation/shared/beta_glyph.dart';
+import 'presentation/shared/beta_sheet.dart';
 import 'presentation/shared/dev_overlays.dart';
 import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
@@ -23,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Лист бета-стиля для перелистывания: каждая страница лежит на своём.
   PixelDissolveTransition.betaSheetBuilder =
-      (child) => BetaBackground(child: child);
+      (child) => BetaSheet(child: child);
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   runApp(
@@ -64,6 +64,7 @@ class TexFiMoneyApp extends ConsumerWidget {
         font: font,
         beta: beta,
         betaOptions: ref.watch(betaOptionsProvider),
+        betaKind: ref.watch(betaKindStyleProvider),
       ),
       themeAnimationDuration: AppMotion.normal,
       showPerformanceOverlay: ref.watch(perfOverlayProvider),
@@ -93,7 +94,7 @@ class TexFiMoneyApp extends ConsumerWidget {
           );
         }
         Widget body = beta
-            ? BetaBackground(child: content)
+            ? BetaSheet(child: content)
             : PixelBackground(density: noise ? 0.06 : 0, child: content);
         if (grid) body = LayoutGridOverlay(child: body);
         if (touches) body = TouchIndicatorOverlay(child: body);

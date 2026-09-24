@@ -25,7 +25,7 @@ class PixelSwitch extends StatelessWidget {
     // В бета-стиле переключатель — капсула с круглой ручкой: квадратный
     // рычажок среди мягких карточек остался бы единственной рубленой
     // деталью на экране.
-    final beta = context.style.beta;
+    final beta = context.style.isPaper;
     final track = beta
         ? const BorderRadius.all(Radius.circular(height / 2))
         : AppRadius.controlSmallAll;

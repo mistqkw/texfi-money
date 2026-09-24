@@ -9,6 +9,7 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
@@ -33,7 +34,7 @@ class CashFlowScreen extends ConsumerWidget {
     final rates = ref.watch(savingsRateHistoryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.cashFlowTitle)),
+      appBar: AppBar(title: AppTitle(l10n.cashFlowTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

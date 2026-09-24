@@ -5,6 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_icon.dart';
 import 'locale_provider.dart';
 
@@ -17,7 +18,7 @@ class LanguagePickerScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.languagePickerTitle)),
+      appBar: AppBar(title: AppTitle(l10n.languagePickerTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [

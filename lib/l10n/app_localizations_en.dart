@@ -1376,4 +1376,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get devTouchesDesc =>
       'Circles under your finger — for screen recordings';
+
+  @override
+  String get devBetaKind => 'Beta variant';
+
+  @override
+  String get devBetaKindDesc => 'Paper and ink, or the TexFi Style collage';
+
+  @override
+  String get devKindPaper => 'Paper';
+
+  @override
+  String get devKindCollage => 'Collage';
+
+  @override
+  String get devCollageBlobs => 'Blue cut-outs';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Solid like the original, softened so text reads easier, or none';
+
+  @override
+  String get devBlobsBold => 'Solid';
+
+  @override
+  String get devBlobsSoft => 'Soft';
+
+  @override
+  String get devCollageRemix => 'Mix typefaces';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Headings built from several typefaces inside one word';
+
+  @override
+  String get devCollageShuffle => 'Typeface shuffle';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'A screen title tries on typefaces before settling';
+
+  @override
+  String get devTransitionCut => 'Cut';
 }

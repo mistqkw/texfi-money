@@ -8,6 +8,7 @@ import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
+import 'collage_tabs.dart';
 import 'pixel_icon.dart';
 
 /// Одна вкладка нижней навигации.
@@ -49,6 +50,32 @@ class PixelNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    // Коллаж: слова вкладок, под выбранным — синее пятно, которое
+    // переезжает и меняет форму. Знаков нет, как и на бумаге: подпись,
+    // собранная из разных шрифтов, и есть знак вкладки.
+    if (context.style.isCollage) {
+      return ColoredBox(
+        color: colors.background,
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.sm,
+              AppSpacing.sm,
+              AppSpacing.sm,
+              AppSpacing.md,
+            ),
+            child: CollageTabs(
+              labels: [for (final item in items) item.label],
+              currentIndex: currentIndex,
+              onSelected: _select,
+              height: 48,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      );
+    }
     if (context.style.beta) {
       return _BetaNavBar(
         items: items,

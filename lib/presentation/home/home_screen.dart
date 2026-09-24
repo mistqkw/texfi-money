@@ -19,6 +19,7 @@ import '../settings/currency_picker_screen.dart';
 import '../settings/currency_provider.dart';
 import '../settings/settings_screen.dart';
 import '../shared/animated_amount.dart';
+import '../shared/app_title.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
@@ -49,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
         title: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(child: Text('m0ney', overflow: TextOverflow.ellipsis)),
+            Flexible(child: AppTitle('m0ney')),
             SizedBox(width: AppSpacing.sm),
             Flexible(child: _AccountMarks()),
           ],

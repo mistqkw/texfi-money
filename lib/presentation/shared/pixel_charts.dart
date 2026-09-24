@@ -310,10 +310,14 @@ class PixelShareBar extends StatelessWidget {
                 if (i > 0) const SizedBox(width: 2),
                 Expanded(
                   flex: math.max(1, (shares[i].value / total * 1000).round()),
-                  child: ColoredBox(color: AppPalettes.inkify(
-                    shares[i].color,
-                    dark: Theme.of(context).brightness == Brightness.dark,
-                  )),
+                  child: ColoredBox(
+                    color: context.style.isCollage
+                        ? shares[i].color
+                        : AppPalettes.inkify(
+                            shares[i].color,
+                            dark: Theme.of(context).brightness == Brightness.dark,
+                          ),
+                  ),
                 ),
               ],
             ],
@@ -365,7 +369,7 @@ class PixelSwatch extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: context.style.beta ? AppPalettes.inkify(
+        color: context.style.isPaper ? AppPalettes.inkify(
                 color,
                 dark: Theme.of(context).brightness == Brightness.dark,
               ) : color,

@@ -7,6 +7,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
+import '../shared/app_title.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_icon.dart';
 import 'currency_provider.dart';
@@ -19,7 +20,7 @@ class CurrencyPickerScreen extends ConsumerWidget {
     final current = ref.watch(currencyProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.currencyPickerTitle)),
+      appBar: AppBar(title: AppTitle(context.l10n.currencyPickerTitle)),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemCount: AppCurrency.values.length,

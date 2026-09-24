@@ -417,5 +417,18 @@
   "devLayoutGrid": "Сітка 8dp",
   "devLayoutGridDesc": "Сітка й поля екрана поверх інтерфейсу",
   "devTouches": "Показувати дотики",
-  "devTouchesDesc": "Кружечки під пальцем — для запису екрана"
+  "devTouchesDesc": "Кружечки під пальцем — для запису екрана",
+  "devBetaKind": "Варіант бети",
+  "devBetaKindDesc": "Папір і чорнило або колаж TexFi Style",
+  "devKindPaper": "Папір",
+  "devKindCollage": "Колаж",
+  "devCollageBlobs": "Сині плями",
+  "devCollageBlobsDesc": "Суцільні, як на картинці, приглушені — щоб текст читався легше, або без них",
+  "devBlobsBold": "Суцільні",
+  "devBlobsSoft": "Тихіше",
+  "devCollageRemix": "Змішувати шрифти",
+  "devCollageRemixDesc": "Заголовки зібрано з різних шрифтів просто всередині слова",
+  "devCollageShuffle": "Перебір шрифтів",
+  "devCollageShuffleDesc": "Заголовок екрана під час появи приміряє шрифти й стає на свій",
+  "devTransitionCut": "Вирізати"
 }

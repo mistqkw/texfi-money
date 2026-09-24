@@ -10,6 +10,7 @@ import '../../domain/entities/category_total.dart';
 import '../../domain/entities/monthly_total.dart';
 import '../../domain/entities/spend_usefulness.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
@@ -35,7 +36,7 @@ class StatisticsScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: embedded ? null : AppBar(title: Text(l10n.statisticsTitle)),
+      appBar: embedded ? null : AppBar(title: AppTitle(l10n.statisticsTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

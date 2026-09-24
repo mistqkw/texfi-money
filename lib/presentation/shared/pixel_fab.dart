@@ -4,6 +4,8 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_style_ext.dart';
+import 'beta_icons.dart';
+import 'collage_blob.dart';
 import 'pixel_icon.dart';
 
 /// Плавающая кнопка добавления в пиксель-стиле экосистемы TexFi: квадрат
@@ -51,7 +53,34 @@ class _PixelFabState extends State<PixelFab> {
           )
         : null;
 
-    Widget button = Container(
+    // Коллаж: кнопка — синее вырезанное пятно с чёрным плюсом. Нажатие
+    // не утапливает её, а переминает: пятно меняет форму и отпускает.
+    final Widget? collageButton = context.style.isCollage
+        ? TweenAnimationBuilder<double>(
+            tween: Tween(end: _pressed ? 1 : 0),
+            duration: AppMotion.pop,
+            curve: AppMotion.snap,
+            builder: (context, t, _) => SizedBox(
+              width: size + 8,
+              height: size + 8,
+              child: BlobShape(
+                seed: 23,
+                morphTo: 29,
+                t: t.clamp(0.0, 1.0),
+                color: colors.accent,
+                child: Center(
+                  child: BetaIcon(
+                    pattern: widget.pattern,
+                    size: 26,
+                    color: const Color(0xFF000000),
+                  ),
+                ),
+              ),
+            ),
+          )
+        : null;
+
+    Widget button = collageButton ?? Container(
       width: size,
       height: size,
       alignment: Alignment.center,

@@ -417,5 +417,18 @@
   "devLayoutGrid": "Siatka 8dp",
   "devLayoutGridDesc": "Siatka i marginesy na wierzchu interfejsu",
   "devTouches": "Pokazuj dotknięcia",
-  "devTouchesDesc": "Kółka pod palcem — do nagrań ekranu"
+  "devTouchesDesc": "Kółka pod palcem — do nagrań ekranu",
+  "devBetaKind": "Wariant bety",
+  "devBetaKindDesc": "Papier i tusz albo kolaż TexFi Style",
+  "devKindPaper": "Papier",
+  "devKindCollage": "Kolaż",
+  "devCollageBlobs": "Niebieskie wycinki",
+  "devCollageBlobsDesc": "Pełne jak na obrazku, przygaszone — żeby tekst czytał się łatwiej, albo bez nich",
+  "devBlobsBold": "Pełne",
+  "devBlobsSoft": "Ciszej",
+  "devCollageRemix": "Mieszaj kroje",
+  "devCollageRemixDesc": "Nagłówki złożone z różnych krojów wewnątrz słowa",
+  "devCollageShuffle": "Tasowanie krojów",
+  "devCollageShuffleDesc": "Tytuł ekranu przymierza kroje, zanim się ustali",
+  "devTransitionCut": "Wytnij"
 }

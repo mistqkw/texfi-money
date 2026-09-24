@@ -2609,6 +2609,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Circles under your finger — for screen recordings'**
   String get devTouchesDesc;
+
+  /// No description provided for @devBetaKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Beta variant'**
+  String get devBetaKind;
+
+  /// No description provided for @devBetaKindDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Paper and ink, or the TexFi Style collage'**
+  String get devBetaKindDesc;
+
+  /// No description provided for @devKindPaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Paper'**
+  String get devKindPaper;
+
+  /// No description provided for @devKindCollage.
+  ///
+  /// In en, this message translates to:
+  /// **'Collage'**
+  String get devKindCollage;
+
+  /// No description provided for @devCollageBlobs.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue cut-outs'**
+  String get devCollageBlobs;
+
+  /// No description provided for @devCollageBlobsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Solid like the original, softened so text reads easier, or none'**
+  String get devCollageBlobsDesc;
+
+  /// No description provided for @devBlobsBold.
+  ///
+  /// In en, this message translates to:
+  /// **'Solid'**
+  String get devBlobsBold;
+
+  /// No description provided for @devBlobsSoft.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft'**
+  String get devBlobsSoft;
+
+  /// No description provided for @devCollageRemix.
+  ///
+  /// In en, this message translates to:
+  /// **'Mix typefaces'**
+  String get devCollageRemix;
+
+  /// No description provided for @devCollageRemixDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Headings built from several typefaces inside one word'**
+  String get devCollageRemixDesc;
+
+  /// No description provided for @devCollageShuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Typeface shuffle'**
+  String get devCollageShuffle;
+
+  /// No description provided for @devCollageShuffleDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'A screen title tries on typefaces before settling'**
+  String get devCollageShuffleDesc;
+
+  /// No description provided for @devTransitionCut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get devTransitionCut;
 }
 
 class _AppLocalizationsDelegate

@@ -10,6 +10,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
 import '../../domain/entities/cash_flow_type.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import 'wealth_labels.dart';
@@ -104,7 +105,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isNew ? l10n.assetNew : l10n.assetEdit),
+        title: AppTitle(_isNew ? l10n.assetNew : l10n.assetEdit),
         actions: [
           if (!_isNew)
             IconButton(

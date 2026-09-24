@@ -863,3 +863,51 @@ void _card(_Pen p) {
   p.line(2.5, 9, 21.5, 9);
   p.line(6, 15, 10, 15);
 }
+
+/// Знак беты «коллаж»: тот же рисунок пером, под ним — синий оттиск,
+/// сдвинутый вниз-вправо, как краска, легшая мимо при печати. Тот же
+/// приём, что у текста поверх синих пятен на картинке автора: чёрное
+/// лежит на синем, но не совпадает с ним.
+///
+/// Если сам знак синий, оттиск — чёрный: синий на синем не читается.
+class CollageIcon extends StatelessWidget {
+  const CollageIcon({
+    super.key,
+    required this.pattern,
+    required this.size,
+    required this.color,
+  });
+
+  final List<String> pattern;
+  final double size;
+  final Color color;
+
+  static const Color _blue = Color(0xFF4A7DFB);
+
+  @override
+  Widget build(BuildContext context) {
+    final shift = size * 0.08;
+    final print = color.toARGB32() == _blue.toARGB32()
+        ? const Color(0xFF000000)
+        : _blue;
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            left: shift,
+            top: shift,
+            child: BetaIcon(
+              pattern: pattern,
+              size: size,
+              color: print.withValues(alpha: 0.85),
+            ),
+          ),
+          BetaIcon(pattern: pattern, size: size, color: color),
+        ],
+      ),
+    );
+  }
+}

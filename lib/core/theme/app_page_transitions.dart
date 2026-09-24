@@ -6,6 +6,7 @@ import 'app_colors_ext.dart';
 import 'app_motion.dart';
 import 'app_style_ext.dart';
 import 'beta_options.dart';
+import 'collage_shapes.dart';
 
 /// Переход между экранами в духе ретро-игр: новый экран «проявляется»
 /// пиксельными блоками (dissolve), поверх один раз пробегают сканлайны.
@@ -80,6 +81,12 @@ class PixelDissolveTransition extends StatelessWidget {
     if (context.style.beta) {
       final sheet = betaSheetBuilder ?? (Widget c) => c;
       switch (context.betaOptions.transition) {
+        case BetaTransition.pageTurn when context.style.isCollage:
+          return _BlobCut(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            child: sheet(child),
+          );
         case BetaTransition.pageTurn:
           return _PageTurn(
             animation: animation,
@@ -335,4 +342,103 @@ class _FromEdgeClipper extends CustomClipper<Rect> {
 
   @override
   bool shouldReclip(_FromEdgeClipper oldClipper) => oldClipper.left != left;
+}
+
+/// Переход беты «коллаж»: новая страница вырезается сквозь пятно, которое
+/// растёт из правого нижнего угла — оттуда, где лежит кнопка «+» и куда
+/// тянется большой палец. По краю выреза идёт синяя кромка, как край
+/// цветной бумаги под вырезанным листом. Старая страница под ним чуть
+/// отступает вглубь.
+class _BlobCut extends StatelessWidget {
+  const _BlobCut({
+    required this.animation,
+    required this.secondaryAnimation,
+    required this.child,
+  });
+
+  final Animation<double> animation;
+  final Animation<double>? secondaryAnimation;
+  final Widget child;
+
+  static const Curve _curve = Curves.easeInOutCubic;
+  static const int _seed = 41;
+  static const Color _rim = Color(0xFF4A7DFB);
+
+  @override
+  Widget build(BuildContext context) {
+    final covering = secondaryAnimation;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = constraints.biggest;
+        final origin = Offset(size.width * 0.86, size.height * 0.88);
+        final reach = size.longestSide * 1.35;
+
+        return AnimatedBuilder(
+          animation: Listenable.merge([animation, ?covering]),
+          child: child,
+          builder: (context, child) {
+            final t = _curve.transform(animation.value);
+            final s = covering == null ? 0.0 : _curve.transform(covering.value);
+
+            Widget page = child!;
+            if (s > 0) {
+              page = Transform.scale(scale: 1 - 0.04 * s, child: page);
+            }
+            if (t >= 1) return page;
+            if (t <= 0) return const SizedBox.shrink();
+
+            final radius = reach * t;
+            final cut = CollageBlob.path(
+              Rect.fromCircle(center: origin, radius: radius),
+              _seed,
+            );
+            final rim = CollageBlob.path(
+              Rect.fromCircle(center: origin, radius: radius * 1.07 + 6),
+              _seed,
+            );
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                IgnorePointer(
+                  child: CustomPaint(
+                    painter: _PathPainter(
+                      rim,
+                      _rim.withValues(alpha: math.sin(math.pi * t)),
+                    ),
+                  ),
+                ),
+                ClipPath(clipper: _PathClipper(cut), child: page),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _PathClipper extends CustomClipper<Path> {
+  const _PathClipper(this.path);
+
+  final Path path;
+
+  @override
+  Path getClip(Size size) => path;
+
+  @override
+  bool shouldReclip(_PathClipper oldClipper) => oldClipper.path != path;
+}
+
+class _PathPainter extends CustomPainter {
+  const _PathPainter(this.path, this.color);
+
+  final Path path;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) => canvas.drawPath(path, Paint()..color = color);
+
+  @override
+  bool shouldRepaint(_PathPainter oldDelegate) =>
+      oldDelegate.path != path || oldDelegate.color != color;
 }

@@ -14,6 +14,7 @@ import '../../domain/entities/cash_flow_type.dart';
 import '../../domain/entities/net_worth.dart';
 import '../../domain/entities/wealth_rules.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
@@ -52,7 +53,7 @@ class WealthScreen extends ConsumerWidget {
       appBar: embedded
           ? null
           : AppBar(
-              title: Text(l10n.wealthTitle),
+              title: AppTitle(l10n.wealthTitle),
               actions: [
                 IconButton(
                   icon: const PixelIcon(PixelIcons.subscriptions),

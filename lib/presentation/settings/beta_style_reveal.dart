@@ -7,6 +7,8 @@ import '../../core/theme/app_palettes.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
 import '../shared/beta_glyph.dart';
+import '../shared/collage_blob.dart';
+import '../shared/collage_text.dart';
 
 /// Смена стиля целиком — через занавес, а не через подмену темы.
 ///
@@ -28,6 +30,7 @@ Future<void> playBetaStyleReveal(
   required Color targetBackground,
   required VoidCallback onSwitch,
   String glyph = r'$',
+  bool collage = false,
 }) {
   final overlay = Overlay.of(context, rootOverlay: true);
   final done = Completer<void>();
@@ -39,6 +42,7 @@ Future<void> playBetaStyleReveal(
       background: targetBackground,
       onSwitch: onSwitch,
       glyph: glyph,
+      collage: collage,
       onDone: () {
         entry.remove();
         if (!done.isCompleted) done.complete();
@@ -57,10 +61,15 @@ class _BetaReveal extends StatefulWidget {
     required this.onSwitch,
     required this.onDone,
     required this.glyph,
+    this.collage = false,
   });
 
   /// Знак на занавесе.
   final String glyph;
+
+  /// Занавес коллажа: волна — синее вырезанное пятно, в центре вместо
+  /// знака собирается «TexFi StyLE» из разных шрифтов.
+  final bool collage;
 
   final Offset origin;
   final bool enabling;
@@ -160,12 +169,23 @@ class _BetaRevealState extends State<_BetaReveal>
                 progress: wave,
                 color: widget.background,
                 edge: AppPalettes.betaStroke,
+                blob: widget.collage,
               ),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (widget.enabling)
+                    if (widget.enabling && widget.collage && stroke > 0.3)
+                      CollageText(
+                        'TexFi StyLE',
+                        shuffle: true,
+                        style: const TextStyle(
+                          fontSize: 48,
+                          color: Color(0xFF000000),
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    if (widget.enabling && !widget.collage)
                       Transform.scale(
                         scale: glyphScale,
                         child: Opacity(
@@ -178,26 +198,27 @@ class _BetaRevealState extends State<_BetaReveal>
                           ),
                         ),
                       ),
-                    Opacity(
-                      opacity: caption,
-                      child: Transform.translate(
-                        offset: Offset(0, 8 * (1 - caption)),
-                        child: Text(
-                          'm0ney · beta',
-                          textScaler: TextScaler.noScaling,
-                          style: TextStyle(
-                            fontFamily: kSerifFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            letterSpacing: 1.5,
-                            color: AppPalettes.betaStroke.withValues(
-                              alpha: 0.9,
+                    if (!widget.collage)
+                      Opacity(
+                        opacity: caption,
+                        child: Transform.translate(
+                          offset: Offset(0, 8 * (1 - caption)),
+                          child: Text(
+                            'm0ney · beta',
+                            textScaler: TextScaler.noScaling,
+                            style: TextStyle(
+                              fontFamily: kSerifFamily,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              letterSpacing: 1.5,
+                              color: AppPalettes.betaStroke.withValues(
+                                alpha: 0.9,
+                              ),
+                              decoration: TextDecoration.none,
                             ),
-                            decoration: TextDecoration.none,
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -216,12 +237,16 @@ class _WavePainter extends CustomPainter {
     required this.progress,
     required this.color,
     required this.edge,
+    this.blob = false,
   });
 
   final Offset origin;
   final double progress;
   final Color color;
   final Color edge;
+
+  /// Волна — вырезанное пятно, а не круг (занавес коллажа).
+  final bool blob;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -239,6 +264,18 @@ class _WavePainter extends CustomPainter {
         .reduce(math.max);
     final radius = maxRadius * progress;
 
+    if (blob) {
+      // Пятно неровное, поэтому берём его с запасом: самая короткая
+      // его «сторона» тоже обязана дойти до дальнего угла.
+      canvas.drawPath(
+        CollageBlob.path(
+          Rect.fromCircle(center: origin, radius: radius * 1.6),
+          41,
+        ),
+        Paint()..color = color,
+      );
+      return;
+    }
     canvas.drawCircle(origin, radius, Paint()..color = color);
 
     // Кромка гаснет по мере того, как волна добегает до краёв: к моменту
@@ -258,6 +295,7 @@ class _WavePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_WavePainter oldDelegate) =>
+      oldDelegate.blob != blob ||
       oldDelegate.progress != progress ||
       oldDelegate.origin != origin ||
       oldDelegate.color != color;

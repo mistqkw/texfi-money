@@ -253,4 +253,35 @@ void main() {
     expect(prefs.getString('dev_beta_glyph'), 'none');
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('вариант беты «Коллаж» выбирается и сохраняется', (tester) async {
+    final prefs = await _pump(
+      tester,
+      const DeveloperScreen(),
+      prefs: {'dev_menu_unlocked': true},
+    );
+    // В пиксельном стиле сегменты набраны капсом.
+    final collage = find.text('КОЛЛАЖ');
+    await tester.scrollUntilVisible(collage, 300);
+    await tester.pumpAndSettle();
+    await tester.tap(collage);
+    await tester.pumpAndSettle();
+    expect(prefs.getString('dev_beta_kind'), 'collage');
+    // У коллажа свои настройки — пятна вместо знака на фоне.
+    expect(find.text('Синие пятна'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  test('тема коллажа: белый лист, синий акцент, свой стиль', () {
+    final theme = AppTheme.build(
+      variant: AppThemeVariant.light,
+      font: AppFont.inter,
+      beta: true,
+      betaKind: StyleKind.collage,
+    );
+    final colors = theme.extension<AppColorsExt>()!;
+    expect(colors.background, const Color(0xFFFFFFFF));
+    expect(colors.accent, const Color(0xFF4A7DFB));
+    expect(theme.extension<AppStyleExt>()!.isCollage, isTrue);
+  });
 }

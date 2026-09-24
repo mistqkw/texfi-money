@@ -1116,7 +1116,11 @@ class PixelSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final resolvedColor = color ?? IconTheme.of(context).color ?? Theme.of(context).colorScheme.onSurface;
-    // В бета-стиле тот же спрайт рисуется пером — см. [BetaIcons].
+    // В бета-стиле тот же спрайт рисуется пером — см. [BetaIcons]; в
+    // коллаже — пером с синим оттиском, см. [CollageIcon].
+    if (context.style.isCollage) {
+      return CollageIcon(pattern: pattern, size: size, color: resolvedColor);
+    }
     if (context.style.beta) {
       return BetaIcon(pattern: pattern, size: size, color: resolvedColor);
     }

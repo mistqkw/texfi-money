@@ -162,6 +162,78 @@ abstract final class AppPalettes {
         AppThemeVariant.oled => betaBlack,
       };
 
+  // --- Бета «коллаж» — TexFi Style ------------------------------------
+  //
+  // Цвета сняты с картинки автора точными значениями: белый лист, синий
+  // в трёх глубинах, приглушённый сине-серый прямоугольник, чёрный
+  // текст. Главный синий — тот же `#4A7DFB`, что акцент m0ney и f0kus:
+  // стиль продолжает семью TexFi.
+
+  static const Color collageBlue = Color(0xFF4A7DFB);
+  static const Color collageBlueMid = Color(0xFF436ED9);
+  static const Color collageBlueDeep = Color(0xFF3A60BE);
+  static const Color collageSlate = Color(0xFF5A72AB);
+
+  /// Синие пятна по порядку: у каждого пятна своя глубина, как на
+  /// картинке, где три пятна — три разных синих.
+  static const List<Color> collageBlues = [
+    collageBlue,
+    collageBlueMid,
+    collageBlueDeep,
+  ];
+
+  /// Коллаж на белом — как на картинке. Доход — синим, расход — чёрным:
+  /// в стиле два цвета, и деньги говорят на нём же; направление суммы
+  /// всё равно читается по знаку.
+  static const AppColorsExt collage = AppColorsExt(
+    background: Color(0xFFFFFFFF),
+    surface: Color(0xFFFFFFFF),
+    surfaceVariant: Color(0xFFF0F2F8),
+    divider: Color(0xFFE2E5EE),
+    border: Color(0xFF000000),
+    shadow: Color(0x00000000),
+    accent: collageBlue,
+    accentShadow: collageBlueDeep,
+    onAccent: Color(0xFF000000),
+    textPrimary: Color(0xFF000000),
+    textSecondary: Color(0xFF383B44),
+    textTertiary: Color(0xFF7A7F8C),
+    income: collageBlueDeep,
+    expense: Color(0xFF000000),
+    warning: Color(0xFFD9861A),
+    noise: Color(0x00000000),
+  );
+
+  /// Коллаж на тёмном: тот же набор, вывернутый — лист почти чёрный с
+  /// синим отливом, текст белый, синие те же.
+  static const AppColorsExt collageNight = AppColorsExt(
+    background: Color(0xFF0B0D14),
+    surface: Color(0xFF0B0D14),
+    surfaceVariant: Color(0xFF171B28),
+    divider: Color(0xFF252A3A),
+    border: Color(0xFFFFFFFF),
+    shadow: Color(0x00000000),
+    accent: collageBlue,
+    accentShadow: collageBlueDeep,
+    onAccent: Color(0xFF000000),
+    textPrimary: Color(0xFFFFFFFF),
+    textSecondary: Color(0xFFC4C8D4),
+    textTertiary: Color(0xFF7C8294),
+    income: Color(0xFF7FA2FF),
+    expense: Color(0xFFFFFFFF),
+    warning: Color(0xFFF0A33A),
+    noise: Color(0x00000000),
+  );
+
+  static AppColorsExt collageFor(AppThemeVariant variant) => switch (variant) {
+        AppThemeVariant.light => collage,
+        AppThemeVariant.dark => collageNight,
+        AppThemeVariant.oled => collageNight.copyWith(
+            background: const Color(0xFF000000),
+            surface: const Color(0xFF000000),
+          ),
+      };
+
   /// Цвет категории, пересчитанный под лист беты: наполовину приглушённый
   /// и смешанный с чернилами (на тёмном листе — со светлыми). Палитра
   /// категорий подобрана под экран — на

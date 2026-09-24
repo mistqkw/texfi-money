@@ -22,6 +22,11 @@ const String kBodyFamily = 'Inter';
 /// все слоты, где в основном стиле стоит пиксель.
 const String kSerifFamily = 'SourceSerif4';
 
+/// Моноширинный и широкий гротеск беты «коллаж». Оба переменные:
+/// толщина задаётся осью `wght` через [FontVariation].
+const String kMonoFamily = 'JetBrainsMono';
+const String kWideFamily = 'Unbounded';
+
 /// Строит [TextTheme] под выбранный шрифт и палитру. Слоты сопоставлены
 /// с именованными стилями приложения (см. `AppTextStyles`):
 /// balance→displayLarge, amountLarge→displayMedium, amountMedium→displaySmall,
@@ -228,5 +233,67 @@ TextTheme _buildPaperTextTheme(AppColorsExt colors, {bool serifBody = true}) {
       letterSpacing: 0.4,
       features: smallCaps,
     ),
+  );
+}
+
+/// Типографика беты «коллаж» (TexFi Style).
+///
+/// Сама смесь шрифтов внутри слова — дело `CollageText`: тема задаёт
+/// только основу, из которой он начинает. Основа — гротеск Inter, как
+/// «be», «like» на картинке автора; служебные подписи — моноширинным,
+/// как «TexFi» и «scure»; главное число — широким гротеском, как
+/// «ABSTR». Суммы в строках — ровным Inter с табличными цифрами: их
+/// читают колонкой, и смешение шрифтов там мешало бы, а не выражало.
+TextTheme buildCollageTextTheme(AppColorsExt colors) {
+  const tabular = [FontFeature.tabularFigures()];
+
+  TextStyle grotesk(
+    double size, {
+    FontWeight weight = FontWeight.w400,
+    required Color color,
+    double height = 1.25,
+    double letterSpacing = 0,
+  }) {
+    return TextStyle(
+      fontFamily: kBodyFamily,
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFeatures: tabular,
+    );
+  }
+
+  TextStyle mono(double size, {required Color color, double weight = 400}) {
+    return TextStyle(
+      fontFamily: kMonoFamily,
+      fontSize: size,
+      color: color,
+      height: 1.2,
+      letterSpacing: 0.3,
+      fontVariations: [FontVariation('wght', weight)],
+    );
+  }
+
+  return TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: kWideFamily,
+      fontSize: 34,
+      height: 1.05,
+      letterSpacing: -0.5,
+      color: colors.textPrimary,
+      fontVariations: const [FontVariation('wght', 350)],
+      fontFeatures: tabular,
+    ),
+    displayMedium: grotesk(26, weight: FontWeight.w600, color: colors.textPrimary, letterSpacing: -0.5),
+    displaySmall: grotesk(17, weight: FontWeight.w600, color: colors.textPrimary),
+    headlineMedium: grotesk(26, color: colors.textPrimary, height: 1.1, letterSpacing: -0.4),
+    titleLarge: mono(13, color: colors.textPrimary, weight: 500),
+    titleMedium: grotesk(16, weight: FontWeight.w500, color: colors.textPrimary),
+    bodyMedium: grotesk(14, color: colors.textSecondary, height: 1.4),
+    bodySmall: grotesk(12, color: colors.textTertiary, height: 1.3),
+    labelMedium: grotesk(13, weight: FontWeight.w500, color: colors.textSecondary),
+    labelSmall: mono(11, color: colors.textTertiary, weight: 400),
   );
 }

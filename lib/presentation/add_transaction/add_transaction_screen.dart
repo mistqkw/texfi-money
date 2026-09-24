@@ -22,6 +22,7 @@ import '../../domain/entities/transaction_type.dart';
 import '../accounts/account_providers.dart';
 import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
+import '../shared/app_title.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_button.dart';
@@ -171,7 +172,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
+        title: AppTitle(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),
@@ -552,7 +553,7 @@ class _UsefulnessRow extends StatelessWidget {
                     decoration: BoxDecoration(
                       // В бета-стиле — капсула с волосяной рамкой, как
                       // у остальных переключателей беты.
-                      borderRadius: context.style.beta
+                      borderRadius: context.style.isPaper
                           ? const BorderRadius.all(Radius.circular(20))
                           : null,
                       border: Border.all(

@@ -1390,4 +1390,46 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Kółka pod palcem — do nagrań ekranu';
+
+  @override
+  String get devBetaKind => 'Wariant bety';
+
+  @override
+  String get devBetaKindDesc => 'Papier i tusz albo kolaż TexFi Style';
+
+  @override
+  String get devKindPaper => 'Papier';
+
+  @override
+  String get devKindCollage => 'Kolaż';
+
+  @override
+  String get devCollageBlobs => 'Niebieskie wycinki';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Pełne jak na obrazku, przygaszone — żeby tekst czytał się łatwiej, albo bez nich';
+
+  @override
+  String get devBlobsBold => 'Pełne';
+
+  @override
+  String get devBlobsSoft => 'Ciszej';
+
+  @override
+  String get devCollageRemix => 'Mieszaj kroje';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Nagłówki złożone z różnych krojów wewnątrz słowa';
+
+  @override
+  String get devCollageShuffle => 'Tasowanie krojów';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'Tytuł ekranu przymierza kroje, zanim się ustali';
+
+  @override
+  String get devTransitionCut => 'Wytnij';
 }

@@ -8,6 +8,7 @@ import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/utils/haptics.dart';
+import 'collage_tabs.dart';
 
 /// Переключатель разделов внутри одной вкладки.
 ///
@@ -52,6 +53,17 @@ class PixelSegments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.style.isCollage) {
+      return Padding(
+        padding: padding,
+        child: CollageTabs(
+          labels: labels,
+          currentIndex: currentIndex,
+          onSelected: _select,
+          selectedColor: selectedColor,
+        ),
+      );
+    }
     if (context.style.beta) {
       return Padding(
         padding: padding,

@@ -11,6 +11,7 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/category_repository.dart';
+import '../shared/app_title.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
@@ -71,7 +72,7 @@ class CategoriesScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.categoriesTitle)),
+      appBar: AppBar(title: AppTitle(l10n.categoriesTitle)),
       floatingActionButton: PixelFab(
         onPressed: () {
           Haptics.select();

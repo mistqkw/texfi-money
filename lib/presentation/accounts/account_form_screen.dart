@@ -11,6 +11,7 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
+import '../shared/app_title.dart';
 import '../shared/bank_mark.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
@@ -83,7 +84,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew),
+        title: AppTitle(_isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),

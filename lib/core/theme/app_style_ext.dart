@@ -9,8 +9,22 @@ import 'package:flutter/material.dart';
 /// приложение в бежевом, а не другой стиль. Поэтому общие примитивы
 /// (карточка, кнопка, тень, переключатель) читают геометрию отсюда, а не
 /// напрямую из [AppRadius].
+/// Какой стиль собран в теме.
+enum StyleKind {
+  /// Основной пиксельный стиль.
+  pixel,
+
+  /// Бета «бумага и чернила»: антиква, линейки, лист со знаком.
+  paper,
+
+  /// Бета «коллаж» — TexFi Style автора: шрифты смешаны внутри слова,
+  /// живые пятна синего, белый лист, чёрный текст.
+  collage,
+}
+
 class AppStyleExt extends ThemeExtension<AppStyleExt> {
   const AppStyleExt({
+    this.kind = StyleKind.pixel,
     required this.beta,
     required this.cardRadius,
     required this.controlRadius,
@@ -20,6 +34,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
 
   /// Пиксельный стиль — основной.
   static const AppStyleExt pixel = AppStyleExt(
+    kind: StyleKind.pixel,
     beta: false,
     cardRadius: BorderRadius.all(Radius.circular(10)),
     controlRadius: BorderRadius.all(Radius.circular(4)),
@@ -31,6 +46,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
   /// скруглённых плашек, ни теней — блоки отделяются линейками, а
   /// объём держит только типографика.
   static const AppStyleExt paper = AppStyleExt(
+    kind: StyleKind.paper,
     beta: true,
     cardRadius: BorderRadius.zero,
     controlRadius: BorderRadius.all(Radius.circular(3)),
@@ -38,7 +54,25 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
     flat: true,
   );
 
+  /// Коллаж: вырезанные ножницами формы не скругляют и не обводят —
+  /// у плоской цветной бумаги нет ни рамок, ни теней.
+  static const AppStyleExt collage = AppStyleExt(
+    kind: StyleKind.collage,
+    beta: true,
+    cardRadius: BorderRadius.zero,
+    controlRadius: BorderRadius.zero,
+    borderWidth: 1.5,
+    flat: true,
+  );
+
+  final StyleKind kind;
+
+  /// Включена ли бета — любая, не пиксельный стиль.
   final bool beta;
+
+  bool get isPaper => kind == StyleKind.paper;
+  bool get isCollage => kind == StyleKind.collage;
+
   final BorderRadius cardRadius;
   final BorderRadius controlRadius;
   final double borderWidth;
@@ -48,6 +82,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
 
   @override
   AppStyleExt copyWith({
+    StyleKind? kind,
     bool? beta,
     BorderRadius? cardRadius,
     BorderRadius? controlRadius,
@@ -55,6 +90,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
     bool? flat,
   }) {
     return AppStyleExt(
+      kind: kind ?? this.kind,
       beta: beta ?? this.beta,
       cardRadius: cardRadius ?? this.cardRadius,
       controlRadius: controlRadius ?? this.controlRadius,
@@ -67,6 +103,7 @@ class AppStyleExt extends ThemeExtension<AppStyleExt> {
   AppStyleExt lerp(ThemeExtension<AppStyleExt>? other, double t) {
     if (other is! AppStyleExt) return this;
     return AppStyleExt(
+      kind: t < 0.5 ? kind : other.kind,
       beta: t < 0.5 ? beta : other.beta,
       cardRadius: BorderRadius.lerp(cardRadius, other.cardRadius, t)!,
       controlRadius: BorderRadius.lerp(controlRadius, other.controlRadius, t)!,

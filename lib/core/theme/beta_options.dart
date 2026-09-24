@@ -85,6 +85,27 @@ enum BetaTransition {
       .firstWhere((t) => t.name == name, orElse: () => BetaTransition.pageTurn);
 }
 
+/// Пятна на фоне коллажа.
+enum CollageBlobs {
+  /// Сплошные, как на картинке.
+  bold,
+
+  /// Приглушённые — текст поверх читается легче.
+  soft,
+
+  /// Без пятен: белый лист и прямоугольник.
+  none;
+
+  double get opacity => switch (this) {
+        bold => 1.0,
+        soft => 0.35,
+        none => 0.0,
+      };
+
+  static CollageBlobs fromName(String? name) => CollageBlobs.values
+      .firstWhere((b) => b.name == name, orElse: () => CollageBlobs.soft);
+}
+
 /// Настройки бета-стиля из меню разработчика.
 ///
 /// Живут в теме, а не читаются из хранилища на месте: фон, заставка и
@@ -98,6 +119,9 @@ class BetaOptions extends ThemeExtension<BetaOptions> {
     this.grain = true,
     this.transition = BetaTransition.pageTurn,
     this.serifBody = true,
+    this.collageBlobs = CollageBlobs.soft,
+    this.collageRemix = true,
+    this.collageShuffle = true,
   });
 
   final BetaGlyphChoice glyph;
@@ -112,6 +136,15 @@ class BetaOptions extends ThemeExtension<BetaOptions> {
   /// остаётся в заголовках и суммах.
   final bool serifBody;
 
+  /// Коллаж: пятна на фоне.
+  final CollageBlobs collageBlobs;
+
+  /// Коллаж: смешивать шрифты в заголовках.
+  final bool collageRemix;
+
+  /// Коллаж: перебор шрифтов при появлении заголовка.
+  final bool collageShuffle;
+
   @override
   BetaOptions copyWith({
     BetaGlyphChoice? glyph,
@@ -120,6 +153,9 @@ class BetaOptions extends ThemeExtension<BetaOptions> {
     bool? grain,
     BetaTransition? transition,
     bool? serifBody,
+    CollageBlobs? collageBlobs,
+    bool? collageRemix,
+    bool? collageShuffle,
   }) {
     return BetaOptions(
       glyph: glyph ?? this.glyph,
@@ -128,6 +164,9 @@ class BetaOptions extends ThemeExtension<BetaOptions> {
       grain: grain ?? this.grain,
       transition: transition ?? this.transition,
       serifBody: serifBody ?? this.serifBody,
+      collageBlobs: collageBlobs ?? this.collageBlobs,
+      collageRemix: collageRemix ?? this.collageRemix,
+      collageShuffle: collageShuffle ?? this.collageShuffle,
     );
   }
 

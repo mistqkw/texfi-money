@@ -1391,4 +1391,46 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Кружки под пальцем — для записи экрана';
+
+  @override
+  String get devBetaKind => 'Вариант беты';
+
+  @override
+  String get devBetaKindDesc => 'Бумага и чернила или коллаж TexFi Style';
+
+  @override
+  String get devKindPaper => 'Бумага';
+
+  @override
+  String get devKindCollage => 'Коллаж';
+
+  @override
+  String get devCollageBlobs => 'Синие пятна';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Сплошные, как на картинке, приглушённые — чтобы текст читался легче, или без них';
+
+  @override
+  String get devBlobsBold => 'Сплошные';
+
+  @override
+  String get devBlobsSoft => 'Тише';
+
+  @override
+  String get devCollageRemix => 'Смешивать шрифты';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Заголовки собраны из разных шрифтов прямо внутри слова';
+
+  @override
+  String get devCollageShuffle => 'Перебор шрифтов';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'Заголовок экрана при появлении примеряет шрифты и встаёт на свой';
+
+  @override
+  String get devTransitionCut => 'Вырезать';
 }

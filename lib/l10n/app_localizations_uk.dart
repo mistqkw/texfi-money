@@ -1392,4 +1392,46 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Кружечки під пальцем — для запису екрана';
+
+  @override
+  String get devBetaKind => 'Варіант бети';
+
+  @override
+  String get devBetaKindDesc => 'Папір і чорнило або колаж TexFi Style';
+
+  @override
+  String get devKindPaper => 'Папір';
+
+  @override
+  String get devKindCollage => 'Колаж';
+
+  @override
+  String get devCollageBlobs => 'Сині плями';
+
+  @override
+  String get devCollageBlobsDesc =>
+      'Суцільні, як на картинці, приглушені — щоб текст читався легше, або без них';
+
+  @override
+  String get devBlobsBold => 'Суцільні';
+
+  @override
+  String get devBlobsSoft => 'Тихіше';
+
+  @override
+  String get devCollageRemix => 'Змішувати шрифти';
+
+  @override
+  String get devCollageRemixDesc =>
+      'Заголовки зібрано з різних шрифтів просто всередині слова';
+
+  @override
+  String get devCollageShuffle => 'Перебір шрифтів';
+
+  @override
+  String get devCollageShuffleDesc =>
+      'Заголовок екрана під час появи приміряє шрифти й стає на свій';
+
+  @override
+  String get devTransitionCut => 'Вирізати';
 }
