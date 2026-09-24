@@ -11,7 +11,6 @@ import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
-import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import 'developer_provider.dart';
@@ -131,7 +130,7 @@ class _AboutScreenState extends ConsumerState<AboutScreen> {
     final devUnlocked = ref.watch(devMenuUnlockedProvider);
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.aboutTitle)),
+      appBar: AppBar(title: Text(l10n.aboutTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

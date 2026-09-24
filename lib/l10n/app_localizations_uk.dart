@@ -1126,9 +1126,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get devSectionData => 'Дані';
 
   @override
-  String get devSectionExperimental => 'Експерименти';
-
-  @override
   String get devInfoVersion => 'Версія';
 
   @override
@@ -1269,109 +1266,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get devHideMenuDesc => 'Повернути — знову п\'ять натискань на версію';
 
   @override
-  String get devBetaStyle => 'Бета-стиль';
-
-  @override
-  String get devBetaStyleDesc =>
-      'Source Serif 4, кольори аватарки, великий знак на тлі';
-
-  @override
-  String get devBetaOn => 'Увімкнено';
-
-  @override
-  String get devBetaOff => 'Вимкнено';
-
-  @override
-  String get devBetaEnableTitle => 'Увімкнути бета-стиль?';
-
-  @override
-  String get devBetaEnableBody =>
-      'Застосунок змінить шрифт, кольори й форму елементів. Це бета: подекуди стиль може виглядати недоробленим. Вимкнути можна тут же.';
-
-  @override
-  String get devBetaEnableAction => 'Увімкнути';
-
-  @override
-  String get devBetaDisableTitle => 'Вимкнути бета-стиль?';
-
-  @override
-  String get devBetaDisableBody => 'Повернеться звичний піксельний стиль.';
-
-  @override
-  String get devBetaDisableAction => 'Вимкнути';
-
-  @override
-  String get devSectionBeta => 'Бета-стиль';
-
-  @override
-  String get devBetaOnlyHint => 'Діє, коли бета-стиль увімкнено';
-
-  @override
-  String get devBetaGlyph => 'Знак на тлі';
-
-  @override
-  String get devBetaGlyphDesc => 'Великий знак за екранами';
-
-  @override
-  String get devBetaGlyphNone => 'Немає';
-
-  @override
-  String get devBetaGlyphStrength => 'Помітність знака';
-
-  @override
-  String get devStrengthQuiet => 'Тихо';
-
-  @override
-  String get devStrengthNormal => 'Звично';
-
-  @override
-  String get devStrengthBold => 'Яскраво';
-
-  @override
-  String get devStrengthFull => 'Еталон';
-
-  @override
-  String get devBetaGlyphSize => 'Розмір знака';
-
-  @override
-  String get devSizeSmall => 'Менший';
-
-  @override
-  String get devSizeNormal => 'Звичайний';
-
-  @override
-  String get devSizeLarge => 'Більший';
-
-  @override
-  String get devBetaTransition => 'Перехід між екранами';
-
-  @override
-  String get devTransitionPageTurn => 'Гортати';
-
-  @override
-  String get devTransitionFade => 'Проявляти';
-
-  @override
-  String get devTransitionInstant => 'Одразу';
-
-  @override
-  String get devBetaGrain => 'Зерно паперу';
-
-  @override
-  String get devBetaGrainDesc =>
-      'Ледь помітні точки, завдяки яким тло читається як аркуш';
-
-  @override
-  String get devBetaSerifBody => 'Текст антиквою';
-
-  @override
-  String get devBetaSerifBodyDesc =>
-      'Вимкнено — основний текст Inter, антиква лише в заголовках і сумах';
-
-  @override
-  String get devBetaReplay => 'Програти анімацію увімкнення';
-
-  @override
   String get devTextScale => 'Масштаб тексту';
 
   @override
@@ -1392,46 +1286,4 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get devTouchesDesc => 'Кружечки під пальцем — для запису екрана';
-
-  @override
-  String get devBetaKind => 'Варіант бети';
-
-  @override
-  String get devBetaKindDesc => 'Папір і чорнило або колаж TexFi Style';
-
-  @override
-  String get devKindPaper => 'Папір';
-
-  @override
-  String get devKindCollage => 'Колаж';
-
-  @override
-  String get devCollageBlobs => 'Сині плями';
-
-  @override
-  String get devCollageBlobsDesc =>
-      'Суцільні, як на картинці, приглушені — щоб текст читався легше, або без них';
-
-  @override
-  String get devBlobsBold => 'Суцільні';
-
-  @override
-  String get devBlobsSoft => 'Тихіше';
-
-  @override
-  String get devCollageRemix => 'Змішувати шрифти';
-
-  @override
-  String get devCollageRemixDesc =>
-      'Заголовки зібрано з різних шрифтів просто всередині слова';
-
-  @override
-  String get devCollageShuffle => 'Перебір шрифтів';
-
-  @override
-  String get devCollageShuffleDesc =>
-      'Заголовок екрана під час появи приміряє шрифти й стає на свій';
-
-  @override
-  String get devTransitionCut => 'Вирізати';
 }

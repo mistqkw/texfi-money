@@ -13,7 +13,6 @@ import '../../domain/entities/subscription_entity.dart';
 import '../../domain/entities/subscription_period.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_card.dart';
@@ -45,7 +44,7 @@ class SubscriptionsScreen extends ConsumerWidget {
     final cancelled = subs.where((s) => !s.isActive).toList();
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.subscriptionsTitle)),
+      appBar: AppBar(title: Text(l10n.subscriptionsTitle)),
       // Плавающая кнопка видна всегда, даже когда список пуст.
       //
       // Была попытка прятать её на пустом списке — раз пустое состояние
@@ -282,7 +281,7 @@ class _SubscriptionFormScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: AppTitle(_isNew ? l10n.subscriptionNew : l10n.subscriptionEdit),
+        title: Text(_isNew ? l10n.subscriptionNew : l10n.subscriptionEdit),
         actions: [
           if (!_isNew)
             IconButton(

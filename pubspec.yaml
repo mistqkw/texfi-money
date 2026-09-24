@@ -2,7 +2,7 @@ name: texfi_money
 description: "TexFi m0ney — личный финансовый трекер"
 publish_to: 'none'
 
-version: 1.3.0+20
+version: 1.1.1+16
 
 environment:
   sdk: ^3.12.2
@@ -71,24 +71,6 @@ flutter:
           weight: 500
         - asset: assets/fonts/Inter-SemiBold.ttf
           weight: 600
-    # Бета-стиль из меню разработчика: заголовки и крупные числа —
-    # антиква вместо пикселя. Кириллица и латиница покрыты полностью.
-    - family: SourceSerif4
-      fonts:
-        - asset: assets/fonts/SourceSerif4-Regular.ttf
-        - asset: assets/fonts/SourceSerif4-Semibold.ttf
-          weight: 600
-        - asset: assets/fonts/SourceSerif4-It.ttf
-          style: italic
-    # Бета «коллаж» (TexFi Style): моноширинный и широкий гротеск для
-    # смешанных заголовков. Оба — переменные шрифты, урезанные до
-    # латиницы, кириллицы и знаков валют; толщина задаётся осью wght.
-    - family: JetBrainsMono
-      fonts:
-        - asset: assets/fonts/JetBrainsMono.ttf
-    - family: Unbounded
-      fonts:
-        - asset: assets/fonts/Unbounded.ttf
 
   assets:
     - assets/icon/

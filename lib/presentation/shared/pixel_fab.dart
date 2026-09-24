@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
-import '../../core/theme/app_style_ext.dart';
-import 'beta_icons.dart';
-import 'collage_blob.dart';
 import 'pixel_icon.dart';
 
 /// Плавающая кнопка добавления в пиксель-стиле экосистемы TexFi: квадрат
@@ -43,48 +40,11 @@ class _PixelFabState extends State<PixelFab> {
     const size = 56.0;
     const shadowOffset = 4.0;
 
-    // В бета-стиле — круглый оттиск тушью без тени, как печать на
-    // полях: единственное тёмное пятно на странице и так заметно.
-    final beta = context.style.beta;
-    final decoration = beta
-        ? BoxDecoration(
-            color: colors.textPrimary,
-            borderRadius: const BorderRadius.all(Radius.circular(size / 2)),
-          )
-        : null;
-
-    // Коллаж: кнопка — синее вырезанное пятно с чёрным плюсом. Нажатие
-    // не утапливает её, а переминает: пятно меняет форму и отпускает.
-    final Widget? collageButton = context.style.isCollage
-        ? TweenAnimationBuilder<double>(
-            tween: Tween(end: _pressed ? 1 : 0),
-            duration: AppMotion.pop,
-            curve: AppMotion.snap,
-            builder: (context, t, _) => SizedBox(
-              width: size + 8,
-              height: size + 8,
-              child: BlobShape(
-                seed: 23,
-                morphTo: 29,
-                t: t.clamp(0.0, 1.0),
-                color: colors.accent,
-                child: Center(
-                  child: BetaIcon(
-                    pattern: widget.pattern,
-                    size: 26,
-                    color: const Color(0xFF000000),
-                  ),
-                ),
-              ),
-            ),
-          )
-        : null;
-
-    Widget button = collageButton ?? Container(
+    Widget button = Container(
       width: size,
       height: size,
       alignment: Alignment.center,
-      decoration: decoration ?? BoxDecoration(
+      decoration: BoxDecoration(
         color: colors.accent,
         borderRadius: AppRadius.cardMediumAll,
         border: Border.all(color: colors.onAccent, width: 2),
@@ -92,11 +52,7 @@ class _PixelFabState extends State<PixelFab> {
           BoxShadow(color: colors.textPrimary.withValues(alpha: 0.45), offset: const Offset(shadowOffset, shadowOffset)),
         ],
       ),
-      child: PixelIcon(
-        widget.pattern,
-        size: beta ? 24 : 22,
-        color: beta ? colors.background : colors.onAccent,
-      ),
+      child: PixelIcon(widget.pattern, size: 22, color: colors.onAccent),
     );
 
     button = GestureDetector(

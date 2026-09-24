@@ -9,7 +9,6 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/utils/haptics.dart';
@@ -22,7 +21,6 @@ import '../../domain/entities/transaction_type.dart';
 import '../accounts/account_providers.dart';
 import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/pixel_button.dart';
@@ -172,7 +170,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: AppTitle(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
+        title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),
@@ -370,12 +368,10 @@ class _CategoryGrid extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             color: context.colors.surface,
-            borderRadius: context.style.beta
-                ? context.style.controlRadius
-                : AppRadius.cardSmallAll,
+            borderRadius: AppRadius.cardSmallAll,
             border: Border.all(
               color: context.colors.border,
-              width: context.style.borderWidth,
+              width: AppRadius.pixelBorder,
             ),
           ),
           child: Row(
@@ -451,7 +447,7 @@ class _AccountRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? color.withValues(alpha: 0.16) : context.colors.surface,
-          borderRadius: _chipRadius(context),
+          borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
             color: selected ? color : context.colors.border,
             width: selected ? 1.5 : 1,
@@ -463,12 +459,7 @@ class _AccountRow extends StatelessWidget {
             Container(
               width: 10,
               height: 10,
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: context.style.beta
-                    ? const BorderRadius.all(Radius.circular(5))
-                    : AppRadius.controlSmallAll,
-              ),
+              decoration: BoxDecoration(color: color, borderRadius: AppRadius.controlSmallAll),
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(label, style: context.text.title),
@@ -489,12 +480,12 @@ class _DateRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: _chipRadius(context),
+      borderRadius: AppRadius.cardSmallAll,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: context.colors.surfaceVariant,
-          borderRadius: _chipRadius(context),
+          borderRadius: AppRadius.cardSmallAll,
         ),
         child: Row(
           children: [
@@ -546,39 +537,27 @@ class _UsefulnessRow extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => onChanged(value == item ? null : item),
                   child: Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: AppSpacing.sm,
-                      horizontal: context.style.beta ? AppSpacing.xs : 0,
                     ),
                     decoration: BoxDecoration(
-                      // В бета-стиле — капсула с волосяной рамкой, как
-                      // у остальных переключателей беты.
-                      borderRadius: context.style.isPaper
-                          ? const BorderRadius.all(Radius.circular(20))
-                          : null,
                       border: Border.all(
                         color: value == item
                             ? colorFor(item)
                             : colors.border,
-                        width: context.style.beta ? 1 : 2,
+                        width: 2,
                       ),
-                      // В бете подложка обязательна: сквозь пустую
-                      // капсулу просвечивал водяной знак фона.
                       color: value == item
                           ? colorFor(item).withValues(alpha: 0.12)
-                          : (context.style.beta ? colors.surface : null),
+                          : null,
                     ),
-                    child: _fitInBeta(
-                      context,
-                      Text(
-                        usefulnessLabel(l10n, item),
-                        textAlign: TextAlign.center,
-                        maxLines: context.style.beta ? 1 : null,
-                        style: context.text.caption.copyWith(
-                          color: value == item
-                              ? colorFor(item)
-                              : colors.textSecondary,
-                        ),
+                    child: Text(
+                      usefulnessLabel(l10n, item),
+                      textAlign: TextAlign.center,
+                      style: context.text.caption.copyWith(
+                        color: value == item
+                            ? colorFor(item)
+                            : colors.textSecondary,
                       ),
                     ),
                   ),
@@ -592,14 +571,3 @@ class _UsefulnessRow extends StatelessWidget {
     );
   }
 }
-
-/// Скругление плиток выбора на этом экране: в бета-стиле — радиус
-/// управления беты, в пиксельном — малая карточка.
-BorderRadius _chipRadius(BuildContext context) =>
-    context.style.beta ? context.style.controlRadius : AppRadius.cardSmallAll;
-
-/// В бета-стиле подпись в капсуле ужимается, а не обрезается:
-/// «Ни то ни дру…» — уже не вариант ответа.
-Widget _fitInBeta(BuildContext context, Widget child) => context.style.beta
-    ? FittedBox(fit: BoxFit.scaleDown, child: child)
-    : child;

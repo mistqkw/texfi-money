@@ -4,12 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_spinner.dart';
@@ -34,7 +32,7 @@ class CashFlowScreen extends ConsumerWidget {
     final rates = ref.watch(savingsRateHistoryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.cashFlowTitle)),
+      appBar: AppBar(title: Text(l10n.cashFlowTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [
@@ -159,16 +157,7 @@ class _SavingsHistory extends StatelessWidget {
                     if (entry.rate case final rate?)
                       Container(
                         height: (rate.clamp(0, 100) / 100 * 110).toDouble(),
-                        decoration: BoxDecoration(
-                          color: rate < 0 ? colors.expense : colors.accent,
-                          // В бета-стиле столбец со скруглённой верхушкой,
-                          // как в статистике.
-                          borderRadius: context.style.beta
-                              ? const BorderRadius.vertical(
-                                  top: Radius.circular(4),
-                                )
-                              : null,
-                        ),
+                        color: rate < 0 ? colors.expense : colors.accent,
                       )
                     else
                       // Месяца без дохода не было бы честно рисовать

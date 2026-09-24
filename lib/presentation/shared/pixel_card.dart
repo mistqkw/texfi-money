@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../../core/theme/beta_options.dart';
-import 'collage_text.dart';
 import 'pixel_shadow.dart';
 
 /// Карточка приложения — та же, что в TexFi f0kus: умеренно скруглённая,
@@ -66,8 +63,6 @@ class PixelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final style = context.style;
-    final radius = style.beta ? style.cardRadius : AppRadius.cardMediumAll;
     final border = borderColor ?? (accent ? colors.accent : colors.border);
 
     final label = this.label;
@@ -79,88 +74,21 @@ class PixelCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                // В бете подпись блока — рубрика капителями.
-                style: (style.beta ? context.text.mono : context.text.caption)
-                    .copyWith(color: labelColor),
+                style: labelColor == null
+                    ? context.text.caption
+                    : context.text.caption.copyWith(color: labelColor),
               ),
               AppSpacing.gapSm,
               child,
             ],
           );
 
-    // Коллаж — вырезки на листе: у блока нет ни рамки, ни фона, ни
-    // линейки. Блоки отделяет воздух, а подпись над ними набрана
-    // моноширинным, как «TexFi» на картинке автора. Выделенный блок
-    // отмечен коротким синим штрихом у подписи.
-    if (style.isCollage) {
-      final marked = accent || borderColor != null;
-      final collageBody = label == null || label.isEmpty
-          ? child
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    if (marked) ...[
-                      Container(
-                        width: 14,
-                        height: 6,
-                        color: borderColor ?? colors.accent,
-                      ),
-                      AppSpacing.gapHSm,
-                    ],
-                    Flexible(
-                      child: Text(
-                        label.toLowerCase(),
-                        style: context.text.mono.copyWith(
-                          color: labelColor ?? colors.textSecondary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                AppSpacing.gapSm,
-                child,
-              ],
-            );
-      final cut = Padding(
-        padding: padding.copyWith(left: 0, right: 0),
-        child: Material(type: MaterialType.transparency, child: collageBody),
-      );
-      if (onTap == null && onLongPress == null) return cut;
-      return InkWell(onTap: onTap, onLongPress: onLongPress, child: cut);
-    }
-
-    // Бета-стиль — страница, а не набор плашек: блок отделён линейкой
-    // сверху, фона, рамки и тени у него нет, текст стоит на бумаге.
-    // Выделенный блок получает двойную линейку, как раздел в газете.
-    if (style.beta) {
-      final rule = BorderSide(
-        color: accent || borderColor != null
-            ? (borderColor ?? colors.textPrimary)
-            : colors.textPrimary.withValues(alpha: 0.85),
-        width: accent || borderColor != null ? 2 : 1,
-      );
-      final page = Container(
-        padding: padding.copyWith(left: 0, right: 0),
-        decoration: BoxDecoration(
-          color: background,
-          border: Border(top: rule),
-        ),
-        child: Material(type: MaterialType.transparency, child: body),
-      );
-      if (onTap == null && onLongPress == null) return page;
-      return InkWell(onTap: onTap, onLongPress: onLongPress, child: page);
-    }
-
     final content = Container(
       padding: padding,
       decoration: BoxDecoration(
         color: background ?? colors.surface,
-        borderRadius: radius,
-        border: Border.all(color: border, width: style.borderWidth),
+        borderRadius: AppRadius.cardMediumAll,
+        border: Border.all(color: border, width: AppRadius.pixelBorder),
       ),
       // ListTile и прочие Material-виджеты рисуют фон и отклик на ближайшем
       // Material-предке. Без этой прослойки они оказались бы под заливкой
@@ -176,7 +104,7 @@ class PixelCard extends StatelessWidget {
         : InkWell(
             onTap: onTap,
             onLongPress: onLongPress,
-            borderRadius: radius,
+            borderRadius: AppRadius.cardMediumAll,
             child: content,
           );
 
@@ -188,7 +116,7 @@ class PixelCard extends StatelessWidget {
     return PixelShadowBox(
       shadowColor:
           accent ? colors.accentShadow : (borderColor ?? colors.shadow),
-      borderRadius: radius,
+      borderRadius: AppRadius.cardMediumAll,
       child: tappable,
     );
   }
@@ -220,43 +148,6 @@ class PixelSectionHeader extends StatelessWidget {
     final colors = context.colors;
     final number = index;
 
-    // Коллаж: номер — моноширинным синим, название собрано из разных
-    // шрифтов, линейки нет — раздел держит сам заголовок.
-    if (context.style.isCollage) {
-      final options = context.betaOptions;
-      return Padding(
-        padding: const EdgeInsets.only(bottom: AppSpacing.md),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            if (number != null) ...[
-              Text(
-                number.toString().padLeft(2, '0'),
-                style: context.text.mono.copyWith(
-                  color: colors.accent,
-                  fontSize: 13,
-                ),
-              ),
-              AppSpacing.gapHSm,
-            ],
-            Flexible(
-              child: CollageText(
-                title,
-                style: context.text.headline.copyWith(fontSize: 22),
-                remix: options.collageRemix,
-                tallLetter: false,
-              ),
-            ),
-            if (trailing != null) ...[
-              AppSpacing.gapHMd,
-              trailing!,
-            ],
-          ],
-        ),
-      );
-    }
-
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Row(
@@ -272,12 +163,7 @@ class PixelSectionHeader extends StatelessWidget {
           Flexible(
             child: Text(
               title,
-              // В бете заголовок раздела на ступень мельче заголовка
-              // экрана: 24 кегля антиквы обрезали «Сборка и устройство»
-              // до «Сборка и устройс…».
-              style: context.style.beta
-                  ? context.text.headline.copyWith(fontSize: 20)
-                  : context.text.headline,
+              style: context.text.headline,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -303,9 +189,6 @@ class _HeaderRule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.style;
-    // В бета-стиле линейка — волосок: двухпиксельный брусок рядом с
-    // антиквой смотрится обломком пиксельного интерфейса.
-    return Container(height: style.borderWidth, color: context.colors.divider);
+    return Container(height: 2, color: context.colors.divider);
   }
 }

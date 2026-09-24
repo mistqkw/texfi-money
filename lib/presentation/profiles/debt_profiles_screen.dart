@@ -13,7 +13,6 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/empty_state.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
@@ -102,7 +101,7 @@ class DebtProfilesScreen extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.profilesTitle)),
+      appBar: AppBar(title: Text(l10n.profilesTitle)),
       // Плавающая кнопка видна всегда, даже когда список пуст.
       //
       // Была попытка прятать её на пустом списке — раз пустое состояние

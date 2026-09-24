@@ -9,7 +9,6 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
-import '../shared/app_title.dart';
 import '../shared/color_picker_row.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_icon.dart';
@@ -75,7 +74,7 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: AppTitle(_isEditing ? l10n.profileFormTitleEdit : l10n.profileFormTitleNew),
+        title: Text(_isEditing ? l10n.profileFormTitleEdit : l10n.profileFormTitleNew),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
           icon: const PixelIcon(PixelIcons.close),

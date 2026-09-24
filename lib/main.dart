@@ -4,7 +4,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_motion.dart';
-import 'core/theme/app_page_transitions.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/settings/currency_provider.dart';
@@ -14,16 +13,12 @@ import 'presentation/settings/haptics_provider.dart';
 import 'presentation/settings/locale_provider.dart';
 import 'presentation/settings/theme_provider.dart';
 import 'presentation/shared/app_entry.dart';
-import 'presentation/shared/beta_sheet.dart';
 import 'presentation/shared/dev_overlays.dart';
 import 'presentation/shared/pixel_background.dart';
 import 'presentation/shared/restart_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Лист бета-стиля для перелистывания: каждая страница лежит на своём.
-  PixelDissolveTransition.betaSheetBuilder =
-      (child) => BetaSheet(child: child);
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   runApp(
@@ -49,7 +44,6 @@ class TexFiMoneyApp extends ConsumerWidget {
     ref.watch(hapticsEnabledProvider);
     // То же для замедления анимаций из меню разработчика.
     ref.watch(animationSpeedProvider);
-    final beta = ref.watch(betaStyleProvider);
     final noise = ref.watch(backgroundNoiseProvider);
     final devBanner = ref.watch(devBannerProvider);
     final textScale = ref.watch(textScaleOverrideProvider);
@@ -59,13 +53,7 @@ class TexFiMoneyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'TexFi m0ney',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.build(
-        variant: variant,
-        font: font,
-        beta: beta,
-        betaOptions: ref.watch(betaOptionsProvider),
-        betaKind: ref.watch(betaKindStyleProvider),
-      ),
+      theme: AppTheme.build(variant: variant, font: font),
       themeAnimationDuration: AppMotion.normal,
       showPerformanceOverlay: ref.watch(perfOverlayProvider),
       checkerboardRasterCacheImages: ref.watch(rasterCheckerboardProvider),
@@ -79,8 +67,6 @@ class TexFiMoneyApp extends ConsumerWidget {
       // заливки, не мешая читать: точки в 2 логических пикселя с альфой
       // около 5% глаз считывает как фактуру, а не как шум под текстом.
       //
-      // В бета-стиле крапа нет: его место занимает лист со знаком.
-      //
       // Поверх — отладочные слои из меню разработчика: масштаб текста,
       // сетка, кружки под пальцем, лента в углу.
       builder: (context, child) {
@@ -93,14 +79,13 @@ class TexFiMoneyApp extends ConsumerWidget {
             child: content,
           );
         }
-        Widget body = beta
-            ? BetaSheet(child: content)
-            : PixelBackground(density: noise ? 0.06 : 0, child: content);
+        Widget body =
+            PixelBackground(density: noise ? 0.06 : 0, child: content);
         if (grid) body = LayoutGridOverlay(child: body);
         if (touches) body = TouchIndicatorOverlay(child: body);
         if (!devBanner) return body;
         return Banner(
-          message: beta ? 'BETA' : 'DEV',
+          message: 'DEV',
           location: BannerLocation.topEnd,
           child: body,
         );

@@ -14,7 +14,6 @@ import '../../domain/entities/transaction_entity.dart';
 import '../../domain/entities/transaction_type.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
@@ -157,7 +156,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     final periodFormat = DateFormat('d.MM.yy', intlLocale(context.localeCode));
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.historyTitle)),
+      appBar: AppBar(title: Text(l10n.historyTitle)),
       body: Column(
         children: [
           Padding(

@@ -6,7 +6,6 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_page_transitions.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../../domain/entities/asset_entity.dart';
@@ -14,7 +13,6 @@ import '../../domain/entities/cash_flow_type.dart';
 import '../../domain/entities/net_worth.dart';
 import '../../domain/entities/wealth_rules.dart';
 import '../settings/currency_provider.dart';
-import '../shared/app_title.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_fab.dart';
 import '../shared/pixel_icon.dart';
@@ -53,7 +51,7 @@ class WealthScreen extends ConsumerWidget {
       appBar: embedded
           ? null
           : AppBar(
-              title: AppTitle(l10n.wealthTitle),
+              title: Text(l10n.wealthTitle),
               actions: [
                 IconButton(
                   icon: const PixelIcon(PixelIcons.subscriptions),
@@ -416,30 +414,19 @@ class _ShareBar extends StatelessWidget {
           AppSpacing.gapXs,
           // Дорожка и заливка — прямоугольники без скруглений: полоска
           // здесь того же материала, что и всё остальное на экране.
-          // В бета-стиле концы скруглены — как у остальных шкал беты.
-          ClipRRect(
-            borderRadius: context.style.beta
-                ? const BorderRadius.all(Radius.circular(3))
-                : BorderRadius.zero,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return Stack(
-                  children: [
-                    Container(height: 6, color: colors.surfaceVariant),
-                    Container(
-                      height: 6,
-                      width: constraints.maxWidth * (percent / 100).clamp(0, 1),
-                      decoration: BoxDecoration(
-                        color: color,
-                        borderRadius: context.style.beta
-                            ? const BorderRadius.all(Radius.circular(3))
-                            : null,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Stack(
+                children: [
+                  Container(height: 6, color: colors.surfaceVariant),
+                  Container(
+                    height: 6,
+                    width: constraints.maxWidth * (percent / 100).clamp(0, 1),
+                    color: color,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

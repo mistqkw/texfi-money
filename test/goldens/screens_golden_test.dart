@@ -11,9 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
-import 'package:texfi_money/core/theme/app_style_ext.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
-import 'package:texfi_money/core/theme/beta_options.dart';
 import 'package:texfi_money/data/local/database.dart';
 import 'package:texfi_money/data/providers/data_providers.dart';
 import 'package:texfi_money/data/repositories/budget_repository_impl.dart';
@@ -33,7 +31,6 @@ import 'package:texfi_money/presentation/settings/about_screen.dart';
 import 'package:texfi_money/presentation/settings/currency_provider.dart';
 import 'package:texfi_money/presentation/settings/developer_screen.dart';
 import 'package:texfi_money/presentation/settings/settings_screen.dart';
-import 'package:texfi_money/presentation/shared/beta_sheet.dart';
 import 'package:texfi_money/presentation/shared/grouped_tab.dart';
 import 'package:texfi_money/presentation/shared/root_shell.dart';
 import 'package:texfi_money/presentation/wealth/cash_flow_screen.dart';
@@ -73,7 +70,7 @@ Future<AppDatabase> _seed() async {
   return db;
 }
 
-Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVariant variant = AppThemeVariant.dark, bool beta = false, BetaOptions betaOptions = const BetaOptions(), StyleKind kind = StyleKind.paper}) async {
+Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVariant variant = AppThemeVariant.dark}) async {
   SharedPreferences.setMockInitialValues({'has_seen_onboarding': true});
   final prefs = await SharedPreferences.getInstance();
   final db = await _seed();
@@ -87,10 +84,7 @@ Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVa
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
       child: MaterialApp(
-        theme: AppTheme.build(variant: variant, font: AppFont.inter, beta: beta, betaOptions: betaOptions, betaKind: kind),
-        // В бета-стиле экраны прозрачные, фон лежит под навигатором —
-        // как в main.dart.
-        builder: beta ? (context, child) => BetaSheet(child: child!) : null,
+        theme: AppTheme.build(variant: variant, font: AppFont.inter),
         locale: const Locale('ru'),
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -136,13 +130,6 @@ void main() {
       'assets/fonts/Inter-Medium.ttf',
       'assets/fonts/Inter-SemiBold.ttf',
     ]);
-    await _loadFont('SourceSerif4', [
-      'assets/fonts/SourceSerif4-Regular.ttf',
-      'assets/fonts/SourceSerif4-Semibold.ttf',
-      'assets/fonts/SourceSerif4-It.ttf',
-    ]);
-    await _loadFont('JetBrainsMono', ['assets/fonts/JetBrainsMono.ttf']);
-    await _loadFont('Unbounded', ['assets/fonts/Unbounded.ttf']);
   });
   testWidgets('home', (t) => _shoot(t, 'home', const HomeScreen()));
   testWidgets('home_light', (t) => _shoot(t, 'home_light', const HomeScreen(), variant: AppThemeVariant.light));
@@ -162,24 +149,4 @@ void main() {
   testWidgets('reports', (t) => _shoot(t, 'reports', const ReportsScreen()));
   testWidgets('subscriptions', (t) => _shoot(t, 'subscriptions', const SubscriptionsScreen()));
   testWidgets('developer', (t) => _shoot(t, 'developer', const DeveloperScreen()));
-  // Бета-стиль из меню разработчика.
-  testWidgets('shell_beta', (t) => _shoot(t, 'shell_beta', const RootShell(), beta: true));
-  testWidgets('history_beta', (t) => _shoot(t, 'history_beta', const HistoryScreen(), beta: true));
-  testWidgets('settings_beta', (t) => _shoot(t, 'settings_beta', const SettingsScreen(), beta: true));
-  testWidgets('shell_beta_light', (t) => _shoot(t, 'shell_beta_light', const RootShell(), beta: true, variant: AppThemeVariant.light));
-  testWidgets('summary_beta_light', (t) => _shoot(t, 'summary_beta_light', const SummaryTab(), beta: true, variant: AppThemeVariant.light));
-  testWidgets('shell_beta_m', (t) => _shoot(t, 'shell_beta_m', const RootShell(), beta: true, betaOptions: const BetaOptions(glyph: BetaGlyphChoice.m, strength: BetaGlyphStrength.full)));
-  // Бета «коллаж» — TexFi Style.
-  testWidgets('shell_collage', (t) => _shoot(t, 'shell_collage', const RootShell(), beta: true, kind: StyleKind.collage, variant: AppThemeVariant.light));
-  testWidgets('shell_collage_dark', (t) => _shoot(t, 'shell_collage_dark', const RootShell(), beta: true, kind: StyleKind.collage));
-  testWidgets('summary_collage', (t) => _shoot(t, 'summary_collage', const SummaryTab(), beta: true, kind: StyleKind.collage, variant: AppThemeVariant.light));
-  testWidgets('plan_collage', (t) => _shoot(t, 'plan_collage', const PlanTab(), beta: true, kind: StyleKind.collage, variant: AppThemeVariant.light));
-  testWidgets('add_tx_collage', (t) => _shoot(t, 'add_tx_collage', const AddTransactionScreen(), beta: true, kind: StyleKind.collage, variant: AppThemeVariant.light));
-  testWidgets('settings_collage', (t) => _shoot(t, 'settings_collage', const SettingsScreen(), beta: true, kind: StyleKind.collage, variant: AppThemeVariant.light));
-  testWidgets('plan_beta', (t) => _shoot(t, 'plan_beta', const PlanTab(), beta: true));
-  testWidgets('summary_beta', (t) => _shoot(t, 'summary_beta', const SummaryTab(), beta: true));
-  testWidgets('wealth_beta', (t) => _shoot(t, 'wealth_beta', const WealthScreen(), beta: true));
-  testWidgets('cash_flow_beta', (t) => _shoot(t, 'cash_flow_beta', const CashFlowScreen(), beta: true));
-  testWidgets('add_tx_beta', (t) => _shoot(t, 'add_tx_beta', const AddTransactionScreen(), beta: true));
-  testWidgets('developer_beta', (t) => _shoot(t, 'developer_beta', const DeveloperScreen(), beta: true));
 }

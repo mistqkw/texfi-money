@@ -5,7 +5,6 @@ import '../budgets/budgets_screen.dart';
 import '../goals/goals_screen.dart';
 import '../statistics/statistics_screen.dart';
 import '../wealth/wealth_screen.dart';
-import 'app_title.dart';
 import 'pixel_segments.dart';
 
 /// Вкладка, внутри которой живут два родственных раздела.
@@ -39,7 +38,7 @@ class _GroupedTabState extends State<GroupedTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppTitle(widget.title),
+        title: Text(widget.title),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: PixelSegments(

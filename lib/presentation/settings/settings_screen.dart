@@ -21,7 +21,6 @@ import '../../data/providers/data_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../accounts/accounts_screen.dart';
 import '../profiles/debt_profiles_screen.dart';
-import '../shared/app_title.dart';
 import '../shared/l10n_helpers.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
@@ -174,7 +173,7 @@ class SettingsScreen extends ConsumerWidget {
         : (nativeLanguageNames[locale.languageCode] ?? locale.languageCode);
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.settingsTitle)),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [

@@ -5,44 +5,13 @@ import '../constants/app_theme_variant.dart';
 import 'app_page_transitions.dart';
 import 'app_palettes.dart';
 import 'app_radius.dart';
-import 'app_style_ext.dart';
 import 'app_typography.dart';
-import 'beta_options.dart';
 
 abstract final class AppTheme {
-  /// [beta] — бета-стиль из меню разработчика: заменяет палитру на
-  /// бумажную (светлую или тёмную — по выбранной теме), гарнитуру и
-  /// геометрию примитивов.
-  static ThemeData build({
-    required AppThemeVariant variant,
-    required AppFont font,
-    bool beta = false,
-    BetaOptions betaOptions = const BetaOptions(),
-    StyleKind betaKind = StyleKind.paper,
-  }) {
-    final collage = beta && betaKind == StyleKind.collage;
-    final colors = !beta
-        ? AppPalettes.forVariant(variant)
-        : collage
-            ? AppPalettes.collageFor(variant)
-            : AppPalettes.betaFor(variant);
-    final style = !beta
-        ? AppStyleExt.pixel
-        : collage
-            ? AppStyleExt.collage
-            : AppStyleExt.paper;
-    final textTheme = collage
-        ? buildCollageTextTheme(colors)
-        : buildAppTextTheme(
-            font: font,
-            colors: colors,
-            beta: beta,
-            serifBody: betaOptions.serifBody,
-          );
-    final brightness =
-        variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
-    final controlRadius = style.controlRadius;
-    final borderWidth = style.borderWidth;
+  static ThemeData build({required AppThemeVariant variant, required AppFont font}) {
+    final colors = AppPalettes.forVariant(variant);
+    final textTheme = buildAppTextTheme(font: font, colors: colors);
+    final brightness = variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
 
     final colorScheme = ColorScheme(
       brightness: brightness,
@@ -62,15 +31,11 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
-      // В бета-стиле экраны прозрачные: фон с водяным знаком лежит один
-      // под всем приложением (см. `BetaBackground`), и непрозрачный
-      // Scaffold его бы закрыл. Уходящий экран при переходе гаснет сам —
-      // см. PixelDissolveTransition.
-      scaffoldBackgroundColor: beta ? Colors.transparent : colors.background,
+      scaffoldBackgroundColor: colors.background,
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
       dividerColor: colors.divider,
-      extensions: [colors, style, betaOptions],
+      extensions: [colors],
       // iOS оставлен системным намеренно: там свайп-назад от края —
       // часть жеста, а не украшение, и подменять его на распад значило
       // бы сломать навигацию ради стиля.
@@ -82,41 +47,13 @@ abstract final class AppTheme {
           TargetPlatform.macOS: PixelDissolvePageTransitionsBuilder(),
         },
       ),
-      // Диалог в бете — лист, а не всплывающая капсула: почти прямые углы,
-      // та же бумага, что под ним.
-      dialogTheme: beta
-          ? DialogThemeData(
-              backgroundColor: colors.surface,
-              surfaceTintColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: controlRadius,
-                side: BorderSide(color: colors.textPrimary),
-              ),
-            )
-          : null,
-      bottomSheetTheme: beta
-          ? BottomSheetThemeData(
-              backgroundColor: colors.surface,
-              surfaceTintColor: Colors.transparent,
-              shape: Border(top: BorderSide(color: colors.textPrimary)),
-            )
-          : null,
-      snackBarTheme: beta
-          ? SnackBarThemeData(
-              backgroundColor: colors.textPrimary,
-              contentTextStyle: textTheme.bodyMedium?.copyWith(
-                color: colors.background,
-              ),
-              shape: RoundedRectangleBorder(borderRadius: controlRadius),
-            )
-          : null,
       dividerTheme: DividerThemeData(
         color: colors.divider,
         thickness: 1,
         space: 1,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: beta ? Colors.transparent : colors.background,
+        backgroundColor: colors.background,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -128,9 +65,7 @@ abstract final class AppTheme {
         color: colors.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: beta ? style.cardRadius : AppRadius.cardSmallAll,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardSmallAll),
       ),
       textTheme: textTheme,
       iconTheme: IconThemeData(
@@ -144,10 +79,10 @@ abstract final class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: controlRadius,
+            borderRadius: AppRadius.controlSmallAll,
             side: BorderSide(
               color: colors.accentShadow,
-              width: borderWidth,
+              width: AppRadius.pixelBorder,
             ),
           ),
           textStyle: textTheme.titleMedium,
@@ -169,38 +104,38 @@ abstract final class AppTheme {
         fillColor: colors.surfaceVariant,
         contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
         border: OutlineInputBorder(
-          borderRadius: controlRadius,
+          borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.border,
-            width: borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: controlRadius,
+          borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.border,
-            width: borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: controlRadius,
+          borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.accent,
-            width: borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: controlRadius,
+          borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.expense,
-            width: borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: controlRadius,
+          borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.expense,
-            width: borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         hintStyle: textTheme.bodyMedium,

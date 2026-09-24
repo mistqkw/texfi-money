@@ -4,7 +4,6 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../domain/entities/category_entity.dart';
 import 'category_avatar.dart';
@@ -32,9 +31,7 @@ class CategorySelectChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? category.color.withValues(alpha: 0.16) : context.colors.surface,
-          borderRadius: context.style.beta
-              ? context.style.controlRadius
-              : AppRadius.cardSmallAll,
+          borderRadius: AppRadius.cardSmallAll,
           // Толщина рамки одна на всё приложение. Раньше выбранный чип
           // обводился в 1.5px, а невыбранный в 1px — на одном экране
           // получалось три разные толщины линии, и выбор читался как
@@ -42,7 +39,7 @@ class CategorySelectChip extends StatelessWidget {
           // держат цвет и заливка.
           border: Border.all(
             color: selected ? category.color : context.colors.border,
-            width: context.style.borderWidth,
+            width: AppRadius.pixelBorder,
           ),
         ),
         child: Row(

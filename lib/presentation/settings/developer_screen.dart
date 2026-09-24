@@ -4,24 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../core/constants/app_theme_variant.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
-import '../../core/theme/app_palettes.dart';
+import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_style_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../../core/theme/beta_options.dart';
 import '../../core/utils/haptics.dart';
-import '../shared/app_title.dart';
-import '../shared/beta_glyph.dart';
 import '../shared/pixel_button.dart';
 import '../shared/pixel_card.dart';
 import '../shared/pixel_icon.dart';
 import '../shared/pixel_segments.dart';
 import '../shared/pixel_switch.dart';
 import '../shared/restart_widget.dart';
-import 'beta_style_reveal.dart';
 import 'currency_provider.dart';
 import 'developer_provider.dart';
 import 'onboarding_provider.dart';
@@ -37,8 +31,6 @@ import 'theme_provider.dart';
 /// замедление — `timeDilation` планировщика; всё это честно видно на
 /// телефоне.
 ///
-/// Бета-стиль стоит последним пунктом: это не диагностика, а
-/// эксперимент, который меняет приложение целиком.
 class DeveloperScreen extends ConsumerStatefulWidget {
   const DeveloperScreen({super.key});
 
@@ -68,7 +60,6 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
     final media = MediaQuery.of(context);
     final info = _info;
     final locale = Localizations.localeOf(context);
-    final beta = context.style.beta;
     return [
       (
         l10n.devInfoVersion,
@@ -84,10 +75,7 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
       (l10n.devInfoPixelRatio, '${media.devicePixelRatio.toStringAsFixed(2)}×'),
       (l10n.devInfoTextScale, '${media.textScaler.scale(100).round()}%'),
       (l10n.devInfoLocale, locale.toLanguageTag()),
-      (
-        l10n.devInfoStyle,
-        beta ? 'beta' : ref.watch(themeVariantProvider).name,
-      ),
+      (l10n.devInfoStyle, ref.watch(themeVariantProvider).name),
     ];
   }
 
@@ -152,75 +140,6 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
     Navigator.of(context).pop();
   }
 
-  /// Бета-стиль: спросить, затем сменить стиль под занавесом.
-  Future<void> _toggleBeta(Offset origin) async {
-    final l10n = context.l10n;
-    final enabling = !ref.read(betaStyleProvider);
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(enabling ? l10n.devBetaEnableTitle : l10n.devBetaDisableTitle),
-        content: Text(enabling ? l10n.devBetaEnableBody : l10n.devBetaDisableBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.commonCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(
-              enabling ? l10n.devBetaEnableAction : l10n.devBetaDisableAction,
-            ),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true || !mounted) return;
-
-    // Включение идёт через занавес тушью: знак по эталону рисовался на
-    // тёмном, и на бумаге его светлая обводка пропала бы. Занавес потом
-    // растворяется в бумагу. Выключение — волной фона возвращаемой темы.
-    final variant = ref.read(themeVariantProvider);
-    final target = enabling
-        ? (variant == AppThemeVariant.light
-            ? AppPalettes.betaInk
-            : AppPalettes.betaFor(variant).background)
-        : AppPalettes.forVariant(variant).background;
-
-    await playBetaStyleReveal(
-      context,
-      origin: origin,
-      enabling: enabling,
-      targetBackground: enabling && _collage ? AppPalettes.collageBlue : target,
-      onSwitch: () => ref.read(betaStyleProvider.notifier).set(enabling),
-      glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
-      collage: _collage,
-    );
-  }
-
-  /// Та же анимация, что при включении беты, но без смены стиля — чтобы
-  /// посмотреть её ещё раз, не выключая бету.
-  Future<void> _replayReveal() async {
-    final variant = ref.read(themeVariantProvider);
-    final size = MediaQuery.sizeOf(context);
-    await playBetaStyleReveal(
-      context,
-      origin: Offset(size.width / 2, size.height * 0.8),
-      enabling: true,
-      targetBackground: _collage
-          ? AppPalettes.collageBlue
-          : variant == AppThemeVariant.light
-              ? AppPalettes.betaInk
-              : AppPalettes.betaFor(variant).background,
-      onSwitch: () {},
-      glyph: ref.read(betaOptionsProvider).glyph.animationGlyph,
-      collage: _collage,
-    );
-  }
-
-  bool get _collage => ref.read(betaKindStyleProvider) == StyleKind.collage;
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -275,13 +194,10 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
       );
     }
 
-    final beta = ref.watch(betaStyleProvider);
-    final options = ref.watch(betaOptionsProvider);
-    final collage = ref.watch(betaKindStyleProvider) == StyleKind.collage;
     final textScale = ref.watch(textScaleOverrideProvider);
 
     return Scaffold(
-      appBar: AppBar(title: AppTitle(l10n.devTitle)),
+      appBar: AppBar(title: Text(l10n.devTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [
@@ -423,122 +339,6 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
             subtitle: l10n.devHideMenuDesc,
             onTap: _hideMenu,
           ),
-          AppSpacing.gapXl,
-
-          PixelSectionHeader(title: l10n.devSectionExperimental, index: 7),
-          _BetaStyleTile(
-            enabled: beta,
-            glyph: options.glyph.animationGlyph,
-            onTap: _toggleBeta,
-          ),
-          AppSpacing.gapXl,
-
-          // Настройки беты видны всегда: их удобно выставить до включения,
-          // чтобы бета сразу открылась такой, как нужно.
-          PixelSectionHeader(title: l10n.devSectionBeta, index: 8),
-          if (!beta)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: Text(
-                l10n.devBetaOnlyHint,
-                style: context.text.caption.copyWith(color: colors.textTertiary),
-              ),
-            ),
-          choice(
-            label: l10n.devBetaKind,
-            subtitle: l10n.devBetaKindDesc,
-            labels: [l10n.devKindPaper, l10n.devKindCollage],
-            index: collage ? 1 : 0,
-            onSelected: (i) => ref
-                .read(betaKindProvider.notifier)
-                .set(i == 1 ? 'collage' : 'paper'),
-          ),
-          if (!collage) ...[
-            choice(
-              label: l10n.devBetaGlyph,
-              subtitle: l10n.devBetaGlyphDesc,
-              labels: [r'$', 'm', l10n.devBetaGlyphNone],
-              index: BetaGlyphChoice.values.indexOf(options.glyph),
-              onSelected: (i) => ref
-                  .read(betaGlyphProvider.notifier)
-                  .set(BetaGlyphChoice.values[i].name),
-            ),
-            if (options.glyph != BetaGlyphChoice.none) ...[
-              choice(
-                label: l10n.devBetaGlyphStrength,
-                labels: [
-                  l10n.devStrengthQuiet,
-                  l10n.devStrengthNormal,
-                  l10n.devStrengthBold,
-                  l10n.devStrengthFull,
-                ],
-                index: BetaGlyphStrength.values.indexOf(options.strength),
-                onSelected: (i) => ref
-                    .read(betaGlyphStrengthProvider.notifier)
-                    .set(BetaGlyphStrength.values[i].name),
-              ),
-              choice(
-                label: l10n.devBetaGlyphSize,
-                labels: [
-                  l10n.devSizeSmall,
-                  l10n.devSizeNormal,
-                  l10n.devSizeLarge,
-                ],
-                index: BetaGlyphSize.values.indexOf(options.size),
-                onSelected: (i) => ref
-                    .read(betaGlyphSizeProvider.notifier)
-                    .set(BetaGlyphSize.values[i].name),
-              ),
-            ],
-            flag(betaGrainProvider, l10n.devBetaGrain, l10n.devBetaGrainDesc),
-            flag(
-              betaSerifBodyProvider,
-              l10n.devBetaSerifBody,
-              l10n.devBetaSerifBodyDesc,
-            ),
-          ],
-          if (collage) ...[
-            choice(
-              label: l10n.devCollageBlobs,
-              subtitle: l10n.devCollageBlobsDesc,
-              labels: [
-                l10n.devBlobsBold,
-                l10n.devBlobsSoft,
-                l10n.devBetaGlyphNone,
-              ],
-              index: CollageBlobs.values.indexOf(options.collageBlobs),
-              onSelected: (i) => ref
-                  .read(collageBlobsProvider.notifier)
-                  .set(CollageBlobs.values[i].name),
-            ),
-            flag(
-              collageRemixProvider,
-              l10n.devCollageRemix,
-              l10n.devCollageRemixDesc,
-            ),
-            flag(
-              collageShuffleProvider,
-              l10n.devCollageShuffle,
-              l10n.devCollageShuffleDesc,
-            ),
-          ],
-          choice(
-            label: l10n.devBetaTransition,
-            labels: [
-              collage ? l10n.devTransitionCut : l10n.devTransitionPageTurn,
-              l10n.devTransitionFade,
-              l10n.devTransitionInstant,
-            ],
-            index: BetaTransition.values.indexOf(options.transition),
-            onSelected: (i) => ref
-                .read(betaTransitionProvider.notifier)
-                .set(BetaTransition.values[i].name),
-          ),
-          _DevAction(
-            icon: PixelIcons.replay,
-            label: l10n.devBetaReplay,
-            onTap: _replayReveal,
-          ),
         ],
       ),
     );
@@ -664,9 +464,8 @@ class _HapticChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final style = context.style;
     return InkWell(
-      borderRadius: style.controlRadius,
+      borderRadius: AppRadius.controlSmallAll,
       onTap: () {
         final was = Haptics.enabled;
         Haptics.enabled = true;
@@ -681,86 +480,10 @@ class _HapticChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: colors.surface,
-          borderRadius: style.controlRadius,
-          border: Border.all(color: colors.border, width: style.borderWidth),
+          borderRadius: AppRadius.controlSmallAll,
+          border: Border.all(color: colors.border, width: AppRadius.pixelBorder),
         ),
         child: Text(label, style: context.text.label),
-      ),
-    );
-  }
-}
-
-/// Последний пункт меню: переключатель бета-стиля с живым знаком.
-///
-/// Знак в строке нарисован теми же параметрами, что и в эталоне, — это
-/// превью стиля, а не иконка: по нему видно, во что превратится
-/// приложение, ещё до того, как на пункт нажали.
-class _BetaStyleTile extends StatelessWidget {
-  const _BetaStyleTile({
-    required this.enabled,
-    required this.glyph,
-    required this.onTap,
-  });
-
-  final bool enabled;
-
-  /// Знак превью — тот, что выбран для беты.
-  final String glyph;
-  final ValueChanged<Offset> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final colors = context.colors;
-    final style = context.style;
-
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTapUp: (details) => onTap(details.globalPosition),
-      // У карточки нет своего onTap: нажатие ловит GestureDetector
-      // снаружи — ему нужна точка касания, из которой побежит волна.
-      child: PixelCard(
-        accent: true,
-        child: Row(
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: AppPalettes.betaNight.background,
-                borderRadius: style.controlRadius,
-                border: Border.all(
-                  color: AppPalettes.betaStroke.withValues(alpha: 0.35),
-                  width: 1,
-                ),
-              ),
-              child: ClipRect(child: BetaGlyph(glyph: glyph, size: 52)),
-            ),
-            AppSpacing.gapHMd,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(l10n.devBetaStyle, style: context.text.title),
-                  const SizedBox(height: 2),
-                  Text(
-                    l10n.devBetaStyleDesc,
-                    style: context.text.caption.copyWith(color: colors.textTertiary),
-                  ),
-                  AppSpacing.gapXs,
-                  Text(
-                    (enabled ? l10n.devBetaOn : l10n.devBetaOff).toUpperCase(),
-                    style: context.text.mono.copyWith(
-                      color: enabled ? colors.accent : colors.textTertiary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            PixelIcon(PixelIcons.chevronRight, color: colors.textTertiary, size: 14),
-          ],
-        ),
       ),
     );
   }
