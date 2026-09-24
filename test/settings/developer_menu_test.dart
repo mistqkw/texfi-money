@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:texfi_money/core/constants/app_font.dart';
 import 'package:texfi_money/core/constants/app_theme_variant.dart';
+import 'package:texfi_money/core/theme/app_colors_ext.dart';
+import 'package:texfi_money/core/theme/app_palettes.dart';
 import 'package:texfi_money/core/theme/app_style_ext.dart';
 import 'package:texfi_money/core/theme/app_theme.dart';
 import 'package:texfi_money/core/theme/app_typography.dart';
@@ -169,14 +171,18 @@ void main() {
     expect(theme.textTheme.displayLarge!.fontFamily, kSerifFamily);
     expect(theme.textTheme.displayLarge!.fontWeight, FontWeight.w600);
     expect(theme.extension<AppStyleExt>()!.beta, isTrue);
-    // Бета перекрывает выбранную тему: даже поверх тёмной она — бумага.
+    // Бета следует выбранной теме: светлая — бумага, тёмная — тёмный лист.
     expect(theme.brightness, Brightness.light);
     final overDark = AppTheme.build(
       variant: AppThemeVariant.dark,
       font: AppFont.inter,
       beta: true,
     );
-    expect(overDark.brightness, Brightness.light);
+    expect(overDark.brightness, Brightness.dark);
+    expect(
+      overDark.extension<AppColorsExt>()!.background,
+      AppPalettes.betaNight.background,
+    );
 
     final pixel = AppTheme.build(variant: AppThemeVariant.dark, font: AppFont.inter);
     expect(pixel.textTheme.displayLarge!.fontFamily, kPixelFamily);

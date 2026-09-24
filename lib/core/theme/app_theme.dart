@@ -9,21 +9,19 @@ import 'app_style_ext.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
-  /// [beta] — бета-стиль из меню разработчика. Он заменяет палитру
-  /// целиком (выбранная тема при этом не забывается и вернётся, когда
-  /// бету выключат), гарнитуру заголовков и геометрию примитивов.
+  /// [beta] — бета-стиль из меню разработчика: заменяет палитру на
+  /// бумажную (светлую или тёмную — по выбранной теме), гарнитуру и
+  /// геометрию примитивов.
   static ThemeData build({
     required AppThemeVariant variant,
     required AppFont font,
     bool beta = false,
   }) {
-    final colors = beta ? AppPalettes.beta : AppPalettes.forVariant(variant);
+    final colors = beta ? AppPalettes.betaFor(variant) : AppPalettes.forVariant(variant);
     final style = beta ? AppStyleExt.paper : AppStyleExt.pixel;
     final textTheme = buildAppTextTheme(font: font, colors: colors, beta: beta);
-    // Бета — светлая бумага, какая бы тема ни была выбрана.
-    final brightness = beta || variant == AppThemeVariant.light
-        ? Brightness.light
-        : Brightness.dark;
+    final brightness =
+        variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
     final controlRadius = style.controlRadius;
     final borderWidth = style.borderWidth;
 

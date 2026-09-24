@@ -79,11 +79,16 @@ class BetaGlyph extends StatelessWidget {
   }
 }
 
-/// Фон бета-стиля: некрашеная бумага с зерном.
+/// Фон бета-стиля: бумага с зерном и знак «m», наполовину уходящий за
+/// правый нижний край, — как водяной знак на листе.
 ///
-/// Зерно — редкие точки в пиксель тушью с непрозрачностью в несколько
-/// процентов. Без него ровная заливка читается как экран, а не как лист;
-/// с водяным знаком, который здесь был раньше, — как заставка.
+/// Зерно — редкие точки в пиксель с непрозрачностью в несколько
+/// процентов: без него ровная заливка читается как экран, а не как лист.
+///
+/// Знак приглушён целиком ([Opacity] поверх его собственных 27/78%):
+/// в полную силу он спорил бы со списком операций сверху. На светлой
+/// бумаге приглушение слабее — там светлая обводка по эталону и так
+/// почти сливается с листом, и знак держит в основном заливка.
 class BetaBackground extends StatelessWidget {
   const BetaBackground({super.key, required this.child});
 
@@ -100,6 +105,20 @@ class BetaBackground extends StatelessWidget {
           IgnorePointer(
             child: RepaintBoundary(
               child: CustomPaint(painter: _PaperGrainPainter(colors.noise)),
+            ),
+          ),
+          Positioned(
+            right: -90,
+            bottom: -170,
+            child: IgnorePointer(
+              child: ExcludeSemantics(
+                child: Opacity(
+                  opacity: Theme.of(context).brightness == Brightness.dark
+                      ? 0.22
+                      : 0.5,
+                  child: const RepaintBoundary(child: BetaGlyph(size: 520)),
+                ),
+              ),
             ),
           ),
           child,

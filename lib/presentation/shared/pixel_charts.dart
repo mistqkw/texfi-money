@@ -310,7 +310,10 @@ class PixelShareBar extends StatelessWidget {
                 if (i > 0) const SizedBox(width: 2),
                 Expanded(
                   flex: math.max(1, (shares[i].value / total * 1000).round()),
-                  child: ColoredBox(color: AppPalettes.inkify(shares[i].color)),
+                  child: ColoredBox(color: AppPalettes.inkify(
+                    shares[i].color,
+                    dark: Theme.of(context).brightness == Brightness.dark,
+                  )),
                 ),
               ],
             ],
@@ -362,7 +365,10 @@ class PixelSwatch extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: context.style.beta ? AppPalettes.inkify(color) : color,
+        color: context.style.beta ? AppPalettes.inkify(
+                color,
+                dark: Theme.of(context).brightness == Brightness.dark,
+              ) : color,
         // В бета-стиле образец круглый — как точка в легенде, а не плитка.
         borderRadius: context.style.beta
             ? BorderRadius.all(Radius.circular(size / 2))

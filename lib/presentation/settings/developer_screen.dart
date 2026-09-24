@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../core/constants/app_theme_variant.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_palettes.dart';
@@ -178,9 +179,12 @@ class _DeveloperScreenState extends ConsumerState<DeveloperScreen> {
     // Включение идёт через занавес тушью: знак по эталону рисовался на
     // тёмном, и на бумаге его светлая обводка пропала бы. Занавес потом
     // растворяется в бумагу. Выключение — волной фона возвращаемой темы.
+    final variant = ref.read(themeVariantProvider);
     final target = enabling
-        ? AppPalettes.betaInk
-        : AppPalettes.forVariant(ref.read(themeVariantProvider)).background;
+        ? (variant == AppThemeVariant.light
+            ? AppPalettes.betaInk
+            : AppPalettes.betaFor(variant).background)
+        : AppPalettes.forVariant(variant).background;
 
     await playBetaStyleReveal(
       context,

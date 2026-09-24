@@ -39,7 +39,10 @@ class CategoryAvatar extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: size * 0.72,
               height: 1,
-              color: AppPalettes.inkify(category.color),
+              color: AppPalettes.inkify(
+                category.color,
+                dark: Theme.of(context).brightness == Brightness.dark,
+              ),
             ),
           ),
         ),

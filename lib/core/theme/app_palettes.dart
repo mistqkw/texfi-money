@@ -118,13 +118,58 @@ abstract final class AppPalettes {
     noise: Color(0x0D1D1915),
   );
 
+  /// Бета на тёмной бумаге — для тех, кто выбрал тёмную тему. Та же
+  /// страница, вывернутая наизнанку: лист цвета крепкого чая, текст —
+  /// светлыми чернилами. Здесь бежевый с рисунка читается сам по себе и
+  /// становится акцентом без затемнения — ровно на таком фоне знак по
+  /// эталону (заливка 27%, обводка 78%) и задумывался.
+  static const AppColorsExt betaNight = AppColorsExt(
+    background: Color(0xFF16130F),
+    surface: Color(0xFF1C1814),
+    surfaceVariant: Color(0xFF28231D),
+    divider: Color(0xFF3A332A),
+    border: Color(0xFF5C5245),
+    shadow: Color(0x00000000),
+    accent: betaFill,
+    accentShadow: Color(0xFF8C6A48),
+    onAccent: Color(0xFF16130F),
+    textPrimary: Color(0xFFEFE6D8),
+    textSecondary: Color(0xFFB9AC99),
+    textTertiary: Color(0xFF7E7364),
+    income: Color(0xFF8FBF8F),
+    expense: Color(0xFFE08A74),
+    warning: Color(0xFFDDAA5E),
+    noise: Color(0x0FF3E8D6),
+  );
+
+  /// Бета для OLED-темы: тёмная бумага, доведённая до чистого чёрного.
+  static final AppColorsExt betaBlack = betaNight.copyWith(
+    background: const Color(0xFF000000),
+    surface: const Color(0xFF0A0908),
+    surfaceVariant: const Color(0xFF17140F),
+    divider: const Color(0xFF2E2922),
+    noise: const Color(0x0CF3E8D6),
+  );
+
+  /// Палитра беты под выбранную тему: бета меняет материал, но не
+  /// спорит с тем, светлым или тёмным пользователь хочет видеть экран.
+  static AppColorsExt betaFor(AppThemeVariant variant) => switch (variant) {
+        AppThemeVariant.light => beta,
+        AppThemeVariant.dark => betaNight,
+        AppThemeVariant.oled => betaBlack,
+      };
+
   /// Цвет категории, пересчитанный для бумаги: наполовину приглушённый
-  /// и смешанный с тушью. Палитра категорий подобрана под экран — на
+  /// и смешанный с тушью (на тёмной бумаге — со светлыми чернилами). Палитра категорий подобрана под экран — на
   /// тёмном фоне неоновый зелёный и электрический синий хороши, на
   /// бумаге они выглядят наклейками. Оттенок остаётся узнаваемым, так
   /// что категорию по-прежнему находят по цвету.
-  static Color inkify(Color color) {
+  static Color inkify(Color color, {bool dark = false}) {
     final hsl = HSLColor.fromColor(color);
+    if (dark) {
+      final muted = hsl.withSaturation(hsl.saturation * 0.55).toColor();
+      return Color.lerp(muted, betaNight.textPrimary, 0.15)!;
+    }
     final muted = hsl
         .withSaturation(hsl.saturation * 0.62)
         .withLightness((hsl.lightness * 0.72).clamp(0.0, 1.0))

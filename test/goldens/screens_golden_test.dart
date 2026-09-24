@@ -161,6 +161,8 @@ void main() {
   testWidgets('shell_beta', (t) => _shoot(t, 'shell_beta', const RootShell(), beta: true));
   testWidgets('history_beta', (t) => _shoot(t, 'history_beta', const HistoryScreen(), beta: true));
   testWidgets('settings_beta', (t) => _shoot(t, 'settings_beta', const SettingsScreen(), beta: true));
+  testWidgets('shell_beta_light', (t) => _shoot(t, 'shell_beta_light', const RootShell(), beta: true, variant: AppThemeVariant.light));
+  testWidgets('summary_beta_light', (t) => _shoot(t, 'summary_beta_light', const SummaryTab(), beta: true, variant: AppThemeVariant.light));
   testWidgets('plan_beta', (t) => _shoot(t, 'plan_beta', const PlanTab(), beta: true));
   testWidgets('summary_beta', (t) => _shoot(t, 'summary_beta', const SummaryTab(), beta: true));
   testWidgets('wealth_beta', (t) => _shoot(t, 'wealth_beta', const WealthScreen(), beta: true));
