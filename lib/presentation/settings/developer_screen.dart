@@ -532,7 +532,7 @@ class _BetaStyleTile extends StatelessWidget {
               height: 64,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppPalettes.betaInk,
+                color: AppPalettes.betaNight.background,
                 borderRadius: style.controlRadius,
                 border: Border.all(
                   color: AppPalettes.betaStroke.withValues(alpha: 0.35),

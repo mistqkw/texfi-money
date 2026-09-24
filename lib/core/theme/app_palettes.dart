@@ -91,64 +91,67 @@ abstract final class AppPalettes {
     noise: Color(0x0F8A6A3D),
   );
 
-  /// Бета-стиль «бумага и чернила». Фон — некрашеная бумага, текст —
-  /// тёплая чёрная тушь, а бежевый с рисунка (`#D6B28E`) остаётся в
-  /// знаке и в отметках, а не заливает весь экран: бумага, целиком
-  /// окрашенная в бежевый, — это уже не бумага, а тема.
+  /// Бета-стиль. Палитра снята с аватарки автора, на которой и стоит
+  /// эталонный «$»: тёмно-синий — волосы (`#172636`), сланцевый серый —
+  /// фон (`#495154`), бежевый — руки (`#C0A589`, он же в заливке знака
+  /// `#D6B28E`), светлый — рубашка. Рисунок плоский, в несколько тонов без
+  /// градиентов, и стиль держит то же правило: сплошные поля цвета,
+  /// линейки, никаких теней.
   ///
-  /// Акцент — тот же бежевый, опущенный до тона, который читается
-  /// текстом на бумаге: сам `#D6B28E` на ней почти не виден. Доход и
-  /// расход — зелёные и красные чернила, а не экранные неоновые цвета.
+  /// Светлый вариант — рубашка вместо листа и тёмно-синие чернила вместо
+  /// чёрной туши: текст того же цвета, что волосы на рисунке.
   static const AppColorsExt beta = AppColorsExt(
-    background: Color(0xFFF3EEE4),
-    surface: Color(0xFFF7F3EB),
-    surfaceVariant: Color(0xFFE9E2D5),
-    divider: Color(0xFFD9CFBE),
-    border: Color(0xFFB9AD99),
+    background: Color(0xFFE9E3D8),
+    surface: Color(0xFFEFEAE1),
+    surfaceVariant: Color(0xFFDCD3C5),
+    divider: Color(0xFFCBC1B1),
+    border: Color(0xFFA5907A),
     shadow: Color(0x00000000),
-    accent: Color(0xFF8A5B34),
+    accent: Color(0xFF7D5F43),
     accentShadow: betaFill,
-    onAccent: Color(0xFFF7F3EB),
+    onAccent: Color(0xFFEFEAE1),
     textPrimary: betaInk,
-    textSecondary: Color(0xFF574D42),
-    textTertiary: Color(0xFF8E8373),
-    income: Color(0xFF2F6B3F),
-    expense: Color(0xFFA63A28),
-    warning: Color(0xFF9C6A14),
-    noise: Color(0x0D1D1915),
+    textSecondary: Color(0xFF495154),
+    textTertiary: Color(0xFF7C8384),
+    income: Color(0xFF2E6B4E),
+    expense: Color(0xFFA5412E),
+    warning: Color(0xFF946A1E),
+    noise: Color(0x0D172636),
   );
 
-  /// Бета на тёмной бумаге — для тех, кто выбрал тёмную тему. Та же
-  /// страница, вывернутая наизнанку: лист цвета крепкого чая, текст —
-  /// светлыми чернилами. Здесь бежевый с рисунка читается сам по себе и
-  /// становится акцентом без затемнения — ровно на таком фоне знак по
-  /// эталону (заливка 27%, обводка 78%) и задумывался.
+  /// Чернила светлого варианта — тёмно-синий волос с рисунка.
+  static const Color betaInk = Color(0xFF172636);
+
+  /// Тёмный вариант — сама аватарка: тёмно-синее поле, сланцевые линии,
+  /// текст цвета рубашки, акцент — бежевый рук. На этом фоне эталонный
+  /// «$» выглядит ровно так, как на рисунке.
   static const AppColorsExt betaNight = AppColorsExt(
-    background: Color(0xFF16130F),
-    surface: Color(0xFF1C1814),
-    surfaceVariant: Color(0xFF28231D),
-    divider: Color(0xFF3A332A),
-    border: Color(0xFF5C5245),
+    background: Color(0xFF172636),
+    surface: Color(0xFF1C2C3D),
+    surfaceVariant: Color(0xFF26374A),
+    divider: Color(0xFF34454F),
+    border: Color(0xFF495154),
     shadow: Color(0x00000000),
     accent: betaFill,
-    accentShadow: Color(0xFF8C6A48),
-    onAccent: Color(0xFF16130F),
-    textPrimary: Color(0xFFEFE6D8),
-    textSecondary: Color(0xFFB9AC99),
-    textTertiary: Color(0xFF7E7364),
-    income: Color(0xFF8FBF8F),
-    expense: Color(0xFFE08A74),
-    warning: Color(0xFFDDAA5E),
-    noise: Color(0x0FF3E8D6),
+    accentShadow: Color(0xFFA5907A),
+    onAccent: Color(0xFF172636),
+    textPrimary: Color(0xFFEDE4D6),
+    textSecondary: Color(0xFFC0A589),
+    textTertiary: Color(0xFF8A9295),
+    income: Color(0xFF9CC4A2),
+    expense: Color(0xFFE3957F),
+    warning: Color(0xFFDDB268),
+    noise: Color(0x0FEDE4D6),
   );
 
-  /// Бета для OLED-темы: тёмная бумага, доведённая до чистого чёрного.
+  /// OLED: самая тёмная тень волос на рисунке, доведённая до чёрного, —
+  /// синий остаётся в поверхностях и линиях.
   static final AppColorsExt betaBlack = betaNight.copyWith(
     background: const Color(0xFF000000),
-    surface: const Color(0xFF0A0908),
-    surfaceVariant: const Color(0xFF17140F),
-    divider: const Color(0xFF2E2922),
-    noise: const Color(0x0CF3E8D6),
+    surface: const Color(0xFF0B1118),
+    surfaceVariant: const Color(0xFF121A23),
+    divider: const Color(0xFF26323D),
+    noise: const Color(0x0AEDE4D6),
   );
 
   /// Палитра беты под выбранную тему: бета меняет материал, но не
@@ -159,8 +162,9 @@ abstract final class AppPalettes {
         AppThemeVariant.oled => betaBlack,
       };
 
-  /// Цвет категории, пересчитанный для бумаги: наполовину приглушённый
-  /// и смешанный с тушью (на тёмной бумаге — со светлыми чернилами). Палитра категорий подобрана под экран — на
+  /// Цвет категории, пересчитанный под лист беты: наполовину приглушённый
+  /// и смешанный с чернилами (на тёмном листе — со светлыми). Палитра
+  /// категорий подобрана под экран — на
   /// тёмном фоне неоновый зелёный и электрический синий хороши, на
   /// бумаге они выглядят наклейками. Оттенок остаётся узнаваемым, так
   /// что категорию по-прежнему находят по цвету.
@@ -176,9 +180,6 @@ abstract final class AppPalettes {
         .toColor();
     return Color.lerp(muted, betaInk, 0.18)!;
   }
-
-  /// Тушь бета-стиля — текст, линейки, кнопки.
-  static const Color betaInk = Color(0xFF1D1915);
 
   /// Заливка знака бета-стиля (без прозрачности — её задаёт сам знак).
   static const Color betaFill = Color(0xFFD6B28E);
