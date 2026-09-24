@@ -1,6 +1,6 @@
-Version 1.2.0
+Version 1.2.1
 
-* Developer menu: tap the version number in About five times. Build and device info, frame timing, cache and layer highlighting, accessibility tree, slow animations, skip splash, text scale, 8dp grid, show touches, haptics tester, onboarding replay, stored-settings viewer
-* Beta style — the last item in the menu. Source Serif 4, avatar colours, a big mark behind the screens, its own launch screen and page-turn transitions. Follows your theme: light, dark, OLED
-* Beta settings: background mark "$", "m" or none, its strength and size, screen transition, paper grain, serif or Inter body text
-* The main pixel style is unchanged
+* The beta style is redrawn around the "$" mark and the colours of the author's avatar: dark theme is a navy sheet with slate rules and a beige accent; light theme is a pale sheet with navy ink. A large "$" sits in the middle of the background
+* The beta has its own launch screen: the "$" rises from the bottom, fills in, and the name appears under it
+* Screen transitions in the beta turn like pages: the new page slides in from the right behind a thin rule, the old one drifts away and fades
+* The beta follows your theme: light, dark or black OLED
