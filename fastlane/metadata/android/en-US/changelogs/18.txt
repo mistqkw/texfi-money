@@ -1,0 +1,6 @@
+Version 1.2.1
+
+* The beta style is redrawn around the "$" mark and the colours of the author's avatar: dark theme is a navy sheet with slate rules and a beige accent; light theme is a pale sheet with navy ink. A large "$" sits in the middle of the background
+* The beta has its own launch screen: the "$" rises from the bottom, fills in, and the name appears under it
+* Screen transitions in the beta turn like pages: the new page slides in from the right behind a thin rule, the old one drifts away and fades
+* The beta follows your theme: light, dark or black OLED

@@ -1,0 +1,5 @@
+Version 1.2.0
+
+* Developer menu: tap the version number in About five times. Inside — build and device info, frame timing overlay, cache and layer highlighting, accessibility tree, slow animations, skip splash screen, haptic rhythm tester, onboarding replay and a stored-settings viewer
+* "Paper and ink" beta style — the last item in the developer menu. Everything is set in Source Serif 4, rules replace cards and shadows, navigation and sections are words, categories get a drop cap. It follows your theme: light is paper, dark is a dark sheet. Turn it on and off in the same place; the main pixel style is unchanged
+* Source Serif 4 ships inside the app and works offline

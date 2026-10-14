@@ -1,0 +1,7 @@
+Version 1.5.0
+
+* New "hairline" design: thin lines instead of shadows, a single blue accent, Unbounded and JetBrains Mono fonts
+* The pixel style and beta styles are gone entirely; icons are now line icons
+* Settings screen rebuilt, smooth screen transitions, a bottom bar with a sliding indicator
+* Charts and progress bars redrawn; columns grow one after another
+* New launch screen

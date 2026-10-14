@@ -1,0 +1,8 @@
+Version 1.3.0
+
+* A second beta style variant — "Collage" (TexFi Style). Pick it in the developer menu next to "Paper"
+* White sheet, blue shapes that look cut out with scissors, black text; headings built from several typefaces inside one word, one letter taller than the line, a brief typeface shuffle as they appear
+* A blue cut-out sits under the selected tab and changes shape as it moves; the "+" button is a cut-out too; icons carry a blue offset print, category marks sit on cut-outs of their own colour
+* Its own launch screen, switch animation and screen transition — a cut through a growing shape
+* Collage settings: solid, soft or no cut-outs; typeface mixing; typeface shuffle
+* The main pixel style is unchanged
