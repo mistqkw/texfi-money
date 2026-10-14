@@ -75,21 +75,28 @@ install from this source.
 - Backup and restore: export everything to a JSON file, share it anywhere, and import it back on any
   device. It's the only safety net an offline-only app gets.
 - Languages: English, Русский, Polski, Українська, follows the system by default
-- Themes and fonts — Dark, Light, pure-black OLED, with Inter, Roboto, Manrope or the system font
+- Themes and fonts — Dark, Light, pure-black OLED, with Inter or the system font for body text
 - A guided first run walks through the app with an animated onboarding, then lets you pick currency and theme with a live preview
 
 Part of the **TexFi** ecosystem, alongside [TexFi Files](https://github.com/mistqkw/texfi_files) and [TeFBlock](https://github.com/mistqkw/tefblock).
 
 ## Design
 
-Dark theme by default, flat minimalism, accent `#4a7dfb` on `#0d0d10`. Large, tabular
-figures for amounts; light, small type for labels. No gradients, no shadows, restrained
-corner radii (8–12px). Details in [`lib/core/theme`](lib/core/theme).
+Hairline — quiet, light and precise. Dark theme by default, thin 1px lines instead of
+shadows, a single accent `#4a7dfb` on `#0A0A0C`. Amounts and headings are set in
+**Unbounded** with tabular figures, labels and buttons in **JetBrains Mono** (small,
+uppercase, letter-spaced), and text you read in **Inter**. Cards are a surface with a 1px
+border and a 10px radius; buttons are a filled primary and a bordered ghost. Icons are thin
+line icons. The light theme is a neutral off-white. Details in
+[`lib/core/theme`](lib/core/theme) and the widget kit in
+[`lib/presentation/shared`](lib/presentation/shared) (`hair_*`).
 
-Every distance comes from one 4pt scale in [`app_spacing.dart`](lib/core/theme/app_spacing.dart)
-instead of being eyeballed per screen. Section headings live in the cut-out label of
-[`TerminalBox`](lib/presentation/shared/terminal_box.dart) on every screen, and touch
-targets stay 48dp even where the visible dot is smaller.
+Motion is calm: screens fade in with a slight slide, lists appear one after another, the
+bottom bar has a thin blue line that glides between tabs, chart columns grow in turn, and
+the launch screen draws the coin line by line. Every distance comes from one 4pt scale in
+[`app_spacing.dart`](lib/core/theme/app_spacing.dart) instead of being eyeballed per
+screen, and touch targets stay 48dp even where the visible control is smaller. Settings
+are grouped into bordered sections of rows.
 
 Haptics have their own vocabulary — each event is a short rhythm rather than one generic
 buzz. Income rises, expense falls, delete has a fading tail, an error is a firm double

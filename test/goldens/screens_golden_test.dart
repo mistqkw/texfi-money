@@ -84,6 +84,7 @@ Future<void> _shoot(WidgetTester tester, String name, Widget screen, {AppThemeVa
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.build(variant: variant, font: AppFont.inter),
         locale: const Locale('ru'),
         supportedLocales: AppLocalizations.supportedLocales,
