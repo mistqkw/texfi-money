@@ -14,10 +14,10 @@ import '../shared/animated_progress_bar.dart';
 import '../shared/category_avatar.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import 'budgets_providers.dart';
 import 'set_budget_screen.dart';
@@ -45,23 +45,22 @@ class BudgetsScreen extends ConsumerWidget {
       // подписку стало нечем: единственная кнопка исчезала ровно тогда,
       // когда была нужнее всего. Небольшой повтор действия дешевле
       // экрана, с которого нельзя уйти вперёд.
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const SetBudgetScreen()));
+          Navigator.of(context).push(hairRoute(const SetBudgetScreen()));
         },
       ),
       body: budgetsAsync.when(
         data: (budgets) {
           if (budgets.isEmpty) {
             return EmptyState(
-              sprite: PixelIcons.budgets,
+              icon: HairIcons.budgets,
               message: l10n.budgetsEmpty,
               actionLabel: l10n.setBudgetTitleNew,
               onAction: () {
                 Haptics.select();
-                Navigator.of(context)
-                    .push(pixelDissolveRoute(const SetBudgetScreen()));
+                Navigator.of(context).push(hairRoute(const SetBudgetScreen()));
               },
             );
           }
@@ -75,8 +74,10 @@ class BudgetsScreen extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(child: PixelSpinner()),
-        error: (e, st) => Center(child: Text(l10n.budgetsLoadError, style: context.text.body)),
+        loading: () => const Center(child: HairSpinner()),
+        error: (e, st) => Center(
+          child: Text(l10n.budgetsLoadError, style: context.text.body),
+        ),
       ),
     );
   }
@@ -101,14 +102,30 @@ class _BudgetCard extends ConsumerWidget {
     // Метка карточки повторяла название категории слово в слово: «транспорт»
     // в рамке и «Транспорт» строкой ниже. Вместо неё — остаток по бюджету,
     // то есть ответ на вопрос, ради которого бюджет и заводят.
-    return PixelCard(
+    return HairCard(
       label: (budget.monthlyLimit - budget.spent) >= 0
-          ? l10n.budgetsLeft(formatAmount(budget.monthlyLimit - budget.spent, currency, context)).toUpperCase()
-          : l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)).toUpperCase(),
+          ? l10n
+                .budgetsLeft(
+                  formatAmount(
+                    budget.monthlyLimit - budget.spent,
+                    currency,
+                    context,
+                  ),
+                )
+                .toUpperCase()
+          : l10n
+                .budgetsOverBy(
+                  formatAmount(
+                    budget.spent - budget.monthlyLimit,
+                    currency,
+                    context,
+                  ),
+                )
+                .toUpperCase(),
       labelColor: _barColor(context),
-      onTap: () => Navigator.of(context).push(
-        pixelDissolveRoute(SetBudgetScreen(existing: budget)),
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(hairRoute(SetBudgetScreen(existing: budget))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -117,7 +134,10 @@ class _BudgetCard extends ConsumerWidget {
               CategoryAvatar(category: budget.category, size: 36),
               const SizedBox(width: AppSpacing.md),
               Expanded(
-                child: Text(categoryDisplayName(context, budget.category), style: context.text.title),
+                child: Text(
+                  categoryDisplayName(context, budget.category),
+                  style: context.text.title,
+                ),
               ),
               Text(
                 '${formatAmount(budget.spent, currency, context)} / ${formatAmount(budget.monthlyLimit, currency, context)}',
@@ -126,16 +146,31 @@ class _BudgetCard extends ConsumerWidget {
             ],
           ),
           AppSpacing.gapMd,
-          AnimatedProgressBar(progress: budget.progress, color: _barColor(context)),
+          AnimatedProgressBar(
+            progress: budget.progress,
+            color: _barColor(context),
+          ),
           if (budget.isOverLimit) ...[
             AppSpacing.gapSm,
             Row(
               children: [
-                PixelIcon(PixelIcons.danger, size: 14, color: context.colors.expense),
+                HairIcon(
+                  HairIcons.danger,
+                  size: 14,
+                  color: context.colors.expense,
+                ),
                 const SizedBox(width: AppSpacing.xs),
                 Text(
-                  l10n.budgetsOverBy(formatAmount(budget.spent - budget.monthlyLimit, currency, context)),
-                  style: context.text.caption.copyWith(color: context.colors.expense),
+                  l10n.budgetsOverBy(
+                    formatAmount(
+                      budget.spent - budget.monthlyLimit,
+                      currency,
+                      context,
+                    ),
+                  ),
+                  style: context.text.caption.copyWith(
+                    color: context.colors.expense,
+                  ),
                 ),
               ],
             ),
@@ -143,11 +178,17 @@ class _BudgetCard extends ConsumerWidget {
             AppSpacing.gapSm,
             Row(
               children: [
-                PixelIcon(PixelIcons.danger, size: 14, color: context.colors.warning),
+                HairIcon(
+                  HairIcons.danger,
+                  size: 14,
+                  color: context.colors.warning,
+                ),
                 const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.budgetsNearLimit,
-                  style: context.text.caption.copyWith(color: context.colors.warning),
+                  style: context.text.caption.copyWith(
+                    color: context.colors.warning,
+                  ),
                 ),
               ],
             ),

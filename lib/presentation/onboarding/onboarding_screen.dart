@@ -19,15 +19,15 @@ import '../settings/onboarding_provider.dart';
 import '../settings/theme_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
 import '../shared/root_shell.dart';
 
 class _Slide {
   const _Slide({required this.icon, required this.title, required this.body});
 
-  final List<String> icon;
+  final IconData icon;
   final String title;
   final String body;
 }
@@ -45,27 +45,27 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   String? _selectedBankId;
 
   List<_Slide> _slides(AppLocalizations l10n) => [
-        _Slide(
-          icon: PixelIcons.wallet,
-          title: l10n.onboardingSlide1Title,
-          body: l10n.onboardingSlide1Body,
-        ),
-        _Slide(
-          icon: PixelIcons.goals,
-          title: l10n.onboardingSlide2Title,
-          body: l10n.onboardingSlide2Body,
-        ),
-        _Slide(
-          icon: PixelIcons.terminal,
-          title: l10n.onboardingSlide3Title,
-          body: l10n.onboardingSlide3Body,
-        ),
-        _Slide(
-          icon: PixelIcons.lock,
-          title: l10n.onboardingSlide4Title,
-          body: l10n.onboardingSlide4Body,
-        ),
-      ];
+    _Slide(
+      icon: HairIcons.wallet,
+      title: l10n.onboardingSlide1Title,
+      body: l10n.onboardingSlide1Body,
+    ),
+    _Slide(
+      icon: HairIcons.goals,
+      title: l10n.onboardingSlide2Title,
+      body: l10n.onboardingSlide2Body,
+    ),
+    _Slide(
+      icon: HairIcons.terminal,
+      title: l10n.onboardingSlide3Title,
+      body: l10n.onboardingSlide3Body,
+    ),
+    _Slide(
+      icon: HairIcons.lock,
+      title: l10n.onboardingSlide4Title,
+      body: l10n.onboardingSlide4Body,
+    ),
+  ];
 
   @override
   void dispose() {
@@ -76,17 +76,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _finish() async {
     final bank = BankCatalog.byId(_selectedBankId);
     if (bank != null) {
-      await ref.read(accountRepositoryProvider).create(
-            name: bank.name,
-            color: bank.color,
-            bankId: bank.id,
-          );
+      await ref
+          .read(accountRepositoryProvider)
+          .create(name: bank.name, color: bank.color, bankId: bank.id);
     }
     await ref.read(hasSeenOnboardingProvider.notifier).markSeen();
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const RootShell()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const RootShell()));
   }
 
   void _next(int pageCount) {
@@ -95,7 +93,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       _finish();
       return;
     }
-    _pageController.nextPage(duration: AppMotion.normal, curve: AppMotion.standard);
+    _pageController.nextPage(
+      duration: AppMotion.normal,
+      curve: AppMotion.standard,
+    );
   }
 
   @override
@@ -125,7 +126,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 itemCount: pageCount,
                 onPageChanged: (i) => setState(() => _page = i),
                 itemBuilder: (context, i) {
-                  if (i == currencyPage) return _CurrencyStepView(active: i == _page);
+                  if (i == currencyPage)
+                    return _CurrencyStepView(active: i == _page);
                   if (i == themePage) return _ThemeStepView(active: i == _page);
                   if (i == bankPage) {
                     return _BankStepView(
@@ -142,8 +144,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             AppSpacing.gapXl,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: PixelButton(
-                label: _page == pageCount - 1 ? l10n.onboardingStart : l10n.onboardingNext,
+              child: HairButton(
+                label: _page == pageCount - 1
+                    ? l10n.onboardingStart
+                    : l10n.onboardingNext,
                 onPressed: () => _next(pageCount),
               ),
             ),
@@ -178,9 +182,13 @@ class _SlideView extends StatelessWidget {
               // Карточка-иллюстрация была подписана служебным словом
               // «texfi» — метка, которая ничего не сообщает о слайде и
               // читалась как забытая заглушка. Знак говорит сам за себя.
-              child: PixelCard(
+              child: HairCard(
                 padding: const EdgeInsets.all(AppSpacing.xl),
-                child: PixelIcon(slide.icon, size: 72, color: context.colors.accent),
+                child: HairIcon(
+                  slide.icon,
+                  size: 72,
+                  color: context.colors.accent,
+                ),
               ),
             ),
           ),
@@ -194,7 +202,11 @@ class _SlideView extends StatelessWidget {
               duration: AppMotion.normal,
               child: Column(
                 children: [
-                  Text(slide.title, style: context.text.headline, textAlign: TextAlign.center),
+                  Text(
+                    slide.title,
+                    style: context.text.headline,
+                    textAlign: TextAlign.center,
+                  ),
                   AppSpacing.gapMd,
                   Text(
                     slide.body,
@@ -215,7 +227,11 @@ class _SlideView extends StatelessWidget {
 /// повторяет ритм [_SlideView], чтобы переход между слайдами и шагами
 /// настройки выглядел единым.
 class _StepScaffold extends StatelessWidget {
-  const _StepScaffold({required this.active, required this.title, required this.child});
+  const _StepScaffold({
+    required this.active,
+    required this.title,
+    required this.child,
+  });
 
   final bool active;
   final String title;
@@ -237,7 +253,11 @@ class _StepScaffold extends StatelessWidget {
               duration: AppMotion.normal,
               child: Column(
                 children: [
-                  Text(title, style: context.text.headline, textAlign: TextAlign.center),
+                  Text(
+                    title,
+                    style: context.text.headline,
+                    textAlign: TextAlign.center,
+                  ),
                   AppSpacing.gapXl,
                   child,
                 ],
@@ -278,10 +298,14 @@ class _CurrencyStepView extends ConsumerWidget {
               duration: AppMotion.fast,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: selected ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surface,
+                color: selected
+                    ? context.colors.accent.withValues(alpha: 0.16)
+                    : context.colors.surface,
                 borderRadius: AppRadius.cardSmallAll,
                 border: Border.all(
-                  color: selected ? context.colors.accent : context.colors.border,
+                  color: selected
+                      ? context.colors.accent
+                      : context.colors.border,
                   width: selected ? 1.5 : 1,
                 ),
               ),
@@ -290,7 +314,10 @@ class _CurrencyStepView extends ConsumerWidget {
                 children: [
                   Text(currency.symbol, style: context.text.title),
                   const SizedBox(width: AppSpacing.xs),
-                  Text(currencyDisplayName(context, currency), style: context.text.caption),
+                  Text(
+                    currencyDisplayName(context, currency),
+                    style: context.text.caption,
+                  ),
                 ],
               ),
             ),
@@ -306,7 +333,8 @@ class _ThemeStepView extends ConsumerWidget {
 
   final bool active;
 
-  String _label(AppLocalizations l10n, AppThemeVariant variant) => switch (variant) {
+  String _label(AppLocalizations l10n, AppThemeVariant variant) =>
+      switch (variant) {
         AppThemeVariant.dark => l10n.themeDark,
         AppThemeVariant.light => l10n.themeLight,
         AppThemeVariant.oled => l10n.themeOled,
@@ -333,7 +361,8 @@ class _ThemeStepView extends ConsumerWidget {
                 ref.read(themeVariantProvider.notifier).setVariant(variant);
               },
             ),
-            if (variant != AppThemeVariant.values.last) const SizedBox(width: AppSpacing.md),
+            if (variant != AppThemeVariant.values.last)
+              const SizedBox(width: AppSpacing.md),
           ],
         ],
       ),
@@ -381,7 +410,10 @@ class _ThemePreviewCard extends StatelessWidget {
                 Container(
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(color: palette.accent, borderRadius: AppRadius.controlSmallAll),
+                  decoration: BoxDecoration(
+                    color: palette.accent,
+                    borderRadius: AppRadius.controlSmallAll,
+                  ),
                 ),
                 const Spacer(),
                 Container(width: 36, height: 6, color: palette.textPrimary),
@@ -394,7 +426,9 @@ class _ThemePreviewCard extends StatelessWidget {
           Text(
             label,
             style: context.text.caption.copyWith(
-              color: selected ? context.colors.accent : context.colors.textSecondary,
+              color: selected
+                  ? context.colors.accent
+                  : context.colors.textSecondary,
               fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
             ),
           ),
@@ -405,7 +439,11 @@ class _ThemePreviewCard extends StatelessWidget {
 }
 
 class _BankStepView extends StatelessWidget {
-  const _BankStepView({required this.active, required this.selectedId, required this.onSelected});
+  const _BankStepView({
+    required this.active,
+    required this.selectedId,
+    required this.onSelected,
+  });
 
   final bool active;
   final String? selectedId;
@@ -477,7 +515,10 @@ class _BankBadge extends StatelessWidget {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 borderRadius: AppRadius.controlSmallAll,
-                border: Border.all(color: selected ? color : Colors.transparent, width: 2),
+                border: Border.all(
+                  color: selected ? color : Colors.transparent,
+                  width: 2,
+                ),
               ),
               child: bank != null
                   ? BankMark(bank: bank!, size: 40)
@@ -489,7 +530,7 @@ class _BankBadge extends StatelessWidget {
                         color: color.withValues(alpha: 0.16),
                         borderRadius: AppRadius.controlSmallAll,
                       ),
-                      child: PixelIcon(PixelIcons.danger, size: 18, color: color),
+                      child: HairIcon(HairIcons.danger, size: 18, color: color),
                     ),
             ),
             AppSpacing.gapXs,

@@ -15,10 +15,10 @@ import '../../domain/entities/account_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import 'account_form_screen.dart';
 import 'account_providers.dart';
@@ -26,7 +26,11 @@ import 'account_providers.dart';
 class AccountsScreen extends ConsumerWidget {
   const AccountsScreen({super.key});
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, AccountEntity account) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    AccountEntity account,
+  ) async {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -66,23 +70,24 @@ class AccountsScreen extends ConsumerWidget {
       // подписку стало нечем: единственная кнопка исчезала ровно тогда,
       // когда была нужнее всего. Небольшой повтор действия дешевле
       // экрана, с которого нельзя уйти вперёд.
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const AccountFormScreen()));
+          Navigator.of(context).push(hairRoute(const AccountFormScreen()));
         },
       ),
       body: accountsAsync.when(
         data: (accounts) {
           if (accounts.isEmpty) {
             return EmptyState(
-              sprite: PixelIcons.wallet,
+              icon: HairIcons.wallet,
               message: l10n.accountsEmpty,
               actionLabel: l10n.accountFormTitleNew,
               onAction: () {
                 Haptics.select();
-                Navigator.of(context)
-                    .push(pixelDissolveRoute(const AccountFormScreen()));
+                Navigator.of(
+                  context,
+                ).push(hairRoute(const AccountFormScreen()));
               },
             );
           }
@@ -108,21 +113,26 @@ class AccountsScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
+                    child: HairIcon(
+                      HairIcons.delete,
+                      color: context.colors.expense,
+                    ),
                   ),
                   child: _AccountCard(
                     account: account,
-                    onTap: () => Navigator.of(context).push(
-                      pixelDissolveRoute(AccountFormScreen(existing: account)),
-                    ),
+                    onTap: () => Navigator.of(
+                      context,
+                    ).push(hairRoute(AccountFormScreen(existing: account))),
                   ),
                 ),
               );
             },
           );
         },
-        loading: () => const Center(child: PixelSpinner()),
-        error: (e, st) => Center(child: Text(l10n.accountsLoadError, style: context.text.body)),
+        loading: () => const Center(child: HairSpinner()),
+        error: (e, st) => Center(
+          child: Text(l10n.accountsLoadError, style: context.text.body),
+        ),
       ),
     );
   }
@@ -141,7 +151,7 @@ class _AccountCard extends ConsumerWidget {
 
     final bank = BankCatalog.byId(account.bankId);
 
-    return PixelCard(
+    return HairCard(
       label: account.name.toUpperCase(),
       labelColor: account.color,
       onTap: onTap,
@@ -158,7 +168,11 @@ class _AccountCard extends ConsumerWidget {
                 color: account.color.withValues(alpha: 0.16),
                 borderRadius: AppRadius.controlSmallAll,
               ),
-              child: PixelIcon(PixelIcons.creditCard, color: account.color, size: 18),
+              child: HairIcon(
+                HairIcons.creditCard,
+                color: account.color,
+                size: 18,
+              ),
             ),
           const SizedBox(width: AppSpacing.md),
           Expanded(child: Text(account.name, style: context.text.title)),

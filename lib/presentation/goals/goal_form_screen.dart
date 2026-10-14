@@ -18,8 +18,8 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/color_picker_row.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_icon.dart';
 
 class GoalFormScreen extends ConsumerStatefulWidget {
   const GoalFormScreen({super.key, this.existing});
@@ -60,13 +60,17 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
     super.dispose();
   }
 
-  double get _target => double.tryParse(_targetController.text.replaceAll(',', '.')) ?? 0;
+  double get _target =>
+      double.tryParse(_targetController.text.replaceAll(',', '.')) ?? 0;
 
   bool get _canSave =>
       _titleController.text.trim().isNotEmpty && _target > 0 && !_saving;
 
   Future<void> _pickImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 85);
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+    );
     if (picked == null) return;
     final savedPath = await savePickedImage(picked);
     if (!mounted) return;
@@ -97,17 +101,21 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
 
     if (_isEditing) {
       final repo = ref.read(savingsGoalRepositoryProvider);
-      await repo.update(widget.existing!.copyWith(
-        title: title,
-        targetAmount: _target,
-        deadline: _deadline,
-        clearDeadline: _deadline == null,
-        color: _color,
-        imagePath: _imagePath,
-        clearImage: _imagePath == null,
-      ));
+      await repo.update(
+        widget.existing!.copyWith(
+          title: title,
+          targetAmount: _target,
+          deadline: _deadline,
+          clearDeadline: _deadline == null,
+          color: _color,
+          imagePath: _imagePath,
+          clearImage: _imagePath == null,
+        ),
+      );
     } else {
-      await ref.read(savingsGoalRepositoryProvider).create(
+      await ref
+          .read(savingsGoalRepositoryProvider)
+          .create(
             title: title,
             targetAmount: _target,
             deadline: _deadline,
@@ -122,15 +130,18 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
   Widget build(BuildContext context) {
     final currency = ref.watch(currencyProvider);
     final l10n = context.l10n;
-    final deadlineText =
-        _deadline == null ? l10n.goalFormNoDeadline : formatFullDate(_deadline!, context);
+    final deadlineText = _deadline == null
+        ? l10n.goalFormNoDeadline
+        : formatFullDate(_deadline!, context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew),
+        title: Text(
+          _isEditing ? l10n.goalFormTitleEdit : l10n.goalFormTitleNew,
+        ),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -156,7 +167,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                         borderRadius: AppRadius.cardSmallAll,
                         border: Border.all(
                           color: _color.withValues(alpha: 0.55),
-                          width: AppRadius.pixelBorder,
+                          width: AppRadius.hairline,
                         ),
                         image: _imagePath != null
                             ? DecorationImage(
@@ -166,7 +177,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                             : null,
                       ),
                       child: _imagePath == null
-                          ? PixelIcon(PixelIcons.camera, color: _color, size: 28)
+                          ? HairIcon(HairIcons.camera, color: _color, size: 28)
                           : null,
                     ),
                   ),
@@ -184,7 +195,11 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
                             color: context.colors.expense,
                             borderRadius: AppRadius.controlSmallAll,
                           ),
-                          child: const PixelIcon(PixelIcons.close, color: Colors.white, size: 16),
+                          child: const HairIcon(
+                            HairIcons.close,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ),
@@ -195,7 +210,9 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
             TextField(
               controller: _titleController,
               autofocus: !_isEditing,
-              style: context.text.title.copyWith(color: context.colors.textPrimary),
+              style: context.text.title.copyWith(
+                color: context.colors.textPrimary,
+              ),
               decoration: InputDecoration(hintText: l10n.goalFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
@@ -204,8 +221,12 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
             AppSpacing.gapSm,
             TextField(
               controller: _targetController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              ],
               style: context.text.amountLarge,
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
@@ -217,23 +238,39 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               onTap: _pickDeadline,
               borderRadius: AppRadius.cardSmallAll,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: context.colors.surfaceVariant,
                   borderRadius: AppRadius.cardSmallAll,
                 ),
                 child: Row(
                   children: [
-                    PixelIcon(PixelIcons.calendar, size: 20, color: context.colors.textSecondary),
+                    HairIcon(
+                      HairIcons.calendar,
+                      size: 20,
+                      color: context.colors.textSecondary,
+                    ),
                     const SizedBox(width: AppSpacing.md),
-                    Expanded(child: Text(deadlineText, style: context.text.title)),
+                    Expanded(
+                      child: Text(deadlineText, style: context.text.title),
+                    ),
                     if (_deadline != null)
                       IconButton(
-                        icon: PixelIcon(PixelIcons.close, size: 18, color: context.colors.textTertiary),
+                        icon: HairIcon(
+                          HairIcons.close,
+                          size: 18,
+                          color: context.colors.textTertiary,
+                        ),
                         onPressed: () => setState(() => _deadline = null),
                       )
                     else
-                      PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary),
+                      HairIcon(
+                        HairIcons.chevronRight,
+                        color: context.colors.textTertiary,
+                      ),
                   ],
                 ),
               ),
@@ -246,7 +283,7 @@ class _GoalFormScreenState extends ConsumerState<GoalFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
+            HairButton(
               label: _isEditing ? l10n.commonSave : l10n.commonCreate,
               onPressed: _canSave ? _save : null,
             ),

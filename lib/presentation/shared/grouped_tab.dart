@@ -5,7 +5,7 @@ import '../budgets/budgets_screen.dart';
 import '../goals/goals_screen.dart';
 import '../statistics/statistics_screen.dart';
 import '../wealth/wealth_screen.dart';
-import 'pixel_segments.dart';
+import 'hair_segments.dart';
 
 /// Вкладка, внутри которой живут два родственных раздела.
 ///
@@ -41,7 +41,7 @@ class _GroupedTabState extends State<GroupedTab> {
         title: Text(widget.title),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
-          child: PixelSegments(
+          child: HairSegments(
             labels: widget.labels,
             currentIndex: _index,
             onSelected: (i) => setState(() => _index = i),
@@ -66,10 +66,7 @@ class PlanTab extends StatelessWidget {
     return GroupedTab(
       title: l10n.navPlan,
       labels: [l10n.navBudgets, l10n.navGoals],
-      pages: const [
-        BudgetsScreen(embedded: true),
-        GoalsScreen(embedded: true),
-      ],
+      pages: const [BudgetsScreen(embedded: true), GoalsScreen(embedded: true)],
     );
   }
 }

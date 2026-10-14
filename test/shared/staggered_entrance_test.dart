@@ -30,8 +30,7 @@ void main() {
     test('весь список успевает появиться меньше чем за полсекунды', () {
       // Не эстетика, а граница: дольше — и появление списка превращается
       // в ожидание списка.
-      final worst =
-          StaggeredEntrance.delayFor(10000) + AppMotion.fast;
+      final worst = StaggeredEntrance.delayFor(10000) + AppMotion.fast;
       expect(worst, lessThan(const Duration(milliseconds: 500)));
     });
   });

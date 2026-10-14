@@ -1,10 +1,11 @@
+import 'package:flutter/widgets.dart';
 import '../../domain/entities/cash_flow_type.dart';
 import '../../domain/entities/spend_usefulness.dart';
 import '../../domain/entities/subscription_entity.dart';
 import '../../domain/entities/subscription_period.dart';
 import '../../domain/entities/wealth_rules.dart';
 import '../../l10n/app_localizations.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_icon.dart';
 
 /// Подписи и иконки для сущностей учёта капитала.
 ///
@@ -19,11 +20,11 @@ String cashFlowLabel(AppLocalizations l10n, CashFlowType type) =>
       CashFlowType.neutral => l10n.flowNeutral,
     };
 
-List<String> cashFlowIcon(CashFlowType type) => switch (type) {
-      CashFlowType.income => PixelIcons.flowIncome,
-      CashFlowType.liability => PixelIcons.flowLiability,
-      CashFlowType.neutral => PixelIcons.flowNeutral,
-    };
+IconData cashFlowIcon(CashFlowType type) => switch (type) {
+  CashFlowType.income => HairIcons.flowIncome,
+  CashFlowType.liability => HairIcons.flowLiability,
+  CashFlowType.neutral => HairIcons.flowNeutral,
+};
 
 String usefulnessLabel(AppLocalizations l10n, SpendUsefulness? value) =>
     switch (value) {
@@ -43,7 +44,11 @@ String periodLabel(AppLocalizations l10n, SubscriptionPeriod period) =>
     };
 
 /// Когда спишут — словами там, где слова понятнее числа.
-String chargeLabel(AppLocalizations l10n, SubscriptionEntity sub, DateTime now) {
+String chargeLabel(
+  AppLocalizations l10n,
+  SubscriptionEntity sub,
+  DateTime now,
+) {
   final days = sub.daysUntilCharge(now);
   if (days < 0) return l10n.chargeOverdue;
   if (days == 0) return l10n.chargeToday;
@@ -60,15 +65,15 @@ String adviceText(AppLocalizations l10n, Advice advice) {
 
   return switch (advice.kind) {
     AdviceKind.riskOverLimit => l10n.adviceRisk(
-        advice.label ?? '',
-        pct(advice.percent),
-        pct(advice.limit),
-      ),
+      advice.label ?? '',
+      pct(advice.percent),
+      pct(advice.limit),
+    ),
     AdviceKind.uselessSpendingUp => l10n.adviceUseless(pct(advice.percent)),
     AdviceKind.subscriptionsUp => l10n.adviceSubscriptions(pct(advice.percent)),
     AdviceKind.savingsBelowOwnAverage => l10n.adviceSavings(
-        pct(advice.percent),
-        pct(advice.limit),
-      ),
+      pct(advice.percent),
+      pct(advice.limit),
+    ),
   };
 }

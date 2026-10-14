@@ -8,9 +8,9 @@ import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/formatters.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import 'wealth_providers.dart';
 
 /// Движение денег: сколько пришло, сколько ушло, сколько осталось.
@@ -36,7 +36,7 @@ class CashFlowScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelCard(
+          HairCard(
             label: l10n.reportsPeriod.toUpperCase(),
             child: Text(
               '${formatDate(range.from, context)} — '
@@ -49,21 +49,21 @@ class CashFlowScreen extends ConsumerWidget {
             data: (data) => Column(
               children: [
                 _FlowRow(
-                  icon: PixelIcons.flowIncome,
+                  icon: HairIcons.flowIncome,
                   label: l10n.cashFlowReceived,
                   amount: formatAmount(data.income, currency, context),
                   color: colors.income,
                 ),
                 AppSpacing.gapMd,
                 _FlowRow(
-                  icon: PixelIcons.flowLiability,
+                  icon: HairIcons.flowLiability,
                   label: l10n.cashFlowSpent,
                   amount: formatAmount(data.expense, currency, context),
                   color: colors.expense,
                 ),
                 AppSpacing.gapMd,
                 _FlowRow(
-                  icon: PixelIcons.netWorth,
+                  icon: HairIcons.netWorth,
                   label: l10n.cashFlowSaved,
                   amount: formatAmount(data.saved, currency, context),
                   // Отрицательный остаток — это перерасход, и цвет должен
@@ -72,15 +72,15 @@ class CashFlowScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            loading: () => const Center(child: PixelSpinner()),
+            loading: () => const Center(child: HairSpinner()),
             error: (e, st) => Text(l10n.reportsEmpty, style: context.text.body),
           ),
           AppSpacing.gapXl,
-          PixelCard(
+          HairCard(
             label: l10n.savingsRateHistory.toUpperCase(),
             child: rates.when(
               data: (months) => _SavingsHistory(months: months),
-              loading: () => const Center(child: PixelSpinner()),
+              loading: () => const Center(child: HairSpinner()),
               error: (e, st) =>
                   Text(l10n.reportsEmpty, style: context.text.body),
             ),
@@ -99,17 +99,17 @@ class _FlowRow extends StatelessWidget {
     required this.color,
   });
 
-  final List<String> icon;
+  final IconData icon;
   final String label;
   final String amount;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return PixelCard(
+    return HairCard(
       child: Row(
         children: [
-          PixelIcon(icon, size: 22, color: color),
+          HairIcon(icon, size: 22, color: color),
           AppSpacing.gapHMd,
           Expanded(child: Text(label, style: context.text.title)),
           Text(amount, style: context.text.amountMedium.copyWith(color: color)),
@@ -167,8 +167,10 @@ class _SavingsHistory extends StatelessWidget {
                     AppSpacing.gapXs,
                     Text(
                       '${entry.month.month}',
-                      style: context.text.caption
-                          .copyWith(color: colors.textTertiary, fontSize: 9),
+                      style: context.text.caption.copyWith(
+                        color: colors.textTertiary,
+                        fontSize: 9,
+                      ),
                     ),
                   ],
                 ),

@@ -18,10 +18,10 @@ import '../../domain/entities/savings_goal_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/animated_progress_bar.dart';
 import '../shared/empty_state.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import 'goal_form_screen.dart';
 import 'goals_providers.dart';
@@ -34,7 +34,11 @@ class GoalsScreen extends ConsumerWidget {
   /// вторым подряд.
   final bool embedded;
 
-  Future<void> _addContribution(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
+  Future<void> _addContribution(
+    BuildContext context,
+    WidgetRef ref,
+    SavingsGoalEntity goal,
+  ) async {
     final currency = ref.read(currencyProvider);
     final l10n = context.l10n;
     final controller = TextEditingController();
@@ -46,7 +50,9 @@ class GoalsScreen extends ConsumerWidget {
           controller: controller,
           autofocus: true,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+          ],
           style: context.text.amountLarge,
           decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
         ),
@@ -57,7 +63,8 @@ class GoalsScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              final value = double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
+              final value =
+                  double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
               Navigator.of(context).pop(value);
             },
             child: Text(l10n.commonAdd),
@@ -74,10 +81,16 @@ class GoalsScreen extends ConsumerWidget {
         !goal.isCompleted && goal.currentAmount + amount >= goal.targetAmount;
     reachesGoal ? Haptics.celebrate() : Haptics.success();
 
-    await ref.read(savingsGoalRepositoryProvider).addContribution(id: goal.id, amount: amount);
+    await ref
+        .read(savingsGoalRepositoryProvider)
+        .addContribution(id: goal.id, amount: amount);
   }
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, SavingsGoalEntity goal) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    SavingsGoalEntity goal,
+  ) async {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -118,23 +131,22 @@ class GoalsScreen extends ConsumerWidget {
       // подписку стало нечем: единственная кнопка исчезала ровно тогда,
       // когда была нужнее всего. Небольшой повтор действия дешевле
       // экрана, с которого нельзя уйти вперёд.
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const GoalFormScreen()));
+          Navigator.of(context).push(hairRoute(const GoalFormScreen()));
         },
       ),
       body: goalsAsync.when(
         data: (goals) {
           if (goals.isEmpty) {
             return EmptyState(
-              sprite: PixelIcons.goals,
+              icon: HairIcons.goals,
               message: l10n.goalsEmpty,
               actionLabel: l10n.goalFormTitleNew,
               onAction: () {
                 Haptics.select();
-                Navigator.of(context)
-                    .push(pixelDissolveRoute(const GoalFormScreen()));
+                Navigator.of(context).push(hairRoute(const GoalFormScreen()));
               },
             );
           }
@@ -160,13 +172,16 @@ class GoalsScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
+                    child: HairIcon(
+                      HairIcons.delete,
+                      color: context.colors.expense,
+                    ),
                   ),
                   child: _GoalCard(
                     goal: goal,
-                    onTap: () => Navigator.of(context).push(
-                      pixelDissolveRoute(GoalFormScreen(existing: goal)),
-                    ),
+                    onTap: () => Navigator.of(
+                      context,
+                    ).push(hairRoute(GoalFormScreen(existing: goal))),
                     onAddFunds: () => _addContribution(context, ref, goal),
                   ),
                 ),
@@ -174,15 +189,20 @@ class GoalsScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: PixelSpinner()),
-        error: (e, st) => Center(child: Text(l10n.goalsLoadError, style: context.text.body)),
+        loading: () => const Center(child: HairSpinner()),
+        error: (e, st) =>
+            Center(child: Text(l10n.goalsLoadError, style: context.text.body)),
       ),
     );
   }
 }
 
 class _GoalCard extends ConsumerWidget {
-  const _GoalCard({required this.goal, required this.onTap, required this.onAddFunds});
+  const _GoalCard({
+    required this.goal,
+    required this.onTap,
+    required this.onAddFunds,
+  });
 
   final SavingsGoalEntity goal;
   final VoidCallback onTap;
@@ -196,7 +216,7 @@ class _GoalCard extends ConsumerWidget {
     // Метка рамки повторяла название цели слово в слово — «НОВЫЙ НОУТБУК»
     // в рамке и «Новый ноутбук» строкой ниже. Вместо повтора — доля
     // собранного: то, ради чего на карточку и смотрят.
-    return PixelCard(
+    return HairCard(
       label: '${(goal.progress.clamp(0, 1) * 100).toStringAsFixed(0)}%',
       labelColor: goal.isCompleted ? context.colors.income : goal.color,
       onTap: onTap,
@@ -217,7 +237,7 @@ class _GoalCard extends ConsumerWidget {
                   borderRadius: AppRadius.controlSmallAll,
                   border: Border.all(
                     color: goal.color.withValues(alpha: 0.55),
-                    width: AppRadius.pixelBorder,
+                    width: AppRadius.hairline,
                   ),
                   image: goal.imagePath != null
                       ? DecorationImage(
@@ -227,8 +247,8 @@ class _GoalCard extends ConsumerWidget {
                       : null,
                 ),
                 child: goal.imagePath == null
-                    ? PixelIcon(
-                        goal.isCompleted ? PixelIcons.check : PixelIcons.savings,
+                    ? HairIcon(
+                        goal.isCompleted ? HairIcons.check : HairIcons.savings,
                         color: goal.color,
                         size: 20,
                       )
@@ -238,7 +258,7 @@ class _GoalCard extends ConsumerWidget {
               Expanded(child: Text(goal.title, style: context.text.title)),
               IconButton(
                 tooltip: l10n.goalsAddFundsTitle(goal.title),
-                icon: PixelIcon(PixelIcons.add, color: context.colors.accent),
+                icon: HairIcon(HairIcons.add, color: context.colors.accent),
                 onPressed: onAddFunds,
               ),
             ],
@@ -262,21 +282,23 @@ class _GoalCard extends ConsumerWidget {
               goal.isCompleted
                   ? l10n.goalsAchieved
                   : (goal.daysLeft != null && goal.daysLeft! < 0)
-                      ? l10n.goalsDeadlinePassed
-                      : l10n.goalsDaysLeft(goal.daysLeft ?? 0),
+                  ? l10n.goalsDeadlinePassed
+                  : l10n.goalsDaysLeft(goal.daysLeft ?? 0),
               style: context.text.caption.copyWith(
                 color: goal.isCompleted
                     ? context.colors.income
                     : (goal.daysLeft != null && goal.daysLeft! < 0)
-                        ? context.colors.expense
-                        : context.colors.textTertiary,
+                    ? context.colors.expense
+                    : context.colors.textTertiary,
               ),
             ),
           ] else if (goal.isCompleted) ...[
             AppSpacing.gapSm,
             Text(
               l10n.goalsAchieved,
-              style: context.text.caption.copyWith(color: context.colors.income),
+              style: context.text.caption.copyWith(
+                color: context.colors.income,
+              ),
             ),
           ],
         ],

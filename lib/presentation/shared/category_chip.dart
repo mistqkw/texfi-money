@@ -30,7 +30,9 @@ class CategorySelectChip extends StatelessWidget {
         duration: AppMotion.fast,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? category.color.withValues(alpha: 0.16) : context.colors.surface,
+          color: selected
+              ? category.color.withValues(alpha: 0.16)
+              : context.colors.surface,
           borderRadius: AppRadius.cardSmallAll,
           // Толщина рамки одна на всё приложение. Раньше выбранный чип
           // обводился в 1.5px, а невыбранный в 1px — на одном экране
@@ -39,7 +41,7 @@ class CategorySelectChip extends StatelessWidget {
           // держат цвет и заливка.
           border: Border.all(
             color: selected ? category.color : context.colors.border,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         child: Row(
@@ -52,7 +54,9 @@ class CategorySelectChip extends StatelessWidget {
                 // На размер меньше, чем в списках: в ячейке сетки шириной
                 // в половину экрана «Развлечения» шестнадцатым кеглем
                 // разрывалось посреди слова.
-                style: context.text.label.copyWith(color: context.colors.textPrimary),
+                style: context.text.label.copyWith(
+                  color: context.colors.textPrimary,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

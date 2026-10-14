@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_radius.dart';
 import '../../domain/entities/category_entity.dart';
-import 'pixel_icon.dart';
+import 'hair_icon.dart';
 
 class CategoryAvatar extends StatelessWidget {
-  const CategoryAvatar({
-    super.key,
-    required this.category,
-    this.size = 44,
-  });
+  const CategoryAvatar({super.key, required this.category, this.size = 44});
 
   final CategoryEntity category;
   final double size;
@@ -36,9 +32,13 @@ class CategoryAvatar extends StatelessWidget {
         // Material-чип, единственный в приложении элемент со своими
         // собственными значениями.
         borderRadius: AppRadius.controlSmallAll,
-        border: Border.all(color: colors.border, width: AppRadius.pixelBorder),
+        border: Border.all(color: colors.border, width: AppRadius.hairline),
       ),
-      child: PixelIcon(PixelIcons.forCategoryKey(category.iconKey), color: category.color, size: size * 0.5),
+      child: HairIcon(
+        HairIcons.forCategoryKey(category.iconKey),
+        color: category.color,
+        size: size * 0.5,
+      ),
     );
   }
 }

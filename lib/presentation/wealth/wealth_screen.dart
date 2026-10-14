@@ -13,9 +13,9 @@ import '../../domain/entities/cash_flow_type.dart';
 import '../../domain/entities/net_worth.dart';
 import '../../domain/entities/wealth_rules.dart';
 import '../settings/currency_provider.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
 import '../shared/staggered_entrance.dart';
 import 'asset_form_screen.dart';
 import 'cash_flow_screen.dart';
@@ -54,23 +54,25 @@ class WealthScreen extends ConsumerWidget {
               title: Text(l10n.wealthTitle),
               actions: [
                 IconButton(
-                  icon: const PixelIcon(PixelIcons.subscriptions),
+                  icon: const HairIcon(HairIcons.subscriptions),
                   tooltip: l10n.subscriptionsTitle,
-                  onPressed: () => Navigator.of(context)
-                      .push(pixelDissolveRoute(const SubscriptionsScreen())),
+                  onPressed: () => Navigator.of(
+                    context,
+                  ).push(hairRoute(const SubscriptionsScreen())),
                 ),
                 IconButton(
-                  icon: const PixelIcon(PixelIcons.reports),
+                  icon: const HairIcon(HairIcons.reports),
                   tooltip: l10n.reportsTitle,
-                  onPressed: () => Navigator.of(context)
-                      .push(pixelDissolveRoute(const ReportsScreen())),
+                  onPressed: () => Navigator.of(
+                    context,
+                  ).push(hairRoute(const ReportsScreen())),
                 ),
               ],
             ),
-      floatingActionButton: PixelFab(
-        onPressed: () => Navigator.of(context)
-            .push(pixelDissolveRoute(const AssetFormScreen())),
-        pattern: PixelIcons.add,
+      floatingActionButton: HairFab(
+        onPressed: () =>
+            Navigator.of(context).push(hairRoute(const AssetFormScreen())),
+        icon: HairIcons.add,
         tooltip: l10n.wealthAddAsset,
       ),
       body: ListView(
@@ -78,10 +80,7 @@ class WealthScreen extends ConsumerWidget {
         children: [
           _TotalCard(snapshot: snapshot),
           AppSpacing.gapLg,
-          if (embedded) ...[
-            _SectionLinks(),
-            AppSpacing.gapLg,
-          ],
+          if (embedded) ...[_SectionLinks(), AppSpacing.gapLg],
           const _YearChangeCard(),
           AppSpacing.gapLg,
           const _RiskWarnings(),
@@ -123,7 +122,7 @@ class _TotalCard extends ConsumerWidget {
     final assets = ref.watch(assetsProvider).valueOrNull ?? const [];
 
     if (assets.isEmpty) {
-      return PixelCard(
+      return HairCard(
         label: l10n.wealthTitle.toUpperCase(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +138,7 @@ class _TotalCard extends ConsumerWidget {
       );
     }
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthTotal.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +194,9 @@ class _MiniStat extends StatelessWidget {
       children: [
         Text(
           label.toUpperCase(),
-          style: context.text.label.copyWith(color: context.colors.textTertiary),
+          style: context.text.label.copyWith(
+            color: context.colors.textTertiary,
+          ),
         ),
         AppSpacing.gapXs,
         Text(value, style: context.text.amountMedium.copyWith(color: color)),
@@ -220,7 +221,7 @@ class _YearChangeCard extends ConsumerWidget {
     // бы как «капитал не изменился», хотя года назад его просто не с чем
     // сравнить.
     if (change.from <= 0) {
-      return PixelCard(
+      return HairCard(
         label: l10n.wealthYearChange.toUpperCase(),
         child: Text(
           l10n.wealthYearChangeNoBase,
@@ -233,13 +234,13 @@ class _YearChangeCard extends ConsumerWidget {
     final color = grew ? colors.income : colors.expense;
     final percent = change.percent;
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthYearChange.toUpperCase(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PixelIcon(
-            grew ? PixelIcons.flowIncome : PixelIcons.flowLiability,
+          HairIcon(
+            grew ? HairIcons.flowIncome : HairIcons.flowLiability,
             size: 24,
             color: color,
           ),
@@ -280,13 +281,13 @@ class _RiskWarnings extends ConsumerWidget {
     return Column(
       children: [
         for (final breach in breaches) ...[
-          PixelCard(
+          HairCard(
             label: l10n.riskBreachTitle.toUpperCase(),
             borderColor: colors.warning,
             labelColor: colors.warning,
             child: Row(
               children: [
-                PixelIcon(PixelIcons.risk, size: 24, color: colors.warning),
+                HairIcon(HairIcons.risk, size: 24, color: colors.warning),
                 AppSpacing.gapHMd,
                 Expanded(
                   child: Text(
@@ -326,7 +327,7 @@ class _AdviceCard extends ConsumerWidget {
 
     return Column(
       children: [
-        PixelCard(
+        HairCard(
           label: l10n.adviceSection.toUpperCase(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,15 +336,13 @@ class _AdviceCard extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PixelIcon(
-                      PixelIcons.advice,
-                      size: 20,
-                      color: colors.accent,
-                    ),
+                    HairIcon(HairIcons.advice, size: 20, color: colors.accent),
                     AppSpacing.gapHMd,
                     Expanded(
-                      child: Text(adviceText(l10n, item),
-                          style: context.text.body),
+                      child: Text(
+                        adviceText(l10n, item),
+                        style: context.text.body,
+                      ),
                     ),
                   ],
                 ),
@@ -351,8 +350,9 @@ class _AdviceCard extends ConsumerWidget {
               ],
               Text(
                 l10n.adviceDisclaimer,
-                style:
-                    context.text.caption.copyWith(color: colors.textTertiary),
+                style: context.text.caption.copyWith(
+                  color: colors.textTertiary,
+                ),
               ),
             ],
           ),
@@ -382,7 +382,7 @@ class _ShareBar extends StatelessWidget {
   final String amount;
   final double percent;
   final Color color;
-  final List<String>? icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +395,7 @@ class _ShareBar extends StatelessWidget {
           Row(
             children: [
               if (icon case final icon?) ...[
-                PixelIcon(icon, size: 16, color: color),
+                HairIcon(icon, size: 16, color: color),
                 AppSpacing.gapHSm,
               ],
               Expanded(child: Text(label, style: context.text.body)),
@@ -444,7 +444,7 @@ class _CategoryShares extends ConsumerWidget {
     final l10n = context.l10n;
     final shares = ref.watch(categorySharesProvider);
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthByCategory.toUpperCase(),
       child: Column(
         children: [
@@ -454,7 +454,7 @@ class _CategoryShares extends ConsumerWidget {
               amount: formatAmount(share.amount, currency, context),
               percent: share.percent,
               color: share.key.color,
-              icon: PixelIcons.forCategoryKey(share.key.iconKey),
+              icon: HairIcons.forCategoryKey(share.key.iconKey),
             ),
         ],
       ),
@@ -473,7 +473,7 @@ class _CashFlowShares extends ConsumerWidget {
     final colors = context.colors;
     final shares = ref.watch(cashFlowSharesProvider);
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthByCashFlow.toUpperCase(),
       child: Column(
         children: [
@@ -506,7 +506,7 @@ class _RiskShares extends ConsumerWidget {
     final colors = context.colors;
     final shares = ref.watch(riskSharesProvider);
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthByRisk.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -516,11 +516,11 @@ class _RiskShares extends ConsumerWidget {
               label: share.key.maxSharePercent == null
                   ? share.key.name
                   : '${share.key.name} · ≤ '
-                      '${share.key.maxSharePercent!.toStringAsFixed(0)}%',
+                        '${share.key.maxSharePercent!.toStringAsFixed(0)}%',
               amount: formatAmount(share.amount, currency, context),
               percent: share.percent,
               color: share.key.color,
-              icon: PixelIcons.risk,
+              icon: HairIcons.risk,
             ),
           Text(
             l10n.riskLimitHint,
@@ -543,7 +543,7 @@ class _AssetList extends ConsumerWidget {
     final colors = context.colors;
     final currency = ref.watch(currencyProvider);
 
-    return PixelCard(
+    return HairCard(
       label: l10n.wealthAssetsList.toUpperCase(),
       child: Column(
         children: [
@@ -551,15 +551,15 @@ class _AssetList extends ConsumerWidget {
             StaggeredEntrance(
               index: i,
               child: InkWell(
-                onTap: () => Navigator.of(context).push(
-                  pixelDissolveRoute(AssetFormScreen(existing: assets[i])),
-                ),
+                onTap: () => Navigator.of(
+                  context,
+                ).push(hairRoute(AssetFormScreen(existing: assets[i]))),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   child: Row(
                     children: [
-                      PixelIcon(
-                        PixelIcons.forCategoryKey(assets[i].category.iconKey),
+                      HairIcon(
+                        HairIcons.forCategoryKey(assets[i].category.iconKey),
                         size: 20,
                         color: assets[i].category.color,
                       ),
@@ -571,8 +571,9 @@ class _AssetList extends ConsumerWidget {
                             Text(assets[i].name, style: context.text.body),
                             Text(
                               cashFlowLabel(l10n, assets[i].cashFlowType),
-                              style: context.text.caption
-                                  .copyWith(color: colors.textTertiary),
+                              style: context.text.caption.copyWith(
+                                color: colors.textTertiary,
+                              ),
                             ),
                           ],
                         ),
@@ -602,27 +603,28 @@ class _QuickLinks extends ConsumerWidget {
     return Column(
       children: [
         _LinkTile(
-          icon: PixelIcons.subscriptions,
+          icon: HairIcons.subscriptions,
           title: l10n.subscriptionsTitle,
           trailing: monthly > 0
               ? '${formatAmount(monthly, currency, context)} / ${l10n.subscriptionsMonthly.toLowerCase()}'
               : null,
-          onTap: () => Navigator.of(context)
-              .push(pixelDissolveRoute(const SubscriptionsScreen())),
+          onTap: () => Navigator.of(
+            context,
+          ).push(hairRoute(const SubscriptionsScreen())),
         ),
         AppSpacing.gapMd,
         _LinkTile(
-          icon: PixelIcons.cashFlow,
+          icon: HairIcons.cashFlow,
           title: l10n.cashFlowTitle,
-          onTap: () => Navigator.of(context)
-              .push(pixelDissolveRoute(const CashFlowScreen())),
+          onTap: () =>
+              Navigator.of(context).push(hairRoute(const CashFlowScreen())),
         ),
         AppSpacing.gapMd,
         _LinkTile(
-          icon: PixelIcons.reports,
+          icon: HairIcons.reports,
           title: l10n.reportsTitle,
-          onTap: () => Navigator.of(context)
-              .push(pixelDissolveRoute(const ReportsScreen())),
+          onTap: () =>
+              Navigator.of(context).push(hairRoute(const ReportsScreen())),
         ),
       ],
     );
@@ -637,7 +639,7 @@ class _LinkTile extends StatelessWidget {
     this.trailing,
   });
 
-  final List<String> icon;
+  final IconData icon;
   final String title;
   final String? trailing;
   final VoidCallback onTap;
@@ -645,11 +647,11 @@ class _LinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return PixelCard(
+    return HairCard(
       onTap: onTap,
       child: Row(
         children: [
-          PixelIcon(icon, size: 20, color: colors.accent),
+          HairIcon(icon, size: 20, color: colors.accent),
           AppSpacing.gapHMd,
           Expanded(child: Text(title, style: context.text.title)),
           if (trailing case final trailing?)
@@ -658,8 +660,8 @@ class _LinkTile extends StatelessWidget {
               style: context.text.caption.copyWith(color: colors.textTertiary),
             ),
           AppSpacing.gapHSm,
-          PixelIcon(
-            PixelIcons.chevronRight,
+          HairIcon(
+            HairIcons.chevronRight,
             size: 14,
             color: colors.textTertiary,
           ),
@@ -676,15 +678,14 @@ class _SectionLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    Widget link(String title, List<String> sprite, Widget target) {
+    Widget link(String title, IconData sprite, Widget target) {
       return Expanded(
-        child: PixelCard(
-          onTap: () =>
-              Navigator.of(context).push(pixelDissolveRoute(target)),
+        child: HairCard(
+          onTap: () => Navigator.of(context).push(hairRoute(target)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PixelIcon(sprite, size: 20, color: context.colors.accent),
+              HairIcon(sprite, size: 20, color: context.colors.accent),
               AppSpacing.gapSm,
               Text(title, style: context.text.title),
             ],
@@ -697,10 +698,13 @@ class _SectionLinks extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          link(l10n.subscriptionsTitle, PixelIcons.subscriptions,
-              const SubscriptionsScreen()),
+          link(
+            l10n.subscriptionsTitle,
+            HairIcons.subscriptions,
+            const SubscriptionsScreen(),
+          ),
           AppSpacing.gapHMd,
-          link(l10n.reportsTitle, PixelIcons.reports, const ReportsScreen()),
+          link(l10n.reportsTitle, HairIcons.reports, const ReportsScreen()),
         ],
       ),
     );

@@ -23,11 +23,11 @@ import '../categories/category_form_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_segments.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_segments.dart';
+import '../shared/hair_spinner.dart';
 import '../wealth/wealth_labels.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
@@ -41,7 +41,8 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
   final TransactionEntity? prefill;
 
   @override
-  ConsumerState<AddTransactionScreen> createState() => _AddTransactionScreenState();
+  ConsumerState<AddTransactionScreen> createState() =>
+      _AddTransactionScreenState();
 }
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
@@ -110,9 +111,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Future<void> _addCategory() async {
-    final created = await Navigator.of(context).push<CategoryEntity>(
-      pixelDissolveRoute(CategoryFormScreen(initialType: _type)),
-    );
+    final created = await Navigator.of(
+      context,
+    ).push<CategoryEntity>(hairRoute(CategoryFormScreen(initialType: _type)));
     if (created != null) setState(() => _selectedCategoryId = created.id);
   }
 
@@ -122,9 +123,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     // Отклик тем весомее, чем сильнее сумма выбивается из привычной
     // для этой категории — крупную трату чувствуешь, не глядя на экран.
-    final reference = await repo.averageAmount(type: _type, categoryId: _selectedCategoryId);
+    final reference = await repo.averageAmount(
+      type: _type,
+      categoryId: _selectedCategoryId,
+    );
     final weight = Haptics.weightFor(amount: _amount, reference: reference);
-    _type == TransactionType.income ? Haptics.income(weight) : Haptics.expense(weight);
+    _type == TransactionType.income
+        ? Haptics.income(weight)
+        : Haptics.expense(weight);
 
     if (!mounted) return;
     setState(() {
@@ -133,7 +139,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     });
 
     await Future.delayed(AppMotion.fast);
-    final note = _noteController.text.trim().isEmpty ? null : _noteController.text.trim();
+    final note = _noteController.text.trim().isEmpty
+        ? null
+        : _noteController.text.trim();
 
     if (_isEditing) {
       await repo.update(
@@ -173,7 +181,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         title: Text(_isEditing ? l10n.addTxTitleEdit : l10n.addTxTitle),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ),
@@ -183,7 +191,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           children: [
             _TypeToggle(type: _type, onChanged: _onTypeChanged),
             AppSpacing.gapXl,
-            _AmountField(controller: _amountController, onChanged: () => setState(() {})),
+            _AmountField(
+              controller: _amountController,
+              onChanged: () => setState(() {}),
+            ),
             AppSpacing.gapXl,
             Text(l10n.commonCategory.toUpperCase(), style: context.text.mono),
             AppSpacing.gapSm,
@@ -196,9 +207,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               ),
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Center(child: PixelSpinner()),
+                child: Center(child: HairSpinner()),
               ),
-              error: (e, st) => Text(l10n.addTxLoadCategoriesError, style: context.text.body),
+              error: (e, st) =>
+                  Text(l10n.addTxLoadCategoriesError, style: context.text.body),
             ),
             accountsAsync.maybeWhen(
               data: (accounts) {
@@ -207,12 +219,16 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacing.gapXl,
-                    Text(l10n.addTxAccountLabel.toUpperCase(), style: context.text.mono),
+                    Text(
+                      l10n.addTxAccountLabel.toUpperCase(),
+                      style: context.text.mono,
+                    ),
                     AppSpacing.gapSm,
                     _AccountRow(
                       accounts: accounts,
                       selectedId: _selectedAccountId,
-                      onSelected: (id) => setState(() => _selectedAccountId = id),
+                      onSelected: (id) =>
+                          setState(() => _selectedAccountId = id),
                     ),
                   ],
                 );
@@ -233,15 +249,17 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             AppSpacing.gapLg,
             TextField(
               controller: _noteController,
-              style: context.text.body.copyWith(color: context.colors.textPrimary),
+              style: context.text.body.copyWith(
+                color: context.colors.textPrimary,
+              ),
               decoration: InputDecoration(hintText: l10n.addTxNoteHint),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
-              label: l10n.commonSave,
-              busy: _saving,
-              onPressed: _canSave ? _handleSave : null,
-            )
+            HairButton(
+                  label: l10n.commonSave,
+                  busy: _saving,
+                  onPressed: _canSave ? _handleSave : null,
+                )
                 .animate(key: ValueKey(_bounceTrigger))
                 .scaleXY(end: 1.06, duration: 80.ms, curve: Curves.easeOut)
                 .then()
@@ -272,7 +290,7 @@ class _TypeToggle extends StatelessWidget {
     final colors = context.colors;
     final isExpense = type == TransactionType.expense;
 
-    return PixelSegments(
+    return HairSegments(
       padding: EdgeInsets.zero,
       labels: [context.l10n.commonExpense, context.l10n.commonIncome],
       currentIndex: isExpense ? 0 : 1,
@@ -298,10 +316,15 @@ class _AmountField extends ConsumerWidget {
     // стояло по центру пустоты, без рамки и подписи, так что поле читалось
     // как случайный «0» посреди экрана. Теперь это карточка с меткой, как
     // баланс на главной.
-    return PixelCard(
+    return HairCard(
       accent: true,
       label: context.l10n.addTxAmountLabel.toUpperCase(),
-      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.lg, AppSpacing.page, AppSpacing.lg),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.page,
+        AppSpacing.lg,
+        AppSpacing.page,
+        AppSpacing.lg,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
@@ -311,12 +334,18 @@ class _AmountField extends ConsumerWidget {
               controller: controller,
               onChanged: (_) => onChanged(),
               autofocus: true,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              ],
               style: context.text.balance,
               decoration: InputDecoration(
                 hintText: '0',
-                hintStyle: context.text.balance.copyWith(color: context.colors.textTertiary),
+                hintStyle: context.text.balance.copyWith(
+                  color: context.colors.textTertiary,
+                ),
                 filled: false,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -328,7 +357,9 @@ class _AmountField extends ConsumerWidget {
           AppSpacing.gapHMd,
           Text(
             currency.symbol,
-            style: context.text.balance.copyWith(color: context.colors.textSecondary),
+            style: context.text.balance.copyWith(
+              color: context.colors.textSecondary,
+            ),
           ),
         ],
       ),
@@ -371,17 +402,23 @@ class _CategoryGrid extends StatelessWidget {
             borderRadius: AppRadius.cardSmallAll,
             border: Border.all(
               color: context.colors.border,
-              width: AppRadius.pixelBorder,
+              width: AppRadius.hairline,
             ),
           ),
           child: Row(
             children: [
-              PixelIcon(PixelIcons.add, size: 20, color: context.colors.textSecondary),
+              HairIcon(
+                HairIcons.add,
+                size: 20,
+                color: context.colors.textSecondary,
+              ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(
                   context.l10n.addTxAddCategory,
-                  style: context.text.label.copyWith(color: context.colors.textPrimary),
+                  style: context.text.label.copyWith(
+                    color: context.colors.textPrimary,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -420,7 +457,11 @@ class _CategoryGrid extends StatelessWidget {
 }
 
 class _AccountRow extends StatelessWidget {
-  const _AccountRow({required this.accounts, required this.selectedId, required this.onSelected});
+  const _AccountRow({
+    required this.accounts,
+    required this.selectedId,
+    required this.onSelected,
+  });
 
   final List<AccountEntity> accounts;
   final String? selectedId;
@@ -432,8 +473,14 @@ class _AccountRow extends StatelessWidget {
       spacing: 12,
       runSpacing: 12,
       children: [
-        _chip(context, null, context.l10n.addTxNoAccount, context.colors.textSecondary),
-        for (final account in accounts) _chip(context, account.id, account.name, account.color),
+        _chip(
+          context,
+          null,
+          context.l10n.addTxNoAccount,
+          context.colors.textSecondary,
+        ),
+        for (final account in accounts)
+          _chip(context, account.id, account.name, account.color),
       ],
     );
   }
@@ -446,7 +493,9 @@ class _AccountRow extends StatelessWidget {
         duration: AppMotion.fast,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? color.withValues(alpha: 0.16) : context.colors.surface,
+          color: selected
+              ? color.withValues(alpha: 0.16)
+              : context.colors.surface,
           borderRadius: AppRadius.cardSmallAll,
           border: Border.all(
             color: selected ? color : context.colors.border,
@@ -459,7 +508,10 @@ class _AccountRow extends StatelessWidget {
             Container(
               width: 10,
               height: 10,
-              decoration: BoxDecoration(color: color, borderRadius: AppRadius.controlSmallAll),
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: AppRadius.controlSmallAll,
+              ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(label, style: context.text.title),
@@ -489,10 +541,19 @@ class _DateRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            PixelIcon(PixelIcons.calendar, size: 20, color: context.colors.textSecondary),
+            HairIcon(
+              HairIcons.calendar,
+              size: 20,
+              color: context.colors.textSecondary,
+            ),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: Text(formatDate(date, context), style: context.text.title)),
-            PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary),
+            Expanded(
+              child: Text(formatDate(date, context), style: context.text.title),
+            ),
+            HairIcon(
+              HairIcons.chevronRight,
+              color: context.colors.textTertiary,
+            ),
           ],
         ),
       ),
@@ -517,10 +578,10 @@ class _UsefulnessRow extends StatelessWidget {
     final colors = context.colors;
 
     Color colorFor(SpendUsefulness item) => switch (item) {
-          SpendUsefulness.useful => colors.income,
-          SpendUsefulness.useless => colors.expense,
-          SpendUsefulness.neutral => colors.textSecondary,
-        };
+      SpendUsefulness.useful => colors.income,
+      SpendUsefulness.useless => colors.expense,
+      SpendUsefulness.neutral => colors.textSecondary,
+    };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -542,9 +603,7 @@ class _UsefulnessRow extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: value == item
-                            ? colorFor(item)
-                            : colors.border,
+                        color: value == item ? colorFor(item) : colors.border,
                         width: 2,
                       ),
                       color: value == item

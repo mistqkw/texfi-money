@@ -6,7 +6,7 @@ import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../settings/security_provider.dart';
-import 'pixel_icon.dart';
+import 'hair_icon.dart';
 
 /// Замок перед содержимым приложения.
 ///
@@ -46,9 +46,9 @@ class _LockGateState extends ConsumerState<LockGate>
       if (!mounted) return;
       // Первое применение — здесь, а не в `ref.listen`: тот срабатывает
       // только на изменение, а флаг нужен уже на первом кадре.
-      ref.read(screenPrivacyProvider).setSecure(
-            ref.read(hideInSwitcherProvider),
-          );
+      ref
+          .read(screenPrivacyProvider)
+          .setSecure(ref.read(hideInSwitcherProvider));
       _ensureUnlocked();
     });
   }
@@ -89,7 +89,9 @@ class _LockGateState extends ConsumerState<LockGate>
     }
 
     setState(() => _asking = true);
-    final ok = await ref.read(appLockProvider).authenticate(
+    final ok = await ref
+        .read(appLockProvider)
+        .authenticate(
           reason: context.mounted ? context.l10n.securityUnlockReason : '',
         );
     if (!mounted) return;
@@ -125,11 +127,7 @@ class _LockGateState extends ConsumerState<LockGate>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              PixelSprite(
-                pattern: PixelIcons.budgets,
-                size: 48,
-                color: colors.accent,
-              ),
+              HairIcon(HairIcons.lock, size: 44, color: colors.textPrimary),
               AppSpacing.gapXl,
               Text(
                 l10n.securityLockedTitle,

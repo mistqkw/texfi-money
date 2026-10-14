@@ -10,8 +10,8 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
 import '../../domain/entities/cash_flow_type.dart';
 import '../settings/currency_provider.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
 import 'wealth_labels.dart';
 import 'wealth_providers.dart';
 
@@ -31,19 +31,22 @@ class AssetFormScreen extends ConsumerStatefulWidget {
 }
 
 class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
-  late final TextEditingController _name =
-      TextEditingController(text: widget.existing?.name ?? '');
+  late final TextEditingController _name = TextEditingController(
+    text: widget.existing?.name ?? '',
+  );
   late final TextEditingController _value = TextEditingController(
     text: widget.existing == null
         ? ''
         : widget.existing!.currentValue.toStringAsFixed(2),
   );
-  late final TextEditingController _note =
-      TextEditingController(text: widget.existing?.note ?? '');
+  late final TextEditingController _note = TextEditingController(
+    text: widget.existing?.note ?? '',
+  );
 
   late String? _categoryId = widget.existing?.category.id;
   late String? _riskId = widget.existing?.riskLevel.id;
-  late CashFlowType _flow = widget.existing?.cashFlowType ?? CashFlowType.neutral;
+  late CashFlowType _flow =
+      widget.existing?.cashFlowType ?? CashFlowType.neutral;
   DateTime _valuedAt = DateTime.now();
 
   bool get _isNew => widget.existing == null;
@@ -96,7 +99,8 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final colors = context.colors;
-    final categories = ref.watch(assetCategoriesProvider).valueOrNull ?? const [];
+    final categories =
+        ref.watch(assetCategoriesProvider).valueOrNull ?? const [];
     final levels = ref.watch(riskLevelsProvider).valueOrNull ?? const [];
 
     _categoryId ??= categories.isEmpty ? null : categories.first.id;
@@ -108,7 +112,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
         actions: [
           if (!_isNew)
             IconButton(
-              icon: PixelIcon(PixelIcons.danger, color: colors.expense),
+              icon: HairIcon(HairIcons.danger, color: colors.expense),
               tooltip: l10n.assetDelete,
               onPressed: _confirmDelete,
             ),
@@ -117,7 +121,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelCard(
+          HairCard(
             label: l10n.assetName.toUpperCase(),
             child: TextField(
               controller: _name,
@@ -127,18 +131,19 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
           ),
           AppSpacing.gapLg,
           if (_isNew) ...[
-            PixelCard(
+            HairCard(
               label: l10n.assetValue.toUpperCase(),
               child: TextField(
                 controller: _value,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 decoration: const InputDecoration(border: InputBorder.none),
                 style: context.text.amountMedium,
               ),
             ),
             AppSpacing.gapLg,
-            PixelCard(
+            HairCard(
               label: l10n.assetValuedAt.toUpperCase(),
               onTap: _pickDate,
               child: Row(
@@ -149,8 +154,8 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
                       style: context.text.body,
                     ),
                   ),
-                  PixelIcon(
-                    PixelIcons.history,
+                  HairIcon(
+                    HairIcons.history,
                     size: 16,
                     color: colors.textTertiary,
                   ),
@@ -159,7 +164,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
             AppSpacing.gapLg,
           ],
-          PixelCard(
+          HairCard(
             label: l10n.assetFlow.toUpperCase(),
             child: Column(
               children: [
@@ -179,14 +184,14 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.assetCategory.toUpperCase(),
             child: Column(
               children: [
                 for (final category in categories)
                   _ChoiceRow(
                     selected: _categoryId == category.id,
-                    icon: PixelIcons.forCategoryKey(category.iconKey),
+                    icon: HairIcons.forCategoryKey(category.iconKey),
                     label: category.name,
                     color: category.color,
                     onTap: () => setState(() => _categoryId = category.id),
@@ -195,14 +200,14 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.assetRisk.toUpperCase(),
             child: Column(
               children: [
                 for (final level in levels)
                   _ChoiceRow(
                     selected: _riskId == level.id,
-                    icon: PixelIcons.risk,
+                    icon: HairIcons.risk,
                     label: level.name,
                     color: level.color,
                     onTap: () => setState(() => _riskId = level.id),
@@ -211,7 +216,7 @@ class _AssetFormScreenState extends ConsumerState<AssetFormScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.assetNote.toUpperCase(),
             child: TextField(
               controller: _note,
@@ -279,7 +284,7 @@ class _ChoiceRow extends StatelessWidget {
   });
 
   final bool selected;
-  final List<String> icon;
+  final IconData icon;
   final String label;
   final Color color;
   final VoidCallback onTap;
@@ -293,11 +298,11 @@ class _ChoiceRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Row(
           children: [
-            PixelIcon(icon, size: 18, color: color),
+            HairIcon(icon, size: 18, color: color),
             AppSpacing.gapHMd,
             Expanded(child: Text(label, style: context.text.body)),
             if (selected)
-              PixelIcon(PixelIcons.check, size: 16, color: colors.accent),
+              HairIcon(HairIcons.check, size: 16, color: colors.accent),
           ],
         ),
       ),
@@ -319,7 +324,7 @@ class _HistorySection extends ConsumerWidget {
     final history =
         ref.watch(assetHistoryProvider(asset.id)).valueOrNull ?? const [];
 
-    return PixelCard(
+    return HairCard(
       label: l10n.assetHistory.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -332,8 +337,9 @@ class _HistorySection extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       formatDate(point.recordedAt, context),
-                      style: context.text.caption
-                          .copyWith(color: colors.textSecondary),
+                      style: context.text.caption.copyWith(
+                        color: colors.textSecondary,
+                      ),
                     ),
                   ),
                   Text(
@@ -374,8 +380,9 @@ class _HistorySection extends ConsumerWidget {
               TextField(
                 controller: controller,
                 autofocus: true,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
               ),
               AppSpacing.gapMd,
               // Дата отдельно: оценку вносят и задним числом — человек
@@ -401,9 +408,9 @@ class _HistorySection extends ConsumerWidget {
               child: Text(l10n.commonCancel),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(
-                double.tryParse(controller.text.replaceAll(',', '.')),
-              ),
+              onPressed: () => Navigator.of(
+                context,
+              ).pop(double.tryParse(controller.text.replaceAll(',', '.'))),
               child: Text(l10n.commonSave),
             ),
           ],

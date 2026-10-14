@@ -13,9 +13,9 @@ import '../../domain/entities/transaction_type.dart';
 import '../../domain/quick_entry_parser.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 
 /// Фирменная фишка приложения: добавление транзакции одной командной
 /// строкой — "-350 продукты обед" или "+5000 зарплата". Коммитит сразу.
@@ -37,8 +37,13 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
     super.dispose();
   }
 
-  CategoryEntity? _fallbackCategory(List<CategoryEntity> categories, TransactionType type) {
-    final otherId = type == TransactionType.expense ? 'cat_other_expense' : 'cat_other_income';
+  CategoryEntity? _fallbackCategory(
+    List<CategoryEntity> categories,
+    TransactionType type,
+  ) {
+    final otherId = type == TransactionType.expense
+        ? 'cat_other_expense'
+        : 'cat_other_income';
     for (final c in categories) {
       if (c.id == otherId) return c;
     }
@@ -55,10 +60,15 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
 
     setState(() => _submitting = true);
 
-    final categories = await ref.read(categoriesByTypeProvider(raw.type).future);
+    final categories = await ref.read(
+      categoriesByTypeProvider(raw.type).future,
+    );
     if (!mounted) return;
 
-    final records = [for (final c in categories) (id: c.id, name: categoryDisplayName(context, c))];
+    final records = [
+      for (final c in categories)
+        (id: c.id, name: categoryDisplayName(context, c)),
+    ];
     final result = resolveQuickEntry(raw: raw, categoriesOfType: records);
 
     CategoryEntity? category;
@@ -81,7 +91,9 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
       return;
     }
 
-    await ref.read(transactionRepositoryProvider).add(
+    await ref
+        .read(transactionRepositoryProvider)
+        .add(
           amount: result.amount,
           type: result.type,
           categoryId: category.id,
@@ -90,7 +102,9 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
         );
 
     if (!mounted) return;
-    result.type == TransactionType.income ? Haptics.income() : Haptics.expense();
+    result.type == TransactionType.income
+        ? Haptics.income()
+        : Haptics.expense();
 
     _controller.clear();
     setState(() {
@@ -104,7 +118,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
     final l10n = context.l10n;
     final errorColor = context.colors.expense;
 
-    return PixelCard(
+    return HairCard(
       label: l10n.quickEntryLabel.toUpperCase(),
       borderColor: _error ? errorColor.withValues(alpha: 0.7) : null,
       padding: const EdgeInsets.fromLTRB(14, 18, 10, 10),
@@ -118,7 +132,7 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
               // m0ney — ни в f0kus, ни в files его нет, и на экране рядом
               // с пиксельными знаками он читался как ещё один визуальный
               // язык поверх общего.
-              PixelIcon(PixelIcons.edit, size: 16, color: context.colors.accent),
+              HairIcon(HairIcons.edit, size: 16, color: context.colors.accent),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: TextField(
@@ -132,7 +146,9 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     hintText: l10n.quickEntryHint,
-                    hintStyle: context.text.title.copyWith(color: context.colors.textTertiary),
+                    hintStyle: context.text.title.copyWith(
+                      color: context.colors.textTertiary,
+                    ),
                     contentPadding: EdgeInsets.zero,
                   ),
                   textInputAction: TextInputAction.done,
@@ -146,12 +162,12 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
                 const SizedBox(
                   width: 18,
                   height: 18,
-                  child: PixelSpinner(size: 18),
+                  child: HairSpinner(size: 18),
                 )
               else
                 IconButton(
                   tooltip: l10n.commonAdd,
-                  icon: const PixelIcon(PixelIcons.chevronRight, size: 20),
+                  icon: const HairIcon(HairIcons.chevronRight, size: 20),
                   color: context.colors.accent,
                   visualDensity: VisualDensity.compact,
                   onPressed: _submit,
@@ -168,7 +184,10 @@ class _QuickEntryBarState extends ConsumerState<QuickEntryBar> {
             alignment: Alignment.topLeft,
             child: _error
                 ? Padding(
-                    padding: const EdgeInsets.only(top: AppSpacing.sm, bottom: 2),
+                    padding: const EdgeInsets.only(
+                      top: AppSpacing.sm,
+                      bottom: 2,
+                    ),
                     child: Text(
                       l10n.quickEntryParseError,
                       style: context.text.caption.copyWith(color: errorColor),

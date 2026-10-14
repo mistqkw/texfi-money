@@ -14,18 +14,18 @@ import '../../domain/repositories/category_repository.dart';
 import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import 'category_form_screen.dart';
 
 class CategoriesScreen extends ConsumerWidget {
   const CategoriesScreen({super.key});
 
   Future<void> _openForm(BuildContext context, {CategoryEntity? category}) {
-    return Navigator.of(context).push(
-      pixelDissolveRoute(CategoryFormScreen(initial: category)),
-    );
+    return Navigator.of(
+      context,
+    ).push(hairRoute(CategoryFormScreen(initial: category)));
   }
 
   Future<void> _confirmDelete(
@@ -38,7 +38,9 @@ class CategoriesScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l10n.categoriesDeleteTitle),
-        content: Text(l10n.categoriesDeleteConfirm(categoryDisplayName(context, category))),
+        content: Text(
+          l10n.categoriesDeleteConfirm(categoryDisplayName(context, category)),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -72,7 +74,7 @@ class CategoriesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.categoriesTitle)),
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         onPressed: () {
           Haptics.select();
           _openForm(context);
@@ -80,30 +82,48 @@ class CategoriesScreen extends ConsumerWidget {
       ),
       body: categoriesAsync.when(
         data: (categories) {
-          final expense = categories.where((c) => c.type == TransactionType.expense).toList();
-          final income = categories.where((c) => c.type == TransactionType.income).toList();
+          final expense = categories
+              .where((c) => c.type == TransactionType.expense)
+              .toList();
+          final income = categories
+              .where((c) => c.type == TransactionType.income)
+              .toList();
 
           return ListView(
             padding: AppSpacing.screenWithFab,
             children: [
               _SectionHeader(l10n.categoriesExpenseSection),
-              ...expense.map((c) => _CategoryRow(
-                    category: c,
-                    onTap: c.isCustom ? () => _openForm(context, category: c) : null,
-                    onDelete: c.isCustom ? () => _confirmDelete(context, ref, c) : null,
-                  )),
+              ...expense.map(
+                (c) => _CategoryRow(
+                  category: c,
+                  onTap: c.isCustom
+                      ? () => _openForm(context, category: c)
+                      : null,
+                  onDelete: c.isCustom
+                      ? () => _confirmDelete(context, ref, c)
+                      : null,
+                ),
+              ),
               AppSpacing.gapXl,
               _SectionHeader(l10n.categoriesIncomeSection),
-              ...income.map((c) => _CategoryRow(
-                    category: c,
-                    onTap: c.isCustom ? () => _openForm(context, category: c) : null,
-                    onDelete: c.isCustom ? () => _confirmDelete(context, ref, c) : null,
-                  )),
+              ...income.map(
+                (c) => _CategoryRow(
+                  category: c,
+                  onTap: c.isCustom
+                      ? () => _openForm(context, category: c)
+                      : null,
+                  onDelete: c.isCustom
+                      ? () => _confirmDelete(context, ref, c)
+                      : null,
+                ),
+              ),
             ],
           );
         },
-        loading: () => const Center(child: PixelSpinner()),
-        error: (e, st) => Center(child: Text(l10n.categoriesLoadError, style: context.text.body)),
+        loading: () => const Center(child: HairSpinner()),
+        error: (e, st) => Center(
+          child: Text(l10n.categoriesLoadError, style: context.text.body),
+        ),
       ),
     );
   }
@@ -141,16 +161,26 @@ class _CategoryRow extends StatelessWidget {
             CategoryAvatar(category: category, size: 40),
             const SizedBox(width: AppSpacing.md),
             Expanded(
-              child: Text(categoryDisplayName(context, category), style: context.text.title),
+              child: Text(
+                categoryDisplayName(context, category),
+                style: context.text.title,
+              ),
             ),
             if (onDelete != null)
               IconButton(
                 tooltip: context.l10n.commonDelete,
-                icon: PixelIcon(PixelIcons.delete, color: context.colors.textTertiary),
+                icon: HairIcon(
+                  HairIcons.delete,
+                  color: context.colors.textTertiary,
+                ),
                 onPressed: onDelete,
               )
             else
-              PixelIcon(PixelIcons.lock, color: context.colors.textTertiary, size: 18),
+              HairIcon(
+                HairIcons.lock,
+                color: context.colors.textTertiary,
+                size: 18,
+              ),
           ],
         ),
       ),

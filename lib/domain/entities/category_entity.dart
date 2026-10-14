@@ -22,11 +22,7 @@ class CategoryEntity {
 
   IconData get icon => CategoryIcons.resolve(iconKey);
 
-  CategoryEntity copyWith({
-    String? name,
-    String? iconKey,
-    Color? color,
-  }) {
+  CategoryEntity copyWith({String? name, String? iconKey, Color? color}) {
     return CategoryEntity(
       id: id,
       name: name ?? this.name,

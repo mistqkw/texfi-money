@@ -13,11 +13,11 @@ import '../../domain/repositories/transaction_repository.dart';
 import '../settings/analysis_range_provider.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_segments.dart';
-import '../shared/pixel_spinner.dart';
-import '../shared/pixel_switch.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_segments.dart';
+import '../shared/hair_spinner.dart';
+import '../shared/hair_switch.dart';
 
 /// Параметры отчёта.
 class ReportQuery {
@@ -54,36 +54,41 @@ class ReportQuery {
 ///
 /// Считается поверх того же запроса транзакций, что и остальные экраны:
 /// иного источника цифр в приложении нет и заводить его незачем.
-final reportProvider = FutureProvider.family<
-    List<({DateTime bucket, double total, int count})>,
-    ReportQuery>((ref, query) async {
-  final transactions = await ref
-      .watch(transactionRepositoryProvider)
-      .watchAll(
-        TransactionFilter(
-          from: query.from,
-          to: query.to,
-          categoryId: query.categoryId,
-          type: query.type,
-        ),
-      )
-      .first;
+final reportProvider =
+    FutureProvider.family<
+      List<({DateTime bucket, double total, int count})>,
+      ReportQuery
+    >((ref, query) async {
+      final transactions = await ref
+          .watch(transactionRepositoryProvider)
+          .watchAll(
+            TransactionFilter(
+              from: query.from,
+              to: query.to,
+              categoryId: query.categoryId,
+              type: query.type,
+            ),
+          )
+          .first;
 
-  final buckets = <DateTime, ({double total, int count})>{};
-  for (final tx in transactions) {
-    final key = query.byYear
-        ? DateTime(tx.date.year)
-        : DateTime(tx.date.year, tx.date.month);
-    final current = buckets[key] ?? (total: 0.0, count: 0);
-    buckets[key] = (total: current.total + tx.amount, count: current.count + 1);
-  }
+      final buckets = <DateTime, ({double total, int count})>{};
+      for (final tx in transactions) {
+        final key = query.byYear
+            ? DateTime(tx.date.year)
+            : DateTime(tx.date.year, tx.date.month);
+        final current = buckets[key] ?? (total: 0.0, count: 0);
+        buckets[key] = (
+          total: current.total + tx.amount,
+          count: current.count + 1,
+        );
+      }
 
-  final keys = buckets.keys.toList()..sort();
-  return [
-    for (final key in keys)
-      (bucket: key, total: buckets[key]!.total, count: buckets[key]!.count),
-  ];
-});
+      final keys = buckets.keys.toList()..sort();
+      return [
+        for (final key in keys)
+          (bucket: key, total: buckets[key]!.total, count: buckets[key]!.count),
+      ];
+    });
 
 /// Гибкая выборка поверх уже накопленных данных.
 ///
@@ -132,7 +137,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelCard(
+          HairCard(
             label: l10n.reportsPeriod.toUpperCase(),
             onTap: () async {
               final picked = await showDateRangePicker(
@@ -153,7 +158,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
           // в половину высоты и сплошной заливкой, единственная на всё
           // приложение. Тот же переключатель, что на вкладках-группах и в
           // форме транзакции, с семантическим цветом выбора.
-          PixelSegments(
+          HairSegments(
             padding: EdgeInsets.zero,
             labels: [l10n.commonExpense, l10n.commonIncome],
             currentIndex: _type == TransactionType.expense ? 0 : 1,
@@ -161,14 +166,16 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                 ? context.colors.expense
                 : context.colors.income,
             onSelected: (index) => setState(() {
-              _type = index == 0 ? TransactionType.expense : TransactionType.income;
+              _type = index == 0
+                  ? TransactionType.expense
+                  : TransactionType.income;
               // Категория относится к типу: оставить её при смене значило бы
               // показать отчёт, в который заведомо ничего не попадёт.
               _categoryId = null;
             }),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.reportsCategory.toUpperCase(),
             child: Column(
               children: [
@@ -188,16 +195,18 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    _byYear ? l10n.reportsGroupByYear : l10n.reportsGroupByMonth,
+                    _byYear
+                        ? l10n.reportsGroupByYear
+                        : l10n.reportsGroupByMonth,
                     style: context.text.title,
                   ),
                 ),
-                PixelSwitch(
+                HairSwitch(
                   value: _byYear,
                   onChanged: (value) => setState(() => _byYear = value),
                 ),
@@ -210,17 +219,17 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
               if (rows.isEmpty) {
                 return Text(
                   l10n.reportsEmpty,
-                  style:
-                      context.text.body.copyWith(color: colors.textSecondary),
+                  style: context.text.body.copyWith(
+                    color: colors.textSecondary,
+                  ),
                 );
               }
-              final total =
-                  rows.fold<double>(0, (sum, row) => sum + row.total);
+              final total = rows.fold<double>(0, (sum, row) => sum + row.total);
               final max = rows
                   .map((row) => row.total)
                   .reduce((a, b) => a > b ? a : b);
 
-              return PixelCard(
+              return HairCard(
                 label: l10n.reportsTotal.toUpperCase(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +244,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                         label: _byYear
                             ? '${row.bucket.year}'
                             : '${row.bucket.month.toString().padLeft(2, '0')}.'
-                                '${row.bucket.year}',
+                                  '${row.bucket.year}',
                         amount: formatAmount(row.total, currency, context),
                         count: row.count,
                         // Доля от самой большой строки, а не от суммы:
@@ -247,9 +256,8 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                 ),
               );
             },
-            loading: () => const Center(child: PixelSpinner()),
-            error: (e, st) =>
-                Text(l10n.reportsEmpty, style: context.text.body),
+            loading: () => const Center(child: HairSpinner()),
+            error: (e, st) => Text(l10n.reportsEmpty, style: context.text.body),
           ),
         ],
       ),
@@ -279,17 +287,17 @@ class _CategoryRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Row(
           children: [
-            PixelIcon(
+            HairIcon(
               category == null
-                  ? PixelIcons.category
-                  : PixelIcons.forCategoryKey(category!.iconKey),
+                  ? HairIcons.category
+                  : HairIcons.forCategoryKey(category!.iconKey),
               size: 18,
               color: category?.color ?? colors.textSecondary,
             ),
             AppSpacing.gapHMd,
             Expanded(child: Text(label, style: context.text.body)),
             if (selected)
-              PixelIcon(PixelIcons.check, size: 16, color: colors.accent),
+              HairIcon(HairIcons.check, size: 16, color: colors.accent),
           ],
         ),
       ),
@@ -323,8 +331,9 @@ class _ReportRow extends StatelessWidget {
               Expanded(child: Text(label, style: context.text.body)),
               Text(
                 '$count',
-                style:
-                    context.text.caption.copyWith(color: colors.textTertiary),
+                style: context.text.caption.copyWith(
+                  color: colors.textTertiary,
+                ),
               ),
               AppSpacing.gapHSm,
               Text(amount, style: context.text.mono),

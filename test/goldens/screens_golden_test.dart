@@ -124,7 +124,15 @@ void main() {
         'buildNumber': '15',
       },
     );
-    await _loadFont('PressStart2P', ['assets/fonts/PressStart2P-Regular.ttf']);
+    await _loadFont('Unbounded', [
+      'assets/fonts/Unbounded-SemiBold.ttf',
+      'assets/fonts/Unbounded-ExtraBold.ttf',
+    ]);
+    await _loadFont('JetBrainsMono', ['assets/fonts/JetBrainsMono-Medium.ttf']);
+    final root = Platform.environment['FLUTTER_ROOT'];
+    if (root != null) {
+      await _loadFont('MaterialIcons', ['$root/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf']);
+    }
     await _loadFont('Inter', [
       'assets/fonts/Inter-Regular.ttf',
       'assets/fonts/Inter-Medium.ttf',

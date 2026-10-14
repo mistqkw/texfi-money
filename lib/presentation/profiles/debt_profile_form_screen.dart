@@ -10,8 +10,8 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../shared/color_picker_row.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_icon.dart';
 
 class DebtProfileFormScreen extends ConsumerStatefulWidget {
   const DebtProfileFormScreen({super.key, this.existing});
@@ -19,7 +19,8 @@ class DebtProfileFormScreen extends ConsumerStatefulWidget {
   final DebtProfileEntity? existing;
 
   @override
-  ConsumerState<DebtProfileFormScreen> createState() => _DebtProfileFormScreenState();
+  ConsumerState<DebtProfileFormScreen> createState() =>
+      _DebtProfileFormScreenState();
 }
 
 class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
@@ -63,7 +64,9 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
         ),
       );
     } else {
-      await ref.read(debtProfileRepositoryProvider).create(name: name, color: _color);
+      await ref
+          .read(debtProfileRepositoryProvider)
+          .create(name: name, color: _color);
     }
     if (mounted) Navigator.of(context).pop(true);
   }
@@ -74,10 +77,12 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.profileFormTitleEdit : l10n.profileFormTitleNew),
+        title: Text(
+          _isEditing ? l10n.profileFormTitleEdit : l10n.profileFormTitleNew,
+        ),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -88,7 +93,9 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
             TextField(
               controller: _nameController,
               autofocus: !_isEditing,
-              style: context.text.title.copyWith(color: context.colors.textPrimary),
+              style: context.text.title.copyWith(
+                color: context.colors.textPrimary,
+              ),
               decoration: InputDecoration(hintText: l10n.profileFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
@@ -100,7 +107,7 @@ class _DebtProfileFormScreenState extends ConsumerState<DebtProfileFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
+            HairButton(
               label: _isEditing ? l10n.commonSave : l10n.commonCreate,
               onPressed: _canSave ? _save : null,
             ),

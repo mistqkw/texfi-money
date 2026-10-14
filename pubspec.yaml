@@ -61,9 +61,16 @@ flutter:
     # не успеть) скачать гарнитуру, и весь интерфейс — включая пиксельные
     # заголовки — рисовался системным Roboto. Стиль, который виден только
     # при наличии сети, — это не стиль.
-    - family: PressStart2P
+    - family: Unbounded
       fonts:
-        - asset: assets/fonts/PressStart2P-Regular.ttf
+        - asset: assets/fonts/Unbounded-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Unbounded-ExtraBold.ttf
+          weight: 800
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Medium.ttf
+          weight: 500
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter-Regular.ttf

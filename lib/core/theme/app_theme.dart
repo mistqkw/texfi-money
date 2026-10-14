@@ -8,10 +8,15 @@ import 'app_radius.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
-  static ThemeData build({required AppThemeVariant variant, required AppFont font}) {
+  static ThemeData build({
+    required AppThemeVariant variant,
+    required AppFont font,
+  }) {
     final colors = AppPalettes.forVariant(variant);
     final textTheme = buildAppTextTheme(font: font, colors: colors);
-    final brightness = variant == AppThemeVariant.light ? Brightness.light : Brightness.dark;
+    final brightness = variant == AppThemeVariant.light
+        ? Brightness.light
+        : Brightness.dark;
 
     final colorScheme = ColorScheme(
       brightness: brightness,
@@ -41,10 +46,10 @@ abstract final class AppTheme {
       // бы сломать навигацию ради стиля.
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
-          TargetPlatform.android: PixelDissolvePageTransitionsBuilder(),
-          TargetPlatform.linux: PixelDissolvePageTransitionsBuilder(),
-          TargetPlatform.windows: PixelDissolvePageTransitionsBuilder(),
-          TargetPlatform.macOS: PixelDissolvePageTransitionsBuilder(),
+          TargetPlatform.android: HairPageTransitionsBuilder(),
+          TargetPlatform.linux: HairPageTransitionsBuilder(),
+          TargetPlatform.windows: HairPageTransitionsBuilder(),
+          TargetPlatform.macOS: HairPageTransitionsBuilder(),
         },
       ),
       dividerTheme: DividerThemeData(
@@ -65,25 +70,21 @@ abstract final class AppTheme {
         color: colors.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardSmallAll),
+        shape: RoundedRectangleBorder(
+          borderRadius: AppRadius.cardMediumAll,
+          side: BorderSide(color: colors.divider),
+        ),
       ),
       textTheme: textTheme,
-      iconTheme: IconThemeData(
-        color: colors.textPrimary,
-        weight: 400,
-      ),
+      iconTheme: IconThemeData(color: colors.textPrimary, weight: 300),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: colors.accent,
-          foregroundColor: colors.onAccent,
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.background,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 22),
           shape: RoundedRectangleBorder(
             borderRadius: AppRadius.controlSmallAll,
-            side: BorderSide(
-              color: colors.accentShadow,
-              width: AppRadius.pixelBorder,
-            ),
           ),
           textStyle: textTheme.titleMedium,
         ),
@@ -101,41 +102,44 @@ abstract final class AppTheme {
       // всего времени.
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colors.surfaceVariant,
-        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+        fillColor: Colors.transparent,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 14,
+          horizontal: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.border,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.border,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.accent,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.expense,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: AppRadius.controlSmallAll,
           borderSide: BorderSide(
             color: colors.expense,
-            width: AppRadius.pixelBorder,
+            width: AppRadius.hairline,
           ),
         ),
         hintStyle: textTheme.bodyMedium,
@@ -150,7 +154,7 @@ abstract final class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: colors.surface,
-        indicatorColor: colors.accent.withValues(alpha: 0.15),
+        indicatorColor: Colors.transparent,
         elevation: 0,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final selected = states.contains(WidgetState.selected);
@@ -160,9 +164,10 @@ abstract final class AppTheme {
         }),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: colors.accent,
-        foregroundColor: colors.onAccent,
+        backgroundColor: colors.textPrimary,
+        foregroundColor: colors.background,
         elevation: 0,
+        shape: const CircleBorder(),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: colors.accent,

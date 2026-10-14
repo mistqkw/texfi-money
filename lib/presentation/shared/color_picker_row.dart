@@ -6,7 +6,7 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/utils/haptics.dart';
-import 'pixel_icon.dart';
+import 'hair_icon.dart';
 
 /// Палитра выбора цвета — одна на все формы (категория, счёт, цель,
 /// профиль), где раньше лежали четыре одинаковые копии.
@@ -57,12 +57,16 @@ class ColorPickerRow extends StatelessWidget {
                     border: isSelected
                         ? Border.all(
                             color: context.colors.textPrimary,
-                            width: AppRadius.pixelBorder,
+                            width: AppRadius.hairline,
                           )
                         : null,
                   ),
                   child: isSelected
-                      ? const PixelIcon(PixelIcons.check, color: Colors.white, size: 18)
+                      ? const HairIcon(
+                          HairIcons.check,
+                          color: Colors.white,
+                          size: 18,
+                        )
                       : null,
                 ),
               ),

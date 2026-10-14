@@ -15,10 +15,10 @@ import '../../domain/entities/transaction_type.dart';
 import '../settings/currency_provider.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_switch.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_switch.dart';
 import '../shared/staggered_entrance.dart';
 import 'wealth_labels.dart';
 import 'wealth_providers.dart';
@@ -53,16 +53,17 @@ class SubscriptionsScreen extends ConsumerWidget {
       // подписку стало нечем: единственная кнопка исчезала ровно тогда,
       // когда была нужнее всего. Небольшой повтор действия дешевле
       // экрана, с которого нельзя уйти вперёд.
-      floatingActionButton: PixelFab(
-        onPressed: () => Navigator.of(context)
-            .push(pixelDissolveRoute(const SubscriptionFormScreen())),
-        pattern: PixelIcons.add,
+      floatingActionButton: HairFab(
+        onPressed: () => Navigator.of(
+          context,
+        ).push(hairRoute(const SubscriptionFormScreen())),
+        icon: HairIcons.add,
         tooltip: l10n.subscriptionsAdd,
       ),
       body: ListView(
         padding: AppSpacing.screenWithFab,
         children: [
-          PixelCard(
+          HairCard(
             label: l10n.subscriptionsMonthly.toUpperCase(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,8 +75,9 @@ class SubscriptionsScreen extends ConsumerWidget {
                 AppSpacing.gapSm,
                 Text(
                   l10n.subscriptionsMonthlyHint,
-                  style: context.text.caption
-                      .copyWith(color: colors.textTertiary),
+                  style: context.text.caption.copyWith(
+                    color: colors.textTertiary,
+                  ),
                 ),
               ],
             ),
@@ -87,13 +89,14 @@ class SubscriptionsScreen extends ConsumerWidget {
           // и ничего не предлагал.
           if (subs.isEmpty)
             EmptyState(
-              sprite: PixelIcons.subscriptions,
+              icon: HairIcons.subscriptions,
               message: l10n.subscriptionsEmpty,
               actionLabel: l10n.subscriptionsAdd,
               onAction: () {
                 Haptics.select();
-                Navigator.of(context)
-                    .push(pixelDissolveRoute(const SubscriptionFormScreen()));
+                Navigator.of(
+                  context,
+                ).push(hairRoute(const SubscriptionFormScreen()));
               },
             ),
           for (var i = 0; i < active.length; i++)
@@ -136,14 +139,14 @@ class _SubscriptionCard extends ConsumerWidget {
     final currency = ref.watch(currencyProvider);
     final overdue = sub.daysUntilCharge(now) < 0;
 
-    return PixelCard(
-      onTap: () => Navigator.of(context).push(
-        pixelDissolveRoute(SubscriptionFormScreen(existing: sub)),
-      ),
+    return HairCard(
+      onTap: () => Navigator.of(
+        context,
+      ).push(hairRoute(SubscriptionFormScreen(existing: sub))),
       child: Row(
         children: [
-          PixelIcon(
-            PixelIcons.subscriptions,
+          HairIcon(
+            HairIcons.subscriptions,
             size: 20,
             color: sub.isActive ? colors.accent : colors.textTertiary,
           ),
@@ -186,8 +189,9 @@ class _SubscriptionCard extends ConsumerWidget {
                 Text(
                   '≈ ${formatAmount(sub.monthlyCost, currency, context)}'
                   ' / ${l10n.subscriptionsMonthly.toLowerCase()}',
-                  style: context.text.caption
-                      .copyWith(color: colors.textTertiary),
+                  style: context.text.caption.copyWith(
+                    color: colors.textTertiary,
+                  ),
                 ),
             ],
           ),
@@ -209,8 +213,9 @@ class SubscriptionFormScreen extends ConsumerStatefulWidget {
 
 class _SubscriptionFormScreenState
     extends ConsumerState<SubscriptionFormScreen> {
-  late final TextEditingController _name =
-      TextEditingController(text: widget.existing?.name ?? '');
+  late final TextEditingController _name = TextEditingController(
+    text: widget.existing?.name ?? '',
+  );
   late final TextEditingController _amount = TextEditingController(
     text: widget.existing == null
         ? ''
@@ -222,7 +227,8 @@ class _SubscriptionFormScreenState
 
   late SubscriptionPeriod _period =
       widget.existing?.period ?? SubscriptionPeriod.monthly;
-  late DateTime _next = widget.existing?.nextChargeAt ??
+  late DateTime _next =
+      widget.existing?.nextChargeAt ??
       DateTime.now().add(const Duration(days: 30));
   late String? _categoryId = widget.existing?.category?.id;
   late bool _active = widget.existing?.isActive ?? true;
@@ -276,8 +282,10 @@ class _SubscriptionFormScreenState
     final l10n = context.l10n;
     final colors = context.colors;
     final categories =
-        ref.watch(categoriesByTypeProvider(TransactionType.expense)).valueOrNull ??
-            const [];
+        ref
+            .watch(categoriesByTypeProvider(TransactionType.expense))
+            .valueOrNull ??
+        const [];
 
     return Scaffold(
       appBar: AppBar(
@@ -285,7 +293,7 @@ class _SubscriptionFormScreenState
         actions: [
           if (!_isNew)
             IconButton(
-              icon: PixelIcon(PixelIcons.danger, color: colors.expense),
+              icon: HairIcon(HairIcons.danger, color: colors.expense),
               tooltip: l10n.commonDelete,
               onPressed: () async {
                 await ref
@@ -299,7 +307,7 @@ class _SubscriptionFormScreenState
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelCard(
+          HairCard(
             label: l10n.subscriptionName.toUpperCase(),
             child: TextField(
               controller: _name,
@@ -308,18 +316,19 @@ class _SubscriptionFormScreenState
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.subscriptionAmount.toUpperCase(),
             child: TextField(
               controller: _amount,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: const InputDecoration(border: InputBorder.none),
               style: context.text.amountMedium,
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.subscriptionPeriod.toUpperCase(),
             child: Column(
               children: [
@@ -327,8 +336,9 @@ class _SubscriptionFormScreenState
                   InkWell(
                     onTap: () => setState(() => _period = period),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.sm,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
@@ -338,8 +348,8 @@ class _SubscriptionFormScreenState
                             ),
                           ),
                           if (_period == period)
-                            PixelIcon(
-                              PixelIcons.check,
+                            HairIcon(
+                              HairIcons.check,
                               size: 16,
                               color: colors.accent,
                             ),
@@ -360,7 +370,7 @@ class _SubscriptionFormScreenState
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.subscriptionNextCharge.toUpperCase(),
             onTap: () async {
               final picked = await showDatePicker(
@@ -374,34 +384,38 @@ class _SubscriptionFormScreenState
             child: Text(formatDate(_next, context), style: context.text.body),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.reportsCategory.toUpperCase(),
             child: Column(
               children: [
                 for (final category in categories)
                   InkWell(
                     onTap: () => setState(
-                      () => _categoryId =
-                          _categoryId == category.id ? null : category.id,
+                      () => _categoryId = _categoryId == category.id
+                          ? null
+                          : category.id,
                     ),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.sm,
+                      ),
                       child: Row(
                         children: [
-                          PixelIcon(
-                            PixelIcons.forCategoryKey(category.iconKey),
+                          HairIcon(
+                            HairIcons.forCategoryKey(category.iconKey),
                             size: 18,
                             color: category.color,
                           ),
                           AppSpacing.gapHMd,
                           Expanded(
-                            child:
-                                Text(category.name, style: context.text.body),
+                            child: Text(
+                              category.name,
+                              style: context.text.body,
+                            ),
                           ),
                           if (_categoryId == category.id)
-                            PixelIcon(
-                              PixelIcons.check,
+                            HairIcon(
+                              HairIcons.check,
                               size: 16,
                               color: colors.accent,
                             ),
@@ -414,14 +428,16 @@ class _SubscriptionFormScreenState
           ),
           if (!_isNew) ...[
             AppSpacing.gapLg,
-            PixelCard(
+            HairCard(
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(l10n.subscriptionActive,
-                        style: context.text.title),
+                    child: Text(
+                      l10n.subscriptionActive,
+                      style: context.text.title,
+                    ),
                   ),
-                  PixelSwitch(
+                  HairSwitch(
                     value: _active,
                     onChanged: (value) => setState(() => _active = value),
                   ),

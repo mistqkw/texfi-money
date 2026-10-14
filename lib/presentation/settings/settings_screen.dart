@@ -22,9 +22,11 @@ import '../../l10n/app_localizations.dart';
 import '../accounts/accounts_screen.dart';
 import '../profiles/debt_profiles_screen.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_switch.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_list.dart';
+import '../shared/staggered_entrance.dart';
+import '../shared/hair_switch.dart';
 import '../shared/restart_widget.dart';
 import 'about_screen.dart';
 import 'analysis_range_provider.dart';
@@ -50,28 +52,34 @@ class SettingsScreen extends ConsumerWidget {
     };
   }
 
-  List<String> _themeIcon(AppThemeVariant variant) => switch (variant) {
-        AppThemeVariant.dark => PixelIcons.themeDark,
-        AppThemeVariant.light => PixelIcons.themeLight,
-        AppThemeVariant.oled => PixelIcons.themeContrast,
-      };
+  IconData _themeIcon(AppThemeVariant variant) => switch (variant) {
+    AppThemeVariant.dark => HairIcons.themeDark,
+    AppThemeVariant.light => HairIcons.themeLight,
+    AppThemeVariant.oled => HairIcons.themeContrast,
+  };
 
   String _fontLabel(AppFont font, AppLocalizations l10n) => switch (font) {
-        AppFont.inter => 'Inter',
-        AppFont.system => l10n.fontSystem,
-      };
+    AppFont.inter => 'Inter',
+    AppFont.system => l10n.fontSystem,
+  };
 
   Future<void> _exportBackup(BuildContext context, WidgetRef ref) async {
     final json = await ref.read(backupServiceProvider).exportToJson();
     final dir = await getTemporaryDirectory();
-    final stamp = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:.]'), '-');
+    final stamp = DateTime.now().toIso8601String().replaceAll(
+      RegExp(r'[:.]'),
+      '-',
+    );
     final file = File('${dir.path}/texfi-money-backup-$stamp.json');
     await file.writeAsString(json);
 
     await SharePlus.instance.share(ShareParams(files: [XFile(file.path)]));
   }
 
-  Future<void> _showResultDialog(BuildContext context, {required String title}) {
+  Future<void> _showResultDialog(
+    BuildContext context, {
+    required String title,
+  }) {
     return showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
@@ -172,149 +180,190 @@ class SettingsScreen extends ConsumerWidget {
         ? l10n.languageSystem
         : (nativeLanguageNames[locale.languageCode] ?? locale.languageCode);
 
+    Widget section(String title, Widget body) => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HairSectionHeader(title: title),
+        body,
+      ],
+    );
+
+    final sections = <Widget>[
+      section(
+        l10n.settingsLanguageSection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.language,
+              label: languageLabel,
+              showCheckmark: false,
+              onTap: () => Navigator.of(
+                context,
+              ).push(hairRoute(const LanguagePickerScreen())),
+            ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsThemeSection,
+        HairGroup(
+          children: [
+            for (final variant in AppThemeVariant.values)
+              _OptionTile(
+                icon: _themeIcon(variant),
+                label: _themeLabel(context, variant),
+                selected: variant == themeVariant,
+                onTap: () =>
+                    ref.read(themeVariantProvider.notifier).setVariant(variant),
+              ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsFontSection,
+        // Название каждой гарнитуры набрано ею же.
+        HairGroup(
+          children: [
+            for (final f in AppFont.values)
+              _FontTile(
+                font: f,
+                label: _fontLabel(f, l10n),
+                selected: f == font,
+                onTap: () => ref.read(fontProvider.notifier).setFont(f),
+              ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsHapticsSection,
+        HairGroup(
+          children: [
+            _SwitchTile(
+              label: l10n.hapticsEnabled,
+              value: hapticsEnabled,
+              onChanged: (value) {
+                ref.read(hapticsEnabledProvider.notifier).setEnabled(value);
+                if (value) Haptics.select();
+              },
+            ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsCurrencySection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.money,
+              label:
+                  '${currencyDisplayName(context, currency)} (${currency.symbol})',
+              showCheckmark: false,
+              onTap: () => Navigator.of(
+                context,
+              ).push(hairRoute(const CurrencyPickerScreen())),
+            ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsManageSection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.wallet,
+              label: l10n.accountsTitle,
+              showCheckmark: false,
+              onTap: () =>
+                  Navigator.of(context).push(hairRoute(const AccountsScreen())),
+            ),
+            _OptionTile(
+              icon: HairIcons.profiles,
+              label: l10n.profilesTitle,
+              showCheckmark: false,
+              onTap: () => Navigator.of(
+                context,
+              ).push(hairRoute(const DebtProfilesScreen())),
+            ),
+          ],
+        ),
+      ),
+      section(
+        l10n.riskSection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.risk,
+              label: l10n.riskSection,
+              showCheckmark: false,
+              onTap: () => Navigator.of(
+                context,
+              ).push(hairRoute(const RiskSettingsScreen())),
+            ),
+            const _AnalysisRangeTile(),
+          ],
+        ),
+      ),
+      section(l10n.settingsSecuritySection, const _SecuritySection()),
+      section(
+        l10n.settingsBackupSection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.backupUp,
+              label: l10n.backupExport,
+              showCheckmark: false,
+              onTap: () => _exportBackup(context, ref),
+            ),
+            _OptionTile(
+              icon: HairIcons.backupDown,
+              label: l10n.backupImport,
+              showCheckmark: false,
+              onTap: () => _importBackup(context, ref),
+            ),
+          ],
+        ),
+      ),
+      // «О приложении» стоит перед опасной зоной: сброс данных остаётся
+      // последним пунктом экрана.
+      section(
+        l10n.aboutTitle,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.info,
+              label: l10n.aboutTitle,
+              showCheckmark: false,
+              onTap: () =>
+                  Navigator.of(context).push(hairRoute(const AboutScreen())),
+            ),
+          ],
+        ),
+      ),
+      section(
+        l10n.settingsDangerSection,
+        HairGroup(
+          children: [
+            _OptionTile(
+              icon: HairIcons.danger,
+              label: l10n.resetApp,
+              showCheckmark: false,
+              color: context.colors.expense,
+              onTap: () => _resetApp(context, ref),
+            ),
+          ],
+        ),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelSectionHeader(title: l10n.settingsLanguageSection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.language,
-            label: languageLabel,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              pixelDissolveRoute(const LanguagePickerScreen()),
-            ),
-          ),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsThemeSection,),
-          AppSpacing.gapSm,
-          ...AppThemeVariant.values.map((variant) => _OptionTile(
-                icon: _themeIcon(variant),
-                label: _themeLabel(context, variant),
-                selected: variant == themeVariant,
-                onTap: () => ref.read(themeVariantProvider.notifier).setVariant(variant),
-              )),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsFontSection,),
-          AppSpacing.gapSm,
-          // Название каждой гарнитуры набрано ею же: выбор шрифта — это
-          // единственная настройка, результат которой можно показать прямо
-          // в строке выбора. Раньше рядом с четырьмя вариантами стояли
-          // четыре одинаковые буквы «A» — значок, который ничего не
-          // различает, хуже отсутствия значка.
-          ...AppFont.values.map((f) => _FontTile(
-                font: f,
-                label: _fontLabel(f, l10n),
-                selected: f == font,
-                onTap: () => ref.read(fontProvider.notifier).setFont(f),
-              )),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsHapticsSection,),
-          AppSpacing.gapSm,
-          _SwitchTile(
-            label: l10n.hapticsEnabled,
-            value: hapticsEnabled,
-            onChanged: (value) {
-              ref.read(hapticsEnabledProvider.notifier).setEnabled(value);
-              if (value) Haptics.select();
-            },
-          ),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsCurrencySection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.money,
-            label: '${currencyDisplayName(context, currency)} (${currency.symbol})',
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              pixelDissolveRoute(const CurrencyPickerScreen()),
-            ),
-          ),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsManageSection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.wallet,
-            label: l10n.accountsTitle,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              pixelDissolveRoute(const AccountsScreen()),
-            ),
-          ),
-          _OptionTile(
-            icon: PixelIcons.profiles,
-            label: l10n.profilesTitle,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              pixelDissolveRoute(const DebtProfilesScreen()),
-            ),
-          ),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.riskSection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.risk,
-            label: l10n.riskSection,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              pixelDissolveRoute(const RiskSettingsScreen()),
-            ),
-          ),
-          const _AnalysisRangeTile(),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsSecuritySection,),
-          AppSpacing.gapSm,
-          const _SecuritySection(),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsBackupSection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.backupUp,
-            label: l10n.backupExport,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => _exportBackup(context, ref),
-          ),
-          _OptionTile(
-            icon: PixelIcons.backupDown,
-            label: l10n.backupImport,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => _importBackup(context, ref),
-          ),
-          AppSpacing.gapXl,
-          // «О приложении» стоит перед опасной зоной, а не после: сброс
-          // данных должен оставаться последним пунктом экрана, к которому
-          // не промахиваются по дороге к чему-то безобидному.
-          PixelSectionHeader(title: l10n.aboutTitle,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.info,
-            label: l10n.aboutTitle,
-            selected: false,
-            showCheckmark: false,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(builder: (_) => const AboutScreen()),
-            ),
-          ),
-          AppSpacing.gapXl,
-          PixelSectionHeader(title: l10n.settingsDangerSection,),
-          AppSpacing.gapSm,
-          _OptionTile(
-            icon: PixelIcons.danger,
-            label: l10n.resetApp,
-            selected: false,
-            showCheckmark: false,
-            color: context.colors.expense,
-            onTap: () => _resetApp(context, ref),
-          ),
+          for (var i = 0; i < sections.length; i++) ...[
+            StaggeredEntrance(index: i, child: sections[i]),
+            AppSpacing.gapXl,
+          ],
         ],
       ),
     );
@@ -322,7 +371,7 @@ class SettingsScreen extends ConsumerWidget {
 }
 
 /// Строка выбора гарнитуры: название набрано самой гарнитурой.
-class _FontTile extends ConsumerWidget {
+class _FontTile extends StatelessWidget {
   const _FontTile({
     required this.font,
     required this.label,
@@ -336,16 +385,15 @@ class _FontTile extends ConsumerWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.colors;
-    final preview = buildAppTextTheme(font: font, colors: colors).titleMedium!;
-
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text(label, style: preview),
-      trailing: selected
-          ? PixelIcon(PixelIcons.check, color: colors.accent)
-          : null,
+  Widget build(BuildContext context) {
+    final preview = buildAppTextTheme(
+      font: font,
+      colors: context.colors,
+    ).titleMedium!;
+    return HairRow(
+      label: label,
+      labelStyle: preview,
+      selected: selected,
       onTap: onTap,
     );
   }
@@ -355,13 +403,13 @@ class _OptionTile extends StatelessWidget {
   const _OptionTile({
     required this.icon,
     required this.label,
-    required this.selected,
     required this.onTap,
+    this.selected = false,
     this.showCheckmark = true,
     this.color,
   });
 
-  final List<String> icon;
+  final IconData icon;
   final String label;
   final bool selected;
   final bool showCheckmark;
@@ -370,13 +418,12 @@ class _OptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: PixelIcon(icon, color: color ?? context.colors.textSecondary),
-      title: Text(label, style: context.text.title.copyWith(color: color)),
-      trailing: showCheckmark
-          ? (selected ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null)
-          : PixelIcon(PixelIcons.chevronRight, color: context.colors.textTertiary, size: 14),
+    return HairRow(
+      icon: icon,
+      label: label,
+      color: color,
+      selected: showCheckmark && selected,
+      chevron: !showCheckmark,
       onTap: onTap,
     );
   }
@@ -403,9 +450,8 @@ class _AnalysisRangeTile extends ConsumerWidget {
     final range = ref.watch(analysisRangeProvider);
 
     return _OptionTile(
-      icon: PixelIcons.cashFlow,
+      icon: HairIcons.cashFlow,
       label: l10n.analysisRangeTitle,
-      selected: false,
       showCheckmark: false,
       onTap: () => _pick(context, ref, range),
     );
@@ -427,16 +473,17 @@ class _AnalysisRangeTile extends ConsumerWidget {
               padding: AppSpacing.screen,
               child: Text(
                 l10n.analysisRangeHint,
-                style: context.text.caption
-                    .copyWith(color: context.colors.textTertiary),
+                style: context.text.caption.copyWith(
+                  color: context.colors.textTertiary,
+                ),
               ),
             ),
             for (final years in const [1, 2, 3, 5, 10])
               ListTile(
                 title: Text(l10n.analysisRangeYears(years)),
                 trailing: current.years == years
-                    ? PixelIcon(
-                        PixelIcons.check,
+                    ? HairIcon(
+                        HairIcons.check,
                         size: 16,
                         color: context.colors.accent,
                       )
@@ -446,8 +493,8 @@ class _AnalysisRangeTile extends ConsumerWidget {
             ListTile(
               title: Text(l10n.analysisRangeCustom),
               trailing: current.isExplicit
-                  ? PixelIcon(
-                      PixelIcons.check,
+                  ? HairIcon(
+                      HairIcons.check,
                       size: 16,
                       color: context.colors.accent,
                     )
@@ -491,7 +538,7 @@ class _SecuritySection extends ConsumerWidget {
     // на каждом заходе в настройки незачем.
     final canLock = ref.watch(appLockAvailableProvider).value ?? true;
 
-    return Column(
+    return HairGroup(
       children: [
         if (lock.isSupported)
           _SwitchTile(
@@ -506,9 +553,7 @@ class _SecuritySection extends ConsumerWidget {
               // бы включить тот, у кого телефон в руках, — и запереть
               // владельца снаружи собственных данных.
               if (value &&
-                  !await lock.authenticate(
-                    reason: l10n.securityUnlockReason,
-                  )) {
+                  !await lock.authenticate(reason: l10n.securityUnlockReason)) {
                 return;
               }
               await ref.read(appLockEnabledProvider.notifier).set(value);
@@ -539,7 +584,7 @@ class _SwitchTile extends StatelessWidget {
 
   final String label;
 
-  /// Пояснение под названием. Нужно там, где из одного названия не понять,
+  /// Пояснение под названием: нужно там, где из одного названия не понять,
   /// что настройка делает и чем за неё платят.
   final String? subtitle;
 
@@ -549,43 +594,14 @@ class _SwitchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    return InkWell(
-      onTap: enabled ? () => onChanged(!value) : null,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: context.text.title.copyWith(
-                      color: enabled ? colors.textPrimary : colors.textTertiary,
-                    ),
-                  ),
-                  if (subtitle case final subtitle?) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: context.text.caption.copyWith(
-                        color: colors.textTertiary,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            PixelSwitch(
-              value: value,
-              onChanged: enabled ? onChanged : (_) {},
-            ),
-          ],
-        ),
+    return HairRow(
+      label: label,
+      subtitle: subtitle,
+      enabled: enabled,
+      onTap: () => onChanged(!value),
+      trailing: HairSwitch(
+        value: value,
+        onChanged: enabled ? onChanged : (_) {},
       ),
     );
   }

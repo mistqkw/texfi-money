@@ -6,8 +6,8 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
 
 /// Экран «О приложении»: версия, исходники, лицензия и донат.
 ///
@@ -51,9 +51,9 @@ class _AboutScreenState extends State<AboutScreen> {
     // нажатие без последствий читается как сломанное приложение.
     if (!ok && mounted) {
       final l10n = context.l10n;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.aboutLinkFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.aboutLinkFailed)));
     }
   }
 
@@ -68,8 +68,8 @@ class _AboutScreenState extends State<AboutScreen> {
       body: ListView(
         padding: AppSpacing.screen,
         children: [
-          PixelSectionHeader(title: l10n.aboutSectionApp,),
-          PixelCard(
+          HairSectionHeader(title: l10n.aboutSectionApp),
+          HairCard(
             label: 'texfi m0ney',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,31 +102,31 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           AppSpacing.gapXl,
 
-          PixelSectionHeader(title: l10n.aboutSectionOpen,),
+          HairSectionHeader(title: l10n.aboutSectionOpen),
           _LinkTile(
-            icon: PixelIcons.code,
+            icon: HairIcons.code,
             title: l10n.aboutSourceTitle,
             subtitle: 'github.com/mistqkw/texfi-money',
             onTap: () => _open(AboutScreen.repoUrl),
           ),
           AppSpacing.gapMd,
           _LinkTile(
-            icon: PixelIcons.license,
+            icon: HairIcons.license,
             title: l10n.aboutLicenseTitle,
             subtitle: l10n.aboutLicenseText,
             onTap: () => _open(AboutScreen.licenseUrl),
           ),
           AppSpacing.gapMd,
           _LinkTile(
-            icon: PixelIcons.globe,
+            icon: HairIcons.globe,
             title: l10n.aboutEcosystemTitle,
             subtitle: 'texfi-hub.vercel.app',
             onTap: () => _open(AboutScreen.hubUrl),
           ),
           AppSpacing.gapXl,
 
-          PixelSectionHeader(title: l10n.aboutSectionSupport,),
-          PixelCard(
+          HairSectionHeader(title: l10n.aboutSectionSupport),
+          HairCard(
             label: l10n.aboutSectionSupport,
             borderColor: colors.accent,
             labelColor: colors.accent,
@@ -136,7 +136,7 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
                 Row(
                   children: [
-                    PixelIcon(PixelIcons.heart, size: 18, color: colors.expense),
+                    HairIcon(HairIcons.heart, size: 18, color: colors.expense),
                     AppSpacing.gapHSm,
                     Text(l10n.aboutDonateTitle, style: context.text.title),
                   ],
@@ -194,7 +194,7 @@ class _LinkTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final List<String> icon;
+  final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
@@ -202,11 +202,11 @@ class _LinkTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return PixelCard(
+    return HairCard(
       onTap: onTap,
       child: Row(
         children: [
-          PixelIcon(icon, size: 20, color: colors.accent),
+          HairIcon(icon, size: 20, color: colors.accent),
           AppSpacing.gapHMd,
           Expanded(
             child: Column(
@@ -218,7 +218,7 @@ class _LinkTile extends StatelessWidget {
               ],
             ),
           ),
-          PixelIcon(PixelIcons.linkOut, size: 16, color: colors.textTertiary),
+          HairIcon(HairIcons.linkOut, size: 16, color: colors.textTertiary),
         ],
       ),
     );

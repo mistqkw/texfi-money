@@ -14,9 +14,9 @@ import '../shared/category_avatar.dart';
 import '../shared/category_chip.dart';
 import '../shared/category_providers.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import 'budgets_providers.dart';
 
 /// Создание или редактирование месячного лимита по категории.
@@ -41,7 +41,9 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
     super.initState();
     _categoryId = widget.existing?.category.id;
     _amountController = TextEditingController(
-      text: widget.existing != null ? widget.existing!.monthlyLimit.toStringAsFixed(0) : '',
+      text: widget.existing != null
+          ? widget.existing!.monthlyLimit.toStringAsFixed(0)
+          : '',
     );
   }
 
@@ -51,7 +53,8 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
     super.dispose();
   }
 
-  double get _amount => double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0;
+  double get _amount =>
+      double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0;
 
   bool get _canSave => _amount > 0 && _categoryId != null && !_saving;
 
@@ -77,17 +80,19 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew),
+        title: Text(
+          _isEditing ? l10n.setBudgetTitleEdit : l10n.setBudgetTitleNew,
+        ),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           if (_isEditing)
             IconButton(
               tooltip: l10n.commonDelete,
-              icon: const PixelIcon(PixelIcons.delete),
+              icon: const HairIcon(HairIcons.delete),
               onPressed: _delete,
             ),
         ],
@@ -121,14 +126,18 @@ class _SetBudgetScreenState extends ConsumerState<SetBudgetScreen> {
             TextField(
               controller: _amountController,
               autofocus: !_isEditing,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              ],
               style: context.text.amountLarge,
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
+            HairButton(
               label: _isEditing ? l10n.commonSave : l10n.commonCreate,
               onPressed: _canSave ? _save : null,
             ),
@@ -147,20 +156,22 @@ class _CategoryPicker extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesAsync = ref.watch(categoriesByTypeProvider(TransactionType.expense));
+    final categoriesAsync = ref.watch(
+      categoriesByTypeProvider(TransactionType.expense),
+    );
     final budgetsAsync = ref.watch(currentMonthBudgetsProvider);
     final l10n = context.l10n;
 
     return categoriesAsync.when(
       data: (categories) {
-        final usedIds = budgetsAsync.valueOrNull?.map((b) => b.category.id).toSet() ?? {};
-        final available = categories.where((c) => !usedIds.contains(c.id)).toList();
+        final usedIds =
+            budgetsAsync.valueOrNull?.map((b) => b.category.id).toSet() ?? {};
+        final available = categories
+            .where((c) => !usedIds.contains(c.id))
+            .toList();
 
         if (available.isEmpty) {
-          return Text(
-            l10n.setBudgetNoCategoriesLeft,
-            style: context.text.body,
-          );
+          return Text(l10n.setBudgetNoCategoriesLeft, style: context.text.body);
         }
 
         return Wrap(
@@ -175,8 +186,9 @@ class _CategoryPicker extends ConsumerWidget {
           }).toList(),
         );
       },
-      loading: () => const Center(child: PixelSpinner()),
-      error: (e, st) => Text(l10n.setBudgetLoadCategoriesError, style: context.text.body),
+      loading: () => const Center(child: HairSpinner()),
+      error: (e, st) =>
+          Text(l10n.setBudgetLoadCategoriesError, style: context.text.body),
     );
   }
 }

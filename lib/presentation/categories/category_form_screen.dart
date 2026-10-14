@@ -13,8 +13,8 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/entities/transaction_type.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_icon.dart';
 
 /// Форма создания или редактирования категории.
 /// При создании возвращает [CategoryEntity], при редактировании — `true`.
@@ -63,11 +63,9 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
     final name = _nameController.text.trim();
 
     if (_isEditing) {
-      await repo.update(widget.initial!.copyWith(
-        name: name,
-        iconKey: _iconKey,
-        color: _color,
-      ));
+      await repo.update(
+        widget.initial!.copyWith(name: name, iconKey: _iconKey, color: _color),
+      );
       if (mounted) Navigator.of(context).pop(true);
     } else {
       final created = await repo.create(
@@ -86,10 +84,12 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew),
+        title: Text(
+          _isEditing ? l10n.categoryFormTitleEdit : l10n.categoryFormTitleNew,
+        ),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -107,7 +107,9 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
             TextField(
               controller: _nameController,
               autofocus: !_isEditing,
-              style: context.text.title.copyWith(color: context.colors.textPrimary),
+              style: context.text.title.copyWith(
+                color: context.colors.textPrimary,
+              ),
               decoration: InputDecoration(hintText: l10n.categoryFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
@@ -127,7 +129,7 @@ class _CategoryFormScreenState extends ConsumerState<CategoryFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
+            HairButton(
               label: _isEditing ? l10n.commonSave : l10n.commonCreate,
               onPressed: _canSave ? _save : null,
             ),
@@ -154,7 +156,11 @@ class _TypeToggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _segment(context, TransactionType.expense, context.l10n.commonExpense),
+          _segment(
+            context,
+            TransactionType.expense,
+            context.l10n.commonExpense,
+          ),
           _segment(context, TransactionType.income, context.l10n.commonIncome),
         ],
       ),
@@ -177,7 +183,9 @@ class _TypeToggle extends StatelessWidget {
           child: Text(
             label,
             style: context.text.title.copyWith(
-              color: selected ? context.colors.onAccent : context.colors.textSecondary,
+              color: selected
+                  ? context.colors.onAccent
+                  : context.colors.textSecondary,
             ),
           ),
         ),
@@ -211,15 +219,17 @@ class _IconPicker extends StatelessWidget {
             height: 48,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: selected ? color.withValues(alpha: 0.18) : context.colors.surface,
+              color: selected
+                  ? color.withValues(alpha: 0.18)
+                  : context.colors.surface,
               borderRadius: AppRadius.cardSmallAll,
               border: Border.all(
                 color: selected ? color : context.colors.border,
                 width: selected ? 2 : 1.5,
               ),
             ),
-            child: PixelIcon(
-              PixelIcons.forCategoryKey(entry.key),
+            child: HairIcon(
+              HairIcons.forCategoryKey(entry.key),
               color: selected ? color : context.colors.textSecondary,
               size: 22,
             ),
@@ -256,7 +266,7 @@ class _ColorPicker extends StatelessWidget {
                   : null,
             ),
             child: isSelected
-                ? const PixelIcon(PixelIcons.check, color: Colors.white, size: 18)
+                ? const HairIcon(HairIcons.check, color: Colors.white, size: 18)
                 : null,
           ),
         );

@@ -12,10 +12,10 @@ import '../../domain/entities/spend_usefulness.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_charts.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_charts.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../wealth/wealth_labels.dart';
 import '../wealth/wealth_providers.dart';
 import 'statistics_providers.dart';
@@ -42,7 +42,7 @@ class StatisticsScreen extends ConsumerWidget {
           // Заголовки живут в метке рамки, как на остальных экранах, —
           // отдельная строка над карточкой здесь была единственным местом,
           // выпадавшим из общего языка.
-          PixelCard(
+          HairCard(
             label: l10n.statisticsMonthlyChartTitle.toUpperCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.sm,
@@ -54,18 +54,21 @@ class StatisticsScreen extends ConsumerWidget {
               data: (months) => _MonthlyBarChart(months: months),
               loading: () => const SizedBox(
                 height: 150,
-                child: Center(child: PixelSpinner()),
+                child: Center(child: HairSpinner()),
               ),
               error: (e, st) => SizedBox(
                 height: 150,
                 child: Center(
-                  child: Text(l10n.statisticsLoadError, style: context.text.body),
+                  child: Text(
+                    l10n.statisticsLoadError,
+                    style: context.text.body,
+                  ),
                 ),
               ),
             ),
           ),
           AppSpacing.gapLg,
-          PixelCard(
+          HairCard(
             label: l10n.statisticsCategoryChartTitle.toUpperCase(),
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.lg,
@@ -77,12 +80,15 @@ class StatisticsScreen extends ConsumerWidget {
               data: (categories) => _CategoryPie(categories: categories),
               loading: () => const SizedBox(
                 height: 150,
-                child: Center(child: PixelSpinner()),
+                child: Center(child: HairSpinner()),
               ),
               error: (e, st) => SizedBox(
                 height: 150,
                 child: Center(
-                  child: Text(l10n.statisticsLoadError, style: context.text.body),
+                  child: Text(
+                    l10n.statisticsLoadError,
+                    style: context.text.body,
+                  ),
                 ),
               ),
             ),
@@ -109,12 +115,15 @@ class _UsefulnessSection extends ConsumerWidget {
     final colors = context.colors;
     final currency = ref.watch(currencyProvider);
     final now = DateTime.now();
-    final totals = ref
+    final totals =
+        ref
             .watch(
               usefulnessTotalsProvider((
                 from: DateTime(now.year, now.month),
-                to: DateTime(now.year, now.month + 1)
-                    .subtract(const Duration(days: 1)),
+                to: DateTime(
+                  now.year,
+                  now.month + 1,
+                ).subtract(const Duration(days: 1)),
               )),
             )
             .valueOrNull ??
@@ -134,13 +143,13 @@ class _UsefulnessSection extends ConsumerWidget {
     ];
 
     Color colorFor(SpendUsefulness? value) => switch (value) {
-          SpendUsefulness.useful => colors.income,
-          SpendUsefulness.useless => colors.expense,
-          SpendUsefulness.neutral => colors.textSecondary,
-          null => colors.textTertiary,
-        };
+      SpendUsefulness.useful => colors.income,
+      SpendUsefulness.useless => colors.expense,
+      SpendUsefulness.neutral => colors.textSecondary,
+      null => colors.textTertiary,
+    };
 
-    return PixelCard(
+    return HairCard(
       label: l10n.usefulnessSection.toUpperCase(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +160,9 @@ class _UsefulnessSection extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     usefulnessLabel(l10n, entry.key),
-                    style: context.text.body.copyWith(color: colorFor(entry.key)),
+                    style: context.text.body.copyWith(
+                      color: colorFor(entry.key),
+                    ),
                   ),
                 ),
                 Text(
@@ -166,8 +177,9 @@ class _UsefulnessSection extends ConsumerWidget {
                         ? '0%'
                         : '${(entry.value / sum * 100).toStringAsFixed(0)}%',
                     textAlign: TextAlign.right,
-                    style: context.text.mono
-                        .copyWith(color: colors.textTertiary),
+                    style: context.text.mono.copyWith(
+                      color: colors.textTertiary,
+                    ),
                   ),
                 ),
               ],
@@ -191,7 +203,7 @@ class _MonthlyBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PixelBarChart(
+    return HairBarChart(
       groups: [
         for (final month in months)
           (
@@ -217,7 +229,7 @@ class _CategoryPie extends ConsumerWidget {
 
     if (categories.isEmpty) {
       return EmptyState(
-        sprite: PixelIcons.statistics,
+        icon: HairIcons.statistics,
         message: context.l10n.statisticsNoExpenses,
       );
     }
@@ -227,9 +239,10 @@ class _CategoryPie extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PixelShareBar(
+        HairShareBar(
           shares: [
-            for (final c in categories) (value: c.total, color: c.category.color),
+            for (final c in categories)
+              (value: c.total, color: c.category.color),
           ],
         ),
         AppSpacing.gapLg,
@@ -238,7 +251,7 @@ class _CategoryPie extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
             child: Row(
               children: [
-                PixelSwatch(color: c.category.color),
+                HairSwatch(color: c.category.color),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
@@ -249,7 +262,9 @@ class _CategoryPie extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  total <= 0 ? '0%' : '${(c.total / total * 100).toStringAsFixed(0)}%',
+                  total <= 0
+                      ? '0%'
+                      : '${(c.total / total * 100).toStringAsFixed(0)}%',
                   style: context.text.mono,
                 ),
                 const SizedBox(width: AppSpacing.md),

@@ -22,10 +22,10 @@ import '../shared/animated_amount.dart';
 import '../shared/bank_mark.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/transaction_row.dart';
 import '../wealth/cash_flow_screen.dart';
 import '../wealth/wealth_providers.dart';
@@ -63,24 +63,24 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Text(currency.symbol, style: context.text.title),
-            tooltip: l10n.homeCurrencyTooltip(currencyDisplayName(context, currency)),
-            onPressed: () => Navigator.of(context).push(
-              pixelDissolveRoute(const CurrencyPickerScreen()),
+            tooltip: l10n.homeCurrencyTooltip(
+              currencyDisplayName(context, currency),
             ),
+            onPressed: () => Navigator.of(
+              context,
+            ).push(hairRoute(const CurrencyPickerScreen())),
           ),
           IconButton(
-            icon: const PixelIcon(PixelIcons.category),
+            icon: const HairIcon(HairIcons.category),
             tooltip: l10n.homeCategoriesTooltip,
-            onPressed: () => Navigator.of(context).push(
-              pixelDissolveRoute(const CategoriesScreen()),
-            ),
+            onPressed: () =>
+                Navigator.of(context).push(hairRoute(const CategoriesScreen())),
           ),
           IconButton(
-            icon: const PixelIcon(PixelIcons.settings),
+            icon: const HairIcon(HairIcons.settings),
             tooltip: l10n.homeSettingsTooltip,
-            onPressed: () => Navigator.of(context).push(
-              pixelDissolveRoute(const SettingsScreen()),
-            ),
+            onPressed: () =>
+                Navigator.of(context).push(hairRoute(const SettingsScreen())),
           ),
         ],
       ),
@@ -90,16 +90,21 @@ class HomeScreen extends ConsumerWidget {
       // кнопка садилась на правый край последней строки списка, где
       // выровнены суммы. Лечится это нижним отступом списка, а не отменой
       // кнопки — рука ищет её в одном и том же углу на всех экранах.
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         heroTag: 'add_transaction_fab',
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const AddTransactionScreen()));
+          Navigator.of(context).push(hairRoute(const AddTransactionScreen()));
         },
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.md, AppSpacing.page, AppSpacing.fabSafeBottom),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.page,
+            AppSpacing.md,
+            AppSpacing.page,
+            AppSpacing.fabSafeBottom,
+          ),
           children: [
             // Баланс, доход, расход и доля сбережений — одна карточка, а не
             // четыре. Раньше это были четыре одинаковые плашки подряд: экран
@@ -113,18 +118,19 @@ class HomeScreen extends ConsumerWidget {
             AppSpacing.gapLg,
             const QuickEntryBar(),
             AppSpacing.gapXl,
-            PixelSectionHeader(title: l10n.homeRecentShort,),
+            HairSectionHeader(title: l10n.homeRecentShort),
             recentAsync.when(
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return EmptyState(
-                    sprite: PixelIcons.history,
+                    icon: HairIcons.history,
                     message: l10n.homeEmptyTransactions,
                     actionLabel: l10n.addTxTitle,
                     onAction: () {
                       Haptics.select();
-                      Navigator.of(context)
-                          .push(pixelDissolveRoute(const AddTransactionScreen()));
+                      Navigator.of(
+                        context,
+                      ).push(hairRoute(const AddTransactionScreen()));
                     },
                   );
                 }
@@ -140,9 +146,12 @@ class HomeScreen extends ConsumerWidget {
               },
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Center(child: PixelSpinner()),
+                child: Center(child: HairSpinner()),
               ),
-              error: (e, st) => Text(l10n.homeLoadTransactionsError, style: context.text.body),
+              error: (e, st) => Text(
+                l10n.homeLoadTransactionsError,
+                style: context.text.body,
+              ),
             ),
           ],
         ),
@@ -161,7 +170,8 @@ class _AccountMarks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final accounts = ref.watch(allAccountsProvider).valueOrNull ?? const <AccountEntity>[];
+    final accounts =
+        ref.watch(allAccountsProvider).valueOrNull ?? const <AccountEntity>[];
     final banks = [
       for (final account in accounts) ?BankCatalog.byId(account.bankId),
     ];
@@ -173,7 +183,7 @@ class _AccountMarks extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         Haptics.select();
-        Navigator.of(context).push(pixelDissolveRoute(const AccountsScreen()));
+        Navigator.of(context).push(hairRoute(const AccountsScreen()));
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -211,9 +221,14 @@ class _HeroCard extends ConsumerWidget {
     final rate = ref.watch(currentSavingsRateProvider).valueOrNull;
     final currency = ref.watch(currencyProvider);
 
-    return PixelCard(
+    return HairCard(
       accent: true,
-      padding: const EdgeInsets.fromLTRB(AppSpacing.page, AppSpacing.lg, AppSpacing.page, AppSpacing.lg),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.page,
+        AppSpacing.lg,
+        AppSpacing.page,
+        AppSpacing.lg,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -229,14 +244,18 @@ class _HeroCard extends ConsumerWidget {
               Expanded(
                 child: _Fact(
                   label: l10n.homeFactIncome,
-                  value: summary == null ? null : formatAmount(summary!.income, currency, context),
+                  value: summary == null
+                      ? null
+                      : formatAmount(summary!.income, currency, context),
                   color: colors.income,
                 ),
               ),
               Expanded(
                 child: _Fact(
                   label: l10n.homeFactExpense,
-                  value: summary == null ? null : formatAmount(summary!.expense, currency, context),
+                  value: summary == null
+                      ? null
+                      : formatAmount(summary!.expense, currency, context),
                   color: colors.expense,
                 ),
               ),
@@ -247,9 +266,12 @@ class _HeroCard extends ConsumerWidget {
                   // Прочерк честнее нуля, который смешал бы такой месяц с
                   // месяцем, где всё потрачено подчистую.
                   value: rate == null ? '—' : '${rate.toStringAsFixed(0)}%',
-                  color: rate != null && rate < 0 ? colors.expense : colors.textPrimary,
-                  onTap: () => Navigator.of(context)
-                      .push(pixelDissolveRoute(const CashFlowScreen())),
+                  color: rate != null && rate < 0
+                      ? colors.expense
+                      : colors.textPrimary,
+                  onTap: () => Navigator.of(
+                    context,
+                  ).push(hairRoute(const CashFlowScreen())),
                 ),
               ),
             ],
@@ -262,7 +284,12 @@ class _HeroCard extends ConsumerWidget {
 
 /// Один факт месяца в строке под балансом: подпись капслоком и значение.
 class _Fact extends StatelessWidget {
-  const _Fact({required this.label, required this.value, required this.color, this.onTap});
+  const _Fact({
+    required this.label,
+    required this.value,
+    required this.color,
+    this.onTap,
+  });
 
   final String label;
   final String? value;
@@ -291,7 +318,11 @@ class _Fact extends StatelessWidget {
       ],
     );
     if (onTap == null) return content;
-    return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: content);
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: content,
+    );
   }
 }
 
@@ -308,7 +339,8 @@ class _PulsingBalance extends StatefulWidget {
   State<_PulsingBalance> createState() => _PulsingBalanceState();
 }
 
-class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProviderStateMixin {
+class _PulsingBalanceState extends State<_PulsingBalance>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   bool _increased = true;
   // Первое изменение — это переход из плейсхолдера (0 на время загрузки
@@ -323,7 +355,11 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
     // умолчанию AnimationController стартует с 0.0, что совпадает с началом
     // самой анимации (пик свечения) — из-за этого баланс светился, даже
     // если ни разу не проигрывалась ни одна вспышка.
-    _controller = AnimationController(vsync: this, duration: AppMotion.flourish, value: 1.0);
+    _controller = AnimationController(
+      vsync: this,
+      duration: AppMotion.flourish,
+      value: 1.0,
+    );
   }
 
   @override
@@ -346,14 +382,18 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
 
   @override
   Widget build(BuildContext context) {
-    final flashColor = _increased ? context.colors.income : context.colors.expense;
+    final flashColor = _increased
+        ? context.colors.income
+        : context.colors.expense;
     final amount = AnimatedAmount(value: widget.value, style: widget.style);
 
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         final t = _controller.value;
-        final riseFall = t < 0.3 ? t / 0.3 : (1 - (t - 0.3) / 0.7).clamp(0.0, 1.0);
+        final riseFall = t < 0.3
+            ? t / 0.3
+            : (1 - (t - 0.3) / 0.7).clamp(0.0, 1.0);
         final scale = 1.0 + Curves.easeOut.transform(riseFall) * 0.05;
         final glow = (1 - t) * 0.4;
 
@@ -365,7 +405,11 @@ class _PulsingBalanceState extends State<_PulsingBalance> with SingleTickerProvi
                 ? const BoxDecoration()
                 : BoxDecoration(
                     boxShadow: [
-                      BoxShadow(color: flashColor.withValues(alpha: glow), blurRadius: 28, spreadRadius: 4),
+                      BoxShadow(
+                        color: flashColor.withValues(alpha: glow),
+                        blurRadius: 28,
+                        spreadRadius: 4,
+                      ),
                     ],
                   ),
             child: child,

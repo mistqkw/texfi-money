@@ -13,8 +13,8 @@ import '../../domain/nudges.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../settings/currency_provider.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
 import 'nudge_providers.dart';
 
 /// Показывает самую важную актуальную подсказку. Намеренно одна за раз —
@@ -34,7 +34,10 @@ class NudgeCard extends ConsumerWidget {
           ? const SizedBox(width: double.infinity)
           : Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: _NudgeBody(key: ValueKey(nudges.first.id), nudge: nudges.first),
+              child: _NudgeBody(
+                key: ValueKey(nudges.first.id),
+                nudge: nudges.first,
+              ),
             ),
     );
   }
@@ -59,28 +62,28 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
   }
 
   Color _accent(BuildContext context) => switch (widget.nudge.kind) {
-        NudgeKind.budgetOver => context.colors.expense,
-        NudgeKind.budgetClose => context.colors.warning,
-        NudgeKind.unusualAmount => context.colors.warning,
-        NudgeKind.goalClose => context.colors.income,
-        NudgeKind.quietDays => context.colors.accent,
-      };
+    NudgeKind.budgetOver => context.colors.expense,
+    NudgeKind.budgetClose => context.colors.warning,
+    NudgeKind.unusualAmount => context.colors.warning,
+    NudgeKind.goalClose => context.colors.income,
+    NudgeKind.quietDays => context.colors.accent,
+  };
 
-  List<String> _icon() => switch (widget.nudge.kind) {
-        NudgeKind.budgetOver => PixelIcons.danger,
-        NudgeKind.budgetClose => PixelIcons.danger,
-        NudgeKind.unusualAmount => PixelIcons.info,
-        NudgeKind.goalClose => PixelIcons.goals,
-        NudgeKind.quietDays => PixelIcons.clock,
-      };
+  IconData _icon() => switch (widget.nudge.kind) {
+    NudgeKind.budgetOver => HairIcons.danger,
+    NudgeKind.budgetClose => HairIcons.danger,
+    NudgeKind.unusualAmount => HairIcons.info,
+    NudgeKind.goalClose => HairIcons.goals,
+    NudgeKind.quietDays => HairIcons.clock,
+  };
 
   String _label(BuildContext context) => switch (widget.nudge.kind) {
-        NudgeKind.budgetOver => context.l10n.budgetsTitle.toLowerCase(),
-        NudgeKind.budgetClose => context.l10n.budgetsTitle.toLowerCase(),
-        NudgeKind.unusualAmount => context.l10n.commonCategory.toLowerCase(),
-        NudgeKind.goalClose => context.l10n.goalsTitle.toLowerCase(),
-        NudgeKind.quietDays => context.l10n.navHome.toLowerCase(),
-      };
+    NudgeKind.budgetOver => context.l10n.budgetsTitle.toLowerCase(),
+    NudgeKind.budgetClose => context.l10n.budgetsTitle.toLowerCase(),
+    NudgeKind.unusualAmount => context.l10n.commonCategory.toLowerCase(),
+    NudgeKind.goalClose => context.l10n.goalsTitle.toLowerCase(),
+    NudgeKind.quietDays => context.l10n.navHome.toLowerCase(),
+  };
 
   String _text(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
@@ -94,18 +97,22 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
         : (nudge.categoryName ?? '');
 
     return switch (nudge.kind) {
-      NudgeKind.unusualAmount =>
-        l10n.nudgeUnusualAmount((nudge.ratio ?? 0).toStringAsFixed(1), category),
-      NudgeKind.budgetClose =>
-        l10n.nudgeBudgetClose(category, (nudge.percent ?? 0).round().toString()),
+      NudgeKind.unusualAmount => l10n.nudgeUnusualAmount(
+        (nudge.ratio ?? 0).toStringAsFixed(1),
+        category,
+      ),
+      NudgeKind.budgetClose => l10n.nudgeBudgetClose(
+        category,
+        (nudge.percent ?? 0).round().toString(),
+      ),
       NudgeKind.budgetOver => l10n.nudgeBudgetOver(
-          category,
-          formatAmount(nudge.overAmount ?? 0, currency, context),
-        ),
+        category,
+        formatAmount(nudge.overAmount ?? 0, currency, context),
+      ),
       NudgeKind.goalClose => l10n.nudgeGoalClose(
-          nudge.goalTitle ?? '',
-          (nudge.percent ?? 0).round().toString(),
-        ),
+        nudge.goalTitle ?? '',
+        (nudge.percent ?? 0).round().toString(),
+      ),
       NudgeKind.quietDays => l10n.nudgeQuietDays(nudge.days ?? 0),
     };
   }
@@ -121,7 +128,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
     final tx = widget.nudge.transaction;
     if (tx == null) return;
     Haptics.select();
-    Navigator.of(context).push(pixelDissolveRoute(AddTransactionScreen(existing: tx)));
+    Navigator.of(context).push(hairRoute(AddTransactionScreen(existing: tx)));
   }
 
   @override
@@ -129,7 +136,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
     final accent = _accent(context);
     final hasAction = widget.nudge.transaction != null;
 
-    return PixelCard(
+    return HairCard(
       label: _label(context),
       labelColor: accent,
       borderColor: accent.withValues(alpha: 0.45),
@@ -138,7 +145,7 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PixelIcon(_icon(), size: 18, color: accent),
+          HairIcon(_icon(), size: 18, color: accent),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Padding(
@@ -147,7 +154,11 @@ class _NudgeBodyState extends ConsumerState<_NudgeBody> {
             ),
           ),
           IconButton(
-            icon: PixelIcon(PixelIcons.close, size: 18, color: context.colors.textTertiary),
+            icon: HairIcon(
+              HairIcons.close,
+              size: 18,
+              color: context.colors.textTertiary,
+            ),
             tooltip: context.l10n.nudgeDismiss,
             visualDensity: VisualDensity.compact,
             onPressed: _dismiss,

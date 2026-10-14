@@ -58,37 +58,24 @@ abstract final class AppPalettes {
     noise: Color(0x0DFFFFFF),
   );
 
-  /// «Ретро-бумага, Game Boy на солнце» — та же светлая палитра, что в
-  /// TexFi f0kus и на сайте экосистемы, значение в значение.
-  ///
-  /// До этого здесь стоял серо-белый набор (#F7F7F9 / #FFFFFF): корректный,
-  /// но ровно такой, какой Material отдаёт по умолчанию. Рядом с f0kus на
-  /// одном экране это читалось как чужое приложение — светлая тема была
-  /// единственным местом, где m0ney выпадал из семьи. Тёплый оранжево-
-  /// бежевый ключ здесь не украшение, а признак принадлежности.
+  /// Светлая тема hairline: нейтральная, не «бумажная».
   static const AppColorsExt light = AppColorsExt(
-    background: Color(0xFFFCF5E9),
-    surface: Color(0xFFFFFBF3),
-    surfaceVariant: Color(0xFFF3E6D2),
-    divider: Color(0xFFE0CDB0),
-    border: Color(0xFFB99C6E),
-    shadow: Color(0xFFD6BE99),
+    background: Color(0xFFF6F6F3),
+    surface: Color(0xFFFFFFFF),
+    surfaceVariant: Color(0xFFEFEFEB),
+    divider: Color(0xFFDCDCD6),
+    border: Color(0xFFC9C9C2),
+    shadow: Color(0xFFDCDCD6),
     accent: _accent,
-    accentShadow: Color(0xFFD98A2B),
+    accentShadow: Color(0xFF2B4FB0),
     onAccent: _onAccent,
-    textPrimary: Color(0xFF2A1F14),
-    textSecondary: Color(0xFF6E5B45),
-    textTertiary: Color(0xFFA08D72),
-    // Доход и расход остаются семантическими: зелёный и красный здесь
-    // подобраны под тёплый фон (на кремовом холодный #1FAE74 звенит), но
-    // не уступают места фирменному синему — сумму читают по цвету раньше,
-    // чем по знаку.
+    textPrimary: Color(0xFF0C0C0F),
+    textSecondary: Color(0xFF55555E),
+    textTertiary: Color(0xFF8A8A92),
     income: Color(0xFF1B9E66),
     expense: Color(0xFFD64545),
     warning: Color(0xFFD98A2B),
-    // Тёплая крапинка под цвет бумаги: белая на кремовом фоне не видна
-    // вовсе, а серая делает его грязным.
-    noise: Color(0x0F8A6A3D),
+    noise: Color(0x14000000),
   );
 
   static AppColorsExt forVariant(AppThemeVariant variant) => switch (variant) {

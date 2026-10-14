@@ -9,7 +9,7 @@ import '../../core/utils/haptics.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../add_transaction/add_transaction_screen.dart';
-import 'pixel_icon.dart';
+import 'hair_icon.dart';
 import 'transaction_tile.dart';
 
 /// Строка транзакции со всеми жестами сразу — чтобы поведение на главном
@@ -32,16 +32,16 @@ class TransactionRow extends ConsumerWidget {
 
   void _edit(BuildContext context) {
     Haptics.select();
-    Navigator.of(context).push(
-      pixelDissolveRoute(AddTransactionScreen(existing: transaction)),
-    );
+    Navigator.of(
+      context,
+    ).push(hairRoute(AddTransactionScreen(existing: transaction)));
   }
 
   void _repeat(BuildContext context) {
     Haptics.select();
-    Navigator.of(context).push(
-      pixelDissolveRoute(AddTransactionScreen(prefill: transaction)),
-    );
+    Navigator.of(
+      context,
+    ).push(hairRoute(AddTransactionScreen(prefill: transaction)));
   }
 
   Future<void> _delete(WidgetRef ref) async {
@@ -61,20 +61,28 @@ class TransactionRow extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: PixelIcon(PixelIcons.replay, color: context.colors.accent),
+              leading: HairIcon(HairIcons.replay, color: context.colors.accent),
               title: Text(l10n.txActionRepeat, style: context.text.title),
               onTap: () => Navigator.pop(context, 'repeat'),
             ),
             ListTile(
-              leading: PixelIcon(PixelIcons.edit, color: context.colors.textSecondary),
+              leading: HairIcon(
+                HairIcons.edit,
+                color: context.colors.textSecondary,
+              ),
               title: Text(l10n.txActionEdit, style: context.text.title),
               onTap: () => Navigator.pop(context, 'edit'),
             ),
             ListTile(
-              leading: PixelIcon(PixelIcons.delete, color: context.colors.expense),
+              leading: HairIcon(
+                HairIcons.delete,
+                color: context.colors.expense,
+              ),
               title: Text(
                 l10n.commonDelete,
-                style: context.text.title.copyWith(color: context.colors.expense),
+                style: context.text.title.copyWith(
+                  color: context.colors.expense,
+                ),
               ),
               onTap: () => Navigator.pop(context, 'delete'),
             ),
@@ -101,12 +109,12 @@ class TransactionRow extends ConsumerWidget {
       background: Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: PixelIcon(PixelIcons.replay, color: context.colors.accent),
+        child: HairIcon(HairIcons.replay, color: context.colors.accent),
       ),
       secondaryBackground: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
+        child: HairIcon(HairIcons.delete, color: context.colors.expense),
       ),
       confirmDismiss: (direction) async {
         // Свайп вправо — не удаление: открываем повтор и возвращаем строку

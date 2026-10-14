@@ -5,8 +5,8 @@ import '../../core/theme/app_motion.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
-import 'pixel_button.dart';
-import 'pixel_icon.dart';
+import 'hair_button.dart';
+import 'hair_icon.dart';
 
 /// Пустой раздел: пиксельный знак в рамке, короткая подсказка и — главное —
 /// кнопка, которая этот раздел наполняет.
@@ -24,14 +24,14 @@ import 'pixel_icon.dart';
 class EmptyState extends StatelessWidget {
   const EmptyState({
     super.key,
-    required this.sprite,
+    required this.icon,
     required this.message,
     this.actionLabel,
     this.onAction,
   });
 
-  /// Спрайт из [PixelIcons] — 12×12, как все остальные знаки приложения.
-  final List<String> sprite;
+  /// Спрайт из [HairIcons] — 12×12, как все остальные знаки приложения.
+  final IconData icon;
 
   final String message;
 
@@ -56,7 +56,10 @@ class EmptyState extends StatelessWidget {
           curve: AppMotion.standard,
           builder: (context, t, child) => Opacity(
             opacity: t,
-            child: Transform.translate(offset: Offset(0, (1 - t) * 8), child: child),
+            child: Transform.translate(
+              offset: Offset(0, (1 - t) * 8),
+              child: child,
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -70,7 +73,7 @@ class EmptyState extends StatelessWidget {
                   borderRadius: AppRadius.cardMediumAll,
                   border: Border.all(color: colors.border, width: 2),
                 ),
-                child: PixelIcon(sprite, size: 32, color: colors.textTertiary),
+                child: HairIcon(icon, size: 32, color: colors.textTertiary),
               ),
               AppSpacing.gapLg,
               Text(
@@ -80,11 +83,11 @@ class EmptyState extends StatelessWidget {
               ),
               if (label != null && action != null) ...[
                 AppSpacing.gapXl,
-                PixelButton(
+                HairButton(
                   label: label,
                   onPressed: action,
                   expand: false,
-                  sprite: PixelIcons.add,
+                  icon: HairIcons.add,
                 ),
               ],
             ],

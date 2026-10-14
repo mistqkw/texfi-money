@@ -18,8 +18,8 @@ import '../shared/category_avatar.dart';
 import '../shared/category_providers.dart';
 import '../shared/empty_state.dart';
 import '../shared/l10n_helpers.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import '../shared/transaction_row.dart';
 import 'history_providers.dart';
@@ -37,20 +37,23 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   DateTimeRange? _period;
 
   TransactionFilter get _filter => TransactionFilter(
-        type: _type,
-        categoryId: _categoryId,
-        from: _period?.start,
-        to: _period?.end,
-      );
+    type: _type,
+    categoryId: _categoryId,
+    from: _period?.start,
+    to: _period?.end,
+  );
 
-  bool get _hasActiveFilters => _type != null || _categoryId != null || _period != null;
+  bool get _hasActiveFilters =>
+      _type != null || _categoryId != null || _period != null;
 
   Future<void> _pickType() async {
     final l10n = context.l10n;
     final result = await showModalBottomSheet<TransactionType?>(
       context: context,
       backgroundColor: context.colors.surface,
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardMediumAll),
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.cardMediumAll,
+      ),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -86,7 +89,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     final result = await showModalBottomSheet<String?>(
       context: context,
       backgroundColor: context.colors.surface,
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardMediumAll),
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppRadius.cardMediumAll,
+      ),
       builder: (context) => SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -122,8 +127,19 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     if (picked == null) return;
     setState(() {
       _period = DateTimeRange(
-        start: DateTime(picked.start.year, picked.start.month, picked.start.day),
-        end: DateTime(picked.end.year, picked.end.month, picked.end.day, 23, 59, 59),
+        start: DateTime(
+          picked.start.year,
+          picked.start.month,
+          picked.start.day,
+        ),
+        end: DateTime(
+          picked.end.year,
+          picked.end.month,
+          picked.end.day,
+          23,
+          59,
+          59,
+        ),
       );
     });
   }
@@ -145,7 +161,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 
     String? categoryName;
     if (_categoryId != null) {
-      for (final category in categoriesAsync.valueOrNull ?? const <CategoryEntity>[]) {
+      for (final category
+          in categoriesAsync.valueOrNull ?? const <CategoryEntity>[]) {
         if (category.id == _categoryId) {
           categoryName = categoryDisplayName(context, category);
           break;
@@ -191,7 +208,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                     label: l10n.historyReset,
                     active: false,
                     onTap: _resetFilters,
-                    icon: PixelIcons.close,
+                    icon: HairIcons.close,
                   ),
               ],
             ),
@@ -202,7 +219,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
               data: (transactions) {
                 if (transactions.isEmpty) {
                   return EmptyState(
-                    sprite: PixelIcons.history,
+                    icon: HairIcons.history,
                     message: l10n.historyEmpty,
                   );
                 }
@@ -216,7 +233,10 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       return StaggeredEntrance(
                         index: i,
                         child: Padding(
-                          padding: EdgeInsets.only(top: i == 0 ? 0 : AppSpacing.lg, bottom: AppSpacing.sm),
+                          padding: EdgeInsets.only(
+                            top: i == 0 ? 0 : AppSpacing.lg,
+                            bottom: AppSpacing.sm,
+                          ),
                           child: _DayHeader(marker: item),
                         ),
                       );
@@ -231,8 +251,10 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   },
                 );
               },
-              loading: () => const Center(child: PixelSpinner()),
-              error: (e, st) => Center(child: Text(l10n.historyLoadError, style: context.text.body)),
+              loading: () => const Center(child: HairSpinner()),
+              error: (e, st) => Center(
+                child: Text(l10n.historyLoadError, style: context.text.body),
+              ),
             ),
           ),
         ],
@@ -242,14 +264,20 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
 }
 
 class _FilterChip extends StatelessWidget {
-  const _FilterChip({required this.label, required this.active, required this.onTap, this.icon});
+  const _FilterChip({
+    required this.label,
+    required this.active,
+    required this.onTap,
+    this.icon,
+  });
 
   final String label;
   final bool active;
   final VoidCallback onTap;
-  /// Спрайт из [PixelIcons], а не [IconData]: сглаженный Material-контур
+
+  /// Спрайт из [HairIcons], а не [IconData]: сглаженный Material-контур
   /// рядом с пиксельными знаками видно без сравнения.
-  final List<String>? icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -258,9 +286,14 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? context.colors.accent.withValues(alpha: 0.16) : context.colors.surfaceVariant,
+          color: active
+              ? context.colors.accent.withValues(alpha: 0.16)
+              : context.colors.surfaceVariant,
           borderRadius: AppRadius.controlSmallAll,
-          border: Border.all(color: active ? context.colors.accent : context.colors.border, width: active ? 2 : 1.5),
+          border: Border.all(
+            color: active ? context.colors.accent : context.colors.border,
+            width: active ? 2 : 1.5,
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -268,15 +301,23 @@ class _FilterChip extends StatelessWidget {
             Text(
               label,
               style: context.text.label.copyWith(
-                color: active ? context.colors.accent : context.colors.textSecondary,
+                color: active
+                    ? context.colors.accent
+                    : context.colors.textSecondary,
               ),
             ),
             if (icon != null) ...[
               const SizedBox(width: AppSpacing.xs),
-              PixelIcon(icon!, size: 14, color: context.colors.textSecondary),
+              HairIcon(icon!, size: 14, color: context.colors.textSecondary),
             ] else ...[
               const SizedBox(width: AppSpacing.xs),
-              PixelIcon(PixelIcons.chevronDown, size: 16, color: active ? context.colors.accent : context.colors.textTertiary),
+              HairIcon(
+                HairIcons.chevronDown,
+                size: 16,
+                color: active
+                    ? context.colors.accent
+                    : context.colors.textTertiary,
+              ),
             ],
           ],
         ),
@@ -286,7 +327,12 @@ class _FilterChip extends StatelessWidget {
 }
 
 class _SheetOption extends StatelessWidget {
-  const _SheetOption({required this.label, required this.selected, required this.onTap, this.leading});
+  const _SheetOption({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.leading,
+  });
 
   final String label;
   final bool selected;
@@ -298,7 +344,9 @@ class _SheetOption extends StatelessWidget {
     return ListTile(
       leading: leading,
       title: Text(label, style: context.text.title),
-      trailing: selected ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null,
+      trailing: selected
+          ? HairIcon(HairIcons.check, color: context.colors.accent)
+          : null,
       onTap: onTap,
     );
   }
@@ -323,7 +371,10 @@ class _DayHeader extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(formatDate(marker.day, context).toUpperCase(), style: context.text.mono),
+        Text(
+          formatDate(marker.day, context).toUpperCase(),
+          style: context.text.mono,
+        ),
         AppSpacing.gapHMd,
         Expanded(child: Container(height: 2, color: colors.divider)),
         AppSpacing.gapHMd,
@@ -365,7 +416,8 @@ List<Object> _groupByDay(List<TransactionEntity> transactions) {
       markers[day] = result.length;
       result.add(day);
     }
-    netByDay[day] = (netByDay[day] ?? 0) +
+    netByDay[day] =
+        (netByDay[day] ?? 0) +
         (tx.type == TransactionType.income ? tx.amount : -tx.amount);
     result.add(tx);
   }

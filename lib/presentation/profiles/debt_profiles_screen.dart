@@ -14,10 +14,10 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/debt_profile_entity.dart';
 import '../settings/currency_provider.dart';
 import '../shared/empty_state.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_fab.dart';
-import '../shared/pixel_icon.dart';
-import '../shared/pixel_spinner.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_fab.dart';
+import '../shared/hair_icon.dart';
+import '../shared/hair_spinner.dart';
 import '../shared/staggered_entrance.dart';
 import 'debt_profile_form_screen.dart';
 import 'debt_profile_providers.dart';
@@ -25,7 +25,11 @@ import 'debt_profile_providers.dart';
 class DebtProfilesScreen extends ConsumerWidget {
   const DebtProfilesScreen({super.key});
 
-  Future<void> _recordOperation(BuildContext context, WidgetRef ref, DebtProfileEntity profile) async {
+  Future<void> _recordOperation(
+    BuildContext context,
+    WidgetRef ref,
+    DebtProfileEntity profile,
+  ) async {
     final currency = ref.read(currencyProvider);
     final l10n = context.l10n;
     final controller = TextEditingController();
@@ -37,7 +41,9 @@ class DebtProfilesScreen extends ConsumerWidget {
           controller: controller,
           autofocus: true,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+          ],
           style: context.text.amountLarge,
           decoration: InputDecoration(hintText: '0 ${currency.symbol}'),
         ),
@@ -48,14 +54,16 @@ class DebtProfilesScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              final value = double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
+              final value =
+                  double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
               Navigator.of(context).pop(-value);
             },
             child: Text(l10n.profilesTheyRepaid),
           ),
           TextButton(
             onPressed: () {
-              final value = double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
+              final value =
+                  double.tryParse(controller.text.replaceAll(',', '.')) ?? 0;
               Navigator.of(context).pop(value);
             },
             child: Text(l10n.profilesTheyBorrowed),
@@ -66,11 +74,17 @@ class DebtProfilesScreen extends ConsumerWidget {
 
     if (delta != null && delta != 0) {
       Haptics.success();
-      await ref.read(debtProfileRepositoryProvider).adjustBalance(id: profile.id, delta: delta);
+      await ref
+          .read(debtProfileRepositoryProvider)
+          .adjustBalance(id: profile.id, delta: delta);
     }
   }
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, DebtProfileEntity profile) async {
+  Future<void> _confirmDelete(
+    BuildContext context,
+    WidgetRef ref,
+    DebtProfileEntity profile,
+  ) async {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -110,23 +124,24 @@ class DebtProfilesScreen extends ConsumerWidget {
       // подписку стало нечем: единственная кнопка исчезала ровно тогда,
       // когда была нужнее всего. Небольшой повтор действия дешевле
       // экрана, с которого нельзя уйти вперёд.
-      floatingActionButton: PixelFab(
+      floatingActionButton: HairFab(
         onPressed: () {
           Haptics.select();
-          Navigator.of(context).push(pixelDissolveRoute(const DebtProfileFormScreen()));
+          Navigator.of(context).push(hairRoute(const DebtProfileFormScreen()));
         },
       ),
       body: profilesAsync.when(
         data: (profiles) {
           if (profiles.isEmpty) {
             return EmptyState(
-              sprite: PixelIcons.profiles,
+              icon: HairIcons.profiles,
               message: l10n.profilesEmpty,
               actionLabel: l10n.profileFormTitleNew,
               onAction: () {
                 Haptics.select();
-                Navigator.of(context)
-                    .push(pixelDissolveRoute(const DebtProfileFormScreen()));
+                Navigator.of(
+                  context,
+                ).push(hairRoute(const DebtProfileFormScreen()));
               },
             );
           }
@@ -152,13 +167,16 @@ class DebtProfilesScreen extends ConsumerWidget {
                       color: context.colors.expense.withValues(alpha: 0.15),
                       borderRadius: AppRadius.cardSmallAll,
                     ),
-                    child: PixelIcon(PixelIcons.delete, color: context.colors.expense),
+                    child: HairIcon(
+                      HairIcons.delete,
+                      color: context.colors.expense,
+                    ),
                   ),
                   child: _ProfileCard(
                     profile: profile,
-                    onTap: () => Navigator.of(context).push(
-                      pixelDissolveRoute(DebtProfileFormScreen(existing: profile)),
-                    ),
+                    onTap: () => Navigator.of(
+                      context,
+                    ).push(hairRoute(DebtProfileFormScreen(existing: profile))),
                     onRecord: () => _recordOperation(context, ref, profile),
                   ),
                 ),
@@ -166,15 +184,21 @@ class DebtProfilesScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: PixelSpinner()),
-        error: (e, st) => Center(child: Text(l10n.profilesLoadError, style: context.text.body)),
+        loading: () => const Center(child: HairSpinner()),
+        error: (e, st) => Center(
+          child: Text(l10n.profilesLoadError, style: context.text.body),
+        ),
       ),
     );
   }
 }
 
 class _ProfileCard extends ConsumerWidget {
-  const _ProfileCard({required this.profile, required this.onTap, required this.onRecord});
+  const _ProfileCard({
+    required this.profile,
+    required this.onTap,
+    required this.onRecord,
+  });
 
   final DebtProfileEntity profile;
   final VoidCallback onTap;
@@ -187,15 +211,15 @@ class _ProfileCard extends ConsumerWidget {
     final balanceColor = profile.balance > 0
         ? context.colors.income
         : profile.balance < 0
-            ? context.colors.expense
-            : context.colors.textSecondary;
+        ? context.colors.expense
+        : context.colors.textSecondary;
     final balanceLabel = profile.balance > 0
         ? l10n.profilesOwesYou(formatAmount(profile.balance, currency, context))
         : profile.balance < 0
-            ? l10n.profilesYouOwe(formatAmount(-profile.balance, currency, context))
-            : l10n.profilesSettled;
+        ? l10n.profilesYouOwe(formatAmount(-profile.balance, currency, context))
+        : l10n.profilesSettled;
 
-    return PixelCard(
+    return HairCard(
       label: profile.name.toUpperCase(),
       labelColor: profile.color,
       onTap: onTap,
@@ -204,8 +228,11 @@ class _ProfileCard extends ConsumerWidget {
           Container(
             width: 36,
             height: 36,
-            decoration: BoxDecoration(color: profile.color.withValues(alpha: 0.16), borderRadius: AppRadius.controlSmallAll),
-            child: PixelIcon(PixelIcons.person, color: profile.color, size: 18),
+            decoration: BoxDecoration(
+              color: profile.color.withValues(alpha: 0.16),
+              borderRadius: AppRadius.controlSmallAll,
+            ),
+            child: HairIcon(HairIcons.person, color: profile.color, size: 18),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
@@ -213,13 +240,16 @@ class _ProfileCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(profile.name, style: context.text.title),
-                Text(balanceLabel, style: context.text.caption.copyWith(color: balanceColor)),
+                Text(
+                  balanceLabel,
+                  style: context.text.caption.copyWith(color: balanceColor),
+                ),
               ],
             ),
           ),
           IconButton(
             tooltip: l10n.profilesRecordTitle(profile.name),
-            icon: PixelIcon(PixelIcons.add, color: context.colors.accent),
+            icon: HairIcon(HairIcons.add, color: context.colors.accent),
             onPressed: onRecord,
           ),
         ],

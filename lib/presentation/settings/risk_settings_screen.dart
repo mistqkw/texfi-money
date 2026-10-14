@@ -7,8 +7,8 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../data/providers/data_providers.dart';
 import '../../domain/entities/asset_entity.dart';
-import '../shared/pixel_card.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_card.dart';
+import '../shared/hair_icon.dart';
 import '../wealth/wealth_providers.dart';
 
 /// Риск-менеджмент: уровни и пороги.
@@ -86,7 +86,9 @@ class RiskSettingsScreen extends ConsumerWidget {
     controller.dispose();
     if (name == null || name.isEmpty) return;
 
-    await ref.read(assetRepositoryProvider).createRiskLevel(
+    await ref
+        .read(assetRepositoryProvider)
+        .createRiskLevel(
           name: name,
           // Новый уровень встаёт в конец шкалы: порядок задаёт смысл, а
           // куда именно его поместить, знает только автор.
@@ -109,14 +111,14 @@ class _LevelCard extends ConsumerWidget {
     final limit = level.maxSharePercent;
     final over = limit != null && actualPercent > limit;
 
-    return PixelCard(
+    return HairCard(
       borderColor: over ? colors.warning : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              PixelIcon(PixelIcons.risk, size: 18, color: level.color),
+              HairIcon(HairIcons.risk, size: 18, color: level.color),
               AppSpacing.gapHMd,
               Expanded(child: Text(level.name, style: context.text.title)),
               Text(
@@ -129,8 +131,8 @@ class _LevelCard extends ConsumerWidget {
                 AppSpacing.gapHSm,
                 InkWell(
                   onTap: () => _delete(context, ref),
-                  child: PixelIcon(
-                    PixelIcons.close,
+                  child: HairIcon(
+                    HairIcons.close,
                     size: 14,
                     color: colors.textTertiary,
                   ),
@@ -144,8 +146,9 @@ class _LevelCard extends ConsumerWidget {
               Expanded(
                 child: Text(
                   l10n.riskLimitLabel(level.name),
-                  style: context.text.caption
-                      .copyWith(color: colors.textTertiary),
+                  style: context.text.caption.copyWith(
+                    color: colors.textTertiary,
+                  ),
                 ),
               ),
               Text(
@@ -165,7 +168,9 @@ class _LevelCard extends ConsumerWidget {
             divisions: 20,
             label: limit == null ? l10n.riskNoLimit : '${limit.round()}%',
             onChanged: (value) {
-              ref.read(assetRepositoryProvider).updateRiskLevel(
+              ref
+                  .read(assetRepositoryProvider)
+                  .updateRiskLevel(
                     id: level.id,
                     name: level.name,
                     color: level.color,
@@ -180,13 +185,14 @@ class _LevelCard extends ConsumerWidget {
 
   Future<void> _delete(BuildContext context, WidgetRef ref) async {
     final l10n = context.l10n;
-    final removed =
-        await ref.read(assetRepositoryProvider).deleteRiskLevel(level.id);
+    final removed = await ref
+        .read(assetRepositoryProvider)
+        .deleteRiskLevel(level.id);
     if (removed || !context.mounted) return;
     // Отказ объясняется, а не проглатывается: человек нажал и должен
     // понять, почему ничего не произошло.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.riskLevelInUse)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.riskLevelInUse)));
   }
 }

@@ -5,7 +5,7 @@ import '../../core/theme/app_colors_ext.dart';
 import '../../core/theme/app_l10n_ext.dart';
 import '../../core/theme/app_text_styles_ext.dart';
 import '../../core/utils/haptics.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_icon.dart';
 import 'locale_provider.dart';
 
 class LanguagePickerScreen extends ConsumerWidget {
@@ -23,7 +23,9 @@ class LanguagePickerScreen extends ConsumerWidget {
         children: [
           ListTile(
             title: Text(l10n.languageSystem, style: context.text.title),
-            trailing: current == null ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null,
+            trailing: current == null
+                ? HairIcon(HairIcons.check, color: context.colors.accent)
+                : null,
             onTap: () {
               Haptics.select();
               ref.read(localeProvider.notifier).setLocale(null);
@@ -32,8 +34,13 @@ class LanguagePickerScreen extends ConsumerWidget {
           const Divider(height: 1),
           for (final locale in supportedLocales)
             ListTile(
-              title: Text(nativeLanguageNames[locale.languageCode] ?? locale.languageCode, style: context.text.title),
-              trailing: current == locale ? PixelIcon(PixelIcons.check, color: context.colors.accent) : null,
+              title: Text(
+                nativeLanguageNames[locale.languageCode] ?? locale.languageCode,
+                style: context.text.title,
+              ),
+              trailing: current == locale
+                  ? HairIcon(HairIcons.check, color: context.colors.accent)
+                  : null,
               onTap: () {
                 Haptics.select();
                 ref.read(localeProvider.notifier).setLocale(locale);

@@ -13,8 +13,8 @@ import '../../data/providers/data_providers.dart';
 import '../../domain/entities/account_entity.dart';
 import '../shared/bank_mark.dart';
 import '../shared/color_picker_row.dart';
-import '../shared/pixel_button.dart';
-import '../shared/pixel_icon.dart';
+import '../shared/hair_button.dart';
+import '../shared/hair_icon.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.existing});
@@ -56,7 +56,8 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
       _bankId = bank?.id;
       if (bank != null) {
         _color = bank.color;
-        if (_nameController.text.trim().isEmpty) _nameController.text = bank.name;
+        if (_nameController.text.trim().isEmpty)
+          _nameController.text = bank.name;
       }
     });
   }
@@ -68,11 +69,20 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
     final name = _nameController.text.trim();
 
     if (_isEditing) {
-      await ref.read(accountRepositoryProvider).update(
-            widget.existing!.copyWith(name: name, color: _color, bankId: _bankId, clearBank: _bankId == null),
+      await ref
+          .read(accountRepositoryProvider)
+          .update(
+            widget.existing!.copyWith(
+              name: name,
+              color: _color,
+              bankId: _bankId,
+              clearBank: _bankId == null,
+            ),
           );
     } else {
-      await ref.read(accountRepositoryProvider).create(name: name, color: _color, bankId: _bankId);
+      await ref
+          .read(accountRepositoryProvider)
+          .create(name: name, color: _color, bankId: _bankId);
     }
     if (mounted) Navigator.of(context).pop(true);
   }
@@ -83,10 +93,12 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew),
+        title: Text(
+          _isEditing ? l10n.accountFormTitleEdit : l10n.accountFormTitleNew,
+        ),
         leading: IconButton(
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          icon: const PixelIcon(PixelIcons.close),
+          icon: const HairIcon(HairIcons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -101,7 +113,8 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: BankCatalog.all.length + 1,
-                separatorBuilder: (context, i) => const SizedBox(width: AppSpacing.md),
+                separatorBuilder: (context, i) =>
+                    const SizedBox(width: AppSpacing.md),
                 itemBuilder: (context, i) {
                   if (i == 0) {
                     return _BankChip(
@@ -127,7 +140,9 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
             TextField(
               controller: _nameController,
               autofocus: !_isEditing,
-              style: context.text.title.copyWith(color: context.colors.textPrimary),
+              style: context.text.title.copyWith(
+                color: context.colors.textPrimary,
+              ),
               decoration: InputDecoration(hintText: l10n.accountFormNameHint),
               onChanged: (_) => setState(() {}),
             ),
@@ -139,7 +154,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               onSelected: (color) => setState(() => _color = color),
             ),
             AppSpacing.gapXxl,
-            PixelButton(
+            HairButton(
               label: _isEditing ? l10n.commonSave : l10n.commonCreate,
               onPressed: _canSave ? _save : null,
             ),
@@ -192,7 +207,7 @@ class _BankChip extends StatelessWidget {
                         color: color.withValues(alpha: 0.16),
                         borderRadius: AppRadius.controlSmallAll,
                       ),
-                      child: PixelIcon(PixelIcons.danger, size: 18, color: color),
+                      child: HairIcon(HairIcons.danger, size: 18, color: color),
                     ),
             ),
             AppSpacing.gapXs,
